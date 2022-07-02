@@ -1,0 +1,78 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K8_HOBGOBLIN_GANGBANG_RATE(대상)
+#DIM 대상
+RETURN 300
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K8_HOBGOBLIN_GANGBANG_DECISION(대상)
+#DIM 대상
+#DIM 고블린
+고블린 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_홉고블린)
+
+SIF 고블린 == -1 || CFLAG:대상:포로처 != 고블린 || CFLAG:대상:소속 == 고블린
+	RETURN 0
+
+SIF KDVAR:대상:파츄리_엉덩이
+	RETURN 0
+
+SIF GETBIT(TALENT:대상:특수세력함락계, 특수세력_홉고블린)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K8_HOBGOBLIN_GANGBANG_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K8_HOBGOBLIN_GANGBANG(대상)
+#DIM 대상
+#DIM 고블린
+고블린 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_홉고블린)
+
+PRINTFORMW 「응쥿……쥬룻, 응구, 후웃♥」
+PRINTFORML 나신의 %조사처리(ANAME(대상),"가")%, 홉고블린들에게 범해지고 있다
+PRINTFORML %PRONOUN(대상)%는 스스로 그들에 걸쳐, 허리를 흔들어, 내밀어지는 일물을 빨아 세우고 있다
+PRINTFORMW 그님에게는, 평상시의 %ANAME(대상)%의 지성이라는 것은, 전혀 느껴지지 않는다……
+PRINTFORML 그들에게 잡힌 %조사처리(ANAME(대상),"는")%, 감옥에 던져 넣어지고 그리고 능욕의 한계를 다하여졌다
+PRINTFORML 그들에게 있고, 그리고 %PRONOUN(대상)%자신에 있어서도 예상외였던 (일)것은, %조사처리(ANAME(대상),"가")% 의외로 빨리 당신의 입장을 받아들였다는 일이다
+PRINTFORMW 백문이 불여 일견이라고 한다. 실제로 맛보는 성교의 쾌감은, 거기에 붙은 천이나 만의 서적 이상으로, %PRONOUN(대상)%를 중독으로 하고 있었다
+PRINTFORMW 「이봐요, 이런 것은, 어떨까, 아하♥」
+PRINTFORML 휘어진 유방으로 육봉을 사이에 둬, 풍부한 엉덩이살을 문지른다
+PRINTFORML 본디부터의 지적 호기심은, 지금의 입장에 떨어진 후에서도, 많이 도움이 되고 있었다
+PRINTFORMW 어딘가로부터 매입해 온 여러가지 지식을 실천해서는, 그들을 많이 기쁘게 하고 있다
+PRINTFORMW 「아는♥  자지 온, 아, 아앗♥」
+PRINTFORML 홉고블린에 덥쳐져 비밀의 틈을 관철해진다. %PRONOUN(대상)%는 저항할 것도 없고, 그 뿐만 아니라 스스로 허리를 흔드는
+PRINTFORML 지적 호기심, 그리고 무엇보다 솟구치는 육욕에 자극을 받고 교접하는 그 모습은, 홉고블린의 육변기 그 자체였다
+PRINTFORMW 그것을 증명이다 비치는것같이, %PRONOUN(대상)%의 목에는 튼튼한 목걸이를 끼워지고 있었다……
+PRINTFORML 
+CALL COLOR_PRINTL(@"%조사처리(ANAME(대상),"가")% 홉고블린의 육변기가 되었다", 칼라_주의)
+TRYCALLFORM %SP_COUNTRY_NAME_ENG:특수세력_홉고블린%_FALLEN_LEAVE_MARK(대상)
+PRINTFORML 
+
+FOR LOCAL, 0, 3
+	CALL FUCK_GANGBANG_SP(대상, GET_SPERM_ID("홉고블린"), "홉고블린의 페니스", "홉고블린", 고블린)
+NEXT
+
+KDVAR:대상:파츄리_엉덩이 = 1
+SETBIT TALENT:대상:특수세력함락계, 특수세력_홉고블린
+CALL CHANGE_COUNTRY(대상, 고블린, 1)
+
+RETURN 1
+

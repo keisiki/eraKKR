@@ -1,0 +1,62 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K133_TABEARUKI_RATE(대상)
+#DIM 대상
+RETURN 40
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K133_TABEARUKI_DECISION(대상)
+#DIM 대상
+
+SIF MASTER == NAME_TO_CHARA("사구메")
+	RETURN 0
+
+;호감도 500이 필요
+SIF CFLAG:대상:호감도 < 500
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K133_TABEARUKI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K133_TABEARUKI(대상)
+#DIM 대상
+
+PRINTFORMW %조사처리(ANAME(MASTER),"가")% 일을 하고 있으면, %조사처리(ANAME(대상),"가")% 방문해 왔다
+PRINTFORMW 「저기%ANAME(MASTER)%, 밥 먹으러 가지 않아?」
+PRINTFORML 자, 그럼, 어떻게 하지……
+PRINTL
+CALL ASK_YN("교제한다", "지금은 바쁘다")
+
+IF RESULT == 1
+	PRINTFORMW 「아럇, 그래?」
+	PRINTFORMW 「그렇다면 어쩔 수 없는지, 나 혼자로 있고 국화인」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 혼자서 나갔다……
+ELSE
+	PRINTFORMW 「좋다 좋다」
+	PRINTFORMW 「그러면 조속히 있고 국화!   최근 새로운 가게가 생겨 말야-」
+	PRINTFORMW %ANAME(대상)%의 먹으러 돌아다니기에 교제해졌다……
+	CALL COLOR_PRINTW(@"데리고 돌아다녀져 조금 체력이 다했습니다", 칼라_주의)
+	CALL ADD_COOLTIME(MASTER, 1)
+	CALL PRINT_ADD_EXP(MASTER, "무투경험치", RAND(1, 3), 1)
+	CALL TRAIN_AUTO_ABLUP(MASTER)
+ENDIF
+
+RETURN 1

@@ -1,0 +1,81 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_93_SP_0_EXIST
+RETURN 1
+
+@SKILL_93_SP_0_NAME
+RESULTS = 나인즈헷드
+
+;레벨은 1-5까지
+@SKILL_93_SP_0_LEVEL
+RETURN 4
+
+;대상 선택
+@SKILL_93_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+#DIM 능력, 3
+VARSET 능력
+
+COMBAT_SKILL_TARGET = 발동번호
+RETURN 1
+
+;발동 판정
+@SKILL_93_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_93_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML %ANAME(발동자)%는 목을 날렸다!
+;목 뿐인 것으로 요리는 할 수 없다
+CALL BATTLE_ADD_MOB(발동측, 발동부대 >= 0, "목", ABL:발동자:무투 / 2, ABL:발동자:방위 / 2, ABL:발동자:지략 / 2, ABL:발동자:정치 / 2, 0, 1, ABL:발동자:가창 / 2)
+RETURN 1
+
+@SKILL_93_SP_0_EXPLANATION
+RESULTS = 자부대에 빈자리가 있을 때 발동. 목을 참전시킨다.
+
+@SKILL_93_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 500
+
+@SKILL_93_SP_0_CANT_TELL

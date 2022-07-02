@@ -1,0 +1,4 @@
+﻿#DIM CONST 뱌쿠렌_광신도 = 0
+#DIM CONST 뱌쿠렌_뱌쿠렌으로부터의권유 = 1
+#DIM CONST 뱌쿠렌_자위 = 2
+#DIM CONST 뱌쿠렌_파계승 = 3

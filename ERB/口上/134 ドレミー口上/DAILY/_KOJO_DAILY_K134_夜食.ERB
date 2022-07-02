@@ -1,0 +1,108 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_YASYOKU_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_YASYOKU_DECISION(대상)
+#DIM 대상
+
+;네토라레미중은 일어나지 않는다
+SIF KDVAR:대상:도레미_네토라레미 > 0
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_YASYOKU_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_YASYOKU(대상)
+#DIM 대상
+
+PRINTFORMW 오늘은 일 이외의 용무가 많이 들어간 때문, 심야에 일을 정리하고 있었다…
+PRINTFORML 파삭파삭 붓의 소리 밖에 들리지 않을 정도 조용한 밤
+PRINTFORMW 어렴풋이 따뜻한 란프의 빛아래, 오로지 서류를 계속 쓰고 있는 %ANAME(MASTER)%
+PRINTFORML 
+PRINTFORMW 콩콩 노크가 소리가 난다  응답하면 %조사처리(ANAME(대상),"가")% 방에 들어 왔다…
+PRINTFORMW 「수고 하셨습니다 %ANAME(MASTER)%, 야식을 만들어 와 주었어요」
+IF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 오챠즈케였다
+	PRINTFORMW 「당신을 좋아할 것 같은 매실과육과 구운 돼지고기의 오챠즈케예요」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 죽이었다
+	PRINTFORMW 「최근 격무 기미인 것으로 위에 상냥한 것을 선택 해 보았습니다」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 주먹밥이었다
+	PRINTFORMW 「알맹이는 먹은 즐거움이에요  안심해 주세요, 이상한 것은 들어가 있지 않기 때문에」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 우동이었다
+	PRINTFORMW 「토끼의 부하에게 도와 받았습니다  위에 상냥한 듯하겠지요?」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 된장국이었다
+	PRINTFORMW 「도구는 두부, 총, 부입니다  가지고 올 때까지의 사이에 좋은 느낌에 식고 있을 것이에요」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 노력해라고 쓰여진 오무라이스였다
+	PRINTFORMW 「조금 볼륨이 너무 있었어요……」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 경단이었다
+	PRINTFORMW 「토끼의 부하에게 도와 받았습니다  추천은 딸기 경단이군요」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 계란덮밥이었다
+	PRINTFORMW 「이 알, 무슨알이었을까?」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은……이야 이것
+	PRINTFORMW 「아이것입니까?   월의 아는 사람으로부터 받은 고형 영양식입니다」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 샌드위치였다
+	PRINTFORMW 「그리고 음료는 홍차나 커피, 어느 쪽으로 합니까?」
+ELSEIF RAND:12 == 0
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 라면이었다
+	PRINTFORMW 「도구가 없는 소라면입니다만, 뭐 야식이라면 이 정도가 타당하겠지요」
+ELSE
+	PRINTFORML 쟁반으로부터 테이블에 놓여진 것은 소면이었다
+	PRINTFORMW 「최근 격무 기미인 것으로 위에 상냥한 것을 선택 해 보았습니다」
+ENDIF
+PRINTFORML 
+IF TALENT:대상:연모
+	PRINTFORML 감사를 말하면서도 %조사처리(ANAME(MASTER),"는")% 야식을 먹으려고 하지 않고 일에 집중하고 있다
+	PRINTFORML 「하아, 어쩔 수 없네요……」
+	PRINTFORMW 「호라, 입을 열어 안」
+	PRINTFORML 입을 열면서도 붓을 멈추지 않는 %ANAME(MASTER)%에, 휴우~하며 말하면서 야식을 먹이는 %ANAME(대상)%
+	PRINTFORML 서류에 관한 혼잣말과 맛있는 것 한마디를 교대로 중얼거리면서도 일을 진행시킨다
+	PRINTFORMW 야식이 먹이고 끝나, 식기를 정리하는 %ANAME(대상)%
+	PRINTFORML 「내일에 영향을 주지 않게 빨리 일을 끝내 주세요」
+	PRINTFORMW 「그러면 잘 자요%ANAME(MASTER)%」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 방을 떠나, %조사처리(ANAME(MASTER),"는")% 계속해 일을 계속했다……
+	CALL COLOR_PRINTW(@"호감도가 200올랐다", 칼라_주의)
+	PRINTFORMW
+	CFLAG:대상:호감도 += 200
+ELSE
+	PRINTFORML 「그럼 계속해 노력해 주세요  아, 나머지 식기 따위는 내일 잡으러 오므로, 그대로」
+	PRINTFORML 「그러면 잘 자요」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 방을 떠나, %조사처리(ANAME(MASTER),"는")% 계속해 일을 계속했다……
+	CALL COLOR_PRINTW(@"호감도가 50올랐다", 칼라_주의)
+	PRINTFORMW
+	CFLAG:대상:호감도 += 50
+ENDIF
+
+
+RETURN 1
+

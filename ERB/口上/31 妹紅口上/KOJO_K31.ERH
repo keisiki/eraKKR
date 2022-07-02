@@ -1,0 +1,3 @@
+﻿#DIM CONST 모코우_집이나해 = 0
+#DIM CONST 모코우_자객 = 1
+#DIM CONST 모코우_구멍 = 2

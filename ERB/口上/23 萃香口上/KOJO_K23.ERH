@@ -1,0 +1,4 @@
+﻿#DIM CONST 스이카_알콜중독 = 0
+#DIM CONST 스이카_옛날이야기 = 1
+#DIM CONST 스이카_절분 = 2
+#DIM CONST 스이카_소리를억제해 = 3

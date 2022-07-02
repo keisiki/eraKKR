@@ -1,0 +1,322 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K83_NIGHT_OF_THE_HERMIT_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K83_NIGHT_OF_THE_HERMIT_DECISION(대상)
+#DIM 대상
+
+;합의가 없으면 안 돼
+SIF !TALENT:대상:합의
+	RETURN 0
+	
+				;주인공과 동일 세력으로 포로가 아니고, 주인공이 페니스 소유로, 호감도 1500이상
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0) && HAS_PENIS(MASTER) && CFLAG:대상:호감도 >= 1500
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K83_NIGHT_OF_THE_HERMIT_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K83_NIGHT_OF_THE_HERMIT(대상)
+#DIM 대상
+
+PRINTFORML …
+SELECTCASE RAND:3
+	;곁잠 루트
+	CASE 0
+		PRINTFORMW 어떤일의 밤
+		PRINTFORML 슬슬 잘까하고 생각하고 있던 곳에, %조사처리(ANAME(대상),"가")% 베개 지참으로 %ANAME(MASTER)%의 방을 방문해 왔다
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「%ANAME(MASTER)%, 아직 일어나고 있습니까?」
+				PRINTFORML 「저, 저…아이 같은 일 말하는 것 같아 무엇입니다만……」
+				PRINTFORMW 「오늘 밤은 묘하게 피부가 그립고……곁잠이라든지…해 주지 않겠습니까?」
+			CASE 1
+				PRINTFORMW 「일인잠은 외롭지 않습니까? …괜찮다면, 나를 껴안는 베게로 해 봐서는 어떻습니까♪」
+			CASE 2
+				PRINTFORML 「뭔가 피부 그리워져서……괜찮다면 껴안는 베게가 되어 주지 않겠습니까?」
+				PRINTFORMW 「그 대신해, 그 쪽은 나의 젖가슴을 베개로 해도 상관하지 않기 때문에…♥」
+		ENDSELECT
+		PRINTFORMW 아무래도 사람 그리워진 %조사처리(ANAME(대상),"는")%, %조사처리(ANAME(MASTER),"와")% 함께 자고 싶은 것 같다
+		PRINTFORMW 자, 그럼, 어떻게 하지……
+		PRINTFORML
+		CALL ASK_YN("함께 잔다", "거절한다")
+		IF RESULT == 1
+			PRINTFORML
+			PRINTFORMW …반대로 번민스럽게 해 잘 수 없게 될 것 같으니까 거절했다
+			PRINTFORML 「그, 그렇게 잔인한……흑흑흑, 너무 해요―……」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 신파조인 모습으로 손수건을 씹으면서 돌아갔다……
+			PRINTFORML 그러면 슬슬 잔다고 하자…
+			PRINTFORML …
+			PRINTFORMW …
+			PRINTFORML 심야, 사소한 위화감으로 깨어났다. 뭔가 이불안이 따뜻함
+			PRINTFORMW 뭔가 생각해 옆을 보면, 어느새인가 %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%에 껴안으면서 자고 있었다
+			PRINTFORMW ……그러고 보니 %조사처리(ANAME(대상),"는")% 벽통과의 방법을 사용할 수 있다. 그럴 기분이 들면 방의 자물쇠를 채워 문을 잠금 따위 무의미했다
+			PRINTFORML 하지만, %조사처리(ANAME(MASTER),"를")% 껴안는 베게로 해 행복한 얼굴로 자는 그녀로부터는, 사악한 생각은 전혀 없게 느꼈다
+			PRINTFORMW 정말로, 다만 함께 자고 싶었던 것 뿐일 것이다
+			PRINTFORML %ANAME(MASTER)%도 또한, 그녀를 껴안는 베게로 해 다시 자기로 했다
+			PRINTFORMW 「응…응응………%ANAME(MASTER)%………♥」
+			PRINTFORML 응석부린 소리로 잠꼬대를 흘리면서, %ANAME(대상)%도 꼬옥 하고 껴안아 온다
+			PRINTFORMW 결국 두 사람 모두, 서로를 껴안는 베게로 해 사이 좋게 잠들었다……
+			CFLAG:대상:호감도 += 300
+		ELSE
+			PRINTFORML
+			PRINTFORMW …그녀와 같은 미인이 곁잠 해 줄 기회를 헛되게 한다, 라는 것도 손해일 것이다
+			PRINTFORML 「후후, 감사합니다. 그러면, 실례하네요♪」
+			PRINTFORML 잠옷으로 갈아입어, 차가워진 이불안에 둘이서 기어든다
+			PRINTFORMW 「아아…%ANAME(MASTER)%의 신체, 매우 따뜻합니다…♥  나의 신체는 어떻습니까?」
+			PRINTFORML 훌륭한 옷감질의 잠옷으로부터, 그녀의 체온이라고 해 향기나, 그리고 부드러움이 전해진다
+			PRINTFORMW 그 부드러움을 좀 더 맛보고 싶어서, %조사처리(ANAME(MASTER),"는")% 저절로 %조사처리(ANAME(대상),"를")% 껴안는다
+			PRINTFORMW 「앙…, 좋아요. 오늘은 두 사람 모두, 서로를 위한 껴안는 베게가 되어 버립시다…♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 그렇게 말하면서, %ANAME(MASTER)%의 얼굴을 스스로의 가슴으로 안아 싼다
+			PRINTFORMW 「나의 젖가슴베개, 어떻습니까? 남녀를 불문하고 환영받고 있는 베개입니다만」
+			PRINTFORML %ANAME(MASTER)%의 머리를 어루만지면서 %조사처리(ANAME(대상),"가")% 속삭인다
+			PRINTFORMW 부드러움도, 향기도, 따듯해짐도, 분명히 극상의 베개였다. 무심코 하반신도 건강하게 되는 정도의…
+			PRINTFORML 「어머어머, 뜨거운 것이 허벅지에 해당되고 있네요♥  어떻게 할까요」
+			PRINTFORMW 「이대로 자 버립니까?   그렇지 않으면……좀 더 앞의 일까지, 시라고 줄까요…?」
+			PRINTFORML 발기한 육봉에 허벅지를 칠하면서 유혹한다
+			PRINTFORMW …이 유혹을 튀기고 거부되는 사람은 그렇게 많지 않을 것이다. 그리고 %ANAME(MASTER)%도 또한, 이 앞을 요구했다
+			PRINTFORML 「우후후…그렇게 사랑스러운 얼굴로 말해지면, 매우, 서비스 해 주고 싶어집니다」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 딱딱이 된 페니스를 꺼내, 음탕한 표정으로 %ANAME(MASTER)%에 휘감겨 왔다
+			PRINTFORMW 「푹 잘 수 있도록(듯이), 충분히 짜 주어요♥」
+			PRINTFORML
+			PRINTFORMW ……
+			SELECTCASE RAND:4
+				CASE 0
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 덮어씌우도록(듯이), 정상위로 서로 연결되고 있다
+					PRINTFORML 일견 %조사처리(ANAME(MASTER),"가")% 쓰러트리기라고 있어야 할 몸의 자세이지만, 그 열매, 주도권은 %조사처리(ANAME(대상),"가")% 잡고 있었다
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 허리에 요염하게 다리를 걸어, 교묘하게 허리를 흔들어 질내의 페니스를 희롱한다
+					PRINTFORMW 「후훗, 기분 좋습니까?   신선의 방중술, 만끽해 주세요♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 머리를, 스스로의 풍만하고 부드러운 유방으로 얼굴을 안아 싼다
+					PRINTFORMW 상을유육, 아래를 질육으로 휩싸여, 달콤한 쾌락이 %조사처리(ANAME(MASTER),"를")% 지배해 나간다…
+					PRINTFORML 「아아, 나에게 녹아, 매우 좋은 얼굴이에요♥  언제라도 나의 안에 내 상관없으니까♪」
+					PRINTFORML %ANAME(대상)%의 달콤한 속삭임이 %ANAME(MASTER)%의 귀를 범해, 그녀에게 먹혀지고 있는 페니스를 진동시킨다
+					PRINTFORMW 그리고 마침내 그녀의 안에 정액을 흘린다. 자궁을 채우는 생명의 열을 느껴 그녀는 행복하게 %ANAME(MASTER)%의 머리를 어루만졌다……
+				CASE 1
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)% 위에 걸쳐, 끈적한 키스로 %ANAME(MASTER)%의 입을 막으면서 허리를 흔들고 있다
+					PRINTFORML 츗, 이라고 고기가 서로 부딪치는 성교 특유의 소리가 두 명의 정욕을 부추겨 간다
+					PRINTFORMW 「앗, 읏, 어떻습니까? 　%ANAME(MASTER)%♥  나의 안, 기분 좋습니까?   앙읏♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% 허리를 교묘하게 구불거리게 해, %ANAME(MASTER)%에 극상의 쾌감을 주어 육봉을 몰아세운다
+					PRINTFORMW 「아아, 따라 주세요 나의 안에♥　%ANAME(MASTER)%의 사랑을 따라 주십시오♥」
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그녀의 허리사용에 굴복 해, %ANAME(대상)%의 이름을 외치면서 자궁입구까지 마음껏 밀어올려 사정했다……
+				CASE 2
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 대면좌위의 자세로 %조사처리(ANAME(대상),"와")% 서로 깊게 연결되고
+					PRINTFORMW 그녀의 마성의 허리사용에 열중해, 꼬옥 하고 부드러운 지체에 껴안으면서 쾌락을 탐내는 %ANAME(MASTER)%
+					PRINTFORML 그 부드러움과 고기단지에 황홀로 하고 있으면, 갑자기%조사처리(ANAME(대상),"가")% 귓전으로
+					CALL COLOR_PRINTL(@"「  기  분  좋  으  신  가  요  ?  」", 칼라_핑크)
+					PRINTFORMW 와 달콤한 한숨 섞임으로 속삭여 왔다
+					PRINTFORMW 머릿속에 영향을 주는 것 같은 염성이, %ANAME(MASTER)%의 전신에 오슬오슬 달콤한 저림을 달리게 해 페니스가 움찔움찔 뛴다
+					PRINTFORML 「후후…♥…귓전으로 속삭여지는 것, 좋아합니까? …그러면, 좀 더 시테 주는…♥」
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 귀에 입술이 닿을 것 같은 거리로, 달콤한 말을 속삭이면서 허리를 구불거리게 할 수 있다
+					PRINTFORMW %조사처리(ANAME(대상),"가")% 주는 달콤한 쾌락에 지배된 %조사처리(ANAME(MASTER),"는")%, 황홀로 한 채로 성대하게 사정했다……
+				CASE 3
+					PRINTFORMW 「응츄…하무…♥…날름…. 우후후, 기분 좋은 것 같아서 무릎♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 사타구니에 기어들어, 사랑스러운 육봉을 열심히 빨고 있다
+					PRINTFORMW 칼리목이나 요도구멍을 혀끝에서 빨고 훑어, 성기 뒷부분, 옥대까지 꼼꼼하게 꾸짖는다
+					PRINTFORML 그 탁월한 성기술은 %조사처리(ANAME(MASTER),"를")% 도중 중단으로 하기에는 충분했다. 지나친 쾌감에 허리를 당기려고 하는 것도
+					PRINTFORML 「아앙, 안 됩니다♥  응 츗……나의 입, 아직도 만끽해 주십시오♥」
+					PRINTFORMW 그렇게 말하면 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 허리를 움켜 쥐어, 페니스를 한층 더 깊고, 강하게 빨아 문다
+					PRINTFORMW %ANAME(대상)%의 테크닉에 의해, %ANAME(MASTER)%의 육봉은 용이하게 뿌리를 올려, 그녀의 입안에 대량사정 했다
+					PRINTFORML 「응응웃! ……응…츄우…♥……봐 주세요, %ANAME(MASTER)%의 것이 이렇게 가득…아～응♥」
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 눈앞에서, 입안에 나온 정액을 과시한다
+					PRINTFORML 그리고 타액과 합해 질척질척 맛봐, 선정적인 표정으로 매우 응, 이라고 목을 울려 삼켰다
+					PRINTFORMW 그 나머지 음미로운 광경에, 사정한지 얼마 안된 육봉은 즉석에서 딱딱함을 되찾는다
+					PRINTFORMW 「우후후…이번은 나의 코코에, %ANAME(MASTER)%의 자식을 주십시오♥」
+			ENDSELECT 
+			PRINTFORML
+			PRINTFORMW ……
+			PRINTFORMW 마지막 한 방울까지 %ANAME(대상)%에 짜내져 간신히 섹스가 끝나면, 두 명은 알몸으로 얼싸안은 채로 누웠다
+			PRINTFORML %ANAME(대상)%의 성기술에 황홀로 한 %조사처리(ANAME(MASTER),"는")%, 그대로 응석부리도록(듯이) 그녀에게 껴안아 눈을 감는다
+			PRINTFORMW 「응……안녕히 주무세요, %ANAME(MASTER)%……♥」
+			PRINTFORMW %ANAME(MASTER)%의 얼굴을 자랑의 젖가슴으로 안아 싸면서, %ANAME(대상)%도 또한 잠들었다……
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			CFLAG:대상:호감도 += 700
+			CFLAG:대상:지배도 += 300
+			ABL:대상:주도도Ｕ += 500
+			PRINTFORML 
+		ENDIF
+	;저녁 반주 루트
+	CASE 1
+		PRINTFORMW 어떤일의 밤
+		PRINTFORML 슬슬 잘까하고 생각하고 있던 곳에, %조사처리(ANAME(대상),"가")% 술지참으로 %ANAME(MASTER)%의 방을 방문해 왔다
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「%ANAME(MASTER)%, 아직 일어나고 있습니다?」
+				PRINTFORMW 「오늘은 묘하게 잠들 수 없어서……. 좋다면, 조금 저녁 반주에 교제해 주지 않겠습니까?」
+			CASE 1
+				PRINTFORMW 「좋은 것을 찾아내서, 좋으면 함께 어떻습니까?」
+			CASE 2
+				PRINTFORMW 「조금 함께 마시지 않습니다 일?   좋은 술을 찾아냈어요♪」
+		ENDSELECT
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 가져온 술을 %ANAME(MASTER)%에 보여, 저녁 반주에 교제해 주지 않을까 제안했다
+		PRINTFORMW 자, 그럼, 어떻게 하지……
+		PRINTFORML
+		CALL ASK_YN("저녁 반주에 교제한다", "거절한다")
+		IF RESULT == 1
+			PRINTFORML
+			PRINTFORML 「에-, 교제해 주지 않아요?   는, 외로워요～, 흑흑흑……」
+			PRINTFORMW  %조사처리(ANAME(대상),"는")% 신파조인 모습으로 눈매를 누르면서 돌아갔다……
+		ELSE
+			PRINTFORML
+			PRINTFORMW 자기 전에 달려 들고 가득이라는 것도 좋을 것이다.%조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 방에 불러 넣었다
+			PRINTFORML 「우후후, 그러면 실례해요♪」
+			PRINTFORMW …
+			PRINTFORMW %조사처리(ANAME(대상),"가")% 지참한 술은 정말로 맛있고, 말을 잘한 그녀와의 저녁 반주는 많이 분위기를 살렸다
+			PRINTFORMW 수다 하면서 홀짝홀짝 마시고 있으면, 취기도 돌아 좋은 기분이 되기 시작했다
+			PRINTFORMW 이것은 매우 자주(잘) 잘 수 있을 것 같다
+			PRINTFORMW 「후우……%조사처리(ANAME(MASTER),"와")% 함께라고, 조금 과음해 버립니다♪  조금 달아올라 왔어요」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 탁탁 손으로 부쳐, 조금 땀이 배이는 가슴팍에 바람을 보낸다
+			PRINTFORMW 술의 달아오름이, 그녀의 구슬과 같이 흰 피부를 희미하게 주홍에 물들여, 매우 음란하게 보이게 한다……
+			CALL ASK_YN("덮쳐 버린다", "이대로 잔다")
+			IF RESULT == 1
+				PRINTFORML
+				PRINTFORML ……아니, 이 즐거운 공기를 부수는 것은 멋없다
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% 얼큰하게 취한 기분으로 자기로 했다
+				PRINTFORMW 「후후, 나도 취기가 돌아 온 곳이고, 이것으로 연회의 끝이군요. 그러면 나는……」
+				PRINTFORMW 그렇게 말하면서 %조사처리(ANAME(대상),"는")%, 당연하다는 듯이 %ANAME(MASTER)%의 이불에 파고 들어가, 바로 근처에 진을 쳤다
+				PRINTFORML 「이대로 함께 자도 괜찮습니까?   방으로 돌아가는 것이 귀찮게 되어 버려서♥」
+				PRINTFORMW 명랑한 웃는 얼굴로 %조사처리(ANAME(대상),"가")% 말한다. 뭐, 맛있는 술을 먹은 것이니까 이 정도 좋을 것이다
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 제안을 받아들여, 곁잠 하도록(듯이) 누웠다
+				PRINTFORMW 「우후후, 감사합니다♥  그러면 안녕히 주무세요, %ANAME(MASTER)%………」
+				PRINTFORMW 취기에 의해 깊은 잠에 이끌려 두 사람 모두 행복한 표정으로 잠들었다……
+				CFLAG:대상:호감도 += 500
+				CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(5, 10), 1)
+				CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(5, 10), 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+				CALL TRAIN_AUTO_ABLUP(MASTER)
+				PRINTFORML
+				RETURN
+			ENDIF
+			PRINTFORML
+			PRINTFORMW ……이 신선, 호색가 지나다. %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 껴안아, 신체를 만지작거린다
+			PRINTFORMW 「에?   응!」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 놀란 소리를 높이는 것도, 취기가 돌고 있기 때문인가, 혹은 저항하고 있는 후리만인가
+			PRINTFORMW 밀치려고 하는 팔에 힘은 마치 들어오지 않고, 용이하게 %ANAME(MASTER)%에 밀어 쓰러트려졌다
+			PRINTFORML 「…정말, 인내 할 수 없습니까?   어쩔 수 없네요…♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 하는대로, 신체를 맡기고 있다
+			PRINTFORMW 「적어도 오늘은, 상냥하게 해 주십시오…♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")%, 벌써 발기하고 있는 %ANAME(MASTER)%의 페니스에, 갖고 싶어하는 것 같은 시선을 향한다
+			PRINTFORMW 기세에 맡겨, %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 안았다……
+			PRINTFORML
+			PRINTFORMW ……
+			SELECTCASE RAND:5
+				CASE 0
+					PRINTFORMW 「아, 아앗♥  굉장하다앗♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% 개와 같은 모습이 되어 %ANAME(MASTER)%에 배후로부터 찔리고 있다
+					PRINTFORMW %ANAME(MASTER)%의 페니스가 출입할 때에 고기단지의 천정을 비비어져 %조사처리(ANAME(대상),"는")% 단정치 못한 소리를 내 움찔움찔 경련한다
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 격렬하게 자궁까지 닿는 것 같은 일발 찌르기를 문병하면, %조사처리(ANAME(대상),"는")% 눈앞이 튄 것처럼 크게 등을 뒤로 젖혀 절정 한다
+					PRINTFORML 「아힛♥♥♥히앗♥♥아앗♥♥」
+					PRINTFORMW 그 때의 육봉에 휘감기는 질육의 야무짐은 %조사처리(ANAME(MASTER),"를")% 많이 기쁘게 해 한층 더 격렬하게 그녀와의 섹스에 빠졌다
+				CASE 1
+					PRINTFORMW 「아, 아읏♥  격렬해져, 아앗♥  거기 안 돼앳♥」
+					PRINTFORML %조사처리(ANAME(MASTER),"는")% 배후로부터 %ANAME(대상)%의 허리를 잡아 격렬하게 범하고 있다
+					PRINTFORML %조사처리(ANAME(대상),"는")% 빠득빠득 질육을 후벼파지고 야무지지 못하게 허덕이면서도, 붕괴될 것 같게 되는 것을 필사적으로 견디고 있다
+					PRINTFORMW 「익, 간닷♥익♥…쿠우우♥읏♥」
+					PRINTFORML 하지만 %ANAME(MASTER)%의 격렬한 피스톤에 의하자마자 힘이 들어가지 않게 되어, 절정과 함께 침대에 쓰러져 버린다
+					PRINTFORMW 분홍 엉덩이를 내미는 형태로 넘어진 %ANAME(대상)%에 대해, %조사처리(ANAME(MASTER),"는")% 덮어씌워 한층 더 공격한지 얼마 안 되는, 밤새 씨뿌리기 교미를 즐겼다
+				CASE 2
+					PRINTFORMW 「앗아앗! 좀 더, 찔러 주십시오♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% 격렬하게 허리를 흔드는 %ANAME(MASTER)%에 매달리면서 교성을 올리고 있다
+					PRINTFORML 찔릴 때에 염 소리를 높여 질을 단단히 조여, %ANAME(MASTER)%의 사정을 받으면서 등을 뒤로 젖혀 절정 한다
+					PRINTFORMW 「아아, 안에 뜨거운 것♥…좀더 좀더 주십시오…♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% 사정을 끝낸 %ANAME(MASTER)%의 목에 손을 돌리고, 허리를 흔들면서 한층 더 피스톤질을 졸라댄다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 추잡한 조르기에 응해, %조사처리(ANAME(대상),"와")% 밤새도록 계속 사귀었다
+				CASE 3
+					PRINTFORMW 「앗앗, 아읏! %ANAME(MASTER)%、%ANAME(MASTER)%…♥♥  아, 아읏!」
+					PRINTFORML %조사처리(ANAME(대상),"는")% 양손다리로 %ANAME(MASTER)%에 매달려 전신을 얽히게 되어지면서, 끈적 키스 끼우고 되고 있다
+					PRINTFORML %ANAME(MASTER)%에 마음껏 사랑 받고 있는 것을 느껴 %ANAME(대상)%의 여자의 본능이 욱신거림 하복부가 쑤시기 시작한다
+					PRINTFORMW 「읏, 아앗, 좋앗♥  좋은 것♥  중에♥중에 내 주십시오♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")%, 자신의 자궁이 %ANAME(MASTER)%의 종을 바라고 있는 것을 헤아려, 보다 강하게 매달려 허리를 강압한다
+					PRINTFORMW 이윽고 기다리고 기다린 자식을 따라져, %조사처리(ANAME(대상),"는")% 수정의 기쁨을 교성에 실어 절정 했다
+				CASE 4
+					PRINTFORMW 「응읏, 앗! 　%ANAME(MASTER)%…좀 더, 좀 더♥」
+					PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 허리를 잡아져 격렬하게 범해지고 있다
+					PRINTFORML 일발 찌르기 될 때마다 하복부로부터 복받쳐 오는 쾌락과 행복감에, %조사처리(ANAME(대상),"는")% 신체를 움찔움찔 뛰게 하면서 기뻐한다
+					PRINTFORMW 「자지, 쑤컹쑤컹 해…♥  앙읏, 응응♥핫♥핫♥아앙♥」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 얼굴을 접근하면, %조사처리(ANAME(대상),"는")% 녹은 표정으로 야무지지 못하게 혀를 늘어뜨려, %조사처리(ANAME(MASTER),"와")% 혀를 얽히게 할 수 있다
+					PRINTFORMW 이미 섹스의 일 밖에 생각할 수 없게 된 %조사처리(ANAME(대상),"는")%, 그 뒤도 %조사처리(ANAME(MASTER),"와")%의 정사에 빠졌다
+			ENDSELECT 
+			PRINTFORML
+			PRINTFORMW ……
+			PRINTFORMW 마지막 일발을 %ANAME(대상)%의 질 안쪽으로 내 끝내면, %조사처리(ANAME(MASTER),"는")% 그녀에게 덮어씌우도록(듯이) 쓰러졌다
+			PRINTFORML …취한 기세에 맡겨 쓸데없이 격렬하게 사귀어 버렸다
+			PRINTFORML 위로함의 기분을 담아 %ANAME(대상)%의 머리를 상냥하게 어루만지면, 그녀는 기쁜 듯한 얼굴로 %조사처리(ANAME(MASTER),"를")% 응시해 온다
+			PRINTFORMW 「가끔씩은 이런 격렬한 것도 좋은 것이군요…♥」
+			PRINTFORML %ANAME(대상)%도 %ANAME(MASTER)%의 얼굴을 사랑스러운 듯이 어루만져, 잘자요 키스를 한다
+			PRINTFORMW 「츄……안녕히 주무세요, %ANAME(MASTER)%……♥」
+			PRINTFORMW 두 사람 모두, 그대로 얼싸안도록(듯이) 잤다……
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(10, 20), 1)
+			CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(10, 20), 1)
+			CALL TRAIN_AUTO_ABLUP(대상)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			CFLAG:대상:호감도 += 700
+			CFLAG:대상:의존도 += 500
+			ABL:대상:주도도Ｕ -= 300
+			PRINTFORML
+		ENDIF
+	;담소 루트
+	CASE 2
+		PRINTFORMW 어떤일의 밤
+		PRINTFORMW 왠지 모르게 할 일 없이 따분함으로, 서류에서도 바라보고 있으면 %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%의 방을 방문해 왔다…
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「%ANAME(MASTER)%, 서류 일하고 있습니까?」
+				PRINTFORMW 「좋다면 나도 도와요. 수다라도 하면서, 천천히 합시다」
+			CASE 1
+				PRINTFORMW 「한가한 것 같다면, 조금 이야기 하지 않습니까?   당신과의 수다는 즐거워서♪」
+			CASE 2
+				PRINTFORMW 「%조사처리(ANAME(MASTER),"를")% 생각하고 있으면 잘 수 없게 되어 버려서…조금 수다 하지 않습니까?」
+			CASE 3
+				PRINTFORMW 「전에 말한, 붉은 세면기를 머리에 태운 남자의 이야기. 계속을 들려주어 받을 수 없습니다 일?」
+		ENDSELECT
+		PRINTFORMW 아무래도 %ANAME(대상)%도 짬을 주체 못하고 있는 것 같아, %조사처리(ANAME(MASTER),"와")% 조금 수다 하고 싶은 것 같다
+		PRINTFORMW …어차피 여기도 한가한 밤이다. 그녀와 같은 미인과 담소한다는 것도 나쁘지 않다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 기분 좋게 %조사처리(ANAME(대상),"를")% 방에 맞아들였다
+		PRINTFORMW 「후후, 감사합니다. 그러면, 실례하네요」
+		PRINTFORML 
+		PRINTFORMW …
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「일에 열심인도 좋지만, 적당히 힘을 빼는 것도 중요해요?」
+				PRINTFORMW 「뺀들뺀들하는 것이 장수하는 요령이에요♪」
+			CASE 1
+				PRINTFORMW 「%조사처리(ANAME(MASTER),"는")% 나의 이야기에 들어 주기 때문에, 무심코 회화가 활기를 띠어 버립니다♪」
+			CASE 2
+				PRINTFORML 「최근, %조사처리(ANAME(MASTER),"를")% 생각하면서 자고 있는데, 꿈에는 나타나 주지 않습니다…」
+				PRINTFORMW 「%ANAME(MASTER)%도 참, 이케즈예요. ♪」
+			CASE 3
+				PRINTFORMW 「그래, 예의 남자가 붉은 세면기를 머리에 태우고 있던 이유란……, 아, 배가 빈곳혀인가?   뭔가 만들까요」
+		ENDSELECT
+		PRINTFORML
+		PRINTFORMW %조사처리(ANAME(대상),"와")% 즐겁게 수다 했다…
+		PRINTFORMW 「이제 좋은 시간이군요. 그러면 나는 이 근처에 실례해요」
+		PRINTFORML 「그러면, %ANAME(MASTER)%. 안녕히 주무세요. ……츗♥」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 뺨에 잘자요 키스를 해 돌아갔다……
+		PRINTFORML
+		CFLAG:대상:호감도 += 400
+		CFLAG:대상:종속도 += 500
+ENDSELECT
+
+RETURN 1

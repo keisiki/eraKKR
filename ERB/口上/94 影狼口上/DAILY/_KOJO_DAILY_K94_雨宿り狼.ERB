@@ -1,0 +1,200 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_RAINYDAY_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_RAINYDAY_DECISION(대상)
+#DIM 대상
+
+;비를 피함은 1회 한정
+SIF KDVAR:대상:카게로_비를피함이리
+	RETURN 0
+
+;주인공은 페니스가 있는 것
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_RAINYDAY_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_RAINYDAY(대상)
+#DIM 대상
+
+PRINTFORMW 띄엄띄엄 빗소리가 들려 온다
+PRINTFORMW 모처럼의 휴일인데 우울한 오후다
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 창 밖을 보면서 한숨을 토한다
+PRINTFORMW 아침부터 쭉 이 상태다
+PRINTFORMW 날씨 탓인지 기분도 우울해, 무엇을 할 생각도 일어나지 않는다
+PRINTFORMW 이렇게 (해) 멍-하니 하고 있으면 지금이 전쟁중이라고 잊을 것 같게 된다
+PRINTFORMW 한동안 비를 보는 것도 아니게 바라보고 있으면, 문득 무언가에 눈치챘다
+PRINTFORMW 창틀의 밖, 희미하게 뭔가가 들여다 보고 있다
+PRINTFORMW 일까? 눈을 집중시켜 보면 동물의 귀같이 보였다
+PRINTFORMW 하지만 그렇다고 하면 위치가 이상함
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 무거운 몸을 일으켜, 창가에 가까워졌다
+PRINTFORMW 
+PRINTFORMW 「…아라, %ANAME(MASTER)%. 안녕하세요」
+PRINTFORMW 귀의 소유자는 랑녀였다
+PRINTFORMW 그녀는 %조사처리(ANAME(MASTER),"를")% 인정하면, 큰 귀를 쫑긋쫑긋 흔들어 인사했다
+PRINTFORMW 「여기, %ANAME(MASTER)%의 저택이었던 것이다. 헤에-」
+PRINTFORMW 그녀는 뭔가 감탄 한 것처럼 저택을 바라본다
+PRINTFORMW 「앗, 처마 밑을 빌리고 있어요. 조금 전, 우산이 망가져 버려 말야」
+PRINTFORMW 그 팔에는 너덜너덜이 된 우산을 매달 수 있었다
+PRINTFORMW 언제부터 있었을 것인가? 옷의 옷자락은 완전히 비에 젖고 있다
+PRINTFORMW 살짝 가슴팍을 보면 희미하게 틈이 나지고 있었다
+PRINTFORMW 「미안해요, 좀 더 비를 피함 시켜 주지 않을래?」
+IF CFLAG:대상:소속 != 0
+	PRINTFORMW 모르는 얼굴은 아니지만, 그녀는 적국의 무장이다
+ELSE
+	PRINTFORMW 그녀는 확실히, 현재 방랑의 몸일 것이다
+ENDIF
+PRINTFORMW 어떻게 하지?
+CALL ASK_MULTI("가에 올린다" ,"우산을 건네준다" ,"가에 데리고 들어간다")
+IF RESULT == 0
+	PRINTFORMW 빗속, 여성을 밖에 방치는 할 수 없다
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그녀를 집안에 불렀다
+	PRINTFORMW 「엣, 좋은거야?」
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 한 번 더 부르면 그녀는 기쁜듯이 귀를 쫑긋쫑긋 흔들었다
+	PRINTFORMW 「에헤헤, 고마워요. 상냥하다」
+	PRINTFORMW 평상시의 어딘지 모르게 늠름한 인상과는 다른 사람 붙임성 있는 것 같은 웃는 얼굴을 보였다
+	PRINTFORMW 저택에 올려, 타올을 건네준다
+	PRINTFORMW 그녀는 소화 긴 머리카락과 귀, 그리고 큰 꼬리를 열심히 닦아 간다
+	PRINTFORMW 아무렇지도 않은 동작일 것이지만, 어딘지 모르게 염이 있는 행동에 무심코 넋을 잃고 봐 버린다
+	PRINTFORMW 「네, 고마워요. …? 어떻게든 했어?」
+	PRINTFORMW 확 제 정신이 되어 타올을 받으면, 그녀를 거실에 불러들였다
+	PRINTFORMW 따뜻한 차를 내민다
+	PRINTFORMW 「와아, 고마워요, 하나에서 열까지.」
+	PRINTFORMW 그녀는 차를 접수 취하면 와 식히고 나서 천천히 마셨다
+	PRINTFORMW 아무래도 입에 맞은 것 같고 사랑스러운 한숨을 쉬어 꼬리를 살랑살랑 털고 있었다
+	PRINTFORMW 「후훗」
+	PRINTFORMW 그녀가 이쪽을 응시해 작게 웃는다
+	PRINTFORMW 「우산이 망가져 어떻게 하지라고 생각했지만, 그 덕분에 조금 좋은 일에 우연히 만날 수 있었어요」
+	PRINTFORMW 「이런 것은 뭐라는 건가? …뜻밖의 공명?」
+	PRINTFORMW 어쩐지 조금 틀리다는 느낌이 든다
+	PRINTFORMW 하지만 그녀에게 환영받아 기분은 나쁘지 않았다
+	PRINTFORMW 
+	PRINTFORMW 띄엄띄엄 빗소리가 하는 오후
+	PRINTFORMW 둘이서 잠깐 담소에 흥겨워했다
+	CFLAG:대상:호감도 += 300
+	KDVAR:대상:카게로_비를피함이리 = 1
+ELSEIF RESULT == 1
+	PRINTFORMW 그만큼 친하지 않은 상대에게 이대로 자리잡아져서는 곤란함
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 말없이 우산을 쓰기 시작했다
+	PRINTFORMW 「아라, 빌려 주는 거야? 그렇지만, 이번 언제 여기까지 올 수 있을까…」
+	PRINTFORMW 돌려주지 않아도 괜찮으면 반 강압하는 것처럼 우산을 건네준다
+	PRINTFORMW 「응, 고마워요. 기회가 있으면 돌려주어요」
+	PRINTFORMW 그녀는 휙 우산을 넓혀, 빗속에 걷기 시작한다
+	PRINTFORMW 한동안 걸으면 이쪽을 되돌아 봐, 끄덕하고 고개를 숙이면 빗속으로 사라져 갔다
+	PRINTFORMW 아무래도 나쁜 아이는 아닌 것 같았다
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 창틀에 팔꿈치를 붙어 그녀가 사라진 경치를 잠깐 멍-하니 바라보고 있었다
+	CFLAG:대상:호감도 += 150
+	KDVAR:대상:카게로_비를피함이리 = 1
+ELSEIF RESULT == 2
+	PRINTFORMW 그 선정적인 모습에 무심코 므흣 온 %조사처리(ANAME(MASTER),"는")% 그녀를 집안에 불렀다
+	PRINTFORMW 「엣, 좋은거야?」
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 한 번 더 부르면 그녀는 기쁜듯이 귀를 쫑긋쫑긋 흔들었다
+	PRINTFORMW 「에헤헤, 고마워요. 상냥하다」
+	PRINTFORMW 평상시의 어딘지 모르게 늠름한 인상과는 다른 사람 붙임성 있는 것 같은 웃는 얼굴을 보였다
+	PRINTFORMW 그 웃는 얼굴에 한 번 더 불끈불끈 열정이 복받쳐 온다
+	PRINTFORMW 그녀를 저택에 올려, 따뜻한 차를 냈다
+	PRINTFORMW 그녀는 아무것도 의심하는 일 없이 편히 쉬고 있다
+	PRINTFORMW …
+	CALL ASK_YN("쓰러트린다", "참는다")
+	IF RESULT == 1
+		PRINTFORMW 아니, 역시 안 된다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 쓰러트리고 싶어지는 충동에 휩싸였지만, 훨씬 견뎠다
+		PRINTFORMW 대신에 그녀로부터 감도는 부드러운, 꽃과 같은 향기를 제대로 기억했다
+		PRINTFORMW 
+		PRINTFORMW 「그러면, 오늘은 고마워요. 잘 먹었습니다」
+		PRINTFORMW 초저녁, 비가 갠 것을 확인해 그녀는 돌아갔다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 뒷모습이 안보이게 될 때까지 전송했다
+		CFLAG:대상:호감도 += 300
+		KDVAR:대상:카게로_비를피함이리 = 1
+	ELSEIF RESULT == 0
+		PRINTFORMW 인내의 한계에 이르른 %조사처리(ANAME(MASTER),"는")% 그녀를 팔을 잡으면 그대로 쓰러트렸다
+		PRINTFORMW 드삭 쓰러진 그녀는 %ANAME(MASTER)%아래에서 놀라 굳어지고 있다
+		PRINTFORMW 「엣…」
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 고조되는 욕망대로 그녀의 옷에 손을 대었다
+		IF CFLAG:대상:호감도 > 1500
+			PRINTFORMW 「앗…」
+			PRINTFORMW 뜻밖의 일로, 그녀는 저항하지 않았다
+			PRINTFORMW 지금부터 되는 일은 알고 있는 것 같지만 얼굴을 새빨갛게 하면서도 되는 대로다
+			PRINTFORMW 술술 옷을 한 장씩 벗겨, 결국 알몸의 그녀가 이슬이 된다
+			PRINTFORMW 「…으, 으음. 나, 나는…좋아…?」
+			PRINTFORMW 귀까지 새빨갛게 되어 눈동자를 물기를 띠게 한 그녀가, 희미하게 소리를 진동시켜 그렇게 중얼거렸다
+			PRINTFORMW 그 육체의 아름다움과 소녀같이 사랑스러움에 이미 멈추는 것은 할 수 없었다
+			PRINTFORMW 「앗…!」
+			PRINTFORMW 피부에 닿으면 달라붙는 것 같은 부드러운 탄력이 전해져, 그녀는 작게 허덕였다
+			PRINTFORMW 「아우…저, 저기…다음은, 이불에서…하고 싶은거야…」
+			PRINTFORMW 그녀는 부끄러운 듯이 얼굴을 양손으로 숨기면서 간원 했다
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그녀의 머리를 살그머니 어루만지면 껴안아, 침실로 데리고 들어갔다
+			PRINTFORML 
+			PRINTFORML 「♥♥♥♥♥♥♥♥」
+			PRINTFORMW 
+			PRINTFORMW 띄엄띄엄 빗소리의 영향을 주는 오후
+			PRINTFORMW 빗소리에 섞여, 저택으로부터 요염한 여자의 허덕임이 영향을 주고 있었다
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "성기술, 성교, Ｃ, 사정", "동정상실, 키스상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "화간")
+			PRINTFORMW 
+			PRINTFORMW 이튿날 아침, 눈을 떴을 때에는 그녀는 이미 없었다
+			PRINTFORMW 하지만 이불로부터는, 희미하게 그녀의 그 부드럽고, 꽃과 같은 향기가 감돌고 있었다
+			CFLAG:대상:호감도 += 500
+			KDVAR:대상:카게로_비를피함이리 = 1
+		ELSEIF ABL:MASTER:무투 * RAND:5 + 1 <= ABL:대상:무투 * RAND:8 + 1
+			PRINTFORMW 「싫닷! , 그만두세요!」
+			PRINTFORMW 하지만 그녀에게 저항되어 버렸다
+			PRINTFORMW 그녀는 격렬하게 저항해 %조사처리(ANAME(MASTER),"를")% 풀어 버리면 쏜살같이 집의 밖까지 도망쳐 갔다
+			PRINTFORMW 뒤쫓으려고 했지만 이리 상대에서는 과연 따라잡을 수 없었다…
+			CFLAG:대상:호감도 -= 1500
+			KDVAR:대상:카게로_비를피함이리 = 1
+		ELSE
+			PRINTFORMW 「싫닷! , 그만두세요!」
+			PRINTFORMW 당연히 그녀는 격렬하게 저항했다
+			PRINTFORMW 하지만 %조사처리(ANAME(MASTER),"는")% 무리하게 억누르면 억지로 옷을 벗겨냈다
+			PRINTFORMW 「읏…!」
+			PRINTFORMW 모든 옷을 벗겨내면, 결국 알몸의 그녀가 드러났다
+			PRINTFORMW 그녀는 귀까지 새빨갛게 되어 눈동자를 물기를 띠게 하면서 %ANAME(MASTER)%아래에서몸을 비틀게 한다
+			PRINTFORMW 하지만 몸을 비틀게 할 때에 그 여자다운 육체가 가부간의 대답 없게 암컷을 주장한다
+			PRINTFORMW 「이…!」
+			PRINTFORMW 희미하게 몸을 진동시키면서도 노려봐 오는 그녀의 표정에 이미 인내 할 수 없었다
+			PRINTFORMW 「앗…!」
+			PRINTFORMW 피부에 닿으면 달라붙는 것 같은 부드러운 탄력이 전해져, 그녀는 작게 허덕였다
+			PRINTFORMW 「개, 의…후우…그만두고 하…세요! …앗!」
+			PRINTFORMW 부끄러운 듯이 몸을 구불거리게 할 수 있는 도망치려고 하는 그녀를 부축하면서 체내에 손가락을 기게 한다
+			PRINTFORMW 원래 민감한 체질인 것인가, 신체는 솔직하게 반응해, 애무에 맞추어 사랑스럽게 움찔움찔 떨렸다
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")%날뛴다그녀를 껴안으면, 침실로 데리고 들어갔다
+			PRINTFORMW 
+			PRINTFORMW 띄엄띄엄 빗소리의 영향을 주는 오후
+			PRINTFORMW 빗소리에 섞여, 저택으로부터 흐려진 여자의 신음소리가 울리고 있었다
+			CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "성기술, 성교, Ｃ, 사정", "동정상실, 키스상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "화간")
+			PRINTFORMW 
+			PRINTFORMW 한껏 즐겁게 해 받은 후, 그녀를 해방했다
+			PRINTFORMW 그녀는 원망스러운 듯이 %조사처리(ANAME(MASTER),"를")% 노려본 후, 울면서 달려갔다
+			CFLAG:대상:호감도 -= 1500
+			KDVAR:대상:카게로_비를피함이리 = 1
+		ENDIF
+	ENDIF
+ENDIF
+
+RETURN 1

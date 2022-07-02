@@ -1,0 +1,110 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K97_COUNTER_ROCKET_RATE(대상)
+#DIM 대상
+RETURN 50
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K97_COUNTER_ROCKET_DECISION(대상)
+#DIM 대상
+#DIM 신묘마루
+
+신묘마루 = NAME_TO_CHARA("신묘마루")
+
+;일회뿐
+SIF KDVAR:대상:세이자_반역의봉화
+	RETURN 0
+
+;주인공이 군주가 아니다
+SIF GET_COUNTRY_BOSS(CFLAG:MASTER:소속) == MASTER
+	RETURN 0
+
+SIF !IS_COUNTRY(CFLAG:대상:소속)
+	RETURN 0
+
+SIF GET_COUNTRY_BOSS(CFLAG:대상:소속) != 신묘마루
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K97_COUNTER_ROCKET_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;------------------------------------
+;레밀리아로부터의 권유
+;-----------------------------------
+@KOJO_DAILY_K97_COUNTER_ROCKET(대상)
+#DIM 보스
+#DIM 대상
+#DIM 홍마관
+
+CFLAG:대상:안면 = 1
+
+보스 = GET_COUNTRY_BOSS(CFLAG:MASTER:소속)
+
+PRINTFORMW 「여어, 너가 %ANAME(MASTER)%인가」
+PRINTFORML 순찰을 하고 있으면, 돌연 말을 걸려졌다
+PRINTFORMW 견기의 사람에게는 안보이겠지만……
+PRINTFORMW 「그렇게 경계하지 말라고. 나는 %NAME_FORMAL(대상)%. 너에게 좋은 이야기를 가져온 것이다」
+PRINTFORMW 「너는 생각했던 적이 없는가?   어째서 약한 녀석이 시달리지 않으면 안 되는 것인지」
+PRINTFORMW 「나는 그것이 불만으로 말야, 강자와 약자의 관계를 뒤엎는 날이 오지 않을까, 기대하고 있던 것이다」
+PRINTFORMW 「지금, 환상향은 혼란으로 가득 차 있다. 계획을 실행으로 옮긴다면 지금……」
+PRINTFORMW 「……이지만, 손이 충분하지 않아서 말야. 전력이 되는 녀석이 필요한 것이다」
+PRINTFORMW 「어때?   너, 우리와 함께 싸워 보지 않겠는가」
+PRINTFORMW 과연, 빼내기를 걸치러 온 것 같다
+PRINTFORML %PRONOUN(대상)%가 소속하는 세력이 최종적으로 살아 남는다면, 따라 가는 것은 올바른 선택이다
+PRINTFORML 하지만 그러면, 지금의 주군의 방면과의 관계는, 틀림없이 뒤틀려 버릴 것이다
+PRINTFORML 자, 그럼, 어떻게 하지……
+CALL SINGLE_DRAWLINE
+PRINTFORML %ANAME(대상)%의 영지수:{GET_OWN_CITY(CFLAG:대상:소속)} %ANAME(보스)%의 영지수:{GET_OWN_CITY(CFLAG:MASTER:소속)}
+PRINTFORML 
+CALL ASK_MULTI(@"%ANAME(대상)%에 붙는다", "그만둔다", "히파악한다")
+
+IF RESULT == 1
+	PRINTFORMW 「그런가, 그거야 유감」
+	PRINTFORMW 「그러면. 이번에 만날 때는 적이 아니면 좋구나」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……」
+	KDVAR:대상:세이자_반역의봉화 = 2
+	RETURN 1
+ELSEIF RESULT == 2
+	PRINTFORMW 그런 이야기 응할 이유가 없을 것이다
+	PRINTFORMW 그리고 이 녀석은 적이다. 잡지 않으면 될 리 없다……
+	PRINTFORMW 「항!   그런가, 그러면 이 녀석을 정도!」
+	PRINTFORMW 「『4자매직 폭탄』!」
+	PRINTFORMW ……폭탄의 폭발에 잊혀져, %조사처리(ANAME(대상),"는")% 도망쳐 갔다
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 다쳐 버렸다……
+	CALL ADD_COOLTIME(MASTER, 3)
+	KDVAR:대상:세이자_반역의봉화 = 2
+	RETURN 1
+ENDIF
+
+PRINTFORML 「그렇게 말해 준다고 생각하고 있었어」
+PRINTFORMW 「그러면……아무쪼록 부탁한다」
+PRINTFORMW 내며진 손을, %조사처리(ANAME(MASTER),"는")% 딱딱하게 꽉 쥐었다……
+
+LOCAL:0 = MIN((ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치 + ABL:MASTER:방위) * 200, 50000)
+MONEY += LOCAL:0
+
+CFLAG:대상:호감도 = MAX(CFLAG:대상:호감도, 800)
+CFLAG:대상:의존도 = MAX(CFLAG:대상:의존도, 200)
+CALL CHANGE_RELATION_O_TO_O(보스, MASTER, -500, 500)
+CALL CHANGE_RELATION_O_TO_C(보스, CFLAG:대상:소속, -500, 500)
+CALL CHANGE_COUNTRY(MASTER, CFLAG:대상:소속, 1)
+
+CALL COLOR_PRINTW(@"준비금으로 해서 돈{LOCAL:0}를 받았습니다", 칼라_주의)
+CALL COLOR_PRINTW(@"%조사처리(ANAME(보스),"와")%의 외교 관계가, 매우 뒤틀렸습니다", 칼라_경고)
+
+
+KDVAR:대상:세이자_반역의봉화 = 1
+
+RETURN 1

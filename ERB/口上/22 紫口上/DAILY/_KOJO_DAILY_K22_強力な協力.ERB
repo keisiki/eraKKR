@@ -1,0 +1,133 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K22_ALLIANCE_RATE(대상)
+#DIM 대상
+RETURN 150
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K22_ALLIANCE_DECISION(대상)
+#DIM 대상
+#DIM 도시수
+#DIM 유카리도시수
+
+SIF KDVAR:대상:유카리_강력한협력
+	RETURN 0
+
+SIF GET_COUNTRY_BOSS(CFLAG:MASTER:소속) != MASTER
+	RETURN 0
+
+SIF GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상
+	RETURN 0
+
+SIF IS_SLAVE(대상)
+	RETURN 0
+
+도시수 = GET_OWN_CITY(CFLAG:MASTER:소속)
+유카리도시수 = GET_OWN_CITY(CFLAG:대상:소속)
+
+SIF 도시수 < 5
+	RETURN 0
+
+SIF 도시수 < 유카리도시수
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0)
+
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K22_ALLIANCE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_외교
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K22_ALLIANCE(대상)
+#DIM 대상
+
+KDVAR:대상:유카리_강력한협력 = 1
+
+PRINTFORML 심야……
+PRINTFORML 바쁨에 쫓기고 서류 일을 하고 있으면, 갑자기 사람의 기색을 느꼈다
+PRINTFORMW 아무도 없을 것이지만, 원침입자일까하고 되돌아 본다
+PRINTFORMW 「밤중 늦게 실례해요」
+PRINTFORML 거기에 있던 것은, 금발의 여성이었다
+PRINTFORML 염연과 미소짓는 모습에, 무심코 넋을 잃고 볼 것 같게 된다
+PRINTFORMW ……아니, 넋을 잃고 보고 있을 때는 아니다
+PRINTFORML 그녀는 완전히 눈치채지지 않고서 방에 비집고 들어가 왔다. 위험한 일이다
+PRINTFORMW 자객이나 뭔가일까……%조사처리(ANAME(MASTER),"는")% 무기를 손에 들려고 한다
+PRINTFORMW 「아아, 걱정하지 말아 줘. 당신을 해칠 생각은 없어요」
+PRINTFORMW 「나는 %NAME_FORMAL(대상)%. 당신에 이익을 가져오러 왔어」
+PRINTFORML %ANAME(대상)%에 적의는 없는 것 같다. 그렇다고 해서 안심도 할 수 없겠지만
+PRINTFORMW 우선, 이야기를 듣기로 한다
+PRINTFORML 「나는 환상향의 관리자로서 이 전란을 어떻게든 수습하고 싶다고 생각하고 있어」
+PRINTFORML 「그렇지만, 독력으로는 조금 어렵네요. 이놈도 저놈도 독특한 무리이니까」
+PRINTFORMW 「거기서―-당신과 같은 힘 있는 사람이 협력해 주면 좋겠다라고 생각한거야」
+CALL ICPRINT(@"「결국은,<10기정도의 동맹을 맺지 않는가>, 라는 이야기군요」", "W", 칼라_주의)
+PRINTFORML 과연, 나쁜 이야기는 아닌 것처럼 생각된다
+PRINTFORMW 이 전란을 이겨 내 가려면, 협력자는 필요할 것이다……
+PRINTFORMW ……그녀가 그것만 도움이 되면, 의 이야기이지만
+PRINTFORML 「물론, 공짜로라고는 말하지 않아요. 이야기를 타 준다면, 그만한 것을 준비할 준비가 있다」
+PRINTFORML 그런데, 어떻게 할까……
+CALL ASK_MULTI("협력한다（예는 필요없다）", "금을 요구한다", "힘을 요구한다", "신체를 요구한다", "거절한다")
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「후응……?   무욕인 일이군요」
+		PRINTFORMW 「그렇지만, 그렇다면 그걸로 좋아요」
+	CASE 1
+		PRINTFORMW 「그렇구나, 전쟁에는 앞서는 것이 필요합니다 것이군요」
+		PRINTFORMW 「아무것도 필요없다, 뭐라는 배보다 신용을 둘 수 있어요. 돈의 계속되는 한은요」
+		PRINTFORMW 「이봐요, 이것은 준비금이야. 받으세요」
+		CALL COLOR_PRINTW("금 50000을 받았다", 칼라_주의)
+		MONEY += 50000
+		CFLAG:대상:호감도 += 300
+	CASE 2
+		PRINTFORMW 「그렇구나, 그것은 필요한 일이라고 생각해요」
+		PRINTFORMW 「(이)가 아니면, 나라고 도와주기를 원한다고는 생각하지 않는 것」
+		PRINTFORMW 「내가 가져서 좋다면, 가르쳐 줍시다」
+		IF !TALENT:MASTER:요술지식
+			CALL COLOR_PRINTW(@"요술지식을 습득했다", 칼라_주의)
+			TALENT:MASTER:요술지식 = 1
+		ELSE
+			CALL COLOR_PRINTW(@"지략이 3 상승했다", 칼라_주의)
+			ABL:MASTER:지략 += 3
+		ENDIF
+	CASE 3
+		PRINTFORML 유례가 드문 미모에게, 풍만한 육체……누구였으면 좋겠다고 생각할 정도의 것이다
+		PRINTFORML 담보를 준비한다는 것이라면, %ANAME(대상)%자신이야말로 거기에 어울리는이라고 생각되었다
+		PRINTFORMW 협력 해 주었으면 하면 신체를 보내라……그런 요구에, %조사처리(ANAME(대상),"는")% 눈썹을 들었다
+		PRINTFORMW 「후응……?」
+		PRINTFORML 「아니오, 불쾌하다고는 생각하지 않아요. 그런 일을 요구해 올 가능성도, 생각하지 않지 않았고」
+		PRINTFORML 「게다가, 영웅색을 좋아한다고도 말하니까요」
+		PRINTFORMW 「좋을 것입니다. 잠시동안, 당신의 상대를 해 주어요」
+		PRINTFORMW 「하지만……즐겁게 해 받을 수 없을 것 같으면, 관계를 다 써버릴 수 있어 받기 때문에, 힘껏 노력해 줘」
+		PRINTFORML 그렇게 말해 미소짓는 %ANAME(대상)%의 입술이, 매우 요염하게 생각되었다……
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 「포로의조교」메뉴로부터 조교 가능하게 되었습니다", 칼라_주의)
+		PRINTFORMW (조건을 채우고 있는 동안은 항상 조교 가능하게 됩니다)
+		CFLAG:대상:외교조교중 = 1
+		KDVAR:대상:유카리_강력한협력 = 2
+	CASE 4
+		PRINTFORMW 「그렇게……유감이구나」
+		PRINTFORMW 「그렇다면 어쩔 수 없어요. 그러면」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 틈새를 사용해, 떠나 갔다……
+		RETURN 1
+ENDSELECT
+PRINTFORMW 「그러면, 지금부터 잘 부탁드립니다」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 틈새를 사용해, 떠나 갔다……
+
+CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"와")% 10기의 동맹을 맺었습니다", 칼라_주의)
+CALL INIT_ALLIANCE(CFLAG:MASTER:소속, CFLAG:대상:소속, 10)
+
+RETURN 1

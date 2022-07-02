@@ -1,0 +1,177 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K42_OTAKU_RATE(대상)
+#DIM 대상
+RETURN 40 + (KDVAR:대상:사나에_강철거인 > 0) * 310
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K42_OTAKU_DECISION(대상)
+#DIM 대상
+#DIM 카나코
+카나코 = NAME_TO_CHARA("카나코")
+
+;주인공은인가 이루어요 이외
+SIF MASTER == NAME_TO_CHARA("카나코") || MASTER == NAME_TO_CHARA("스와코")
+	RETURN 0
+
+;끝나고 있으면 발생하지 않는다
+SIF KDVAR:대상:사나에_강철거인 == -1
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(카나코, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K42_OTAKU_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K42_OTAKU(대상)
+#DIM 대상
+#DIM 카나코
+카나코 = NAME_TO_CHARA("카나코")
+
+SELECTCASE KDVAR:대상:사나에_강철거인
+	CASE 0
+		PRINTFORMW 「강철의 것으로부터～다, 신음소리를 내게 해～, 지금이야말로 울려 퍼지는, 사나이 온 빵～치～♪」
+		PRINTFORMW 「약한을 짓밟는, 나쁜 녀석을～♪  뜨거운 주먹으로 쳐부수어라～～이에～～♪」
+		PRINTFORMW 어디에선가 상태 벗어남인 노래가 들려 오는……야작일까하고 생각했는데, %조사처리(ANAME(대상),"다")%!
+		PRINTFORMW 「저것, %ANAME(MASTER)%씨가 아닙니까. 왜 그러는 것입니다?」
+		PRINTFORMW 이렇지도 저렇지도, 수수께끼의 노래에 끌어 들일 수 있었을 뿐이지만……
+		PRINTFORML 지금의 우타에 대해서, (들)물어 볼까?
+		PRINTFORML
+		CALL ASK_YN("신경이 쓰인다 해, (들)물어 보자", "절대로 귀찮은 것이 될 생각이 들겠어……")
+		IF RESULT == 1
+			PRINTFORMW 「?   는, 나는 이것으로」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+			KDVAR:대상:사나에_강철거인 = -1
+		ELSE
+			PRINTFORMW 「!!!!!!!!!   흥미를 가졌어요!!!!!!!!!!?」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 눈을 핏발이 서게 해 이쪽에 다가왔다. 왠지 싫은 예감이 한다……
+			PRINTFORMW 「지금 것은 1992년부터 1995년에 걸쳐 방영된 사각산프로덕션의 로보트 애니메이션 『강철 거인 배틀 사나이 온』, 노!   제 3 쿨의 주제가 『불타는 영혼 배틀 사나이 온』의 2번의 녹이랍니다!!!!!」
+			PRINTFORMW 「덧붙여서 주제가를 노래하고 있는 것은 애니메이션 노래계의 대왕이라고도 불리는 야마모토 사부로씨입니다!!!!   좋지요 야마모토 니키!!!!!!」
+			PRINTFORMW 「스탭이나 캐스트도 당시 지방의 타기를 탄 베테랑들을 기용해!!!!   『뒤에도 먼저도 더 이상의 애니메이션은 없다』라고 평론가들을 신음소리를 내게 할 정도의 각본!!!!!!!   일본의 로보트 애니메이션계의 금자탑이라고도 말해야 할 명작입니다!!!!!   아시는 바 없습니까!!!!!?」
+			PRINTFORML 아시는 바 없습니까, 라고 (들)물어 온 것 치고, %조사처리(ANAME(대상),"는")% 이쪽의 대답을 기다리지 않았다
+			PRINTFORMW 허겁지겁 자신의 방에 달리고 돌아오면, 보자기 소포를 가지고 돌아왔다
+			PRINTFORMW 「네이것, 아무쪼록!」
+			PRINTFORMW 「과연 환상향에 DVD는 없으니까, 코믹판 배틀 사나이 온전 72권을 빌려 줍니다!」
+			PRINTFORMW 「읽으면 감상 들려주세요!」
+			PRINTFORMW 그렇게 말해, %조사처리(ANAME(대상),"는")% 떠나 갔다……
+			PRINTFORMW ……강압할 수 있었던 코믹은 굉장히 무거웠다……
+			KDVAR:대상:사나에_강철거인 = 1
+		ENDIF
+	CASE 1
+		PRINTFORMW 그러고 보니, %조사처리(ANAME(대상),"로")%부터 코믹을 강압되어지고 있던 것이었는지……
+		PRINTFORML 그대로 해 두는 것도 나쁘고, 읽어 둘까?
+		CALL ASK_YN("아무튼, 한 권만……", "흥미없다")
+		IF RESULT == 1
+			PRINTFORMW 지금은 바쁘고, 뭐 좋은가……
+			PRINTFORMW 뒷전으로 해 두기로 했다
+		ELSE
+			PRINTFORMW 모처럼 빌린 것이고, 촉감만이라도 읽어 보면 하자……
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 이것은 확실히, 꽤 재미있을 것 같다. 이제(이미/벌써/더는/정말) 한 권 읽자……
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 이것은 확실히, 꽤 재미있다. 이제(이미/벌써/더는/정말) 한 권 읽자……
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 과연 이것은 재미있다. 이제(이미/벌써/더는/정말) 한 권 읽자……
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 아니 이것은 위험하다. 이제(이미/벌써/더는/정말) 한 권 읽자……
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……이제(이미/벌써/더는/정말) 한 권 읽자……
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 깨달으면, 해가 져, 밤이 끝나고 있었다……
+			PRINTFORMW 당연히 한 잠도 하고 있지 않지만, 마음은 매우 충실했다. 싸워, 배틀 사나이 온!
+			CALL COLOR_PRINTW(@"밤샘의 반동으로, %ANAME(MASTER)%의 무투가 3내렸습니다", 칼라_경고)
+			CALL ADD_COOLTIME(MASTER, 2)
+			ABL:MASTER:무투 = MAX(ABL:MASTER:무투 - 3, 1)
+			KDVAR:대상:사나에_강철거인 ++
+		ENDIF
+	CASE IS < 5
+		PRINTFORMW 「앗, %ANAME(MASTER)%씨!   배틀 사나이 온이 이야기합시다!」
+		PRINTFORMW %ANAME(대상)%에 이끌려 강철 거인 배틀 사나이 온에 대한 이야기를 밤새 펼쳤다……
+		PRINTFORML
+		PRINTDATAW
+			DATA 「역시 사이토 하사가 북극해에 뛰어드는 장면은 좋네요……」
+			DATA 「나야나기다 대장이 좋아합니다, 차분한 아저씨의 캐릭터는 좋지요!」
+			DATA 「좋다……」 「안다」
+			DATA 「13권의 138 페이지째 4 팽이눈의 배틀 사나이 온의 우측 어깨 파츠, 베타 넣는 것 잊어 버리고 있군요……」
+			DATA 「이 적의 여자 간부 파오란이 정말 싫습니다. 이런 도도하게 군 사람은 사실, 이제(이미/벌써/더는/정말)!」
+			DATA 「우웃……43권의 이 장면은 눈물없이는 말할 수 없어요……」
+			DATA 「좋다……」 「그것인」
+			DATA 「이 켄타군의 성장……이것이 5권으로 첫등장 했을 때는 적의 공격에 도망치고 망설이고 있었던 아이라고는 생각되지 않습니다……커졌군……」
+			DATA 「전편 통해 사카키바라는 정말로 암약 해 주네요……악역이면서 훌륭해요!」
+			DATA 「사나이 온의 식사 신은 맛있을 것 같네요……배고파 왔습니다, 라면 먹습니까?」
+			DATA 「이 장면!   이 장면은 부디 애니메이션으로 보았으면 좋겠다……!   이니까 환상향은 블루 레이 없는거야!?」
+			DATA 「지금이다 내질러라～～～～♪  사나이 온 소드♪」
+		ENDDATA
+		PRINTFORML
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"로")%부터의 호감도가 올랐습니다", 칼라_주의)
+		CALL COLOR_PRINTW(@"밤샘의 반동으로, %조사처리(ANAME(MASTER),"와")% %ANAME(대상)%의 무투가 3내렸습니다", 칼라_경고)
+		CALL ADD_COOLTIME(MASTER, 2)
+		ABL:MASTER:무투 = MAX(ABL:MASTER:무투 - 3, 1)
+		CALL ADD_COOLTIME(대상, 2)
+		ABL:대상:무투 = MAX(ABL:대상:무투 - 3, 1)
+		CFLAG:대상:호감도 += 100
+		KDVAR:대상:사나에_강철거인 ++
+	CASE 5
+		PRINTFORMW 「적당히 전과!」
+		PRINTFORML 오늘도 배틀 사나이 온 이야기에 꽃을 피우려고, %ANAME(대상)%의 방에 간 순간이다
+		PRINTFORMW 갑자기, %ANAME(카나코)%가 난입했다!
+		PRINTFORMW 「젊은 두 명이 밤마다 방에서 완전히 이제(이미/벌써/더는/정말)!   그러한 것은\@ TALENT:대상:정실 || TALENT:대상:첩 ? 적당히 # 결혼하고 나서\@해 주시라고 말했겠지 %ANAME(대상)%!」
+		PRINTFORMW 「엣……저, 앗!?   아, 아니, 카나코님, 이것은 그러한 것이 아니라!」
+		PRINTFORMW 「변명무용! 　%ANAME(MASTER)%도 %조사처리(ANAME(MASTER),"다")%, 우리%조사처리(ANAME(대상),"를")% 꼬득여, 공짜는 두지 않아!」
+		PRINTFORML 어쩐지 싫은 예감이 하는……예감은 곧바로 적중했다!
+		PRINTFORMW 탄막을 내지른 %ANAME(카나코)%를, 둘이서 필사적으로 멈추었다……
+		PRINTFORML ·
+		PRINTFORML ·
+		PRINTFORML ·
+		PRINTFORMW 「무려, 애니메이션의 이야기!?」
+		PRINTFORMW 「아니, 그것은 나쁜 일을 했군요……나는 틀림없이, 이렇게, 두 명이\@ TALENT:대상:정실 || TALENT:대상:첩 ? 진무른 성생활을 보내고 있는지 # 안 되는 관계에 있는지 \@」
+		PRINTFORML 확실히, 밤마다 방에서 둘이서 있던 것은, 착각 되어도 어쩔 수 없을지도 모른다
+		PRINTFORMW 라고는 해도, 배틀 사나이 온의 이야기를 할 수 있는 것은 %ANAME(대상)%밖에 없고, 불가항력이다
+		PRINTFORMW 「아무튼 그건 그걸로하고!   두 사람 모두!   최근 거기에 매달리기로, 솜씨가 무디어지고 있을 것이다!」
+		PRINTFORMW 「내일부터 나잠깐 훑어 내 주니까요!   각오 하는거야!」
+		PRINTFORMW ……어쩐지, 대단하게 된 것 같다
+		PRINTFORMW %ANAME(대상)%의 (분)편을 보면, 체념할 수밖에 없는, 이라는 얼굴을 하고 있었다……
+		CALL COLOR_PRINTW(@"%ANAME(카나코)%에 훑어져 %조사처리(ANAME(MASTER),"와")% %ANAME(대상)%의 무투가 15올랐습니다", 칼라_주의)
+		;（공제하면 전혀 올라）없습니다
+		ABL:MASTER:무투 += 15
+		ABL:대상:무투 += 15
+		KDVAR:대상:사나에_강철거인 = -1
+ENDSELECT
+
+RETURN 1

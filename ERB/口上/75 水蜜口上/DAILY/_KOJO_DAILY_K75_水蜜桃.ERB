@@ -1,0 +1,137 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K75_MAKELOVE_IN_FESTIVAL_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K75_MAKELOVE_IN_FESTIVAL_DECISION(대상)
+#DIM 대상
+
+SIF !IS_LOVER(대상)
+	RETURN 0
+
+SIF !(MASTER == NAME_TO_CHARA("당신") && HAS_PENIS(MASTER))
+	RETURN 0
+
+SIF KDVAR:대상:미나미츠_수밀도
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K75_MAKELOVE_IN_FESTIVAL_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K75_MAKELOVE_IN_FESTIVAL(대상)
+#DIM 대상
+
+
+PRINTFORML 「저기 %ANAME(MASTER)%, 저녁부터 한가해?」
+PRINTFORMW 「마을에서 축제가 있다고 말야, 가자」
+PRINTFORMW 비번으로 짬을 하고 있으면, %ANAME(대상)%에 이끌렸다
+PRINTFORMW 축제인가……지금은 뭔가 대단한 시기이지만, 그러한 때에야말로 숨돌리기를 해야할 것인가도 모른다
+PRINTFORMW 무엇보다, %조사처리(ANAME(대상),"와")% 그러한 시간을 보내 보는 것도 나쁘지 않을지도 모른다……
+PRINTFORML
+CALL ASK_YN("간다", "사양해 둔다")
+
+IF RESULT == 1
+	PRINTFORMW 「에-, 재미없는거야」
+	PRINTFORMW 「뭐 어쩔 수 없는가. 그렇다면 혼자서 갔다올까」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+	KDVAR:대상:미나미츠_수밀도 = 1
+	RETURN 1
+ENDIF
+
+
+PRINTFORMW 「(이)지요, %ANAME(MASTER)%도 가고 싶지요!」
+PRINTFORMW 「그러면 저녁이군요, 준비해 기다리고 있기에!」
+PRINTFORMW
+PRINTFORMW
+PRINTFORMW
+CALL SINGLE_DRAWLINE
+PRINTFORMW
+PRINTFORMW
+PRINTFORMW
+PRINTFORMW 「하아……즐거웠지요!」
+PRINTFORMW 솜사탕을 한 손에 쥐고 웃는 얼굴을 띄우는 %조사처리(ANAME(대상),"는")%, 완전 천진난만한 소녀로 보인다
+PRINTFORMW 유카타 모습도 실로 어울리고 있지만……
+PRINTFORML
+CALL ASK_YN("손을 댄다", "참는다")
+
+IF RESULT == 1
+	PRINTFORMW 아니아니, 이런 귀염성인 아가씨 상대에게 무엇을 생각하고 있다
+	PRINTFORMW 솟구친 욕망을 훨씬 참아 둘이서 즐겁게 이야기를 하면서 돌아갔다……
+	KDVAR:대상:미나미츠_수밀도 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「에, 와저, %ANAME(MASTER)%?   무슨 일이야?」
+PRINTFORMW 축제의 하는 김에, 추억을 또 하나 만드는 것도 좋을 것이다
+PRINTFORMW %ANAME(대상)%의 수를 잡아, 나무로 데리고 들어간다
+PRINTFORMW 이 근처라면 남의 눈짐일까 있고일 것이다……
+PRINTFORMW
+PRINTFORMW 「춋……와 맛이 없다고, 이런 곳에서……」
+PRINTFORMW 수치가 끊는지, %조사처리(ANAME(대상),"는")% 몸을 비틀어 도망치려고 한다
+PRINTFORMW 도리를 반죽하는 입을 막아, %PRONOUN(대상)%의 다리의 사이에 무릎을 넣어 도망칠 수 없어 준다……
+PRINTFORMW
+PRINTFORMW 「읏……쿠, 후아우……, 아, 거기……아」
+PRINTFORMW %ANAME(대상)%의 민감한 곳을, 차분히 손가락끝으로 강요해 준다
+PRINTFORMW 쾌락에 묶여 왔는지, %조사처리(ANAME(대상),"는")% 도망치려고 하지 않게 되기 시작했다
+PRINTFORMW 온순한 것은 좋은 일이다. 한껏 만지작거려 돌려 준다……
+PRINTFORMW 
+PRINTFORMW 「아웃……앗, 핫, 아앗……♥」
+PRINTFORMW 나무에 받게 해 엉덩이를 이쪽에 향하게 한 %ANAME(대상)%에, 물건을 뒤로부터 완만하게 빼고 꽂기 한다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 열중한 것 같은 달콤한 소리를 흘리고 있다……
+PRINTFORMW 
+PRINTFORMW 「아앗, 핫♥  거기, 아, 읏아, 하♥  기분 좋아,♥  좀 더, 오♥」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 성교의 쾌감을 완전히 기억한 것 같고, 허리를 구불거리게 되어지면서 새로운 쾌락을 졸라 온다
+PRINTFORMW %PRONOUN(대상)%가 드디어 들 그런가라는 (곳)중에, %ANAME(MASTER)%도 질내에서 끝났다……
+PRINTFORMW 
+PRINTFORMW 
+CALL FUCK(대상, "Ｃ, Ｖ, Ｂ, Ｍ, 욕망, 봉사, 성교, 성기술, 정애, 노출, 키스, Ｖ성교", "처녀상실, 키스상실, 질내사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER), "", "화간")
+CALL FUCK(MASTER, "Ｃ, Ｍ, 욕망, 성교, 노출, 사정, 키스, Ｖ삽입", "동정상실, 키스상실", GET_SPERM_ID("불명"), @"%ANAME(대상)%의 입술", "",　@"%ANAME(대상)%의 질", "화간")
+PRINTFORMW 
+PRINTFORMW 
+PRINTFORMW 「……이제(이미/벌써/더는/정말). 들키지 않았으니까 좋았던 것 같지만, 누군가에게 보여지고 있으면 어떻게 할 생각이었던거야……」
+PRINTFORML 것이 끝나 귀로에 든 두 명이었지만, %조사처리(ANAME(대상),"는")% 뾰롱통 해지고 있었다
+PRINTFORMW 뺨은 홍 밀려들고 있어 좀 더 화나 있는 느낌이 들지 않겠지만……
+PRINTFORMW 「그렇다면, 그러한 느낌의 것도 조금 나쁘지 않을까라고는 생각했지만 말야」
+PRINTFORMW 「라도 좋아?   아 말하는 것은 밖은 안 되니까?   히지리에 들키면는 (들)물을까……」
+PRINTFORMW 그것은 확실히 그 대로다. 조금 우쭐해졌는지도 모른다
+PRINTFORMW ……%ANAME(대상)%도, 그렇지만도 않았던 것 같은 생각이 들지만
+PRINTFORMW 「그것은 그, 흐르게 되어 버린 것 뿐이고. 하기 시작한 것은 %조사처리(ANAME(MASTER),"니")%까 반성해」
+PRINTFORMW 「……방등으로라면, 좋으니까. 알았어?」
+PRINTFORMW 그렇게 중얼거린 뿐, %조사처리(ANAME(대상),"는")% 얼굴을 붉히고 시선을 딴 데로 돌려 버렸다
+PRINTFORMW 뭐랄까, 역시 그다지도 아니었을 것이다……
+
+SIF !TALENT:대상:합의
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_주의)
+
+CFLAG:대상:호감도 += 100
+CFLAG:대상:종속도 += 100
+CFLAG:대상:의존도 += 100
+TALENT:대상:합의 = 1
+TALENT:대상:쵸로인 = 1
+
+KDVAR:대상:미나미츠_수밀도 = 1
+
+
+RETURN 1
+

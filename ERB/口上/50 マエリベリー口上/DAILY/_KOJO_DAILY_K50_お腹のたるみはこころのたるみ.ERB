@@ -1,0 +1,88 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K50_YOU_ARE_FAT_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K50_YOU_ARE_FAT_DECISION(대상)
+#DIM 대상
+
+SIF !IS_LOVER(대상)
+	RETURN 0
+
+SIF KDVAR:대상:메리_배회전
+	RETURN 0
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K50_YOU_ARE_FAT_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K50_YOU_ARE_FAT(대상)
+#DIM 대상
+
+KDVAR:대상:메리_배회전 = 1
+PRINTFORMW 「응……」
+PRINTFORML 어쩐지, %조사처리(ANAME(대상),"가")% 거울의 앞에서 고민하고 있는 것 같지만……
+CALL ASK_YN("말을 건다", "방치한다")
+
+IF RESULT == 1
+	PRINTFORMW 신경쓰는 것도 아닐 것이다
+	PRINTFORMW 방치하기로 했다
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「앗, %ANAME(MASTER)%……」
+PRINTFORMW 「싫구나?   그, 최근, 밥이 맛있는거야」
+PRINTFORMW 「환상향이라면 식품 재료는 모두 천연 물건이고……역시 합성 식품 재료와는 격이 다르고……」
+PRINTFORMW 「그런 것도 있어, 그……응?」
+PRINTFORML 즉, 살찐 것 같다. 겉모습은 변함없는 것처럼 생각되지만……
+PRINTFORMW 성숙한아가씨에게는, 얼마 안 되는 숫자의 변화가 신경이 쓰인다일 것이다
+PRINTFORMW 「조금 위기감을 기억하고 있지만」
+PRINTFORMW 「뭔가 좋은 방법, 몰라?」
+PRINTFORML 그렇게 말해도 곤란하지만, 그런데 어떻게 하지……
+
+CALL ASK_MULTI("배를 비빈다", "그럴까", "운동일까")
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORML 살쪘다고 해도, 어떤 것일 것이다
+		PRINTFORMW 시험삼아 %ANAME(대상)%의 배를 집어 보았다……
+		PRINTFORMW 「꺄……!   , 조금, 뭐 하는거야!」
+		PRINTFORMW 「최저!」
+		PRINTFORMW 아무래도, 화나게 해 버린 것 같다……
+		CFLAG:대상:호감도 -= 300
+	CASE 1
+		PRINTFORML 원래 그렇게 살쪘을까
+		PRINTFORMW 그렇지도 않다고 생각하지만……
+		PRINTFORMW 「그렇게 생각하고 있기에 곤란해 하고 있는 것이지 않아」
+		PRINTFORMW 「하아, 어떻게 하지……」
+		PRINTFORMW 만족이 가는 대답은 아니었던 것 같다……
+	CASE 2
+		PRINTFORMW 우선, 가벼운 운동으로부터 처음 봐서는 어떨까……
+		PRINTFORMW 「그렇구나, 그것이 제일일까요」
+		PRINTFORMW 「그러면, 조금 교제해 주지 않겠어?」
+		PRINTFORMW %ANAME(대상)%에 교제해, 거점의 주위를 조깅 했다……
+		CALL COLOR_PRINTW("조금 체력이 붙었다", 칼라_주의)
+		MAXBASE:MASTER:체력 += 50
+		MAXBASE:대상:체력 += 50
+ENDSELECT
+
+RETURN 1

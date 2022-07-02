@@ -1,0 +1,319 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K21_AMAYAKASI_RATE(대상)
+#DIM 대상
+RETURN (KDVAR:대상:란_응석받아주기 > 0 ? 200 # 70)
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K21_AMAYAKASI_DECISION(대상)
+#DIM 대상
+
+;플레이어 캐릭터가 유카리인가 유유코라면 발생하지 않는다
+SIF (MASTER == NAME_TO_CHARA("유카리") || MASTER == NAME_TO_CHARA("유유코"))
+	RETURN 0
+
+;연모계나 주인계로, 합의가 없으면 안 돼
+SIF !((IS_LOVER(대상) || IS_SLAVED_BY(대상)) && TALENT:대상:합의)
+	RETURN 0
+
+;페니스가 없으면 안 돼
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+	
+;끝나고 있으면 발생하지 않는다
+SIF KDVAR:대상:란_응석받아주기 == -1
+	RETURN 0
+	
+;ARG:0이 구상 데일리 이벤트를 실시할 수 있을까의 간이 체크 함수.
+;ARG:10 MASTER와 별세력인 1 MASTER와 동일 세력이다  -1어디라도 좋다
+;ARG:20 포로가 아닌 1 포로인 -1어디라도 좋다
+;ARG:30 안면이 없는 1 안면이 있는 -1어디라도 좋다
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) 
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K21_AMAYAKASI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K21_AMAYAKASI(대상)
+#DIM 대상
+#DIM 대상도시
+#DIM 대상도시2
+
+;자국 도시 랜덤
+CALL DAILY_EVENT_RAND_CITYSELECT(0)
+대상도시 = RESULT
+SIF 대상도시 < 0
+	RETURN 0
+
+CALL DAILY_EVENT_RAND_CITYSELECT(0)
+대상도시2 = RESULT
+SIF 대상도시 < 0
+	RETURN 0
+	
+SELECTCASE KDVAR:대상:란_응석받아주기
+	CASE 0
+		PRINTFORMW 심야. %ANAME(MASTER)%의 방에는 아직 빛이 켜지고 있다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 여기 최근, 서류 일이 산과 같이 증가해, 연일밤 늦게까지 일에 쫓기고 있었다…
+		PRINTFORML 영내의 경제에 관련되는 일인 만큼 게으름 피울 수도 없는, 창백한 얼굴로 서류와 마주보고 있으면
+		PRINTFORMW 「…괜찮은가? %ANAME(MASTER)%. 대단히 지친 얼굴을 하고 있겠어」
+		PRINTFORML 연일의 격무를 걱정해 주었는지, %조사처리(ANAME(대상),"가")% 상태를 보러 온 것 같다
+		PRINTFORMW 「흠…이 양은 꽤 어려울 것이다. 안색도 나쁘고, 조금 쉬면 어때?   뒤는 내가 해 두기 때문에」
+		PRINTFORML 몹시 고마운 의사표현이지만, %조사처리(ANAME(대상),"는")% 그 우수함으로부터 이미 자기보다 많은 일을 맡고 있다
+		PRINTFORMW 더 이상 그녀에게 부담을 주는 것 같은 일을 해도 좋은 것인가…어떻게 하지?
+		PRINTFORML
+		CALL ASK_YN("그러면, 호의를 받아들여…", "괜찮아, 어떻게든 하는…어떻게든 하는거야…")
+		IF RESULT == 1
+			PRINTFORML 「정말로 괜찮은 것인가?   ……그러면, 나는 갈거니까…」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 걱정인 것 같은 얼굴로 떠나 갔다……
+			PRINTFORMW 이것은 자신의 담당의 일이다. %ANAME(대상)%에 불필요한 부담을 줄 수는 없다
+			PRINTFORML 다시 서류 뭉치에 향하는 것도 한동안 하면 눈이 희미하게 보이기 시작한다
+			PRINTFORMW 연일의 피로가 탈이 났는지, 점점 의식이 몽롱해졌다……
+			PRINTFORML
+			PRINTFORMW
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")% 과로로 넘어져 버렸다!", 칼라_주의)
+			PRINTFORML
+			PRINTFORMW
+			PRINTFORML ·
+			PRINTFORML …
+			PRINTFORMW …
+			PRINTFORML 「……응?   깨달았는지 %ANAME(MASTER)%. 아아, 아직 자고 있으면 좋다. 괜찮아, 서류는 내가 정리하고 있기에」
+			PRINTFORML %조사처리(ANAME(MASTER),"가")% 의식을 되찾으면, %조사처리(ANAME(대상),"가")% 말을 건다. 아무래도 넘어진 %조사처리(ANAME(MASTER),"를")% 찾아내 간병해 주고 있던 것 같다
+			PRINTFORMW 「만약을 위해 한 번 더 보러 와서 좋았어요. 아무래도 가벼운 빈혈인 것 같지만, 다음에 분명하게 의사에게 보여 받으면 좋다」
+			PRINTFORML 도대체 어느 정도 정신을 잃고 있었을 것인가?   기일이 가까운 서류도 많다. 빨리 착수하지 않으면…
+			PRINTFORMW 「안 된다. 아직 자고 있으라고 말했겠지?   너는 무리를 해 넘어진 것이다. 일은 걱정하지 마」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 머리를 어루만지면서, 그 꼬리의 털끝에 무수한 펜을 갖게해 굉장한 속도로 서류를 처리하고 있다
+			PRINTFORMW 「나의 몸은 절대로 구미야?   이 정도는 것은 없다. 우선, 기일이 가까운 분부터 먼저 해치워 두었기 때문에」
+			PRINTFORML 결국 %조사처리(ANAME(대상),"는")% 대량으로 있던 서류의 다발을 눈 깜짝할 순간에 정리해 버렸다. 이것으로 한동안은 괜찮을 것이다
+			PRINTFORMW 「완전히. 노력하는 것은 훌륭하지만, 넘어지기 전에 우선 의지했으면 좋은 것이다. 아니면, 나로서는 의지할 수 없는걸까?」
+			PRINTFORMW 아니, 그런 것은 아니지만…자신의 일로 %ANAME(대상)%에 여분의 부담을 걸고 싶지 않았다는 생각이 강했다…
+			PRINTFORML 「…그런 상냥한 곳은 좋은점이지만, 그래서 자신이 넘어져서는 본전도 못 찾는다고……정말, 걱정했으니까…」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 그렇게 말하면 %조사처리(ANAME(MASTER),"를")% 껴안아, 꼬리로 전신을 상냥하게 감싸 온다
+			PRINTFORMW 「곁잠 해 주기 때문에 오늘은 이제 이대로 자면 돼……지금부터는 사양말고 나에게 응석부려줘도 괜찮으니까…」
+			ABL:대상:주도도Ｎ += 150
+			CFLAG:대상:호감도 += 100
+			CALL PRINT_ADD_EXP(MASTER, "정치경험치", RAND(5, 10), 1)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			KDVAR:대상:란_응석받아주기 = 1
+			PRINTFORMW
+		ELSE
+			PRINTFORMW 「후후, 맡겨 줘. 너는 여기서 조금 쉬고 있으면 좋다」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"를")% 무릎 베개로 재워 붙이면서, 그 꼬리의 털끝에 무수한 펜을 갖게해 굉장한 속도로 서류를 처리하고 있다
+			PRINTFORML 「나의 몸은 절대로 구미다. 이 정도는 것은 없다. 우선, 기일이 가까운 분부터 먼저 해치워 두었기 때문에」
+			PRINTFORMW 결국 %조사처리(ANAME(대상),"는")% 대량으로 있던 서류의 다발을 눈 깜짝할 순간에 정리해 버렸다. 이것으로 한동안은 괜찮을 것이다
+			PRINTFORML 「어때?   나에게 걸리면 이런 물건이다. 이 정도, 언제라도 의지해 주어도 좋으니까」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 매우 기분이 좋아 %ANAME(MASTER)%의 머리를 어루만지고 있다. 솔직하게 의지해 받을 수 있었던 것이 상당히 기뻤던 것 같다
+			PRINTFORMW 「그런데, 작업은 끝났지만,…아직 안색이 나쁜 것처럼 보이는구나. 뭔가 위에 상냥한 음료를 가져온다」
+			PRINTFORML 일이 끝나 한숨 돌린 후, %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"를")% 껴안아, 꼬리로 전신을 상냥하게 감싸 온다
+			PRINTFORML 「내가 곁잠 해 주기 때문에 오늘은 이제(이미/벌써/더는/정말) 이대로 잘까. …앞으로도 사양하지 않고, 언제라도 나에게 응석부려 주어도 좋으니까…」
+			PRINTFORMW ……다음날, %ANAME(대상)%에 치유된 효과인가, 특히 컨디션 불량도 없고 깨끗이 눈을 뜰 수가 있었다
+			ABL:대상:주도도Ｎ += 100
+			CFLAG:대상:호감도 += 150
+			KDVAR:대상:란_응석받아주기 = 1
+			;쿨 타임이 있으면-1
+			SIF COOLTIME:MASTER:0 < 0
+				CALL ADD_COOLTIME(MASTER, -1)
+			PRINTFORMW
+		ENDIF
+	CASE 1
+		PRINTFORML 심야. %ANAME(MASTER)%의 방에는 아직 빛이 켜지고 있다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 또다시 많은 서류 일에 쫓기고 있었다…
+		PRINTFORMW 「괜찮은가? 　%ANAME(MASTER)%. 괜찮다면 또 도울까?」
+		PRINTFORML 심야까지 끝나지 않는 일을 걱정해 주었는지, 또 %조사처리(ANAME(대상),"가")% 상태를 보러 와 준 것 같다
+		PRINTFORMW 자, 그럼, 어떻게 하지?
+		PRINTFORML
+		CALL ASK_YN("그러면, 호의를 받아들여", "아니, 이제 괜찮아")
+		IF RESULT == 1
+			PRINTFORML 「……아무래도, 오기로 말하고 있는 것은 아닌 것 같다. 안색도 나쁘지 않고」
+			PRINTFORML 그렇게 몇 번이나 손을 빌리는 것 같은 것은 기강이 서지 않는다는 것이다. %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 「이번은 괜찮아」라고 전했다
+			PRINTFORMW （뭐 확실히…내가 너무 주제넘게 참견하면 %ANAME(MASTER)%의 입장이 없는 것…조금 외롭지만 어쩔 수 없다）
+			PRINTFORML 「알았어. 그렇지만 야식 정도는 준비시켜 줘. 그 정도는 좋을 것이다?」
+			PRINTFORMW 정확히 아랫배가 비어 온 곳이다. %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"가")% 만들어 준 야식을 먹어 일에 착수했다
+			PRINTDATAW
+			DATA 덧붙여서 메뉴는 여우 우동이었다
+			DATA 덧붙여서 메뉴는 곡식의 신 스시였다
+			DATA 덧붙여서 메뉴는 유부의 된장국이었다
+			DATA 덧붙여서 메뉴는 유부의 샐러드였다
+			DATA 덧붙여서 메뉴는 구워 유부였다
+			DATA 덧붙여서 메뉴는 주머니식 자루였다
+			ENDDATA
+			PRINTFORML
+			PRINTFORML
+			PRINTFORMW …어떻게든 밤이 끝나기 전에 끝낼 수가 있었다. %조사처리(ANAME(MASTER),"는")% 기분 좋은 달성감과 같은 것에 휩싸여지면서 잠들었다…
+			CFLAG:대상:호감도 += 100
+			CALL PRINT_ADD_EXP(MASTER, "정치경험치", RAND(10, 25), 1)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			KDVAR:대상:란_응석받아주기 = -1
+			PRINTFORMW
+		ELSE
+			PRINTFORMW 의사표현에 응석부리면, %조사처리(ANAME(대상),"는")% 생긋 웃으면서 %ANAME(MASTER)%의 머리를 상냥하게 어루만진다
+			PRINTFORML 「후후. 기뻐, 솔직하게 의지해 줘. 좋아, 곧바로 정리해 줄거니까」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 그렇게 말하면, %ANAME(MASTER)%의 눈앞에서 많은 식신을 만들어 냈다
+			PRINTFORML 「이 녀석들은 복잡한 동작이야말로할 수 없지만, 이 정도의 잡무라면 문제 없게 처리할 수 있겠어」
+			PRINTFORMW 손바닥 사이즈의 식신들은 각각 펜을 쥐어 일에 착수한다
+			PRINTFORML 만약을 위해, 완성된 서류를 확인해도 특히 문제는 없었다. 편리한 능력이다……
+			PRINTFORMW 「그런데, 후은 식에 맡겨 괜찮아…뒤는, 그렇네…」
+			PRINTFORML 「%ANAME(MASTER)%, 밤 늦게까지 일로 피곤할 것이다. 내가 마사지 해 주겠어」
+			PRINTFORMW 그렇게 말하면서 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 어깨를 비비기 시작한다
+			PRINTFORML 힘 조절은 약한 것도 아니고, 아픈 것도 아닌 절묘한 안배에서의 주물러 품에, 무심코 소리가 샌다
+			PRINTFORMW 「후후…마음에 들어 주었는지?   이봐요, 이불에 누워…. 등이나 허리도 해 줄거니까」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 날씬해 교묘한 손놀림으로 적확하게 근육의 코리를 풀어, %조사처리(ANAME(MASTER),"를")% 황홀한 기분에 시킨다
+			PRINTFORMW 「꽤것일 것이다? 후후, 유카리님이도 이따금 실시하지만…꽤 평판이다♪」
+			PRINTFORML 애정을 담겨진 안마와 그녀의 달콤한 향기, 그리고 귓전으로 속삭여지는 상냥한 음색이 %조사처리(ANAME(MASTER),"를")% 잠으로 이끈다…
+			PRINTFORMW 「언제라도 자 버려도 괜찮으니까…뒤는 나에게 맡겨 두어라…앞으로도, 사양 같은거 필요없기에……♥」
+			PRINTFORML ·
+			PRINTFORML …
+			PRINTFORMW …완전히 숙면해 버리고 있었다…. 이튿날 아침, 책상에 위에는 잘 나온 서류가 남아 있었다
+			ABL:대상:주도도Ｎ += 150
+			CFLAG:대상:호감도 += 150
+			;쿨 타임이 있으면-1
+			SIF COOLTIME:MASTER:0 < 0
+				CALL ADD_COOLTIME(MASTER, -1)
+			KDVAR:대상:란_응석받아주기 ++
+			PRINTFORMW
+		ENDIF
+	CASE 2
+		PRINTFORMW 어떤일. 일에 쫓기는 %ANAME(MASTER)%에, 한층 더 서류 일이 돌려져 왔다. 무심코 웃음이 복받쳐 오는 만큼 대량으로…
+		PRINTFORML ……이니까? 그토록 해 어째서 편해지지 않는거야? 언제까지 이 일은 계속되는 거야?
+		PRINTFORMW 「아, %ANAME(MASTER)%. 또 일인가…은, 이 양은 심하구나……. 괜찮다면, 내가 할까?」
+		PRINTFORML 경련이 일어난 얼굴로 아연하게로 하고 있는 곳에, 또 %조사처리(ANAME(대상),"가")% 상태를 보러 와 주었다
+		PRINTFORML 과연 터무니 없는 양인 것으로, 심부름을 신청해 주고 있지만…
+		PRINTFORMW 자, 그럼, 어떻게 하지?
+		PRINTFORML
+		CALL ASK_YN("도와…", "괜찮아, 어떻게든 하는…어떻게든 하는거야…")
+		IF RESULT == 1
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 감정이 모두 사라진 것 같은 표정으로, %ANAME(대상)%에 「자신이 어떻게든 한다」라고 전했다
+			PRINTFORML 「에엣!? …그, 그런가……알았어……그, 그렇지만 별로, 언제라도 의지해 주어 괜찮기 때문에?」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 단단한 의지를 존중해 주었지만, 분명하게 불안한 모습이다…
+			PRINTFORML 「그러면, 그러면 경식 정도는 준비시켜 줘. 그 정도는 손 전해져도 괜찮을 것이다?」
+			PRINTFORMW …확실히, 에너지의 보급이 필요하다. %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 식사를 부탁하고 나서 일에 착수했다
+			PRINTDATAW
+			DATA 덧붙여서 메뉴는 여우 우동이었다
+			DATA 덧붙여서 메뉴는 곡식의 신 스시였다
+			DATA 덧붙여서 메뉴는 유부의 된장국이었다
+			DATA 덧붙여서 메뉴는 유부의 샐러드였다
+			DATA 덧붙여서 메뉴는 구워 유부였다
+			DATA 덧붙여서 메뉴는 주머니식 자루였다
+			ENDDATA
+			PRINTFORML ·
+			PRINTFORML …
+			PRINTFORMW …며칠 후
+			PRINTFORML ……마침내 %조사처리(ANAME(MASTER),"는")% 완수했다! 있을 수 없는 양을 모두 정리해 보였다!
+			PRINTFORMW 대상으로서 남들 수준의 감정을 잃어 버린 것 같은 생각이 들지만, 그것도 계속해서 돌아올 것이다…
+			PRINTFORMW 그림자로부터 %조사처리(ANAME(MASTER),"를")% 지켜보고 있었던 %조사처리(ANAME(대상),"는")% 무심코 눈물을 흘렸다. 마치 우리 아이가 위업을 완수한 모양을 기뻐하도록(듯이)…
+			PRINTFORML 끝난 서류를 담당에 건네줄 때
+			PRINTFORMW 다른 사람들을 모아 두고 있었을 뿐입니다만, 설마 혼자서 한 것입니까!?
+			PRINTFORMW 등이라고 말해진 것 같은 생각이 들지만, 아마 기분탓일 것이다
+			PRINTFORMW 후는 다만, 잘 뿐(만큼)…, 다만, 잘 뿐(만큼)…, 지금은 다만, 잘 뿐…………
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 그 후, 지나친 피로를 위해 한동안 드러누워 버렸다…
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")% 과로로 넘어져 버렸다!", 칼라_주의)
+			CALL ADD_COOLTIME(MASTER, 1)
+			PRINTFORMW ……이것 이후, 한동안 %조사처리(ANAME(MASTER),"는")% 서류 일이 면제되었다
+			CALL PRINT_ADD_EXP(MASTER, "정치경험치", RAND(40, 60), 1)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			KDVAR:대상:란_응석받아주기 = -1
+			PRINTFORMW
+		ELSE
+			PRINTFORML 이제 무리이다. %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 응석부리고 쓰러트릴 수밖에할 수 없었다…
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 눈물고인 눈으로 %ANAME(대상)%에 도움을 요구한다. 그 모양은 %ANAME(대상)%의 모성을 많이 자극한 것 같다
+			PRINTFORML 「아아, 아아!   나에게 맡겨 두어라!   괜찮아, 뒤는 아무것도 걱정 필요하지 않기 때문에」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"를")% 상냥하게 껴안아, 당신의 방법으로 만들어 낸 식과 다수의 꼬리로, 산과 같은 서류를 정리하기 시작했다
+			PRINTFORML 「나라도 이 양은 많다고 생각할거니까. 며칠으로 나누어 효율 좋게 끝내 가자. 우선은 도시의 방벽 수선 안건으로부터…」
+			PRINTFORMW 과연 모두를 통째로 맡김이라는 것도 마음이 괴롭다. 자신도 뭔가 도울까하고 제안하면, %조사처리(ANAME(대상),"는")% 정중하게 거절했다
+			PRINTFORML 「괜찮아, 나에게 맡겨 줘. 이제(이미/벌써/더는/정말) 더 이상, 너에게 괴로운 경험은 시키지 않기 때문에」
+			PRINTFORMW 심상치 않은 양의 서류를 앞에 두고 접힐 것 같게 되어 있었던 %ANAME(MASTER)%의 마음에, %ANAME(대상)%의 상냥한 말이 스며든다…
+			PRINTFORML 「오늘은 이제(이미/벌써/더는/정말) 자면 좋다…. 나의 가슴, 베개로 해 버려도 좋으니까…♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 얼굴을 부드러운 가슴으로 받아들여 등을 펑펑(툭툭)하고 문지르면서 자장가를 노래해 주었다
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 달콤한 향기와 자장가에 휩싸일 수 있어, 안심해 잠들었다……
+			CITY_GUARD:대상도시 += 20
+			CALL ICPRINT(@"%CITY_NAME:대상도시%의 방위율이<20>상승해,<{CITY_GUARD:대상도시}>가 되었다", "W", 칼라_주의)
+			PRINTFORML 
+			PRINTFORMW -  다음  일  -
+			PRINTFORML 
+			PRINTFORMW 「오늘은 병사의 모집 안건인가…아, 안녕 %ANAME(MASTER)%」
+			PRINTFORML %조사처리(ANAME(MASTER),"가")% 눈을 뜨면, 벌써 %조사처리(ANAME(대상),"는")% 것을 착수하고 있었다
+			PRINTFORML 「걱정은 필요하지 않아. 나중은, 모두 나에게 맡겨 두어라. 나쁘게는 하지 않는 거야」
+			PRINTFORMW 「그것보다…최근 바빴으니까 모여 있는 것이 아닌가?」
+			PRINTFORML 그렇게 말하면 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 사타구니를 만지작거린다. 그 하나의 물건은 이미 텐트를 치고 있었다
+			PRINTFORMW 「후후♥  여기는 아침부터 매우 건강하다. 오늘은 기운이 나는 것을 만들어 주겠어」
+			PRINTFORML 「그러니까 오늘 밤은 아무것도 신경쓰지 않고, 충분히 나에게 내도 좋으니까…♥」
+			PRINTFORMW ……결국 이 날은, 흐르게 되는 대로 %조사처리(ANAME(대상),"와")% 섹스를 즐겼다……
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			COUNTRY_SOLDIER:(CFLAG:대상:소속) += 4000
+			CALL ICPRINT("병이<4000>증가했다", "L", 칼라_주의)
+			PRINTFORML 
+			PRINTFORMW -  다음  일  -
+			PRINTFORML 
+			PRINTFORMW 「오늘은 투자 주위인가. 이것으로 대강 정리되지마…아, 안녕 %ANAME(MASTER)%」
+			PRINTFORML 오늘도 %조사처리(ANAME(대상),"는")% 벌써 일에 착수하고 있었다. 저만한 서류 뭉치가 이제(이미/벌써/더는/정말) 없어질 것 같다
+			PRINTFORMW 「후후후, 나에게 걸리면 이런 물건이야! …라고는 해도, 과연 지쳤군…」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 돌보기 (위해)때문에, 어깨 안마를 시작한다. 이 정도의 일 밖에할 수 없겠지만…
+			PRINTFORML 「앗…♥  응응…기분이 좋아, %ANAME(MASTER)%. 고마워요♥」
+			PRINTFORMW 「그렇지만 이것뿐으로는 조금 부족하구나…, %ANAME(MASTER)%. 오늘로 일도 정리될 것 같고…」
+			PRINTFORML 「포상으로서 오늘 밤은 나의 신체를 위로해 주지 않을까…♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 의지해, 간살스러운 소리로 유혹해 온다
+			PRINTFORMW ……결국 이 날도, %조사처리(ANAME(대상),"와")%의 섹스를 즐겼다……
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			CALL MODIFY_CITY_ECONOMY(대상도시2, RAND(15000, 25000))
+			PRINTFORML 
+			PRINTFORMW -  다음  일  -
+			PRINTFORML 
+			PRINTFORMW 「그런데, 이제(이미/벌써/더는/정말) 일은 끝났지만…너무 빨리 제출하면, 또 일을 돌려져 버릴지도」
+			PRINTFORML …확실히. 여하튼 2주간은 걸려 송곳이 된다고 생각하고 있던 일이 3일 정도로 끝나 버린 것이니까…
+			PRINTFORMW 「그러니까…응, %ANAME(MASTER)%…. 기한까지 날이 있고, 한동안 단 둘이서 천천히 하지 않는가…?」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 그렇게 말하면, 요염한 행동으로 %ANAME(MASTER)%에 껴안아, 귓전으로 열정적이게 속삭여 온다
+			PRINTFORMW 「지금까지 가득 노력해 온 것이니까, 조금 정도 천천히 해도 바치는 맞지 않는 거야…♥」
+			PRINTFORML 「먹고 싶은 것, 뭐든지 만들어 주겠어. 꼬리를 사용한 귀이개라든지 어때?   유카리 님도 중독 될 정도로 기분 괜찮다…」
+			PRINTFORMW 「그리고 너가 바란다면…좀 더 앞의 일도, 시라고 주어 버리겠어…♥」
+			PRINTFORML %ANAME(대상)%의 따듯해짐과 달콤한 향기, 달콤한 소리…그리고 부드러운 지체가 %조사처리(ANAME(MASTER),"를")% 싼다
+			PRINTFORMW …그것도 좋을지도…. %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 몸을 맡기기로 했다
+			PRINTFORML 「후후…그래그래. 솔직하게 응석부려 주어 기뻐♪  지금부터 내가, 충분히 달래 준다. 그래서…」
+			PRINTFORMW 「그 뒤는 쭉……섹스 하며 보내자♥」
+			FOR LOCAL, 0, 5
+				CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+				CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			NEXT
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 한층 더 며칠 후
+			PRINTFORML %ANAME(대상)%에 응석부리고 쓰러트린 나머지, 완전히 방으로부터 나오지 않았던 것이 화가 되었다
+			PRINTFORMW 틀어박혀 모습을 보이지 않았던 결과, 주위에 %ANAME(MASTER)% 사망설까지 흐르기 시작했기 때문에, 당황해 모두의 앞에 얼굴을 내미는 일이 되었다
+			PRINTFORML 그 때에 여기 한동안의 짓무른 생활이 밝혀져, %조사처리(ANAME(대상),"와")% 함께 두 명 다 같이 화가 나 버렸다
+			PRINTFORMW 한동안 %ANAME(대상)%에, 『응석 받아주기 금지령』이 나왔다……
+			CFLAG:대상:호감도 += 500
+			ABL:대상:주도도Ｎ += 300
+			ABL:대상:주도도Ｕ += 300
+			CALL COLOR_PRINTW(@"%ANAME(대상)%의 응석 받아주기에 의해, %ANAME(MASTER)%의 몸은 무디어져 버렸다!", 칼라_주의)
+			ABL:MASTER:방위 -= 1
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 방위가 1내렸다", 칼라_주의)
+			ABL:MASTER:무투 -= 1
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 무투가 1내렸다", 칼라_주의)
+			ABL:MASTER:지략 -= 1
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 지략이 1내렸다", 칼라_주의)
+			SIF !(MASTER == NAME_TO_CHARA("첸")) 
+				PRINTFORMW 첸에 「별로 %ANAME(대상)%님을 응석부리게 하지 말아요-」라고 다짐을 받아졌다……
+			KDVAR:대상:란_응석받아주기 = -1
+			PRINTFORMW
+		ENDIF
+ENDSELECT
+
+RETURN 1

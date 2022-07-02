@@ -1,0 +1,77 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_42_SP_1_EXIST
+RETURN 1
+
+@SKILL_42_SP_1_NAME
+RESULTS = 고신초래
+
+;레벨은 1-5까지
+@SKILL_42_SP_1_LEVEL
+RETURN 3
+
+;대상 선택
+@SKILL_42_SP_1_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+COMBAT_SKILL_TARGET = 발동번호
+RETURN 1
+
+;발동 판정
+@SKILL_42_SP_1_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN (발동부대 < 0 ? BATTLE_COMMANDER_NUM:발동측 <= 1 # BATTLE_COMMANDER_NUM:발동측 <= 2) 
+
+;효과를 여기에 기술
+@SKILL_42_SP_1_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML 스와코가 이 전투에 참가한다!
+LOCAL:1 = NAME_TO_CHARA("스와코")
+CALL BATTLE_SUMMON(발동측, LOCAL:1, 발동부대 >= 0)
+
+@SKILL_42_SP_1_EXPLANATION
+RESULTS = 자부대에 빈자리가 있을 때 발동. 소속에 관계없이 스와코를 참전시킨다.
+
+@SKILL_42_SP_1_CANT_TELL
+
+@SKILL_42_SP_1_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 300

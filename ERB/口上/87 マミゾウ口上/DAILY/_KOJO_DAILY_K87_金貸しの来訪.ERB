@@ -1,0 +1,91 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K87_LENDER_RATE(대상)
+#DIM 대상
+RETURN 100
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K87_LENDER_DECISION(대상)
+#DIM 대상
+
+SIF CFLAG:대상:특수상태
+	RETURN 0
+
+SIF IS_SP_COUNTRY(CFLAG:MASTER:소속)
+	RETURN 0
+
+SIF KDVAR:대상:마미조_대금업자 || KDVAR:대상:마미조_대금업자_반제기간
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 0)
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K87_LENDER_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K87_LENDER(대상)
+#DIM 대상
+#DIM 반제기간
+#DIM 융자액
+#DIM 반제액
+
+반제기간 = RAND(5, 10)
+융자액 = MONEY / 10 + GET_SUM_ECONOMY(CFLAG:MASTER:소속) * (ABL:MASTER:무투 + ABL:MASTER:방위 + ABL:MASTER:지략 + ABL:MASTER:정치 + 100) / 40000 * (반제기간)
+반제액 = 융자액 * 12 / 10
+
+PRINTFORMW %조사처리(ANAME(MASTER),"가")% 일을 하고 있으면, 시종이 손님을 고했다
+PRINTFORMW 뭐든지 「수상한듯한 요수가 방문해 왔다」의라고 한다
+PRINTFORMW 무슨 용무일까하고 의심하면서, %조사처리(ANAME(MASTER),"는")%, 만나기로 해 보았다
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORMW 「이것 참. 너가 %ANAME(MASTER)%인가. 나는 %NAME_FORMAL(대상)%. 대금업자를 하고 있다」
+PRINTFORMW 「이런 시대이니까, 뭔가 비용일 것이다?   내가 도와 주자는없는가」
+CALL ICPRINT(@"「그렇네, 돈<{융자액}>의 융자로, 기한은<{반제기간}>기, 반제액은<{반제액}>로 어떤가?」", "W", 칼라_주의)
+PRINTFORMW 징병에 훈련, 외교, 무슨 일에도 돈은 필요함
+PRINTFORMW 빚은 그다지 하고 싶지 않지만, 살아 남기 위해서(때문에) 수단은 선택해 있을 수 있을 리 없다
+PRINTFORML 자, 그럼, 어떻게 하지……
+PRINTFORML
+CALL ASK_MULTI_JUDGE("빌린다", 1, "그만둔다", 1, "히파악한다", GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상)
+
+IF RESULT == 1
+	PRINTFORMW 「그런가, 그것은 유감」
+	PRINTFORMW 「뭐, 이번은 인연이 없었는지의. 그러면, 나는 물러간다」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠났다……
+	KDVAR:대상:마미조_대금업자 = 1
+	RETURN 1
+ELSEIF RESULT == 2
+	PRINTFORMW 「무, 무엇을 한다!?」
+	PRINTFORMW 무허가의 금융업은 유감스럽지만 법도다
+	PRINTFORMW 병사에 명해 잡게 했다……
+	KDVAR:대상:마미조_대금업자 = 1
+	CALL CAPTURE(대상, CFLAG:MASTER:소속)
+	RETURN 1
+ENDIF
+
+MONEY += 융자액
+KDVAR:대상:마미조_대금업자_반제액 = 반제액
+KDVAR:대상:마미조_대금업자_반제기간 = 반제기간
+KDVAR:대상:마미조_대금업자 = 1
+PRINTFORMW 「계약 성립이다」
+CALL ICPRINT(@"기한은<{반제기간}>기, 반제액은<{반제액}>이니까, 부디 아무쪼록 부탁한다", "W", 칼라_주의)
+PRINTFORMW %조사처리(ANAME(대상),"는")% 떠났다……
+
+
+RETURN 1

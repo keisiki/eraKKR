@@ -1,0 +1,8 @@
+﻿;-------------------------------------------------
+;desc  :구상 데일리를 등록한다. REGISGER_KOJO_DAILY를 호출한다
+;param :대상:대상의 캐릭터 번호
+;-------------------------------------------------
+@CREATE_KOJO_DAILY_MAP_K91(대상)
+#DIM 대상
+CALL REGISTER_KOJO_DAILY(대상, 데일리_통상, "EMOTION_I_DONT_KNOW", "아직 모르는 감정")
+CALL REGISTER_KOJO_DAILY(대상, 데일리_통상, "STREET_FIGHTER", "나보다 강한 녀석을 만나러 간다")

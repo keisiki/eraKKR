@@ -1,0 +1,70 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K54_MOON_STYLE_TRAINING_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K54_MOON_STYLE_TRAINING_DECISION(대상)
+#DIM 대상
+
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("토요히메"), NAME_TO_CHARA("사구메"), NAME_TO_CHARA("에이린"), NAME_TO_CHARA("카구야"))
+	RETURN 0
+
+SIF KDVAR:대상:요리히메_월면식훈련
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K54_MOON_STYLE_TRAINING_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K54_MOON_STYLE_TRAINING(대상)
+#DIM 대상
+
+PRINTFORMW 「%ANAME(MASTER)%. 최근인로 있는 것은 아닙니까?」
+PRINTFORML 갑자기 방을 방문해 온 %ANAME(대상)%에, 그런 말을 들었다
+PRINTFORMW 「이런 시대입니다. 언제 어떠한이라고 하고도 방심은 금물. %ANAME(MASTER)%조차 좋다면, 내가 다시 단련해 줍니다만?」
+PRINTFORML 것의 그 다음에같이 말하지만, 반드시 최초부터 그럴 생각이었을 것이다. 복장 하고 어쩐지, 준비만반으로 보인다
+PRINTFORML 월에 군대를 지도하고 있었다고 하는 %PRONOUN(대상)%다. 반드시 열매가 있는 훈련을 해 주겠지만, 틀림없이 힘들 것이다
+PRINTFORML 그런데, 어떻게 할까……
+PRINTFORML 
+CALL ASK_YN("해 본다", "지금은 바쁘다")
+
+IF RESULT == 1
+	PRINTFORMW 「무……그렇습니까, 그러면 어쩔 수 없습니다만……」
+	PRINTFORMW 「그렇지만, 좋습니까, 단련을 결코 빠뜨리지 않도록!」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠났다……
+	KDVAR:대상:요리히메_월면식훈련 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「그렇습니까. 반드시 그렇게 말해 준다고 생각하고 있었어요」
+PRINTFORMW 「그렇게 정해지면 좋은 일은 서두른다!   자, 즉시 시작해요!」
+PRINTFORMW %ANAME(대상)%에 훈련장에 끌려갔다……
+PRINTFORMW 아니나 다를까, 훈련은 무섭고 힘들었다……
+CALL PRINT_ADD_EXP(MASTER, EXPNAME:GET_EXP(GETNUM(ABL, "무투")), RAND(10, 15), 1)
+CALL PRINT_ADD_EXP(MASTER, EXPNAME:GET_EXP(GETNUM(ABL, "방위")), RAND(10, 15), 1)
+CALL ADD_COOLTIME(MASTER, 3, 1)
+WAIT
+KDVAR:대상:요리히메_월면식훈련 = 1
+
+RETURN 1

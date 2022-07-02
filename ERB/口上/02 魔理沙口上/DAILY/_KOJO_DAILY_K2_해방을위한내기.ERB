@@ -1,0 +1,176 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K2_GAMBLE_FOR_FREEDOM_RATE(대상)
+#DIM 대상
+RETURN 150
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K2_GAMBLE_FOR_FREEDOM_DECISION(대상)
+#DIM 대상
+SIF !CHECK_KOJO_DAILY_HAPPEN(대상, 0, 1)
+	RETURN 0
+
+SIF CFLAG:MASTER:소속 != CFLAG:대상:포로처 || IS_SLAVE(대상) || IS_LOVER(대상) || IS_SLAVED_BY(대상)
+	RETURN 0
+
+SIF KDVAR:대상:마리사_해방을위한내기
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K2_GAMBLE_FOR_FREEDOM_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;특정의 조건을 채우는 캐릭터를 랜덤에 선택하는 경우에 이용
+;다른 함수는 필수이지만, 이것만은 없어도 좋다  라고 할까 퍼포먼스에 영향을 주므로 불필요하면 만들어서는 안 된다
+;대상이 존재하지 않고 데일리를 개시 할 수 없는 경우는 0을 돌려주는 것으로 데일리의 발생을 캔슬한다
+;---------------------
+@KOJO_DAILY_K2_GAMBLE_FOR_FREEDOM_SETTARGET(대상)
+#DIM 대상
+#DIM 레이무
+#DIM 앨리스
+#DIM 파츄리
+#DIM 니토리
+레이무 = NAME_TO_CHARA("레이무")
+앨리스 = NAME_TO_CHARA("앨리스")
+파츄리 = NAME_TO_CHARA("파츄리")
+니토리 = NAME_TO_CHARA("니토리")
+
+IF 레이무 > 0 && CFLAG:레이무:포로처 == CFLAG:대상:포로처
+	DAILY_TARGET:0 = 레이무
+	DAILY_TARGET_NUM ++
+ENDIF
+
+IF 앨리스 > 0 && CFLAG:앨리스:포로처 == CFLAG:대상:포로처
+	DAILY_TARGET:0 = 앨리스
+	DAILY_TARGET_NUM ++
+ENDIF
+IF 파츄리 > 0 && CFLAG:파츄리:포로처 == CFLAG:대상:포로처
+	DAILY_TARGET:0 = 파츄리
+	DAILY_TARGET_NUM ++
+ENDIF
+IF 니토리 > 0 && CFLAG:니토리:포로처 == CFLAG:대상:포로처
+	DAILY_TARGET:0 = 니토리
+	DAILY_TARGET_NUM ++
+ENDIF
+
+RETURN DAILY_TARGET_NUM > 0
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K2_GAMBLE_FOR_FREEDOM(대상)
+#DIM 대상
+#DIM 후보
+후보 = DAILY_TARGET:0
+PRINTFORML %조사처리(ANAME(MASTER),"가")% 감옥에 향하자, %조사처리(ANAME(대상),"는")% 간원해오기 시작했다.
+PRINTFORMW 「이봐, 너, %ANAME(후보)%도 붙잡고 있겠지?」
+PRINTFORML 「부탁해, 저 녀석은 놓아주지 않겠어?」
+PRINTFORMW 「나한테는 딱히, 뭘 하더라도 괜찮으니까…… 부탁해」
+PRINTFORML 친구를 생각한 말이다. 딱히 들어줄 의리도 없지만……
+CALL ASK_MULTI("해방한다", "거절한다", "내기를 한다")
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「엣…… 정말로?」
+		PRINTFORML 사실이고 뭐고, 그쪽이 말한 거잖아.
+		PRINTFORML 농담이었다고 한다면야 철회하겠지만……
+		PRINTFORMW 「아, 아니 그, 설마 정말로 해방시켜 주다니. 밑져야 본전이라고 생각하면서 말한 것 뿐이라서」
+		PRINTFORMW 「고마워. 너, 의외로 좋은 녀석이구나」
+		PRINTFORML 사람을 감금하고 있는 시점에서, 좋은 녀석이라고 말하지 않는다고 생각한다만.
+		PRINTFORMW 어쨌든, %조사처리(ANAME(후보),"은")% 해방해 주는 것으로 하자……
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(후보),"를")% 해방했습니다", 칼라_주의)
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 호감도가 상승했습니다", 칼라_주의)
+		CALL CAPTURE(후보, 0)
+		CFLAG:대상:호감도 += 300
+	CASE 1
+		PRINTFORMW 그녀의 우정은 아름답지만, 이쪽에개는 아무런 메리트도 없는 것이다.
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 부탁을 무시하기로 했다……
+	CASE 2
+		PRINTFORML 고려해 볼만한 것이긴 하다만, 단순 해방만으로는 재미있지 않다.
+		PRINTFORMW 내기를 하지 않겠는가 라고 말했다.
+		PRINTFORML 「내기……? 이상한 말을 하는 녀석이구만」
+		PRINTFORMW 「좋아, 하자. 그래서? 뭘로 하자는 거야? 검투사처럼 싸우면 되는 건가?」
+		PRINTFORML 물론, 중요한 포로에게 그렇게 위험한 일은 시킬 수 없다.
+		PRINTFORMW 다만, 딱 30분만큼, 절정을 참으면 되는 것 뿐이다.
+		PRINTFORML 견딜 수 있으면, %ANAME(후보)%도 %ANAME(대상)%도 해방시키겠다.
+		PRINTFORMW 다만, 만약 절정한다면, %ANAME(후보)%의 해방은 없음. %조사처리(ANAME(대상),"는")% 이쪽에게 복종해야 한다……
+		PRINTFORMW 「이 새끼가, 할 말이 있고 못할 말이 있지……!」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 분노를 느끼고 있는 것 같다.
+		PRINTFORMW 거절한다면, 두 사람 모두 감옥에 같힌 채다. 그렇게 전하자, 마지못해 수긍하는 듯한 모습으로 목을 세로로 흔들어왔다.
+		PRINTFORML 「……냉큼 끝내는 게 좋을거다」
+		PRINTFORML 언제까지 그 완고한 태도를 취할 수 있을 지, 한 번 보여봐라.
+		PRINTFORMW 기학적인 미소를 띄우면서, %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 쓰러트렸다……
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW ·
+		
+		LOCAL:1 = ABL:MASTER:성기술 + ABL:대상:욕망 + ABL:대상:Ｃ감 + ABL:대상:Ｂ감
+		
+		SELECTCASE LOCAL:1
+			CASE IS < 6
+				PRINTFORMW 「……아니 저기, 그토록 자신만만했으면서, 그것 밖에 안 되는 건가」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 노력했다. 어떻게 해서든지 %조사처리(ANAME(대상),"를")% 가게 하려고 했다
+				PRINTFORML ……만, 기술이 충분하지 않았던 것 같다.
+				PRINTFORMW 「뭔가 맥이 빠진다만…… 뭐 좋아, 그러면, 약속대로, 해방시켜주실까」
+				PRINTFORMW 어딘가 씁쓸함를 느끼면서, %조사처리(ANAME(MASTER),"는")% 두 명을 해방했다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(후보),"를")% 해방했습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 해방했습니다", 칼라_주의)
+				CALL CAPTURE(후보, 0)
+				CALL CAPTURE(대상, 0)
+			CASE IS < 12
+				PRINTFORMW 「아…… 그만둬 그만둬어엇, 앗…… 아앗, 아……!」
+				PRINTFORMW 「그만둬, 진짜로, 손대지마앗…… 아…… 아아아……!」
+				PRINTFORML 10분 정도 남았을 때, %ANAME(대상)%의 신체가 크게 떨렸다.
+				PRINTFORMW 절정 했어? 라고 귀에 속삭여주자, %조사처리(ANAME(대상),"는")% 붕붕 목을 세로로 흔들었다.
+				PRINTFORMW 고집쟁이의 비부를 만지작거려주자, 그녀의 신체는 알기 쉬울 정도로 경련했다.
+				PRINTFORMW 「우아…… 젠장, 젠장……」
+				PRINTFORMW 눈물을 흘려 분해하는 %ANAME(대상)%에게, 내기는 자신의 승리라고 전했다……
+				CALL FUCK(대상, "욕망, Ｃ, Ｂ")
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 굴복 시켰습니다", 칼라_주의)
+				CFLAG:대상:종속도 = MAX(1500, CFLAG:대상:종속도)
+				CFLAG:대상:의존도 = MAX(300, CFLAG:대상:의존도)
+				TALENT:대상:복종 = 1
+			CASEELSE
+				PRINTFORMW 「아앗♥, 읏♥, 아, 아앗♥」
+				PRINTFORMW 「아쿠읏!? 아, 거기, 거기……♥ 아우우♥」
+				PRINTFORMW 처음에는 강한 척하고 있었던 %조사처리(ANAME(대상),"이었")%지만, %조사처리(ANAME(MASTER),"가")% 조금 만지작거려주자, 눈 깜짝할 순간에 쾌락에 빠져버렸다.
+				PRINTFORMW 이미 약속했던 30분은 지나고 있었지만, %조사처리(ANAME(대상),"는")% 멈추라, 그만둬라 등 말하지 않는다.
+				PRINTFORMW 「응쿠우……♥ 응, 응웃…… 푸하아……♥」
+				PRINTFORML 그 입술에 키스해주자, 그녀는 스스로 적극적으로 혀를 걸어 오기 시작했다.
+				PRINTFORMW 그 눈동자에, %ANAME(후보)% 따위는 보이지 않았다. 이미 앞으로 더 다가올 쾌락에 대한 기대만 있을 뿐이다.
+				PRINTFORMW 슬슬 기회인가…… 그렇게 판단한 %조사처리(ANAME(MASTER),"는")%, %ANAME(대상)%에게 권유했다.
+				PRINTFORML %ANAME(GET_COUNTRY_BOSS(CFLAG:MASTER:소속))%의 군에 참가하면, 이런 걸 얼마든지 해주겠다.
+				PRINTFORMW 이번에는 이렇게 손가락으로 만지작거린 거 정도만 했지만, 좀 더 굉장한 일도 해 줄 수 있다.
+				PRINTFORMW 「알았엇♥ 알았으니까, 좀 더 해줫♥ 좀 더 기분 좋은 일 해줫♥」
+				PRINTFORML 두말 할 것도 없이, %조사처리(ANAME(대상),"는")% 권유를 받아들였다. 굉장히 쉽게 일이 풀렸다.
+				PRINTFORMW 군침을 늘어뜨리면서 사랑스럽게 허덕이는 그녀를, %조사처리(ANAME(MASTER),"는")% 마음껏 가게 해줬다……
+				CALL FUCK(대상, "욕망, Ｃ, Ｂ, Ｍ")
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 굴복 시켰습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 동료가 되었습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 여자로서 눈을 떴습니다", 칼라_주의)
+				CFLAG:대상:종속도 = MAX(3000, CFLAG:대상:종속도)
+				CFLAG:대상:의존도 = MAX(600, CFLAG:대상:의존도)
+				CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+				TALENT:대상:복종 = 1
+				SETBIT TALENT:대상:음란계, 소질_음란_음란
+		ENDSELECT
+ENDSELECT
+
+KDVAR:대상:마리사_해방을위한내기 = 1
+RETURN 1
+

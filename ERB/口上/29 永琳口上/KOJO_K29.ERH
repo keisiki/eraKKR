@@ -1,0 +1,4 @@
+﻿#DIM CONST 에이린_치료 = 0
+#DIM CONST 에이린_야크 = 1
+#DIM CONST 에이린_굿바이지성 = 2
+#DIM CONST 에이린_정자뇌 = 3

@@ -1,0 +1,10 @@
+﻿;-------------------------------------------------
+;desc  :구상 데일리를 등록한다. REGISGER_KOJO_DAILY를 호출한다
+;param :대상:대상의 캐릭터 번호
+;-------------------------------------------------
+@CREATE_KOJO_DAILY_MAP_K30(대상)
+#DIM 대상
+CALL REGISTER_KOJO_DAILY(대상, 데일리_통상, "DESCENDANT", "귀족의 후예와 승부")
+CALL REGISTER_KOJO_DAILY(대상, 데일리_통상, "DESCENDANT_SLAVE", "카구야_귀족의 후예의 노예신부")
+CALL REGISTER_KOJO_DAILY(대상, 데일리_통상, "INVITATION_FROM_KAGUYA", "귀족의 권유")
+CALL REGISTER_KOJO_DAILY(대상, 데일리_통상, "KAWAYA_HIME", "화장실공주")

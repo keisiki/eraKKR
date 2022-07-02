@@ -1,0 +1,176 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_GROOMING_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_GROOMING_DECISION(대상)
+#DIM 대상
+
+;주인공은 페니스가 있는 것
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_GROOMING_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_GROOMING(대상)
+#DIM 대상
+
+PRINTFORMW 휴게실에 들어가면 카게로가 털고르기를 하고 있었다
+PRINTFORMW 큰 꼬리에 정중하게 브러싱을 걸치고 있다
+PRINTFORMW 「～～～♪」
+IF IS_SLAVE(대상)
+	PRINTFORMW 「…? 앗! 주인님, 안녕하세요」
+	PRINTFORMW 그녀는 당신을 눈치채면 당황해 소파로부터 일어섰다
+	PRINTFORMW 어떻게 하지?
+	CALL ASK_YN("털고르기를 해 준다" ,"신경쓰지 않게 말한다")
+	IF RESULT == 1
+		PRINTFORMW 신경쓰지 않게 말하면 그녀는 흠칫흠칫 다시 소파에 앉았다
+		PRINTFORMW 정면에 앉은 당신에 때때로 시선을 보내면서 브러싱을 계속했다
+		PRINTFORMW …무엇을 하는 것도 아니게 그녀의 털고르기를 바라보고 온화한 시간을 보냈다
+	ELSEIF RESULT == 0
+		IF KDVAR:대상:카게로_브러싱 == 1
+			PRINTFORMW 오랜만에 또 브러싱을 해 주는 일로 했다
+			PRINTFORMW 그녀는 조심스럽게, 하지만 기쁜듯이 꼬리를 내몄다
+		ELSE
+			PRINTFORMW 아무래도 방해를 해 버린 것 같다
+			PRINTFORMW 떠날까하고 생각했지만, 문득 털고르기를 해 주려고 생각났다
+			PRINTFORMW 「엣! 주, 주인님이 일부러?」
+			PRINTFORMW 「아, 아니오! 그런 폐이라니…네…」
+			PRINTFORMW 당신의 의사표현에 카게로는 당황하고 있었지만, 이윽고 흠칫흠칫 브러쉬를 내몄다
+			PRINTFORMW 당신의 무릎 위에 조심스럽게 두어진 큰 꼬리를 가볍게 어루만진다
+			PRINTFORMW 「읏…!」
+			PRINTFORMW 그녀의 목으로부터, 희미하게 긴장한 같은 한숨이 새었다
+			PRINTFORMW 손상시키지 않게 상냥하게 천천히, 어루만지는 것처럼 브러싱을 해 준다
+			PRINTFORMW 「응읏…읏……후응…」
+			PRINTFORMW 때때로 신체를 진동시키는 그녀의 한숨이 서서히 풀려 가는 것을 느낀다
+			PRINTFORMW 「엣? 아, 네! …기분, 좋습니다」
+			PRINTFORMW 상태를 물으면 그녀는 희미하게 웃는 얼굴을 보여 응했다
+			KDVAR:대상:카게로_브러싱 = 1
+		ENDIF
+		PRINTFORMW …특히 말도 주고 받지 않았지만, 잠깐의 사이 단 둘의 온화한 시간을 보낼 수 있었다
+		CFLAG:대상:호감도 += 40 + RAND:320
+	ENDIF
+ELSEIF IS_LOVER(대상)
+	PRINTFORMW 「…? 아라, %ANAME(MASTER)%, 안녕」
+	PRINTFORMW 그녀는 당신을 눈치채면 생긋 웃고 손을 흔들어 왔다
+	PRINTFORMW 「이것? 털고르기야…정기적으로 하고실악어 되어 버려」
+	PRINTFORMW 약간 진절머리 난 같은 표정으로 그녀는 꼬리에 브러쉬를 건다
+	PRINTFORMW 「혹시 흥미 있어? …그러면, 그러면, 해 봐?」
+	PRINTFORMW 당신의 시선을 눈치챈 그녀로부터 제안과 함께 브러쉬를 내밀어졌다
+	PRINTFORMW 어떻게 하지?
+	CALL ASK_YN("털고르기 한다" ,"사양해 둔다")
+	IF RESULT == 1
+		PRINTFORMW 익숙해지지 않는 것으로 손상시키거나 하고 싶지는 않다
+		PRINTFORMW 「그래」
+		PRINTFORMW 당신이 사양하면 그녀는 조금 유감스러운 듯이 중얼거렸다
+		PRINTFORMW …그녀가 브러싱을 끝낼 때까지, 모두 정신이 없는 회화를 즐겼다
+		CFLAG:대상:호감도 += 20 + RAND:160
+	ELSEIF RESULT == 0
+		IF KDVAR:대상:카게로_브러싱 == 1
+			PRINTFORMW 다시 시켜 받는 일로 했다
+			PRINTFORMW 그녀는 생긋 웃으면 당신의 근처에 앉아, 꼬리와 브러쉬를 내몄다
+		ELSE
+			PRINTFORMW 이전부터 그 꼬리에는 흥미가 있던, 물론 시켜 받는 일로 했다
+			PRINTFORMW 「에헤헤, 상냥하게 해?」
+			PRINTFORMW 당신이 맡으면 그녀는 기쁜듯이 웃어 브러쉬를 건네주었다
+			PRINTFORMW 그녀의 근처에 앉아, 무릎 우에에 보내진 큰 꼬리를 어루만져 준다
+			PRINTFORMW 「아읏…가, 갑자기 손으로 손대어서는 안 돼, 깜짝 놀라기 때문에」
+			PRINTFORMW 푹푹항의하는 그녀에게 사과해, 상냥하게 브러싱을 개시한다
+			PRINTFORMW 자주(잘) 손질 되고 있는 꼬리는 둥실둥실로 어루만지고 있어도 마음 좋았다
+			PRINTFORMW 「읏, 그렇게, 적당히…능숙해요」
+			PRINTFORMW 그녀도 때때로 신체를 진동시키면서 마음 좋은 것같이 숨을 내쉰다
+			PRINTFORMW 「응-, 이것 좋네요…에헤헤, 앞으로도 해 받을까?」
+			PRINTFORMW 싱글벙글웃으면서 제안하는 그녀의 꼬리는 무릎 위에서 흔들흔들 흔들리고 있었다
+			KDVAR:대상:카게로_브러싱 = 1
+		ENDIF
+		PRINTFORMW …브러싱을 하면서 그녀와 정신이 없는 회화를 주고 받아, 온화한 시간을 즐겼다
+		CFLAG:대상:호감도 += 40 + RAND:320
+	ENDIF
+ELSEIF CFLAG:대상:호감도 >= 1000
+	PRINTFORMW 그녀는 당신을 눈치채면 싱긋 웃어 근처에 앉는 것처럼 재촉했다
+	PRINTFORMW 당신도 또 그녀에게 인사를 하면서 소파에 걸터앉게 해 받았다
+	PRINTFORMW 한동안 날씨나 정치의 이야기 따위 적당한 잡담을 한다
+	PRINTFORMW 그 사이도 카게로는 팔을 계속 움직이고 브러싱을 계속하고 있었다
+	PRINTFORMW 「…그렇게 가만히 응시해, 어떻게든 했어?」
+	PRINTFORMW 무심코 그녀의 꼬리에 정신을 빼앗기고 있으면 그녀에게 이상하게 여겨졌다
+	PRINTFORMW 「혹시 신경이 쓰인다의?」
+	PRINTFORMW 당신이 긍정하면 그녀는 어딘가 부끄러운 것 같은 표정으로 귀를 쫑긋쫑긋 시켰다
+	PRINTFORMW 「…그러면, 당신도 브러싱 해 봐?」
+	PRINTFORMW 흠칫흠칫 브러쉬가 내밀어진다
+	PRINTFORMW 어떻게 하지?
+	CALL ASK_YN("시켜 받는다" ,"그만둔다")
+	IF RESULT == 1
+		PRINTFORMW 익숙해지지 않는 것으로 손상시키거나 하고 싶지는 않다
+		PRINTFORMW 「그래」
+		PRINTFORMW 당신이 사양하면 그녀는 그 만큼 고해 브러싱에 돌아왔다
+		PRINTFORMW …그 뒤는 때때로 잡담을 하는 정도의 완만한 시간이 지나 갔다
+		CFLAG:대상:호감도 += 20 + RAND:160
+	ELSEIF RESULT == 0
+		IF KDVAR:대상:카게로_브러싱 == 1
+			PRINTFORMW 또 시켜 받는 일로 했다
+			PRINTFORMW 그녀는 어딘지 모르게 기쁜듯이 꼬리를 흔들고 있었다
+		ELSE
+			PRINTFORMW 모처럼인 것으로 시켜 받는 일로 했다
+			PRINTFORMW 「너무 강하게 해서는 안 돼요?」
+			PRINTFORMW 그녀는 조금 부끄러운 듯이 하면서 꼬리를 당신의 무릎 위에 태워 왔다
+			PRINTFORMW 직접 접해 보면 살짝 부드럽고 겉모습 이상으로 중량이 있다
+			PRINTFORMW 손상시키지 않게 신경을 쓰면서 천천히 브러쉬를 걸어 준다
+			PRINTFORMW 「응, 그래그래…그런 느낌」
+			PRINTFORMW 아마 무의식 중에일 것이다, 그녀의 목으로부터 희미하게 한숨이 새었다
+			PRINTFORMW 「의외로 능숙하구나, 이전 펫을 기르고 있었던 일이 있는 거야?」
+			PRINTFORMW 「아, 밑은 손대어서는 안 돼요…정말로 민감하고 부끄러우니까」
+			PRINTFORMW 그녀의 주문에 응하면서 꼼꼼하게 브러싱을 계속했다
+			KDVAR:대상:카게로_브러싱 = 1
+		ENDIF
+		PRINTFORMW …둘이서 정신이 없는 회화를 주고 받으면서, 온화한 시간을 보냈다
+		CFLAG:대상:호감도 += 30 + RAND:240
+	ENDIF
+ELSE
+	PRINTFORMW 그녀는 들어 온 당신을 일별만 하면 브러싱에 돌아왔다
+	PRINTFORMW 어떻게 하지?
+	CALL ASK_YN("말을 건다" ,"떠난다")
+	IF RESULT == 1
+		PRINTFORMW 방해를 해도 나쁘다
+		PRINTFORMW 당신은 휴게실을 뒤로 했다
+	ELSEIF RESULT == 0
+		PRINTFORMW 「에에, 안녕하세요」
+		PRINTFORMW 당신이 말을 걸면 그녀는 가볍게 대답을 했다
+		PRINTFORMW 아무래도 방해는 아닌 같다
+		PRINTFORMW 당신은 그녀의 정면의 소파에 걸터앉았다
+		PRINTFORMW 「………? 어떻게든 했어?」
+		PRINTFORMW 털고르기 하는 그녀의 모습을 바라보고 있었더니 이상하게 여겨졌다
+		PRINTFORMW 당황해 아무것도 아니면 돌려준다
+		PRINTFORMW 「…말해 두지만, 손대게 하지 않으니까」
+		PRINTFORMW 그녀는 휙 꼬리를 숨기면 지특으로 한 눈으로 당신을 응시해 왔다
+		PRINTFORMW 그런 생각은 없었지만 오해시켜 버린 것 같다
+		PRINTFORMW 당신이 그런 생각은 없다고 변명하면 그녀는 다시 브러싱을 재개했다
+		PRINTFORMW …그 뒤는 때때로 잡담을 하는 정도의 완만한 시간이 지나 갔다
+		CFLAG:대상:호감도 += 10 + RAND:80
+	ENDIF
+ENDIF
+
+RETURN 1
+
+

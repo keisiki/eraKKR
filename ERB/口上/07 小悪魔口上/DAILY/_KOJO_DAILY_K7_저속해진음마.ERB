@@ -1,0 +1,89 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K7_HOBGOBLIN_GANGBANG_RATE(대상)
+#DIM 대상
+RETURN 300
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K7_HOBGOBLIN_GANGBANG_DECISION(대상)
+#DIM 대상
+#DIM 고블린
+고블린 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_홉고블린)
+
+SIF 고블린 == -1 || CFLAG:대상:포로처 != 고블린 || CFLAG:대상:소속 == 고블린
+	RETURN 0
+
+SIF KDVAR:대상:소악마_저속해진음마
+	RETURN 0
+
+SIF GETBIT(TALENT:대상:특수세력함락계, 특수세력_홉고블린)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K7_HOBGOBLIN_GANGBANG_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K7_HOBGOBLIN_GANGBANG(대상)
+#DIM 대상
+#DIM 고블린
+
+고블린 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_홉고블린)
+
+
+PRINTFORMW 「아핫♥  응, 하, 앗, 히이읏♥」
+PRINTFORMW 「읏, 아하, 아붓, 응붓!? 응읍, 쥬룻, 응후웃♥」
+PRINTFORML 어슴푸레한 감옥에서, %조사처리(ANAME(대상),"가")% 홉고블린들에게 범해지고 있다.
+PRINTFORML 관철해지는 쾌감에, %PRONOUN(대상)%의 눈은 점점 녹아간다. 내밀어지는 페니스를 빨면서, 자발적으로 상대를 기쁘게 해주고 있었다.
+PRINTFORMW 벌써 몇 발이고 씨가 뿌려진 두 구멍은, 다시 관철해질 때마다 퓨즉퓨즉 백탁이 튀어나고 있다……
+PRINTFORML 「쥬릅, 응후, 응웃, 응긋, 쥬루룻♥」
+PRINTFORML 명령받는 대로 허리를 흔들면서, 입 안의 육봉에 혀를 걸어, 빨아 간다.
+PRINTFORMW 음마의 피를 가진 %PRONOUN(대상)%의 기술은, 홉고블린들을 충분히 만족시키고 있는 듯 하다.
+PRINTFORMW 「응훗, 아앗, 응--♥, 핫, 아핫, 아앗……♥」
+PRINTFORML 이윽고 봉사하고 있던 페니스가 끝에 다달아, 질내, 항내, 그리고 입 안에 쿨렁쿨렁 백탁이 채워져간다.
+PRINTFORMW 체내를 수컷의 욕망으로 더럽혀져 가는 것에 대해, %조사처리(ANAME(대상),"는")% 황홀감마저 느끼고 있었다.
+PRINTFORMW 「아핫, 하, 하-……♥」
+PRINTFORML 붙잡혔을 당시, "그런 일"을 위해 사용될 것이라는 것을 알았을 때 %조사처리(ANAME(대상),"는")% 그 사실에 비관하지 않았다.
+PRINTFORML 그 몸에 음마의 피를 가지고 있기에, "그런 일"에 저항이 없다.
+PRINTFORML 욕망의 배출구로 쓰이는 것도, 동시에 잠깐의 장난으로는 나쁘지는 않다고 생각한 것이다.
+PRINTFORMW 그러나 하나 잘못 생각한 것이 있었다면 그들의 인원수, 욕망, 그리고 성기술을 얕보고 있었다는 것일까.
+PRINTFORML 능욕은 끊임없이, 며칠이고 계속되었다.
+PRINTFORML 그 사이 %조사처리(ANAME(대상),"는")% 빈틈 없이 백탁으로 칠해져가며 세지도 못할 만큼 절정하고 있었다.
+PRINTFORMW 결국 %PRONOUN(대상)%는, 홉고블린들 없이는 살 수 없게 되어버렸다.
+PRINTFORMW 「아핫, 빨리 자지, 다음 꺼 주세욧…… 아아읏♥」
+PRINTFORML 여기서 이러고 있으면 안 된다, 탈출하지 않으면……
+PRINTFORML 머리로는 %PRONOUN(대상)% 스스로도 이해하고 있다.
+PRINTFORML 그렇지만, 이미 %PRONOUN(대상)%는 그들의 페니스의 포로가 되어 있었다.
+PRINTFORMW 조금만 더, 이 상황을, 이 쾌락을 맛보는 것도 나쁘지 않을 것이다.
+PRINTFORMW 그렇게 생각하면서 새롭게 체내로 돌진한 페니스를 즐기고 있던 %PRONOUN(대상)%는, 이미 그들을 위한 훌륭한 육변기였다……
+PRINTFORML 
+CALL COLOR_PRINTL(@"%조사처리(ANAME(대상),"가")% 홉고블린의 육변기가 되었다", 칼라_주의)
+TRYCALLFORM %SP_COUNTRY_NAME_ENG:특수세력_홉고블린%_FALLEN_LEAVE_MARK(대상)
+PRINTFORML 
+
+FOR LOCAL, 0, 3
+	CALL FUCK_GANGBANG_SP(대상, GET_SPERM_ID("홉고블린"), "홉고블린의 페니스", "홉고블린", 고블린)
+NEXT
+
+KDVAR:대상:소악마_저속해진음마 = 1
+SETBIT TALENT:대상:특수세력함락계, 특수세력_홉고블린
+CALL CHANGE_COUNTRY(대상, 고블린, 1)
+
+RETURN 1

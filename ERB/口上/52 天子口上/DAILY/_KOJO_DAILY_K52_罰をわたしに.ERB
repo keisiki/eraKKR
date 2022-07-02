@@ -1,0 +1,72 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K52_PUNISHMENT_FOR_ME_RATE(대상)
+#DIM 대상
+RETURN 125
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K52_PUNISHMENT_FOR_ME_DECISION(대상)
+#DIM 대상
+
+;유카리와 이쿠는 안 돼（녀인 것으로, 위의 조건으로 튕겨질 것이지만）
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("유카리"), NAME_TO_CHARA("이쿠"))
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && IS_SLAVE(대상) && COOLTIME:대상:0 >= 2 && HAS_PENIS(MASTER)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K52_PUNISHMENT_FOR_ME_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K52_PUNISHMENT_FOR_ME(대상)
+#DIM 대상
+
+PRINTFORML 부상한 %조사처리(ANAME(대상),"를")% 문병하러 가면, %PRONOUN(대상)%는 미안한 것 같은 표정을 보였다……
+PRINTFORMW 「%ANAME(MASTER)%, 미안해요, 저질러 버렸어요……」
+PRINTFORMW 「평상시라면 별로 어떻게라는 것 없지만, 부주의였어요」
+PRINTFORMW 「……저기, 나, 실패해 버렸기 때문에……"벌", 해 주지 않을래……?」
+PRINTFORMW 무슨 말을 하고 있는지 의심하는 %조사처리(ANAME(MASTER),"이지만")%, %조사처리(ANAME(대상),"는")% 진심인 것 같다
+PRINTFORML 그런데, 어떻게 할까……
+PRINTFORML
+CALL ASK_YN("벌 한다", "그만둔다")
+IF RESULT == 1
+	PRINTFORMW 「……그래」
+	PRINTFORMW 「상냥한 주인님이군요. 그건 그걸로 기쁜 일이예요」
+	PRINTFORMW 「……조금 어딘지 부족하지만」
+	PRINTFORML %조사처리(ANAME(대상),"는")% 그것 뿐, 벌의 일에 대해서는 말하지 않았다……
+	RETURN 1
+ENDIF
+PRINTFORML %조사처리(ANAME(대상),"가")% 그렇게 바란다면, 그렇게 하자……
+PRINTFORMW %조사처리(ANAME(MASTER),"는")%, 황홀한 표정을 띄우는 %ANAME(대상)%에 덮어씌웠다……
+CFLAG:대상:종속도 += 300
+CFLAG:대상:의존도 += 300
+ABL:대상:주도도Ｕ -= 100
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:조교중돌아가지않는다 = 1
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 1
+TRAIN_PLACE = %ANAME(대상)%의 방
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+RETURN 1

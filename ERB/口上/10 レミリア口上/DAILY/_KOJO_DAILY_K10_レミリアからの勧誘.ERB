@@ -1,0 +1,148 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K10_INVITATION_FROM_REMILLIA_RATE(대상)
+#DIM 대상
+RETURN 50
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K10_INVITATION_FROM_REMILLIA_DECISION(대상)
+#DIM 대상
+#DIM 홍마관
+홍마관 = GET_CITYNUMBER("홍마관")
+
+;대상과 별세력으로, 포로가 아니고, 안면도 없는 5%
+SIF CFLAG:대상:특수상태 == 특수상태_사망
+	RETURN 0
+
+;일회뿐
+SIF KDVAR:대상:레밀리아_레밀리아로부터의권유
+	RETURN 0
+
+;주인공은 페니스를 가지고 있는 것
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+;대상이 군주이며, 주인공이 군주가 아니다
+SIF GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상 || GET_COUNTRY_BOSS(CFLAG:MASTER:소속) == MASTER
+	RETURN 0
+
+SIF 홍마관 == -1
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K10_INVITATION_FROM_REMILLIA_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;------------------------------------
+;레밀리아로부터의 권유
+;-----------------------------------
+@KOJO_DAILY_K10_INVITATION_FROM_REMILLIA(대상)
+#DIM 보스
+#DIM 대상
+#DIM 홍마관
+
+홍마관 = GET_CITYNUMBER("홍마관")
+보스 = GET_COUNTRY_BOSS(CFLAG:MASTER:소속)
+
+
+
+PRINTFORML %조사처리(ANAME(MASTER),"가")% 일을 하고 있으면, 부하가 편지를 가져왔다
+PRINTFORM 발신인은
+CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+PRINTFORMW . 강력한 흡혈귀로서 (들)물었던 적이 있지만, 안면은 없을 것이다
+PRINTFORMW 무슨 용무일거라고 생각해 읽어 보면, 파티의 권유였다
+PRINTFORML 군주라면 그래도, 자신과 같은 일개의 사관을 불러 어떻게 할 생각일 것이다……
+PRINTFORML 의문에 지나지 않지만, 홍마관이라고 하면 훌륭한 저택이라고 (듣)묻고, 거기서의 파티라고 하면 각 세력의 유력자들이 공동착수가 될 것이다
+PRINTFORMW 출석해 얼굴을 팔아 두는 것도 좋을지도 모른다……
+PRINTFORML 자, 그럼, 어떻게 하지……
+PRINTFORML
+CALL ASK_YN("출석한다", "그만둔다")
+IF RESULT == 1
+	PRINTFORML 높은 분의 놀이에 교제해 줄 필요도 없을 것이다
+	PRINTFORML 그렇게 생각한 %조사처리(ANAME(MASTER),"는")%, 결석에 말을 붙여 대답을 냈다……
+	KDVAR:대상:레밀리아_레밀리아로부터의권유 = 1
+	RETURN 0
+ENDIF
+PRINTFORML 모처럼 권해진 것이다. 가 보는 것도 나쁘지 않을 것이다……
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML 홍마관이라는 것은, 소문에 듣는 이상으로 붉고, 그리고 컸다
+PRINTFORMW 놀란 것은, 그 외관 이상으로 안이 널찍이 하고 있던 것이다. 도대체 어떤 구조일 것이다
+PRINTFORML 그것은 차치하고, 파티는 상당한 활기를 보이고 있었다
+PRINTFORMW 유력자의 모임일까하고 생각했는데, 의외로 판단력 없게 말을 걸고 있던 것 같고, 요정까지 섞여 오고 있었지만……
+PRINTFORMW 「홍마관에 어서 오십시오, 손님. 즐겨 주고 있을까?」
+PRINTFORML 혼자서 술을 즐기고 있으면, 말을 걸 수 있다. 푸른 머리카락에 붉은 눈동자. 등에는 박쥐의 날개.
+PRINTFORMW 소문에 들은 %NAME_FORMAL(대상)%그 사람이었다
+PRINTFORMW 인사하려고 하면, 그녀는 그것을 멈춘다
+PRINTFORMW 「딱딱한 인사는 빼기야. 그것보다 조금 이야기합시다. 붙어 계(오)세요」
+PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 손을 잡아 당겨져 발코니로 데리고 나가졌다
+PRINTFORMW 오늘 밤은 달이 예쁘게 나와 있는 대신에 으스스 춥고, 그 때문인가 발코니에는 아무도 없다
+PRINTFORMW ……밀담에는 딱 좋은 장소다
+PRINTFORMW 「내가 다만 즐거움을 위해서(때문에) 파티를 열었다니, 물론 생각하지 않겠지요?」
+PRINTFORML 수긍했다. 아무리 사교적이어도, 보고도 알지도 않는 일개의 사관에게 일부러 초대장을 보내버리는 일은 하지 않을 것이다
+PRINTFORMW 하물며 그녀는, 그야말로 자존심의 높은 것 같은 타입이다. 시시한 사람이 자신의 관에 들어가는 것 따위, 허가는 하지 않을 것이고……
+PRINTFORMW 「%ANAME(MASTER)%, 우수한 무장이라고 (듣)묻고 있어요」
+PRINTFORMW 「나는 그러한 인간을 손에 넣기 위해서(때문에)라면, 돈도 수고도 아끼지 않는 주의야」
+PRINTFORMW 「어떨까. 집에 오지 않아?   대우도, %ANAME(보스)%보다 훨씬 자주(잘) 해 준다」
+PRINTFORMW 「여자가 원하신다면 그것도……말야」
+PRINTFORMW 「후후, 나도, 어차피 이룬다면 우수한 아이 쪽이 좋은 것」
+PRINTFORML %ANAME(대상)%의 미소는, 외관과는 어울리지 않은, 요염한 것이었다
+IF IS_MALE(MASTER)
+	PRINTFORMW 여자라는 것은 즉, 그녀 자신을 나타내고 있을 것이다
+ELSE
+	PRINTFORML 여자라는 것은 즉, 그녀 자신을 나타내고 있을까
+	PRINTFORMW 그녀는 어디에서 냄새 맡아냈는지, %ANAME(MASTER)%의 신체에게도 조사가 붙어 있는 것 같다
+ENDIF
+PRINTFORMW ……그렇다 치더라도, 뭔가 있다고 생각하고 있었지만, 설마 빼내기를 걸칠 수 있다고는
+PRINTFORML 놀라울 정도은 아니다. 환상향은 혼미의 시대에 있다. 세력이 살아남으려면, 우수한 인재는 필수다
+PRINTFORML 이쪽이라고 해도, 살아남아 가기 위해, 조금이라도 강력한 세력에 도착해 두는 것이 유리한 계책이다
+PRINTFORML 일부러 이렇게 (해) 말을 걸어 올 정도다. 이야기를 받으면, 그 담보는 매우 클 것이다
+PRINTFORMW 한편, 지금의 주군의 방면과의 인간 관계는, 틀림없이 뒤틀려 버릴 것이다
+PRINTFORMW 자, 그럼, 어떻게 하지……
+CALL SINGLE_DRAWLINE
+PRINTFORML %ANAME(대상)%의 영지수:{GET_OWN_CITY(CFLAG:대상:소속)} %ANAME(보스)%의 영지수:{GET_OWN_CITY(CFLAG:MASTER:소속)}
+PRINTFORML 
+CALL ASK_YN("이야기에 오른다", "그만둔다")
+IF RESULT == 0
+	PRINTFORMW 「그렇게 말해 준다고 생각하고 있었어요」
+	PRINTFORMW 「그러면……아무쪼록 부탁해요」
+	PRINTFORMW 내며진 손을, %조사처리(ANAME(MASTER),"는")% 딱딱하게 꽉 쥐었다……
+	LOCAL:0 = MIN((ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치 + ABL:MASTER:방위) * 200, 50000)
+	CALL COLOR_PRINTW(@"준비금으로 해서 돈{LOCAL:0}를 받았습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_핑크)
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(보스),"와")%의 외교 관계가, 매우 뒤틀렸습니다", 칼라_경고)
+	MONEY += LOCAL:0
+	TALENT:대상:합의 = 1
+	TALENT:대상:쵸로인 = 1
+	CFLAG:대상:안면 = 1
+	CFLAG:대상:호감도 = MAX(CFLAG:대상:호감도, 800)
+	CFLAG:대상:의존도 = MAX(CFLAG:대상:의존도, 200)
+	CALL CHANGE_RELATION_O_TO_O(보스, 대상, -500, 500)
+	CALL CHANGE_RELATION_O_TO_O(보스, MASTER, -500, 500)
+	CALL CHANGE_COUNTRY(MASTER, CFLAG:대상:소속, 1)
+	KDVAR:대상:레밀리아_레밀리아로부터의권유 = 1
+ELSE
+	PRINTFORMW 「아라, 그렇게」
+	PRINTFORMW 「조금 의외이구나. 타 주는 것이라는 듯이 생각했지만」
+	PRINTFORMW 「뭐, 어쩔 수 없네요. 그런 일이라면, 단념해요」
+	PRINTFORML 이 손의 이야기를 거절한 이상, 칼부림 사태가 되는 것을 각오 하고 있었지만, %조사처리(ANAME(대상),"는")% 시원스럽게 단념했다
+	PRINTFORMW 의외로 생각하고 있으면, %조사처리(ANAME(대상),"는")% 입술을 뾰족하게 한다
+	PRINTFORMW 「파티에 부른 손님에게 폭력을 휘두르는 만큼, 나는 멋없지 않아요」
+	PRINTFORMW 「추운 곳에 데리고 나가 나빴지요. 파티를 즐겨 줘」
+	PRINTFORMW 그 후, 홀로 돌아간 %조사처리(ANAME(MASTER),"는")%, 지금의 이야기를 가슴에 끝내 파티를 즐겼다……
+	KDVAR:대상:레밀리아_레밀리아로부터의권유 = 2
+ENDIF
+
+RETURN 1

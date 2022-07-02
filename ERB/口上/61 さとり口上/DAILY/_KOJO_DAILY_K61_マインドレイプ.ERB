@@ -1,0 +1,190 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K61_MINDR_RATE(대상)
+#DIM 대상
+RETURN 25
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K61_MINDR_DECISION(대상)
+#DIM 대상
+
+;만약을 위해
+SIF KDVAR:대상:사토리_마인드레이프 == -1
+	RETURN 0
+
+;당신의 욕망이 A이상(A는 8이상)
+SIF ABL:MASTER:욕망 < 랭크역치:랭크_그외:랭크_A
+	RETURN 0
+
+;당신이 페니스를 가지고 있다
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+;처녀이다
+SIF !TALENT:대상:처녀
+	RETURN 0
+
+;연 막, 복종, 쵸로인은 아니다
+SIF IS_SLAVE(대상) || IS_LOVER(대상) || IS_SLAVED_BY(대상) || TALENT:대상:쵸로인
+	RETURN 0
+
+;(대상, 일행력, 비포로, 안면의 유무를 묻지 않는다)
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, -1) 
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K61_MINDR_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K61_MINDR(대상)
+#DIM 대상
+#DIM 욕망치
+
+욕망치 = ABL:MASTER:욕망
+
+PRINTFORMW 궁전안을 걷고 있으면, %조사처리(ANAME(대상),"가")% 이쪽을 찾아내고 성큼성큼 다가왔다
+PRINTFORMW 「좀, %ANAME(MASTER)%, 이야기가 있습니다만」
+PRINTFORML 「여기 최근, %ANAME(MASTER)%의 행패상은 눈에 거슬리는 것이―-----」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 말하고 있는 도중에 돌연 말을 중단되게 해 풀썩 주저앉도록(듯이) 무릎을 꿇었다
+PRINTFORMW 아무래도 %ANAME(MASTER)%의 색놀이를 비난하려고 하고 있던 것 같지만, 모습이 이상하다…
+PRINTFORMW 「하…쿠…♥  개, 이런, 여기까니…♥」
+PRINTFORML %조사처리(ANAME(대상),"는")% 괴로운 듯이 가슴을 눌러 숨을 거칠게 하고 있다…
+PRINTFORMW 열병에 들떴는지같이 뺨은 붉고, 눈동자는 걸죽 물기를 띠고 있다…
+PRINTFORMW 「저, 접근하지 말라고!」
+PRINTFORMW %조사처리(ANAME(MASTER),"가")% 돕고 일으키려고 손을 뻗으면, %조사처리(ANAME(대상),"는")% 공포에 얼굴을 경련이 일어나게 해 거절했다
+PRINTFORMW 그리고 무서워한 얼굴로 %조사처리(ANAME(MASTER),"를")% 보면서, 주저앉은 채로 바작바작 뒤로 물러나 했다…
+PRINTFORMW 「그만두어…가까워지지 말고…그 이상, 나의 마음에…♥」
+PRINTFORMW 하지만 동시에 그 소리는 달콤하게 녹아, 무서워한 눈동자의 안쪽에는 뭔가 뜨거운 물건이 머물고 있었다
+PRINTFORMW 보면, 옷의 위로부터도 알 정도로 유두는 딱딱해져, 핑 그 존재를 주장하고 있다
+PRINTFORMW 그리고, %조사처리(ANAME(대상),"가")% 뒤로 물러나 한 자취에는, 가쓰유가 기었는지같이 젖은 길이 되어있었다…
+PRINTFORML 그 일을 눈치챈 %조사처리(ANAME(대상),"는")%, 감싸도록(듯이) 가슴과 하복부를 손으로 누르지만
+PRINTFORMW 그 행동조차 선정적인 것이 되어, 암컷의 색과 향기를 감돌게 하고 있었다…
+PRINTFORML …아무래도 %ANAME(MASTER)%의 너무 강렬한 욕망을 읽어내 버린 것으로
+PRINTFORMW 거기에 끌려가도록(듯이) 강제적으로 육체가 발정 당해 버린 것 같다…
+PRINTFORML %조사처리(ANAME(MASTER),"는")%―-
+CALL ASK_YN("거리를 취한다", "떨어뜨린다")
+IF RESULT == 1
+	PRINTFORMW 사태를 이해한 %조사처리(ANAME(MASTER),"는")% 생긋 웃으면, %조사처리(ANAME(대상),"를")% 자기 방으로 끌어 들였다
+	PRINTFORMW 「싫엇, 그만햇!   싫어, 싫어엇!」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 지금부터 행해지는 것을 독해 공포의 소리를 높였지만, 지금의 그녀에게 저항하는 힘은 일절 남아 있지 않았다…
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 침대에 앉아, 무릎 위에 실었던 %조사처리(ANAME(대상),"를")% 뒤로부터 껴안고 있다…
+	PRINTFORMW 그 뿐이라면 사이 화목한 연인의 광경이지만, %조사처리(ANAME(대상),"는")% 그저 단순히 공포 하고 있다…
+	PRINTFORMW 「아아, 그만두어…♥  그만두어…♥  그런 것을 보이지 말고…♥」
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에, 이것까지 어떤 일을 했는지를 말해 들려주고 있었다
+	PRINTFORML 누구를 어떤 농간으로 떨어뜨려, 범해, 괴롭힘으로 했는가…
+	PRINTFORMW 얼마나 정액을 따라, 페니스로 질육을 후벼파, 여자로서 눈을 뜨게 해 주었는지…
+	PRINTFORMW 미세하게들이세를 뚫어, 당시의 정경을 띄우면서 %ANAME(대상)%에 들려주었다
+	PRINTFORMW 「아―-아―-♥  히, 너무해♥  그런 일까지…♥」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 이미 능력의 억제도 하지 못하고, %조사처리(ANAME(MASTER),"가")% 띄운 광경을 읽어, 그것을 우리 일과 같이 뇌내에서 체감 계속 하고 있다…
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 처녀인 채, 몇십회로 범해져 가게 되어 계속 사랑 받았다
+	PRINTFORMW 
+	PRINTFORML %ANAME(대상)%의 사타구니는 흘렸는지라고 생각할 정도로 흠뻑에 젖고
+	PRINTFORMW 더러움을 모르는 음순은, 속옷 너머로에서도 아는 만큼 갖고 싶어하는 듯이 실룩거리고 있었다
+	PRINTFORMW 그리고 무의식 중에, 발기한 %ANAME(MASTER)%의 페니스에 필사적으로 문질러, 위로를 요구했다…
+	PRINTFORMW 「싫어어…♥  삼켜져 버리는…♥  내가 삼켜져 버리는…♥」
+	PRINTFORMW 「도와♥  도와 주세요♥  무서운, 무서운 것…♥」
+	PRINTFORMW 공포에 몰아진 %ANAME(대상)%에, %조사처리(ANAME(MASTER),"는")% 아이를 어르도록(듯이) 『안심해라』라고 속삭였다
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% 아이같이 무서워해, 마음을 범하고 있는 %ANAME(MASTER)%에조차 매달리는 만큼 약해진 그녀를 견딜 수 없고 사랑스럽고 느낌
+	PRINTFORMW 귓전으로 몇 번이나, 본심으로부터의 사랑의 말을 속삭였다…
+	PRINTFORMW 「히, 아, 아♥  아♥  만난다―-♥♥♥」
+	PRINTFORML 마약과 같이 스며드는 상냥한 말에, 드디어 %ANAME(대상)%의 정신은 결궤 해
+	PRINTFORMW %ANAME(MASTER)%의 팔 중(안)에서 몸을 뒤로 젖히게 하면서, 강렬한 절정을 맞이했다…
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 팔의 훈계를 풀면, 힘이 빠진 %ANAME(대상)%의 신체는 마루에 붕괴되었다
+	PRINTFORMW 절정의 여운에 잠긴 %조사처리(ANAME(대상),"를")% 앞에 두고, %조사처리(ANAME(MASTER),"는")% 페니스를 꺼내 보였다
+	PRINTFORMW 「--아…♥」
+	PRINTFORML 일어난 %조사처리(ANAME(대상),"는")% 빛이 없는 눈동자로 넋을 잃고페니스를 바라봐
+	PRINTFORMW 그리고 %조사처리(ANAME(MASTER),"가")% 범한 많은 암컷이 한 것과 같이, 복종을 맹세하는 입맞춤을 그 첨단에 베풀었다…
+	CFLAG:대상:종속도 += 1340 + ( 20 * 욕망치 ) 
+	EXP:대상:절정경험 += 1
+	TALENT:대상:복종 = 1
+	TALENT:대상:쵸로인 = 1
+	TALENT:대상:합의 = 1
+	CALL FUCK(대상, "Ｍ, 봉사, 성기술, 욕망, 펠라티오", "키스상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", "", "", "강간")
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 복종시켰습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_주의)
+	PRINTFORMW 
+	CALL ASK_YN("오늘은 보류", "이대로 범한다")
+	IF RESULT == 1
+		PRINTFORMW %조사처리(ANAME(MASTER),"가")% 시선을 향하면, %조사처리(ANAME(대상),"는")% 그것만으로 %ANAME(MASTER)%의 요구를 이해했다
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 스스로 옷을 벗어 던지면, 침대 위에서 다리를 열어, 음순을 손가락으로 벌려 보였다…
+		PRINTFORML 더러움을 모르는 핑크색의 암컷구멍은, 마치 색정광의 창녀같이 음란하게 실룩거림
+		PRINTFORMW 투명한 밀을 흘러넘치게 해, %ANAME(MASTER)%의 것을 기다리고 있다…
+		PRINTFORMW 「네♥　%조사처리(ANAME(대상),"는")% 주인님 전용의 암노예입니다♥」
+		PRINTFORML 「주인님의 자지로, 부디 음란 처녀 보지를 구멍내 주세요♥」
+		PRINTFORMW 「멋대로 파헤쳐♥  자궁을 후벼파 범해 유린해 주세요♥」
+		PRINTFORML 「농후 정액 발라, 두 번 다시 냄새가 잡히지 않을 정도 마킹 해 주세요♥」
+		PRINTFORMW 「마음과 같이♥  몸도 일생, 원래에 돌아올 수 없을 정도 질척질척해♥」
+		PRINTFORMW 지금은 완전하게 정욕의 포로가 된 %조사처리(ANAME(대상),"는")%, 미통녀라고는 생각되지 않을 정도(수록) 추잡하게 %조사처리(ANAME(MASTER),"를")% 권했다…
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 『마무리』에 만족해, %ANAME(대상)%에 덮어씌우면, 단숨에암컷구멍을 관철했다…
+		PRINTFORMW 「″, 뺨″″, 오″오″응♥♥♥」
+		PRINTFORMW 투덜투덜 처녀막을 찢어지면서, %조사처리(ANAME(대상),"는")% 짐승 같아 보인 교성을 올려 절정 했다
+		PRINTFORML 움찔움찔 경련하는 질육의 감촉에, %조사처리(ANAME(MASTER),"는")% 몇 초전까지 %조사처리(ANAME(대상),"가")% 처녀였던 일도 잊고
+		PRINTFORMW 본능이 요구하는 대로 허리를 흔들어, 가차 없이질을 유린했다
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 일발 찌르기 마다 자신의 신체가 만들어 바뀌어져 가는 것을 자각해, 파멸적인 쾌락에 빠졌다…
+		PRINTFORMW 그날 밤, %ANAME(MASTER)%의 방으로부터는 교성이 그치는 일은 없었다…
+		CALL FUCK(대상, "Ｖ, 봉사, 성교, 욕망, 성기술, Ｖ성교", "질내사정, 처녀상실", GET_ID(MASTER), "", ANAME(MASTER), "", "화간")
+		CALL FUCK(MASTER, "성기술, 성교, Ｃ, 사정", "동정상실, 키스상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "화간")
+		CFLAG:대상:종속도 += 500
+		CFLAG:대상:의존도 += 500
+	ELSE
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에, 오늘은 이대로 방으로 돌아가도록(듯이) 명령했다
+		PRINTFORMW 「그, 그런…!」
+		PRINTFORMW 틀림없이 이대로 범해 받을 수 있다고 생각하고 있었는지, %조사처리(ANAME(대상),"는")% 절망의 표정을 띄웠다
+		PRINTFORML 하지만 %조사처리(ANAME(MASTER),"는")%, 이대로 기세로 섹스 하는 것은 한 번 더 없다
+		PRINTFORMW 제대로 준비를 하고 나서 철저하게 범해 주기 때문에 그때까지 기다려라―-(와)과 설득했다
+		PRINTFORMW 하면 %조사처리(ANAME(대상),"는")% 그 모습을 상상했는지, 오슬오슬 등줄기를 진동시켜 충실히 머리를 늘어뜨리며 받아들였다
+		PRINTFORMW 「네…기다리고 있습니다, 주인님…♥」
+		PRINTFORMW 그 모양은 완전하게 훌륭한 암캐의 그래서 있어, %조사처리(ANAME(MASTER),"는")% 만족스럽게 웃음을 띄웠다
+		PRINTFORMW 그리고 어떤 플레이로 순결을 흩뜨려 주는지, 차분히 생각하기로 했다…
+		EXP:대상:욕망경험치 += 5
+	ENDIF
+ELSE
+	PRINTFORMW 이대로는 %ANAME(대상)%의 정신이 견딜 수 없다
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 스스로 거리를 취해, %ANAME(대상)%에 자신의 방에 돌아오도록(듯이) 명령했다
+	PRINTFORMW 「네, 네…」
+	PRINTFORMW 거리를 취한 것으로 다소는 안정되었는지, %조사처리(ANAME(대상),"는")% 비틀비틀도와 온 길을 되돌려 갔다
+	PRINTFORMW 한동안 만나지 않는 편이 좋을지도 모른다…
+	PRINTFORMW 
+	PRINTFORMW %조사처리(ANAME(MASTER),"와")% 헤어진 후, %조사처리(ANAME(대상),"는")% 자기 방에서 모포에 파오눕고 있었다
+	PRINTFORMW 하지만 아직도 그 숨은 난폭하고, 때때로 뜨겁게 녹는 것 같은 한숨을 흘리고 있었다
+	PRINTFORMW （아…설마, 그렇게 굉장한 욕망의 소유니…）
+	IF ABL:MASTER:욕망 >= 15
+		PRINTFORMW 뇌리에 뛰어들어 온 정욕은, 완전하게 늘어붙어 버리고 있었다…
+		PRINTFORMW 그 정경을 잊는 것 따위 할 수 없을 것이다
+	ELSE
+		PRINTFORMW 뇌리에 뛰어들어 온 정욕은, 지금도 남은 불과 같이 %조사처리(ANAME(대상),"를")% 괴롭혀지고 있다…
+	ENDIF
+	PRINTFORMW （저런 비전…저런 일을 정말로 되면, 어떻게 되어 버리는 거야…? ）
+	PRINTFORMW 손가락은 자연히(과) 다리의 사이에 성장해 뜨겁게 숨을 흘리면서 자위에 빠지고 있다
+	PRINTFORMW 이윽고 그런데도 부족하다라는 듯이, %조사처리(ANAME(대상),"는")% 모포를 물리쳐, 엉덩이를 높게 내밀어 질척질척 음순을 휘젓기 시작했다…
+	PRINTFORMW 「후아, 아―-아♥  는, 아-♥」
+	PRINTFORMW 움찔움찔 허리를 뛰게 해 %조사처리(ANAME(대상),"는")% 절정 해, 침대 위에 애액을 흩뿌렸다
+	PRINTFORMW 「하아…하아…내일부터, 어떤 얼굴을 해 만나면 좋겠지요…♥」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 괴로운 듯이 한숨을 쉬지만, 그 소리는 파멸적인 기대로 가득 차 있었다…
+	EXP:대상:자위경험치 += 2
+	EXP:대상:절정경험 += 1
+	TALENT:대상:쵸로인 = 1
+ENDIF
+CFLAG:대상:안면 = 1
+KDVAR:대상:사토리_마인드레이프 = -1
+
+RETURN 1

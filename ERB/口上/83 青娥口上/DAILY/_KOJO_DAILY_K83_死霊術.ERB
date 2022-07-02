@@ -1,0 +1,131 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K83_NECRO_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K83_NECRO_DECISION(대상)
+#DIM 대상
+
+;죽은 사람이 1명은 없으면 안 돼
+LOCAL:2 = 0
+FOR LOCAL:0, 0, CHARANUM
+	SIF CFLAG:(LOCAL:0):특수상태 == 특수상태_사망
+		;BREAK 하면 LOCAL는 1증가한다
+		GOTO PASSED
+NEXT
+
+RETURN 0
+
+$PASSED
+
+SIF KDVAR:대상:청아_사령방법 == 2
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K83_NECRO_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K83_NECRO(대상)
+#DIM 대상
+#DIM 소체
+#DIM 소생대상
+
+
+IF KDVAR:대상:청아_사령방법
+	PRINTFORMW 「%ANAME(MASTER)%님%ANAME(MASTER)%님」
+	PRINTFORML 「또 사령방법, 손을 대어 봅니까?」
+	PRINTFORML 「『소체』는 필요하게 됩니다만……」
+ELSE
+	PRINTFORMW 「%ANAME(MASTER)%님%ANAME(MASTER)%님」
+	PRINTFORML 불려 되돌아 보면, %조사처리(ANAME(대상),"가")% 벽을 빠져 방에 들어 오는 곳이었다
+	PRINTFORMW 벽을 빠지는 만큼 급한 용무인 것인가? 라고 말을 걸면, %조사처리(ANAME(대상),"는")% 후후, 라고 미소를 띄웠다
+	PRINTFORMW 「사람에게 보여지고 싶지 않은 것 같은, 꺼림칙한 용무……라면 기뻐해 줍니까?」
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 목적을 알기 (위해)때문에, 이야기를 계속하도록(듯이) 재촉했다
+	PRINTFORMW 「흥미를 가져 주어 기뻐요」
+	PRINTFORMW 「……만약, 뭐든지 (들)물어 주는 충실머슴이 손에 들어 온다고 하여, %ANAME(MASTER)%님은 어떻게 하십니까?」
+	PRINTFORMW 「암살, 모략, 혹은 밤시중에 사용하는 것도 좋아……어째서도 입니다, 에에, 뭐든지」
+	PRINTFORMW 「%ANAME(MASTER)%님이 바란다면, 준비할 수 있어요. 사령방법은 뭐든지 할 수 있어요. 에에」
+	PRINTFORMW 「대신에, 산 『소체』가 필요하게 됩니다만, 이것은 어떻게라도 됩니다지요?」
+	PRINTFORMW 「화나는 저 녀석, 마음에 들지 않는 저 녀석, 자신을 쫓아버릴 것 같은 녀석, 그러한 배를 사용하면, 일석이조라고 생각하지 않습니까?」
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% 당황했다. 즉, %조사처리(ANAME(대상),"는")% 사망자소등 다투어진하고 있다
+	PRINTFORMW 교환에, 대신에 산 인간을 제물로 할 필요가 있으면
+	PRINTFORMW 그것은 외법도 좋은 곳이지만, 얻을 수 있는 이익도 틀림없이 크다……
+	PRINTFORMW 「빠른 이해입니다. 과연, 우리 나라의 자랑하는 우수한 인재라고 할 뿐(만큼)은 있어요」
+	PRINTFORML 「그래서……어떻게 하십니까?   외도에 떨어져 봅니까?」
+ENDIF
+PRINTFORML
+CALL ASK_YN("부탁한다", "거절한다")
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「양해 했어요」
+		$SELECT_OBJECTIVE
+		PRINTFORML 그런데, 누구를 제공할까……
+		CALL SELECT_CHARA_LIST_ONLY_LOGIC_SLG("KOJO_DAILY_K83_NECRO_VICTIM", "DEFAULT")
+		소체 = RESULT
+		IF 소체 == -1
+			PRINTFORMW 「아라, 이제 와서가 되어 죄가 자각된 것입니까?   후후」
+			PRINTFORMW 「뭐, 그런 일이라면 어쩔 수 없습니다, 안녕히」
+			PRINTFORMW 그렇게 말하면, %조사처리(ANAME(대상),"는")% 벽을 빠져 어딘가에 사라져 갔다……
+			KDVAR:대상:청아_사령방법 = 1
+			RETURN
+		ENDIF
+		PRINTFORMW 「그래서?   어떤 분을 소생하게 해요?」
+		CALL SELECT_CHARA_LIST_ONLY_LOGIC_SLG("KOJO_DAILY_K83_NECRO_OBJ", "NONE")
+		소생대상 = RESULT
+		IF 소생대상 == -1
+			PRINTFORMW 「아라, 소체를 바꿀 수 있습니까?」
+			PRINTFORMW 「아무쪼록 잘, 천천히 선택하셔 주세요. 우후후」
+			GOTO SELECT_OBJECTIVE
+		ENDIF
+		CALL CHANGE_COUNTRY(소체, 0, 1, 1)
+		CFLAG:소생대상:호감도 += 1000
+		CFLAG:소생대상:종속도 += 10000
+		CFLAG:소생대상:의존도 += 5000
+		CALL CHANGE_COUNTRY(소생대상, CFLAG:MASTER:소속)
+		TALENT:소생대상:합의 = 1
+		TALENT:소생대상:쵸로인 = 1
+		TALENT:소생대상:예속 = 1
+		KDVAR:대상:청아_사령방법 = 1
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW 「기다리게 했습니다, %ANAME(MASTER)%만을 위해서 사는 충실머슴이 완성되었어요」
+		CALL COLOR_PRINTW(@"%ANAME(소생대상)%가 소생했습니다", 칼라_주의)
+	CASE 1
+		PRINTFORMW 「아라, 좋아요?」
+		PRINTFORMW 「즐길 수 있을까하고 생각하고 있던 것이지만……」
+		PRINTFORMW 「그것이라면 어쩔 수 없네요. 안녕히」
+		KDVAR:대상:청아_사령방법 = 2
+ENDSELECT
+
+RETURN 1
+
+
+@SELECT_CHARA_LIST_SHOW_LOGIC_KOJO_DAILY_K83_NECRO_VICTIM(대상)
+#DIM 대상
+RETURN CFLAG:대상:소속 == CFLAG:MASTER:소속 && CFLAG:대상:행동불능상태 != 행동불능_아이 && !IS_ANIMAL(대상) && !IS_SP_CHARA(대상) && 대상 != MASTER && 대상 != NAME_TO_CHARA("청아")
+
+@SELECT_CHARA_LIST_SHOW_LOGIC_KOJO_DAILY_K83_NECRO_OBJ(대상)
+#DIM 대상
+RETURN CFLAG:대상:특수상태 == 특수상태_사망

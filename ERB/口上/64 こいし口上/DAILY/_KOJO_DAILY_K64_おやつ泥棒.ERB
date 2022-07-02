@@ -1,0 +1,223 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K64_OYATU_THIEF_RATE(대상)
+#DIM 대상
+RETURN 60
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K64_OYATU_THIEF_DECISION(대상)
+#DIM 대상
+
+;대상이 군주는 아니다
+SIF GET_COUNTRY_BOSS(CFLAG:대상:소속) == 대상
+	RETURN 0
+
+;끝나고 있으면 나오지 않는다
+SIF KDVAR:대상:코이시_간식도둑 == -1
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K64_OYATU_THIEF_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K64_OYATU_THIEF(대상)
+#DIM 대상
+#DIM 판정치
+#DIM 쾌락저속해지고했다
+
+
+판정치 = MIN(ABL:MASTER:지략 + KDVAR:대상:코이시_간식도둑 * 20, 40)
+
+
+;판정 실패
+IF KDVAR:대상:코이시_간식도둑 == 0 || (RAND:100 >= 판정치 && KDVAR:대상:코이시_간식도둑 != 5)
+	CALL COLOR_PRINTW(@"아렉!!!!!!!!?", 칼라_경고)
+	PRINTFORML 기대해 둔 간식이 없어져 있다!
+	PRINTFORMW 확실히 찬장에 넣어 두었을 것인데!
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% 당황해 부하나 동료에게 물어보고 다니지만, 아무도 먹지 않다고 한다
+	PRINTFORML 설마 간식에 다리가 나 도망쳐 가거나는 하지 않을 것이다 해, 누군가가 먹어 버렸을 것이다
+	PRINTFORMW 허락하는 진심, 간식도둑……!
+	CALL ADD_COOLTIME(MASTER, 1)
+	KDVAR:대상:코이시_간식도둑 ++
+	RETURN 1
+ENDIF
+
+
+;판정을 클리어 하면 붙잡는다.
+PRINTFORML 쥐죽은 듯이 조용한 밤의 궁정. 거기에, 이상하게 움직이는 그림자가 있었다
+PRINTFORMW 그림자는 찬장을 열어……%ANAME(MASTER)%의 간식을 꺼냈다!
+PRINTFORMW --거기까지다!
+PRINTFORMW 「도대체!   놓아―!」
+PRINTFORM %조사처리(ANAME(MASTER),"는")% 달려들어, 그림자를 억누른다. 그림자의 정체는―-
+CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+PRINTFORMW 다!
+PRINTFORML 과연, 무의식을 조종하는 그녀의 능력이라면, 궁정에 잠입해 간식을 군것질하는 것 따위 용이함
+PRINTFORMW 를 이해하는 것과 동시에, %ANAME(MASTER)%의 등줄기가 추워진다
+PRINTFORMW 이 아이의 능력을 가지고 하면, 요인 암살조차도 세키자의 손을 비트는 것 같은 것은?
+PRINTFORMW 「저기, 놓아란 말야. 훔쳐먹음 한 것은 사과하기 때문에―」
+PRINTFORML %조사처리(ANAME(대상),"는")% 바동바동날뛰고 있다. 단순한 간식도둑이라면 웃어 용서해 주어도 괜찮지만……정말로 좋을까
+PRINTFORML 그녀의 능력이, %ANAME(GET_COUNTRY_BOSS(CFLAG:MASTER:소속))%에 송곳니를 벗기는 것에 안 될까……?
+PRINTFORML
+CALL ASK_MULTI_JUDGE("용서해 준다", 1, "위병을 부른다", 1, "간식을 준다", 1, "「간식」를 준다", HAS_PENIS(MASTER))
+IF RESULT == 0
+	PRINTFORMW 아니아니. 순진한 아이인 것 같고, 기우일 것이다
+	PRINTFORMW 그렇게 생각한 %조사처리(ANAME(MASTER),"는")%, %조사처리(ANAME(대상),"를")% 놓아 주었다
+	PRINTFORMW 「고마워요!   이번에 답례하네요!」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 꾸벅 인사 하면, 그대로 사라졌다. 무의식 중에 잠복했을 것이다……
+	PRINTFORML
+	IF GET_COUNTRY_BOSS(CFLAG:대상:소속) != -1
+		PRINTFORML
+		PRINTFORMW 후일, %ANAME(GET_COUNTRY_BOSS(CFLAG:대상:소속))%로부터, 사과의 명과가 닿았다
+		PRINTFORMW 아무튼 아무튼의 맛이었다……
+		CALL CHANGE_RELATION_C_TO_C(CFLAG:대상:소속, CFLAG:MASTER:소속, 200, -200)
+	ELSE
+		PRINTFORMW 후일, %ANAME(MASTER)%의 머리맡에, 엿이 놓여져 있었다
+		PRINTFORMW 딸기맛이었다……
+	ENDIF
+	CFLAG:대상:호감도 += 200
+ELSEIF RESULT == 1
+	PRINTFORMW 이 아이가 만약, 악의를 느끼면. 매우 위험한 것이 된다……
+	PRINTFORMW 그렇게 생각한 %조사처리(ANAME(MASTER),"는")%, 위병을 불러내, %조사처리(ANAME(대상),"를")% 투옥시켰다……
+	CALL CAPTURE(대상, CFLAG:MASTER:소속)
+	CFLAG:대상:호감도 -= 300
+	CALL CHANGE_RELATION_O_TO_O(대상, MASTER, -300, 300)
+ELSEIF RESULT == 2
+	PRINTFORML 이 아이도 배를 굶고 있었을 것이다
+	PRINTFORMW 찬장에서 도너츠를 꺼내, 반반 나누기 했다……
+	PRINTFORMW 「이것 주는 거야?」
+	PRINTFORMW 「와-이, 고마워요!」
+	PRINTFORMW 도너츠를 다 먹으면, %조사처리(ANAME(대상),"는")% 어느새인가 사라지고 있었다……
+	IF GET_COUNTRY_BOSS(CFLAG:대상:소속) != -1
+		PRINTFORML
+		PRINTFORMW 후일, %ANAME(GET_COUNTRY_BOSS(CFLAG:대상:소속))%로부터, 사과의 명과가 닿았다
+		PRINTFORMW 아무튼 아무튼의 맛이었다……
+		CALL CHANGE_RELATION_C_TO_C(CFLAG:대상:소속, CFLAG:MASTER:소속, 100, -100)
+	ELSE
+		PRINTFORMW 후일, %ANAME(MASTER)%의 머리맡에, 엿이 놓여져 있었다
+		PRINTFORMW 딸기맛이었다……
+	ENDIF
+	CFLAG:대상:호감도 += 250
+ELSEIF RESULT == 3
+	PRINTFORMW 그렇게 간식을 갖고 싶으면 먹여 주자
+	PRINTFORMW 그렇게 생각한 %조사처리(ANAME(MASTER),"는")%, %ANAME(대상)%아래의 입에 간식을 주었다……
+	IF ABL:대상:성지식 == 0
+		;무지 크스(데이터 조작 전제)
+		PRINTFORMW 「그 봉을 가랑이의 구멍에 들어갈 수 있으면 맛있는거야? 알았다, 해 본다…」
+		IF ABL:MASTER:성기술 >= RAND:3
+			;무지한 것으로 질내사정 성행위에 빠지는 허들이 낮다
+			PRINTFORML …
+			PRINTFORML ……
+			PRINTFORMW ………
+			PRINTFORMW 아주 조용해진 밤의 궁정에 침구가 삐걱거리는 소리와 %ANAME(대상)%의 교성이 울려 퍼진다
+			CALL KOJO_DAILY_K64_FUCK(대상)
+			PRINTFORMW 「앗! 아읏!%조사처리(ANAME(MASTER),"가")% 말하는 대로, 맛은 하지 않지만 매우 좋은 기분이 되어 버렸다…♡」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 마지막에 디저트도 주려고 허리의 움직임을 빨리 해, 백탁의 액체를 %ANAME(대상)%의 질내에 토해냈다…
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 성기술에 %조사처리(ANAME(대상),"가")% 만족했습니다", 칼라_주의)
+			PRINTFORMW 「저기요, 좀 더%ANAME(대상)%에 간식을 먹여 줄래…?」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"와")% 앞으로도 함께 있고 싶은 것 같다………
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 동료가 되었습니다", 칼라_주의)
+			CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+			CFLAG:대상:호감도 += 1000
+			CALL CHANGE_RELATION_O_TO_O(대상, MASTER, 1000, -600)
+			쾌락저속해지고했다 = 1
+		ELSE
+			;벌이 아파서 울어 버리는 루트
+			PRINTFORML …
+			PRINTFORML ……
+			PRINTFORMW ………
+			PRINTFORMW 아주 조용해진 밤의 궁정에 침구가 삐걱거리는 소리와 %ANAME(대상)%의 비명이 울려 퍼진다
+			CALL KOJO_DAILY_K64_FUCK(대상)
+			PRINTFORMW 「아프닷! 우우…아니다…무엇으로 이런 일 해…」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 너에게로의 벌이라면 허리의 움직임을 빨리 해, 백탁의 액체를 %ANAME(대상)%의 질내에 토해냈다…
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 난폭하게 %조사처리(ANAME(대상),"는")% 슬퍼졌습니다", 칼라_주의)
+			PRINTFORMW 「간식은 사과하기 때문에…이제(이미/벌써/더는/정말) 아픈 것은 멈추어…」
+			PRINTFORMW 울어 용서를 비는 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 투옥되었습니다………
+			CALL CAPTURE(대상, CFLAG:MASTER:소속)
+			;무지한 것으로 투옥된 것과 같은 정도의 인상
+			CFLAG:대상:호감도 -= 300
+			CALL CHANGE_RELATION_O_TO_O(대상, MASTER, -300, 300)
+			쾌락저속해지고했다 = 0
+		ENDIF
+	ELSE
+		;통상 루트（성지식 2라면 섹스는 알고 있으므로）
+		PRINTFORMW 「싫다!!   누나 도와! 꺄아!」
+		IF ABL:MASTER:성기술 >= RAND:5
+			;섹스나 피임의 필요성은 알고 있지만 쾌락에는 이길 수 없었어요…루트
+			PRINTFORML …
+			PRINTFORML ……
+			PRINTFORMW ………
+			PRINTFORMW 아주 조용해진 밤의 궁정에 침구가 삐걱거리는 소리와 %ANAME(대상)%의 교성이 울려 퍼진다
+			CALL KOJO_DAILY_K64_FUCK(대상)
+			PRINTFORMW 「앗! 아읏! 우우…싫은데, 기분 좋게…♡」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 마지막에 디저트도 주려고 허리의 움직임을 빨리 해, 백탁의 액체를 %ANAME(대상)%의 질내에 토해냈다…
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 성기술에 %조사처리(ANAME(대상),"가")% 만족했습니다", 칼라_주의)
+			PRINTFORMW 「저기, 좀 더%ANAME(대상)%에 간식을 먹여 주지 않겠어…?」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"와")% 앞으로도 함께 있고 싶은 것 같다………
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 동료가 되었습니다", 칼라_주의)
+			CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+			CFLAG:대상:호감도 += 1000
+			CALL CHANGE_RELATION_O_TO_O(대상, MASTER, 1000, -600)
+			쾌락저속해지고했다 = 1
+		ELSE
+			;그렇다면 간식의 대상에 질내사정되면 화내지요 루트
+			PRINTFORML …
+			PRINTFORML ……
+			PRINTFORMW ………
+			PRINTFORMW 아주 조용해진 밤의 궁정에 침구가 삐걱거리는 소리와 %ANAME(대상)%의 비명이 울려 퍼진다
+			CALL KOJO_DAILY_K64_FUCK(대상)
+			PRINTFORMW 「아얏! 나는 간식을 먹은 것 뿐인데 어째서 이런 심한 일을 해」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 너에게로의 벌이라면 허리의 움직임을 빨리 해, 백탁의 액체를 %ANAME(대상)%의 질내에 토해냈다…
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 난폭하게 %조사처리(ANAME(대상),"는")% 슬퍼졌습니다", 칼라_주의)
+			PRINTFORMW 「벌써 이런 일 싫어…도와 누나…」
+			PRINTFORMW 울어 용서를 비는 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 투옥되었습니다………
+			CALL CAPTURE(대상, CFLAG:MASTER:소속)
+			CFLAG:대상:호감도 -= 500
+			CALL CHANGE_RELATION_O_TO_O(대상, MASTER, -500, 500)
+			쾌락저속해지고했다 = 0
+		ENDIF
+	ENDIF
+	IF 쾌락저속해지고했다 && !TALENT:대상:합의
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_핑크)
+		CFLAG:대상:안면 = 1
+		TALENT:대상:합의 = 1
+		TALENT:대상:쵸로인 = 1
+	ELSEIF !CFLAG:대상:안면
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 안면을 얻었습니다", 칼라_주의)
+		CFLAG:대상:안면 = 1
+	ENDIF
+ENDIF
+KDVAR:대상:코이시_간식도둑 = -1
+RETURN 1
+
+
+;----------------------------------
+;섹스
+;----------------------------------
+@KOJO_DAILY_K64_FUCK(대상)
+#DIM 대상
+CALL FUCK(MASTER, "Ｃ, 욕망, 성교, 사정, Ｖ삽입", "동정상실, 키스상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "강간")
+CALL FUCK(대상, "욕망, Ｃ, Ｂ, Ｖ, 봉사, 성교, 성기술, 정애, 펠라티오, Ｖ성교", "질내사정, 처녀상실, 키스상실, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 \@ RAND:2 ? 입술 # 페니스 \@", ANAME(MASTER), "", "강간")
+
+;성지식 없음 루트용
+SIF ABL:대상:성지식 < 2
+	ABL:대상:성지식 = 2

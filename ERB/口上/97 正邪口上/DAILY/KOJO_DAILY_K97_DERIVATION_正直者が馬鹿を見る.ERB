@@ -1,0 +1,76 @@
+﻿;---------------------
+;대응하는 데일리의 DISABLE를 돌려준다. 설정하지 않는 경우, 이벤트는 발생하지 않는다.
+;---------------------
+@KOJO_DAILY_K97_DERIVATION_BETRAYAL_DISABLE(대상)
+#DIM 대상
+RETURN KOJO_DAILY_GET_DISABLE_CONFIG(대상, "MERCY_PLEASE")
+
+
+;---------------------
+;발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K97_DERIVATION_BETRAYAL_DECISION(대상)
+#DIM 대상
+
+;MASTER가 어딘가의 세력에 소속해 있는 것
+SIF !CFLAG:MASTER:소속
+	RETURN 0
+
+;대상의 데일리 「정직한 간원」으로 대상을 해방하고 있지 않는가 이벤트 종료가 끝난 상태라면 발생하지 않는다
+SIF KDVAR:대상:세이자_정직한간원 != 1
+	RETURN 0
+
+;3도시 이상을 MASTER가 소유하고 있는 것
+SIF GET_OWN_CITY(CFLAG:MASTER:소속) < 3
+	RETURN 0
+
+SIF FLAG:클리어플래그
+	RETURN 0
+
+;세이자가 군주가 되어 있으면 캔슬한다
+IF GET_COUNTRY_BOSS(CFLAG:대상:소속) == 대상
+	KDVAR:대상:세이자_정직한간원 = 2
+	RETURN 0
+ENDIF
+
+;새로운 세력을 취득
+LOCAL:4 = GET_NEW_COUNTRY()
+
+;신세력을 만들 수 없다（벌써 가득）라면 RETURN
+SIF LOCAL:4 == -1
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;본체
+;---------------------
+@KOJO_DAILY_K97_DERIVATION_BETRAYAL(대상)
+#DIM 대상
+
+PRINTFORMW 「%ANAME(MASTER)%에는 감사하고 있는거야, 잡힌 나를 해방해 준 것이니까」
+PRINTFORMW 「이 은혜에는 최대한 보답하려고 생각하고 있다. 나는 아마노자쿠이지만, 그곳의 곳의 이치는 통하게 하지 않으면」
+PRINTFORML
+PRINTFORML
+PRINTFORML
+PRINTFORMW 「……은」
+PRINTFORML
+PRINTFORMW 「말한다고라도 생각했는지!?   아 응!?」
+PRINTFORMW 「바보!   아마노자쿠가 그렇게 솔직한 일 말할까!」
+PRINTFORMW 「잘도 투옥 같은거 해 주고 자빠졌군!   아답례해 주는, 한껏!   에!」
+PRINTFORMW 「나의 원한은 깊어, 깨달을 수 있는 바보!」
+
+;직전의 턴으로 추방이라든지 되었을 경우의 대책
+CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+
+
+CALL NPC_INDEPENDENCE(대상, 5, 0, 1)
+
+PRINTFORMW 「기다려라, 지옥을 보여 줄거니까!」
+CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"는")% 어떻게 해서든지 %조사처리(ANAME(MASTER),"를")% 쓰러트릴 생각과 같습니다……", 칼라_경고)
+CALL CHANGE_RELATION_C_TO_C(GET_COUNTRY_FROM_BOSS_NAME("세이자"), CFLAG:MASTER:1, -1500, 1500)
+KDVAR:대상:세이자_정직한간원 = 2
+
+RETURN 1
+

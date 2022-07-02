@@ -1,0 +1,126 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K95_SHIMAI_DON_RATE(대상)
+#DIM 대상
+RETURN 35
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K95_SHIMAI_DON_DECISION(대상)
+#DIM 대상
+#DIM 야츠하시
+
+야츠하시 = NAME_TO_CHARA("야츠하시")
+
+SIF MASTER == 야츠하시
+	RETURN 0
+
+SIF !(MAX(CFLAG:대상:호감도, CFLAG:대상:종속도) >= 500 && MAX(CFLAG:야츠하시:호감도, CFLAG:야츠하시:종속도) >= 500)
+	RETURN 0
+
+SIF !(ABL:대상:욕망 >= 2 && ABL:야츠하시:욕망 >= 2)
+	RETURN 0
+
+SIF KDVAR:대상:벤벤_시마이각키 == -1
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(야츠하시, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K95_SHIMAI_DON_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K95_SHIMAI_DON(대상)
+#DIM 대상
+#DIM 야츠하시
+야츠하시 = NAME_TO_CHARA("야츠하시")
+
+IF KDVAR:대상:벤벤_시마이각키
+	PRINTFORMW %조사처리(ANAME(대상),"와")% %ANAME(야츠하시)%가 침실을 방문해 왔다……
+	PRINTFORMW 「또, 안될까……」
+	PRINTFORMW 「나와 %ANAME(야츠하시)%와 두 명 정리해,?」
+ELSE
+	PRINTFORMW 심야. %조사처리(ANAME(대상),"와")% %ANAME(야츠하시)%가 침실을 방문해 왔다……
+	PRINTFORMW 「%ANAME(MASTER)%, 실은 부탁이 있는 것이지만」
+	PRINTFORMW 「사람이라는 것은, 서로의 신뢰를 서로 확인하기 위해서(때문에), 신체를 겹쳐?   라는 일을 하는 것 같구나」
+	PRINTFORMW 「나와 야츠하시는 츠쿠모가미로서 함께 눈을 뜬 자매야. 그러니까 신뢰를 서로 확인한다 라는 그것을 해 보고 싶은 것이지만……」
+	PRINTFORMW 지성을 얻고 나서 시간이 짧기 때문에, 방식을 모르는, 라는 것일 것이다
+	PRINTFORMW %ANAME(야츠하시)%가 말을 계승했다
+	PRINTFORMW 「그래서 %ANAME(MASTER)%에 가르쳐 받자고, 누나가 말할테니까」
+	PRINTFORMW 「둘이서 오고 것. 그렇게 하면, 세 명으로 할 수 있겠죠?   ……할 수 있네요?」
+	PRINTFORMW 「그래서, 어때?」
+	PRINTFORMW 「우리와 그, 신체를 겹쳐?   라고 말하는거야, 해 주는 거야?」
+	PRINTFORMW ……아무래도 두 명은, 그것이 어떤 행위의 일인 것인가 전혀 모르는 것 같다
+	PRINTFORMW 그런데, 어떻게 할까……
+ENDIF
+
+PRINTFORML 
+CALL ASK_YN("한다", "그만둔다")
+
+IF RESULT == 1
+	PRINTFORMW 「……그래?   유감이구나」
+	PRINTFORMW 「그렇다면 어쩔 수 없어요. 실례했군요」
+	PRINTFORMW 두 명은 떠났다……
+	IF KDVAR:대상:벤벤_시마이각키 == 0
+		KDVAR:대상:벤벤_시마이각키 = -1
+	ENDIF
+	RETURN 1
+ENDIF
+
+IF KDVAR:대상:벤벤_시마이각키 == 0
+	PRINTFORMW 「고마워요. 그래서 어와 구체적으로는 어떻게 하면……」
+	PRINTFORMW 「옷을 벗는 거야?   어쩐지 변하는 거네」
+	PRINTFORMW 두 명을 침상에 불러, 쓰러트렸다……
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(야츠하시)%의 합의를 얻었습니다", 칼라_주의)
+	TALENT:대상:합의 = 1
+	TALENT:야츠하시:합의 = 1
+	TALENT:대상:쵸로인 = 1
+	TALENT:야츠하시:쵸로인 = 1
+ELSEIF RAND:2
+	PRINTFORMW 「……아프게 하지 말아요?」
+	PRINTFORMW 두 명을 침상에 불러, 쓰러트렸다……
+ELSE
+	PRINTFORMW 「에으음, 그……잘 부탁해?」
+	PRINTFORMW 두 명을 침상에 불러, 쓰러트렸다……
+ENDIF
+
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+
+CFLAG:야츠하시:조교참가플래그 = 1
+CFLAG:야츠하시:조교중돌아가지않는다 = 1
+CFLAG:야츠하시:강제우호화 = 1
+BASE:야츠하시:체력 = MAXBASE:야츠하시:체력
+BASE:야츠하시:기력 = MAXBASE:야츠하시:기력
+
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:조교중돌아가지않는다 = 1
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 1
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+;플래그
+KDVAR:대상:벤벤_시마이각키 = 1
+
+RETURN 1
+

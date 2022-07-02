@@ -1,0 +1,110 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K14_LOVEDOLL_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K14_LOVEDOLL_DECISION(대상)
+#DIM 대상
+
+SIF !IS_SLAVE(대상) || !TALENT:대상:합의
+	RETURN 0
+
+SIF ABL:대상:욕망 < 랭크역치:랭크_그외:랭크_B
+	RETURN 0
+
+SIF KDVAR:대상:앨리스_러브돌
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K14_LOVEDOLL_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K14_LOVEDOLL(대상)
+#DIM 대상
+
+PRINTFORML 불려 가 %ANAME(대상)%의 방을 방문한다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 의자에 앉아, 저 편을 향하고 있는 것 같지만……?
+PRINTFORMW 「왓!」
+PRINTFORMW 갑자기, 그늘로부터 누군가가 놀래켜 왔다!
+PRINTFORMW ……보면, 그것도 %조사처리(ANAME(대상),"다")%
+PRINTFORMW 에서는, 앉아 있는 것은 도대체……?
+PRINTFORMW 「놀랐을까?   후후, 나 꼭 닮게 만든 거네」
+PRINTFORMW 「자, 일어나 주세요, 『나』」
+PRINTFORML %조사처리(ANAME(대상),"가")% 명령하면, 그것은 천천히 일어섰다
+PRINTFORML ……그것은 어떻게 봐도, %조사처리(ANAME(대상),"였")%다
+PRINTFORMW 복장이나 머리 모양은 물론, 이목구비, 그리고 어쩌면 몸의 세부에 이를 때까지도 진짜 꼭 닮은 인형이다……
+PRINTFORMW 「어떨까?   자신작이야, 여기 한동안 중(안)에서도 피카이치군요」
+PRINTFORML 확실히 훌륭한 성과이지만, 도대체 무엇을 위해서 이런 것을?
+PRINTFORMW 물으면, %조사처리(ANAME(대상),"는")% 표정을 추잡하게 왜곡했다
+PRINTFORMW 「간단한 일, 아무리 내가 상대 해 주고 싶어도, 상대를 할 수 없는 밤이라도 있을까요?」
+PRINTFORMW 「그런 시간에 다른 여자에게 차례를 빼앗기고 싶지 않네요……이니까, 그러한 때를 위해서(때문에) 이 아이를 만들었어」
+PRINTFORMW 「뭐 전력으로서도 사용할 수 있지만……, 그것은 둘째군요」
+PRINTFORMW 「만약 내가 없을 때에 나를 사용하고 싶어지면, 이 아이를 사용해 줄래?」
+PRINTFORMW 「후후, 아래의 상태도 나 꼭 닮게 되어 있기에……♥」
+PRINTFORMW 「언제라도 『나』를 사용할 수 있어요……♥」
+PRINTFORML 어차피 인형이라고는 해도, 살아 있는 것과 같고 정교해서, %조사처리(ANAME(대상),"를")% 꼭 닮다
+PRINTFORMW 여기까지 꼭 닮다고, 말하지 않고 공허한 눈동자인 것이, 반대로 배덕적인 것을 기억하게 한다……
+PRINTFORML 깨달으면, %조사처리(ANAME(MASTER),"는")% 강한 흥분을 느끼고 있었다
+PRINTFORMW 조속히 선물을 사용해 보는 것도 나쁘지 않을 것이다
+PRINTFORMW 「아라……♥  후후, 이렇게 (해) 버려, 조금 질투해 버려요, 자기 자신에게」
+PRINTFORMW 「그렇지만 지금은, 이 아이 뿐이 아니고……나의 일도, 귀여워해 줄래……?」
+PRINTFORMW 물론, 자신을 위해서(때문에) 지불해 준 노는, 한껏 위로해 주지 않으면 될 리 없다
+PRINTFORMW %조사처리(ANAME(대상),"를")% 침대에 불러 넣으면, 인형 다 같이 귀여워해 주었다……
+
+CALL COLOR_PRINTW(@"%ANAME(대상)%인형이 참가했습니다", 칼라_주의)
+
+CALL SAVE_CUSTOM_DATA(-1, 대상)
+CALL LOAD_CUSTOM_DATA(-1)
+LOCAL = CHARANUM - 1
+CALL CHANGE_COUNTRY(LOCAL, CFLAG:MASTER:소속, 1)
+
+NAME:LOCAL = 앨리스 인형
+CALLNAME:LOCAL = 앨리스 인형
+CSTR:LOCAL:0 = 
+CSTR:LOCAL:1 = %ANAME(대상)%인형
+CSTR:LOCAL:3 = %ANAME(대상)%인형
+CSTR:LOCAL:4 = %ANAME(대상)%인형
+CSTR:LOCAL:5 = 
+CSTR:LOCAL:6 = %ANAME(대상)%인형
+CSTR:LOCAL:7 = %ANAME(대상)%인형
+CSTR:LOCAL:8 = 인형
+TALENT:LOCAL:쵸로인 = 1
+TALENT:LOCAL:예속 = 1
+TALENT:LOCAL:복종 = 1
+TALENT:LOCAL:합의 = 1
+CFLAG:LOCAL:종속도 = 10000
+CFLAG:LOCAL:의존도 = 3000
+CALL REMOVE_TAG(LOCAL, 태그_요괴)
+CALL REMOVE_TAG(LOCAL, 태그_마법사)
+CALL ADD_TAG(LOCAL, 태그_인형)
+CALL SKILL_FORGET_BY_NAME(대상, 스킬_장르_SP, "7색의 인형 부려")
+
+
+CALL FUCK(MASTER, "욕망, Ｃ, 사정, Ｖ삽입", "동정상실, 키스상실", GET_SPERM_ID("불명"), @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질")
+CALL FUCK(대상, "욕망, Ｖ, Ｃ, Ｂ, 봉사, 성기술, 정애, Ｖ성교, 키스, 펠라티오", "질내사정, 처녀상실, 키스상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER), "", "조교")
+CALL FUCK(LOCAL, "욕망, Ｖ, Ｃ, Ｂ, 봉사, 성기술, 정애, Ｖ성교, 키스, 펠라티오", "질내사정, 처녀상실, 키스상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER), "", "조교")
+
+KDVAR:대상:앨리스_러브돌 = 1
+
+RETURN 1

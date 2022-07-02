@@ -1,0 +1,563 @@
+﻿;-------------------------------------------------
+;시나리오측에서 배치 함수를 기술하고 있지 않는 경우의 Default 배치
+;-------------------------------------------------
+@SCENARIO_PLACEMENT_DEFAULT
+
+;세력 설정
+COUNTRY_BOSS:0 = 0
+COUNTRY_COLOR:0 = GETDEFCOLOR()
+
+
+;;--------레이무;--------
+COUNTRY_BOSS:1                                = GET_ID(NAME_TO_CHARA("레이무"))
+COUNTRY_COLOR:1                               = 0x757575
+CFLAG:NAME_TO_CHARA("레이무"):소속              = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CFLAG:NAME_TO_CHARA("스이카"):소속              = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CFLAG:NAME_TO_CHARA("서니밀크"):소속      = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CFLAG:NAME_TO_CHARA("루나차일드"):소속    = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CFLAG:NAME_TO_CHARA("스타사파이어"):소속  = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CFLAG:NAME_TO_CHARA("스미레코"):소속              = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CFLAG:NAME_TO_CHARA("아운"):소속            = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CITY_OWNER:GET_CITYNUMBER("하쿠레이 대결계")       = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CITY_OWNER:GET_CITYNUMBER("하쿠레이 신사")         = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+CITY_OWNER:GET_CITYNUMBER("미즈나라의 나무")     = GET_COUNTRY_FROM_BOSS_NAME("레이무")
+
+;--------레밀리아--------
+COUNTRY_BOSS:2                                = GET_ID(NAME_TO_CHARA("레밀리아"))
+COUNTRY_COLOR:2                               = 0xFF0000
+CFLAG:NAME_TO_CHARA("메이링"):소속              = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CFLAG:NAME_TO_CHARA("소악마"):소속            = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CFLAG:NAME_TO_CHARA("파츄리"):소속        = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CFLAG:NAME_TO_CHARA("사쿠야"):소속              = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CFLAG:NAME_TO_CHARA("레밀리아"):소속          = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CFLAG:NAME_TO_CHARA("플랑도르"):소속      = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CITY_OWNER:GET_CITYNUMBER("홍마관")           = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+CITY_OWNER:GET_CITYNUMBER("지하도서관")       = GET_COUNTRY_FROM_BOSS_NAME("레밀리아")
+
+;--------마리사--------
+COUNTRY_BOSS:3                                = GET_ID(NAME_TO_CHARA("마리사"))
+COUNTRY_COLOR:3                               = 0xE1D200
+CFLAG:NAME_TO_CHARA("마리사"):소속            = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CFLAG:NAME_TO_CHARA("앨리스"):소속            = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CFLAG:NAME_TO_CHARA("샹하이인형"):소속          = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CFLAG:NAME_TO_CHARA("호라이인형"):소속          = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CFLAG:NAME_TO_CHARA("오오에도인형"):소속        = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CFLAG:NAME_TO_CHARA("골리아테인형"):소속      = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CITY_OWNER:GET_CITYNUMBER("마법의 숲 북부")     = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CITY_OWNER:GET_CITYNUMBER("마가트로이드관") = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CITY_OWNER:GET_CITYNUMBER("키리사메 마법상점")       = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+CITY_OWNER:GET_CITYNUMBER("마법의 숲 남부")     = GET_COUNTRY_FROM_BOSS_NAME("마리사")
+
+;--------유유코--------
+COUNTRY_BOSS:4                                = GET_ID(NAME_TO_CHARA("유유코"))
+COUNTRY_COLOR:4                               = 0xF5A9F2
+CFLAG:NAME_TO_CHARA("리리카"):소속            = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CFLAG:NAME_TO_CHARA("메를랑"):소속          = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CFLAG:NAME_TO_CHARA("루나사"):소속            = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CFLAG:NAME_TO_CHARA("요우무"):소속              = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CFLAG:NAME_TO_CHARA("유유코"):소속            = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CFLAG:NAME_TO_CHARA("반령"):소속              = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CFLAG:NAME_TO_CHARA("요우키"):소속              = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CITY_OWNER:GET_CITYNUMBER("백옥루")           = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+CITY_OWNER:GET_CITYNUMBER("사이쿄우 아야카시")           = GET_COUNTRY_FROM_BOSS_NAME("유유코")
+
+;--------유카리--------
+COUNTRY_BOSS:5                                = GET_ID(NAME_TO_CHARA("유카리"))
+COUNTRY_COLOR:5                               = 0x792B90
+CFLAG:NAME_TO_CHARA("첸"):소속                = GET_COUNTRY_FROM_BOSS_NAME("유카리")
+CFLAG:NAME_TO_CHARA("란"):소속                = GET_COUNTRY_FROM_BOSS_NAME("유카리")
+CFLAG:NAME_TO_CHARA("유카리"):소속                = GET_COUNTRY_FROM_BOSS_NAME("유카리")
+CITY_OWNER:GET_CITYNUMBER("야쿠모 저택")         = GET_COUNTRY_FROM_BOSS_NAME("유카리")
+CITY_OWNER:GET_CITYNUMBER("마요이가")         = GET_COUNTRY_FROM_BOSS_NAME("유카리")
+
+;--------에이린--------
+COUNTRY_BOSS:6                                = GET_ID(NAME_TO_CHARA("에이린"))
+COUNTRY_COLOR:6                               = 0x778CFF
+CFLAG:NAME_TO_CHARA("테위"):소속              = GET_COUNTRY_FROM_BOSS_NAME("에이린")
+CFLAG:NAME_TO_CHARA("레이센"):소속              = GET_COUNTRY_FROM_BOSS_NAME("에이린")
+CFLAG:NAME_TO_CHARA("에이린"):소속              = GET_COUNTRY_FROM_BOSS_NAME("에이린")
+CFLAG:NAME_TO_CHARA("카구야"):소속              = GET_COUNTRY_FROM_BOSS_NAME("에이린")
+CITY_OWNER:GET_CITYNUMBER("영원정")           = GET_COUNTRY_FROM_BOSS_NAME("에이린")
+CITY_OWNER:GET_CITYNUMBER("흰 토끼의 취락")       = GET_COUNTRY_FROM_BOSS_NAME("에이린")
+
+;--------영희--------
+COUNTRY_BOSS:7                                = GET_ID(NAME_TO_CHARA("시키에이키"))
+COUNTRY_COLOR:7                               = 0x088A08
+CFLAG:NAME_TO_CHARA("코마치"):소속              = GET_COUNTRY_FROM_BOSS_NAME("시키에이키")
+CFLAG:NAME_TO_CHARA("시키에이키"):소속          = GET_COUNTRY_FROM_BOSS_NAME("시키에이키")
+CFLAG:NAME_TO_CHARA("릴리블랙"):소속    = GET_COUNTRY_FROM_BOSS_NAME("시키에이키")
+CITY_OWNER:GET_CITYNUMBER("시비곡직청")       = GET_COUNTRY_FROM_BOSS_NAME("시키에이키")
+CITY_OWNER:GET_CITYNUMBER("나룻배 타는곳")         = GET_COUNTRY_FROM_BOSS_NAME("시키에이키")
+CITY_OWNER:GET_CITYNUMBER("피안")             = GET_COUNTRY_FROM_BOSS_NAME("시키에이키")
+
+;--------문--------
+COUNTRY_BOSS:8                                = GET_ID(NAME_TO_CHARA("아야"))
+COUNTRY_COLOR:8                               = 0xce2c00
+CFLAG:NAME_TO_CHARA("아야"):소속                = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CFLAG:NAME_TO_CHARA("니토리"):소속            = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CFLAG:NAME_TO_CHARA("모미지"):소속                = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CFLAG:NAME_TO_CHARA("하타테"):소속              = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CITY_OWNER:GET_CITYNUMBER("구천폭포")         = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CITY_OWNER:GET_CITYNUMBER("미답의 계곡")       = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CITY_OWNER:GET_CITYNUMBER("현무의 늪")         = GET_COUNTRY_FROM_BOSS_NAME("아야")
+CITY_OWNER:GET_CITYNUMBER("요괴의 산 기슭")       = GET_COUNTRY_FROM_BOSS_NAME("아야")
+
+;--------카나코--------
+COUNTRY_BOSS:9                                = GET_ID(NAME_TO_CHARA("카나코"))
+COUNTRY_COLOR:9                               = 0x79FF4B
+CFLAG:NAME_TO_CHARA("사나에"):소속              = GET_COUNTRY_FROM_BOSS_NAME("카나코")
+CFLAG:NAME_TO_CHARA("카나코"):소속            = GET_COUNTRY_FROM_BOSS_NAME("카나코")
+CFLAG:NAME_TO_CHARA("스와코"):소속            = GET_COUNTRY_FROM_BOSS_NAME("카나코")
+CITY_OWNER:GET_CITYNUMBER("풍신의 호수")         = GET_COUNTRY_FROM_BOSS_NAME("카나코")
+CITY_OWNER:GET_CITYNUMBER("모리야 신사")         = GET_COUNTRY_FROM_BOSS_NAME("카나코")
+
+;--------텐시--------
+COUNTRY_BOSS:10                               = GET_ID(NAME_TO_CHARA("텐시"))
+COUNTRY_COLOR:10                              = 0x002FFF
+CFLAG:NAME_TO_CHARA("이쿠"):소속              = GET_COUNTRY_FROM_BOSS_NAME("텐시")
+CFLAG:NAME_TO_CHARA("텐시"):소속              = GET_COUNTRY_FROM_BOSS_NAME("텐시")
+CFLAG:NAME_TO_CHARA("시온 "):소속              = GET_COUNTRY_FROM_BOSS_NAME("텐시")
+CITY_OWNER:GET_CITYNUMBER("히나나이 저택")   = GET_COUNTRY_FROM_BOSS_NAME("텐시")
+CITY_OWNER:GET_CITYNUMBER("유정천")           = GET_COUNTRY_FROM_BOSS_NAME("텐시")
+CITY_OWNER:GET_CITYNUMBER("천인의 수도")         = GET_COUNTRY_FROM_BOSS_NAME("텐시")
+
+;--------사토리--------
+COUNTRY_BOSS:11                               = GET_ID(NAME_TO_CHARA("사토리"))
+COUNTRY_COLOR:11                              = 0xFA5882
+CFLAG:NAME_TO_CHARA("사토리"):소속            = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+CFLAG:NAME_TO_CHARA("오린"):소속                = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+CFLAG:NAME_TO_CHARA("우츠호"):소속                = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+CFLAG:NAME_TO_CHARA("코이시"):소속            = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+CITY_OWNER:GET_CITYNUMBER("지령전")           = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+CITY_OWNER:GET_CITYNUMBER("작열지옥터")       = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+CITY_OWNER:GET_CITYNUMBER("피연못지옥")       = GET_COUNTRY_FROM_BOSS_NAME("사토리")
+
+;--------뱌쿠렌--------
+COUNTRY_BOSS:12                               = GET_ID(NAME_TO_CHARA("뱌쿠렌"))
+COUNTRY_COLOR:12                              = 0xDF01D7
+CFLAG:NAME_TO_CHARA("나즈린"):소속        = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CFLAG:NAME_TO_CHARA("이치린"):소속              = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CFLAG:NAME_TO_CHARA("운잔"):소속              = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CFLAG:NAME_TO_CHARA("미나미츠"):소속              = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CFLAG:NAME_TO_CHARA("쇼우"):소속                = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CFLAG:NAME_TO_CHARA("뱌쿠렌"):소속              = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CFLAG:NAME_TO_CHARA("조온"):소속              = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CITY_OWNER:GET_CITYNUMBER("묘지")             = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+CITY_OWNER:GET_CITYNUMBER("명련사")           = GET_COUNTRY_FROM_BOSS_NAME("뱌쿠렌")
+
+;--------미코--------
+COUNTRY_BOSS:13                               = GET_ID(NAME_TO_CHARA("미코"))
+COUNTRY_COLOR:13                              = 0xFF8000
+CFLAG:NAME_TO_CHARA("요시카"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미코")
+CFLAG:NAME_TO_CHARA("청아"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미코")
+CFLAG:NAME_TO_CHARA("토지코"):소속            = GET_COUNTRY_FROM_BOSS_NAME("미코")
+CFLAG:NAME_TO_CHARA("후토"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미코")
+CFLAG:NAME_TO_CHARA("미코"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미코")
+CITY_OWNER:GET_CITYNUMBER("몽전대사묘")       = GET_COUNTRY_FROM_BOSS_NAME("미코")
+CITY_OWNER:GET_CITYNUMBER("신령묘")           = GET_COUNTRY_FROM_BOSS_NAME("미코")
+
+;--------신묘마루--------
+COUNTRY_BOSS:14                               = GET_ID(NAME_TO_CHARA("신묘마루"))
+COUNTRY_COLOR:14                              = 0x00BFFF
+CFLAG:NAME_TO_CHARA("와카사기히메"):소속        = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("세키반키"):소속            = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("카게로"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("벤벤"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("야츠하시"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("세이자"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("신묘마루"):소속            = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CFLAG:NAME_TO_CHARA("라이코"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CITY_OWNER:GET_CITYNUMBER("휘침성")           = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CITY_OWNER:GET_CITYNUMBER("미혹의 죽림 남부")   = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+CITY_OWNER:GET_CITYNUMBER("미혹의 죽림")           = GET_COUNTRY_FROM_BOSS_NAME("신묘마루")
+
+;--------케이네（마을）--------
+COUNTRY_BOSS:15                               = GET_ID(NAME_TO_CHARA("케이네"))
+COUNTRY_COLOR:15                              = 0x974E00
+CFLAG:NAME_TO_CHARA("케이네"):소속              = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+CFLAG:NAME_TO_CHARA("모코우"):소속              = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+CFLAG:NAME_TO_CHARA("아큐"):소속              = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+CFLAG:NAME_TO_CHARA("코스즈"):소속              = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+CITY_OWNER:GET_CITYNUMBER("인간마을 주택가")       = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+CITY_OWNER:GET_CITYNUMBER("아큐저택")         = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+CITY_OWNER:GET_CITYNUMBER("서당")           = GET_COUNTRY_FROM_BOSS_NAME("케이네")
+
+;--------요리히메--------
+COUNTRY_BOSS:16                               = GET_ID(NAME_TO_CHARA("요리히메"))
+COUNTRY_COLOR:16                              = 0xFFF999
+CFLAG:NAME_TO_CHARA("토요히메"):소속              = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+CFLAG:NAME_TO_CHARA("요리히메"):소속              = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+CFLAG:NAME_TO_CHARA("달레이센"):소속          = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+CFLAG:NAME_TO_CHARA("사구메"):소속            = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+CFLAG:NAME_TO_CHARA("달의문지기"):소속          = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+CITY_OWNER:GET_CITYNUMBER("와타츠키노 저택")           = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+CITY_OWNER:GET_CITYNUMBER("도원향")           = GET_COUNTRY_FROM_BOSS_NAME("요리히메")
+
+;--------치르노--------
+COUNTRY_BOSS:17                               = GET_ID(NAME_TO_CHARA("치르노"))
+COUNTRY_COLOR:17                              = 0x00FFF7
+CFLAG:NAME_TO_CHARA("루미아"):소속          = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CFLAG:NAME_TO_CHARA("대요정"):소속            = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CFLAG:NAME_TO_CHARA("치르노"):소속            = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CFLAG:NAME_TO_CHARA("리글"):소속            = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CFLAG:NAME_TO_CHARA("미스티아"):소속        = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CITY_OWNER:GET_CITYNUMBER("요정의 숲")         = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CITY_OWNER:GET_CITYNUMBER("안개의 호수")           = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+CITY_OWNER:GET_CITYNUMBER("안개의 호수 근처")       = GET_COUNTRY_FROM_BOSS_NAME("치르노")
+
+
+;--------유카--------
+COUNTRY_BOSS:18                               = GET_ID(NAME_TO_CHARA("유카"))
+COUNTRY_COLOR:18                              = 0x009600
+CFLAG:NAME_TO_CHARA("메디슨"):소속        = GET_COUNTRY_FROM_BOSS_NAME("유카")
+CFLAG:NAME_TO_CHARA("유카"):소속              = GET_COUNTRY_FROM_BOSS_NAME("유카")
+CITY_OWNER:GET_CITYNUMBER("태양의 밭")         = GET_COUNTRY_FROM_BOSS_NAME("유카")
+CITY_OWNER:GET_CITYNUMBER("무명의 언덕")         = GET_COUNTRY_FROM_BOSS_NAME("유카")
+
+;--------유우기--------
+COUNTRY_BOSS:19                               = GET_ID(NAME_TO_CHARA("유우기"))
+COUNTRY_COLOR:19                              = 0xFACC2E
+CFLAG:NAME_TO_CHARA("키스메"):소속            = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+CFLAG:NAME_TO_CHARA("야마메"):소속            = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+CFLAG:NAME_TO_CHARA("파르시"):소속          = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+CFLAG:NAME_TO_CHARA("유우기"):소속              = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+CITY_OWNER:GET_CITYNUMBER("옛 지옥 큰길")       = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+CITY_OWNER:GET_CITYNUMBER("옛 도시 온천가")       = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+CITY_OWNER:GET_CITYNUMBER("옛 도시 환락가")       = GET_COUNTRY_FROM_BOSS_NAME("유우기")
+
+;--------유메미--------
+COUNTRY_BOSS:20                               = GET_ID(NAME_TO_CHARA("유메미"))
+COUNTRY_COLOR:20                              = 0xB5495B
+CFLAG:NAME_TO_CHARA("치유리"):소속            = GET_COUNTRY_FROM_BOSS_NAME("유메미")
+CFLAG:NAME_TO_CHARA("유메미"):소속              = GET_COUNTRY_FROM_BOSS_NAME("유메미")
+CFLAG:NAME_TO_CHARA("루코토 "):소속          = GET_COUNTRY_FROM_BOSS_NAME("유메미")
+CITY_OWNER:GET_CITYNUMBER("몽환유적")         = GET_COUNTRY_FROM_BOSS_NAME("유메미")
+CITY_OWNER:GET_CITYNUMBER("오카자키 연구실")       = GET_COUNTRY_FROM_BOSS_NAME("유메미")
+
+;--------신키님--------
+COUNTRY_BOSS:21                               = GET_ID(NAME_TO_CHARA("신키"))
+COUNTRY_COLOR:21                              = 0xA6D6DB
+CFLAG:NAME_TO_CHARA("유키"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신키")
+CFLAG:NAME_TO_CHARA("마-이"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신키")
+CFLAG:NAME_TO_CHARA("유메코"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신키")
+CFLAG:NAME_TO_CHARA("신키"):소속              = GET_COUNTRY_FROM_BOSS_NAME("신키")
+CITY_OWNER:GET_CITYNUMBER("마계 대도시")       = GET_COUNTRY_FROM_BOSS_NAME("신키")
+
+;--------겐게츠--------
+COUNTRY_BOSS:22                               = GET_ID(NAME_TO_CHARA("겐게츠"))
+COUNTRY_COLOR:22                              = 0xB8D200
+CFLAG:NAME_TO_CHARA("무게츠"):소속              = GET_COUNTRY_FROM_BOSS_NAME("겐게츠")
+CFLAG:NAME_TO_CHARA("겐게츠"):소속              = GET_COUNTRY_FROM_BOSS_NAME("겐게츠")
+
+CITY_OWNER:GET_CITYNUMBER("몽환관")           = GET_COUNTRY_FROM_BOSS_NAME("겐게츠")
+CITY_OWNER:GET_CITYNUMBER("몽환문")           = GET_COUNTRY_FROM_BOSS_NAME("겐게츠")
+CITY_OWNER:GET_CITYNUMBER("몽환계")           = GET_COUNTRY_FROM_BOSS_NAME("겐게츠")
+
+;--------순호--------
+COUNTRY_BOSS:23                               = GET_ID(NAME_TO_CHARA("순호"))
+COUNTRY_COLOR:23                              = 0xB40404
+CFLAG:NAME_TO_CHARA("클라운피스"):소속    = GET_COUNTRY_FROM_BOSS_NAME("순호")
+CFLAG:NAME_TO_CHARA("순호"):소속              = GET_COUNTRY_FROM_BOSS_NAME("순호")
+CFLAG:NAME_TO_CHARA("헤카티아"):소속      = GET_COUNTRY_FROM_BOSS_NAME("순호")
+CITY_OWNER:GET_CITYNUMBER("꿈의 세계")           = GET_COUNTRY_FROM_BOSS_NAME("순호")
+CITY_OWNER:GET_CITYNUMBER("고요의 바다")         = GET_COUNTRY_FROM_BOSS_NAME("순호")
+CITY_OWNER:GET_CITYNUMBER("풍요로운 바다")         = GET_COUNTRY_FROM_BOSS_NAME("순호")
+CITY_OWNER:GET_CITYNUMBER("달의 표면")         = GET_COUNTRY_FROM_BOSS_NAME("순호")
+
+;--------미마--------
+COUNTRY_BOSS:24                               = GET_ID(NAME_TO_CHARA("미마"))
+COUNTRY_COLOR:24                              = 0x427f62
+CFLAG:NAME_TO_CHARA("미마"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미마")
+CFLAG:NAME_TO_CHARA("신교쿠"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미마")
+CFLAG:NAME_TO_CHARA("키쿠리"):소속              = GET_COUNTRY_FROM_BOSS_NAME("미마")
+CFLAG:NAME_TO_CHARA("콘가라"):소속            = GET_COUNTRY_FROM_BOSS_NAME("미마")
+CITY_OWNER:GET_CITYNUMBER("영마전")           = GET_COUNTRY_FROM_BOSS_NAME("미마")
+CITY_OWNER:GET_CITYNUMBER("환몽계")           = GET_COUNTRY_FROM_BOSS_NAME("미마")
+
+
+;--------사리엘--------
+COUNTRY_BOSS:25                               = GET_ID(NAME_TO_CHARA("사리엘"))
+COUNTRY_COLOR:25                              = 0xcc00b7
+CFLAG:NAME_TO_CHARA("사라"):소속              = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+CFLAG:NAME_TO_CHARA("루이즈"):소속            = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+CFLAG:NAME_TO_CHARA("마간"):소속              = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+CFLAG:NAME_TO_CHARA("에리스"):소속            = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+CFLAG:NAME_TO_CHARA("사리엘"):소속          = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+CITY_OWNER:GET_CITYNUMBER("마계여행사")     = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+CITY_OWNER:GET_CITYNUMBER("세계의 끝")           = GET_COUNTRY_FROM_BOSS_NAME("사리엘")
+
+;--------오키나--------
+COUNTRY_BOSS:26                               = GET_ID(NAME_TO_CHARA("오키나"))
+COUNTRY_COLOR:26                              = 0x848350
+CFLAG:NAME_TO_CHARA("사토노"):소속              = GET_COUNTRY_FROM_BOSS_NAME("오키나")
+CFLAG:NAME_TO_CHARA("마이"):소속                = GET_COUNTRY_FROM_BOSS_NAME("오키나")
+CFLAG:NAME_TO_CHARA("오키나"):소속            = GET_COUNTRY_FROM_BOSS_NAME("오키나")
+CITY_OWNER:GET_CITYNUMBER("후호의 나라")         = GET_COUNTRY_FROM_BOSS_NAME("오키나")
+CITY_OWNER:GET_CITYNUMBER("사계절의 문")         = GET_COUNTRY_FROM_BOSS_NAME("오키나")
+
+
+
+;지정되지 않았던 캐릭터는 방랑 「당신」는 제외（MASTER 바꿔 넣었을 때에 방랑하는 것을 막는다）.
+FOR LOCAL:0, 1, CHARANUM
+	SIF CFLAG:(LOCAL:0):1 == 0  && CSTR:(LOCAL:0):99 != "당신"
+		CFLAG:(LOCAL:0):특수상태 = 특수상태_방랑
+NEXT
+
+;병력의 초기 배치
+CALL INIT_ARMY
+
+
+;무소속 도시의 병수는 경제의 7.5%
+FOR LOCAL:0, 0, MAX_CITY
+	SIF CITY_OWNER:(LOCAL:0) == 0
+		CITY_SOLDIER:(LOCAL:0) = CITY_ECONOMY:(LOCAL:0) * 75 / 1000
+NEXT
+
+;■관계 설정
+CALL SHARED_SETTING_RELATION
+
+
+
+CALL INIT_RELATION("레이무"     , "마리사"   , 600  , 0)
+CALL INIT_RELATION("레이무"     , "유카리"       , 600  , 0)
+CALL INIT_RELATION("레이무"     , "아야"       , 300  , 0)
+CALL INIT_RELATION("레이무"     , "카나코"   , 0    , 300)
+CALL INIT_RELATION("레이무"     , "텐시"     , 0    , 300)
+CALL INIT_RELATION("레이무"     , "뱌쿠렌"     , 300  , 300)
+CALL INIT_RELATION("레이무"     , "미코"     , 0    , 300)
+CALL INIT_RELATION("레이무"     , "신묘마루"   , 300  , 0)
+CALL INIT_RELATION("레이무"     , "케이네"     , 300  , 0)
+CALL INIT_RELATION("레이무"     , "요리히메"     , 0    , 600)
+CALL INIT_RELATION("레이무"     , "오키나"   , 0    , 100)
+
+CALL INIT_RELATION("레밀리아" , "레이무"     , 300  , 0)
+CALL INIT_RELATION("레밀리아" , "유유코"   , 0    , 300)
+CALL INIT_RELATION("레밀리아" , "유카리"       , 0    , 300)
+CALL INIT_RELATION("레밀리아" , "에이린"     , 0    , 300)
+CALL INIT_RELATION("레밀리아" , "신묘마루"   , 100  , 0)
+CALL INIT_RELATION("레밀리아" , "요리히메"     , 0    , 300)
+CALL INIT_RELATION("레밀리아" , "치르노"   , 200  , 0)
+
+CALL INIT_RELATION("마리사"   , "레이무"     , 600  , 0)
+CALL INIT_RELATION("마리사"   , "케이네"     , 300  , 0)
+CALL INIT_RELATION("마리사"   , "요리히메"     , 0    , 600)
+CALL INIT_RELATION("마리사"   , "치르노"   , 300  , 0)
+CALL INIT_RELATION("마리사"   , "미마"     , 800  , 0)
+
+
+CALL INIT_RELATION("유유코"   , "유카리"       , 1500 , 0)
+CALL INIT_RELATION("유유코"   , "에이린"     , 0    , 300)
+CALL INIT_RELATION("유유코"   , "요리히메"     , 0    , 300)
+
+CALL INIT_RELATION("유카리"       , "레이무"     , 600  , 0)
+CALL INIT_RELATION("유카리"       , "레밀리아" , 0    , 0)
+CALL INIT_RELATION("유카리"       , "마리사"   , 100  , 0)
+CALL INIT_RELATION("유카리"       , "유유코"   , 1500 , 0)
+CALL INIT_RELATION("유카리"       , "에이린"     , 0    , 300)
+CALL INIT_RELATION("유카리"       , "시키에이키" , 0    , 300)
+CALL INIT_RELATION("유카리"       , "사토리"   , 0    , 300)
+CALL INIT_RELATION("유카리"       , "텐시"     , 0    , 1500)
+CALL INIT_RELATION("유카리"       , "케이네"     , 300  , 0)
+CALL INIT_RELATION("유카리"       , "요리히메"     , 0    , 1500)
+CALL INIT_RELATION("유카리"       , "오키나"   , 600  , 0)
+
+CALL INIT_RELATION("에이린"     , "레밀리아" , 0    , 300)
+CALL INIT_RELATION("에이린"     , "유유코"   , 0    , 300)
+CALL INIT_RELATION("에이린"     , "유카리"       , 0    , 300)
+CALL INIT_RELATION("에이린"     , "케이네"     , 300  , 0)
+CALL INIT_RELATION("에이린"     , "요리히메"     , 1500 , 0)
+
+CALL INIT_RELATION("시키에이키" , "유유코"   , 300  , 0)
+CALL INIT_RELATION("시키에이키" , "유카리"       , 0    , 300)
+CALL INIT_RELATION("시키에이키" , "에이린"     , 0    , 1500)
+CALL INIT_RELATION("시키에이키" , "텐시"     , 0    , 600)
+CALL INIT_RELATION("시키에이키" , "사토리"   , 300  , 0)
+CALL INIT_RELATION("시키에이키" , "치르노"   , 300  , 0)
+
+CALL INIT_RELATION("아야"       , "레이무"     , 300  , 0)
+CALL INIT_RELATION("아야"       , "레밀리아" , 300  , 0)
+CALL INIT_RELATION("아야"       , "마리사"   , 300  , 0)
+CALL INIT_RELATION("아야"       , "유유코"   , 100  , 0)
+CALL INIT_RELATION("아야"       , "유카리"       , 300  , 0)
+CALL INIT_RELATION("아야"       , "에이린"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "시키에이키" , 0    , 600)
+CALL INIT_RELATION("아야"       , "카나코"   , 100  , 0)
+CALL INIT_RELATION("아야"       , "텐시"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "사토리"   , 0    , 600)
+CALL INIT_RELATION("아야"       , "뱌쿠렌"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "미코"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "신묘마루"   , 100  , 0)
+CALL INIT_RELATION("아야"       , "케이네"     , 300  , 0)
+CALL INIT_RELATION("아야"       , "요리히메"     , 0    , 600)
+CALL INIT_RELATION("아야"       , "치르노"   , 600  , 0)
+CALL INIT_RELATION("아야"       , "유카"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "유우기"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "유메미"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "신키"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "겐게츠"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "순호"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "미마"     , 100  , 0)
+CALL INIT_RELATION("아야"       , "사리엘" , 100  , 0)
+CALL INIT_RELATION("아야"       , "오키나"   , 0    , 1500)
+
+CALL INIT_RELATION("카나코"   , "레이무"     , 300  , 300)
+CALL INIT_RELATION("카나코"   , "아야"       , 300  , 300)
+CALL INIT_RELATION("카나코"   , "사토리"   , 300  , 300)
+CALL INIT_RELATION("카나코"   , "뱌쿠렌"     , 300  , 300)
+CALL INIT_RELATION("카나코"   , "미코"     , 300  , 300)
+CALL INIT_RELATION("카나코"   , "케이네"     , 300  , 0)
+
+CALL INIT_RELATION("텐시"     , "레이무"     , 300  , 0)
+CALL INIT_RELATION("텐시"     , "레밀리아" , 0    , 100)
+CALL INIT_RELATION("텐시"     , "유카리"       , 0    , 1500)
+
+CALL INIT_RELATION("사토리"   , "유카리"       , 300  , 300)
+CALL INIT_RELATION("사토리"   , "시키에이키" , 600  , 0)
+CALL INIT_RELATION("사토리"   , "카나코"   , 300  , 300)
+CALL INIT_RELATION("사토리"   , "유우기"     , 600  , 600)
+
+CALL INIT_RELATION("뱌쿠렌"     , "레이무"     , 300  , 300)
+CALL INIT_RELATION("뱌쿠렌"     , "카나코"   , 300  , 300)
+CALL INIT_RELATION("뱌쿠렌"     , "미코"     , 0    , 1500)
+CALL INIT_RELATION("뱌쿠렌"     , "케이네"     , 600  , 0)
+
+CALL INIT_RELATION("미코"     , "레이무"     , 300  , 300)
+CALL INIT_RELATION("미코"     , "카나코"   , 300  , 300)
+CALL INIT_RELATION("미코"     , "뱌쿠렌"     , 0    , 1500)
+
+CALL INIT_RELATION("신묘마루"   , "레이무"     , 600  , 0)
+CALL INIT_RELATION("신묘마루"   , "레밀리아" , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "마리사"   , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "유유코"   , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "유카리"       , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "에이린"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "시키에이키" , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "아야"       , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "카나코"   , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "텐시"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "사토리"   , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "뱌쿠렌"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "미코"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "케이네"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "요리히메"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "치르노"   , 600  , 0)
+CALL INIT_RELATION("신묘마루"   , "유카"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "유우기"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "유메미"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "신키"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "겐게츠"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "순호"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "미마"     , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "사리엘" , 0    , 300)
+CALL INIT_RELATION("신묘마루"   , "오키나"   , 0    , 300)
+
+CALL INIT_RELATION("케이네"     , "레이무"     , 300  , 0)
+CALL INIT_RELATION("케이네"     , "레밀리아" , 0    , 300)
+CALL INIT_RELATION("케이네"     , "마리사"   , 300  , 0)
+CALL INIT_RELATION("케이네"     , "유카리"       , 300  , 300)
+CALL INIT_RELATION("케이네"     , "에이린"     , 300  , 0)
+CALL INIT_RELATION("케이네"     , "아야"       , 0    , 300)
+CALL INIT_RELATION("케이네"     , "카나코"   , 300  , 300)
+CALL INIT_RELATION("케이네"     , "뱌쿠렌"     , 300  , 0)
+CALL INIT_RELATION("케이네"     , "미코"     , 300  , 0)
+CALL INIT_RELATION("케이네"     , "치르노"   , 100  , 0)
+
+CALL INIT_RELATION("요리히메"     , "레이무"     , 0    , 600)
+CALL INIT_RELATION("요리히메"     , "레밀리아" , 0    , 600)
+CALL INIT_RELATION("요리히메"     , "마리사"   , 0    , 600)
+CALL INIT_RELATION("요리히메"     , "유유코"   , 0    , 600)
+CALL INIT_RELATION("요리히메"     , "유카리"       , 0    , 1500)
+CALL INIT_RELATION("요리히메"     , "에이린"     , 1500 , 0)
+CALL INIT_RELATION("요리히메"     , "순호"     , 0    , 1500)
+
+CALL INIT_RELATION("치르노"   , "레이무"     , 300  , 0)
+CALL INIT_RELATION("치르노"   , "레밀리아" , 300  , 0)
+CALL INIT_RELATION("치르노"   , "시키에이키" , 300  , 0)
+CALL INIT_RELATION("치르노"   , "아야"       , 300  , 0)
+CALL INIT_RELATION("치르노"   , "신묘마루"   , 300  , 300)
+CALL INIT_RELATION("치르노"   , "케이네"     , 300  , 300)
+CALL INIT_RELATION("치르노"   , "오키나"   , 300  , 300)
+
+CALL INIT_RELATION("유카"     , "레이무"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "레밀리아" , 300  , 300)
+CALL INIT_RELATION("유카"     , "마리사"   , 300  , 300)
+CALL INIT_RELATION("유카"     , "유유코"   , 300  , 300)
+CALL INIT_RELATION("유카"     , "유카리"       , 300  , 600)
+CALL INIT_RELATION("유카"     , "에이린"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "시키에이키" , 300  , 300)
+CALL INIT_RELATION("유카"     , "아야"       , 300  , 300)
+CALL INIT_RELATION("유카"     , "카나코"   , 300  , 300)
+CALL INIT_RELATION("유카"     , "텐시"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "사토리"   , 300  , 300)
+CALL INIT_RELATION("유카"     , "뱌쿠렌"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "미코"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "신묘마루"   , 300  , 300)
+CALL INIT_RELATION("유카"     , "케이네"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "요리히메"     , 300  , 600)
+CALL INIT_RELATION("유카"     , "치르노"   , 600  , 0)
+CALL INIT_RELATION("유카"     , "유우기"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "유메미"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "신키"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "겐게츠"     , 300  , 0)
+CALL INIT_RELATION("유카"     , "순호"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "미마"     , 300  , 300)
+CALL INIT_RELATION("유카"     , "사리엘" , 300  , 300)
+CALL INIT_RELATION("유카"     , "오키나"   , 300  , 300)
+
+CALL INIT_RELATION("유우기"     , "레이무"     , 300  , 0)
+CALL INIT_RELATION("유우기"     , "마리사"   , 300  , 0)
+CALL INIT_RELATION("유우기"     , "사토리"   , 300  , 600)
+
+CALL INIT_RELATION("유메미"     , "레이무"     , 300  , 0)
+CALL INIT_RELATION("유메미"     , "레밀리아" , 0    , 0)
+CALL INIT_RELATION("유메미"     , "마리사"   , 300  , 0)
+CALL INIT_RELATION("유메미"     , "신키"     , 300  , 0)
+CALL INIT_RELATION("유메미"     , "겐게츠"     , 100  , 0)
+CALL INIT_RELATION("유메미"     , "미마"     , 300  , 0)
+CALL INIT_RELATION("유메미"     , "사리엘" , 300  , 0)
+
+CALL INIT_RELATION("신키"     , "레이무"     , 300  , 300)
+CALL INIT_RELATION("신키"     , "마리사"   , 600  , 0)
+CALL INIT_RELATION("신키"     , "유메미"     , 0    , 300)
+CALL INIT_RELATION("신키"     , "미마"     , 0    , 600)
+CALL INIT_RELATION("신키"     , "뱌쿠렌"     , 300  , 300)
+
+CALL INIT_RELATION("겐게츠"     , "유카"     , 600  , 0)
+
+CALL INIT_RELATION("순호"     , "요리히메"     , 0    , 1500)
+
+CALL INIT_RELATION("미마"     , "레이무"     , 300  , 0)
+CALL INIT_RELATION("미마"     , "마리사"   , 1500 , 0)
+CALL INIT_RELATION("미마"     , "신키"     , 0    , 300)
+
+CALL INIT_RELATION("사리엘" , "레이무"     , 0    , 300)
+CALL INIT_RELATION("사리엘" , "마리사"   , 0    , 300)
+CALL INIT_RELATION("사리엘" , "미마"     , 0    , 300)
+
+CALL INIT_RELATION("오키나"   , "레이무"     , 300  , 0)
+CALL INIT_RELATION("오키나"   , "마리사"   , 300  , 0)
+CALL INIT_RELATION("오키나"   , "유카리"       , 900  , 0)
+CALL INIT_RELATION("오키나"   , "아야"       , 300  , 800)
+CALL INIT_RELATION("오키나"   , "치르노"   , 600  , 0)
+
+
+
+CALL INIT_ALLIANCE_BY_NAME("레이무"     , "마리사" , 15)
+CALL INIT_ALLIANCE_BY_NAME("레이무"     , "신묘마루" , 10)
+CALL INIT_ALLIANCE_BY_NAME("레이무"     , "유카리"     , 15)
+
+CALL INIT_ALLIANCE_BY_NAME("마리사"   , "미마"   , 20)
+
+CALL INIT_ALLIANCE_BY_NAME("유카리"       , "유유코" , 15)
+CALL INIT_ALLIANCE_BY_NAME("유카리"       , "오키나" , 15)
+
+CALL INIT_ALLIANCE_BY_NAME("시키에이키" , "사토리" , 15)
+
+CALL INIT_ALLIANCE_BY_NAME("카나코"   , "사토리" , 10)
+
+CALL INIT_ALLIANCE_BY_NAME("뱌쿠렌"     , "케이네"   , 10)
+
+CALL INIT_ALLIANCE_BY_NAME("요리히메"     , "에이린"   , 25)
+
+CALL INIT_ALLIANCE_BY_NAME("신키"     , "뱌쿠렌"   , 10)
+

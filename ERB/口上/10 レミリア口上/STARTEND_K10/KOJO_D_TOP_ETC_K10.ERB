@@ -1,0 +1,263 @@
+﻿;─────────────────────────────────────── 
+;●「포로 역조교(외래 세력에 잡혔을 경우)」개시시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_START_D_K10
+#DIM 레밀리아_대상
+#DIM 레밀리아
+
+레밀리아_대상 = MASTER
+레밀리아 = NAME_TO_CHARA("레밀리아")
+
+;레밀리아 구상의 사용 가부 설정과 초기화
+SIF CFLAG:레밀리아:400 == 0
+	CALL KOJO_ASK_RESET_K10
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:레밀리아:400 == 1
+	RETURN 0
+
+SETCOLOR 레밀리아_구상칼라
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+IF CFLAG:레밀리아:206 == 0
+
+	;포로 역조교(외래) 구상 첫회 호출 플래그 온
+	CFLAG:레밀리아:206 = 1
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:레밀리아:공허
+		IF IS_MALE(레밀리아_대상)
+			PRINTFORML 「우-……?   자지……흰 것……밥」
+		ELSE
+			PRINTFORML 「여자아이……?   기분 좋아―……?   놀자……」
+		ENDIF
+		PRINTFORMDL %ANAME(레밀리아)%는 공허한 눈동자로 가까워져 왔다…
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%?   이런 곳에서 무엇을 하고 있는 거야?」
+	PRINTFORMDW %ANAME(레밀리아)%는 알몸의 몸을 숨길려고도 하지 않고, 목을 기울여 물어 봐 왔다
+	PRINTL 
+	IF CHECK_K10("함락", 레밀리아_대상)
+		PRINTFORML 「(들)물을 것도 없었지요. 나를 찾으러 온 것이겠지」
+		PRINTFORML 「좋은 아이. 딱 좋을 때에 왔군요」
+		PRINTFORMDW 동작할 수 없는 %조사처리(ANAME(레밀리아_대상),"를")% 풀려고도 하지 않고, 머리를 어루만져 온다
+		PRINTL 
+		PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%에도, 우응. %CALLNAME_K10(레밀리아_대상)%에 가르쳐 주고 싶다고 생각하고 있었어」
+		PRINTFORML 「여기, 즐거운거야. 모두 나에게 피를 주고 싶어하는거야」
+		PRINTFORML 「나 소식하기 때문에 그다지 마실 수 없지만, 흰 피라면 생각보다는 많이 마실 수 있는 것 같다」
+		PRINTFORMDW %ANAME(레밀리아)%는 마치 변함없고, 진심으로 즐거운 듯이 말했다
+		PRINTL 
+		PRINTFORML 「직켄?   는, 즐거워요」
+		PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%도 합시다?」
+		PRINTFORML 「무쿠우……응?   」
+	ELSE
+		PRINTFORML 「누군가를 인질에게라도 빼앗겨, 어쩔 수 없게 되었어?」
+		PRINTFORML 「그렇지 않으면, 아아. 나와 같음?」
+		PRINTFORML 「여기는 즐거운거야. 모두 나에게 피를 주고 싶어하는거야」
+		PRINTFORMDW %ANAME(레밀리아)%는 마치 변함없고, 진심으로 즐거운 듯이 말했다
+		PRINTL 
+		PRINTFORML 「나 소식하기 때문에 그다지 마실 수 없지만, 흰 피라면 생각보다는 많이 마실 수 있어」
+		PRINTFORML 「직켄?   는, 즐거워요. %CALLNAME_K10(레밀리아_대상)%도 합시다?」
+	ENDIF
+	IF IS_MALE(레밀리아_대상)
+		PRINTFORMDL %ANAME(레밀리아)%는 무슨 주저함도 없고, 그 작은 입술로 %ANAME(레밀리아_대상)%의 음경에 달라붙어서 놓지 않았다……
+	ELSE
+		PRINTFORMDL %ANAME(레밀리아)%는 무슨 주저함도 없고, 그 작은 혀로 %ANAME(레밀리아_대상)%의 균열을 빨기 시작했다……
+	ENDIF
+
+;─────────────────────────────────────── 
+;○2회째 이후
+;─────────────────────────────────────── 
+ELSE
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:레밀리아:공허
+		IF IS_MALE(레밀리아_대상)
+			PRINTFORML 「우-……?   자지……흰 것……밥」
+		ELSE
+			PRINTFORML 「여자아이……?   기분 좋아―……?   놀자……」
+		ENDIF
+		PRINTFORMDL %ANAME(레밀리아)%는 공허한 눈동자로 가까워져 왔다…
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%, 분명하게 오나니-하고 있었어?」
+	PRINTFORML 「나를 위해서(때문에) 피를 모으고 있어 준 것이겠지?」
+	PRINTFORML 「배가 고파졌어. 빨리 먹여. --응, ……?   두……쥿」
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+
+;─────────────────────────────────────── 
+;●「포로 역조교(외래)」종료
+;─────────────────────────────────────── 
+@KOJO_TRAIN_END_D_K10
+#DIM 레밀리아_대상
+#DIM 레밀리아
+
+레밀리아_대상 = 레밀리아_대상
+레밀리아 = NAME_TO_CHARA("레밀리아")
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:레밀리아:400 == 1
+	RETURN 0
+
+SETCOLOR 레밀리아_구상칼라
+
+PRINTL 
+
+;─────────────────────────────────────── 
+;행동불능
+;─────────────────────────────────────── 
+;이탈이 끝난 상태
+IF TCVAR:레밀리아:53 > 1
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+IF TALENT:레밀리아:공허
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(레밀리아)%는 뿌옇게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:레밀리아:53 == 1
+	PRINTFORML 「……우우-……이제(이미/벌써/더는/정말)……음……히」
+	PRINTFORMDL %ANAME(레밀리아)%는 무너져 버렸다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:레밀리아:52 || BASE:레밀리아:기력 <= 300
+	PRINTFORML 「……아?   ……」
+	PRINTFORMDL %ANAME(레밀리아)%입는 충분한 손발을 가끔 실룩거리게 해, 황홀과 미소짓고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:레밀리아:51
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(레밀리아)%는 완전히 지쳐 버린 얼굴로 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;주인공의 행동불능
+;─────────────────────────────────────── 
+IF TALENT:레밀리아_대상:공허
+	PRINTFORML 「움직일 수 없는 인형은 재미없다고 생각했지만」
+	PRINTFORML 「응,?   ……후, 아므……?」
+	PRINTFORMW 「밥 먹으려면, 딱 좋은거네」
+	PRINTL 
+	IF IS_MALE(레밀리아_대상)
+		PRINTFORML 「자지만 발기시키고 있어 주면 좋은거야. 사정해 주면 좋은거야」
+		PRINTFORML 「이봐요 아 빨리……밀크, 내세요?   짜는, 쥿」
+	ELSE
+		PRINTFORML 「가랑이를 열어, 애액만 흘려 보내 주고 있으면 좋은거야. 말하고 있어 주면 좋은거야」
+		PRINTFORML 「이봐요 아 빨리……진심국물, 내세요?   , 쥿」
+	ENDIF
+	PRINTFORMDL %ANAME(레밀리아)%는 공허한 눈동자의 %ANAME(레밀리아_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:레밀리아_대상:53
+	PRINTFORML 「술취해 버렸어?   좋은 꿈꾸고 있어?」
+	IF IS_MALE(레밀리아_대상)
+		PRINTFORML 「내고 있을 뿐으로 수도꼭지같이 되어 버려, 몇일도 멈추지 않는 꿈을 꾸세요」
+		PRINTFORML 「내가 보여 주어?   응, 쥬웃……푸,?   좋은 맛 해……읏읏」
+	ELSE
+		PRINTFORML 「살고 있을 뿐으로 경련도 할 수 없게 되어, 몇일도 멈추지 않는 꿈을 꾸세요」
+		PRINTFORML 「내가 보여 주어?   응, ……응, 후구, 는?   좋은 맛 해……읏읏」
+	ENDIF
+	PRINTFORMDL %ANAME(레밀리아)%는 취해 무너진 %ANAME(레밀리아_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:레밀리아_대상:52 || BASE:레밀리아_대상:기력 <= 300
+	PRINTFORML 「가 버려 돌아올 수 없는거야?   좋은 꿈꾸고 있어?」
+	IF IS_MALE(레밀리아_대상)
+		PRINTFORML 「내고 있을 뿐으로 수도꼭지같이 되어 버려, 몇일도 멈추지 않는 꿈을 꾸세요」
+		PRINTFORML 「내가 보여 주어?   응, 쥬웃……푸,?   좋은 맛 해……읏읏」
+	ELSE
+		PRINTFORML 「살고 있을 뿐으로 경련도 할 수 없게 되어, 몇일도 멈추지 않는 꿈을 꾸세요」
+		PRINTFORML 「내가 보여 주어?   응, ……응, 후구, 는?   좋은 맛 해……읏읏」
+	ENDIF
+	PRINTFORMDL %ANAME(레밀리아)%는 정신을 잃었던 %ANAME(레밀리아_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:레밀리아_대상:51
+	PRINTFORML 「더는 안 돼?   체력 한계?   ……좋은 꿈꾸고 있어?」
+	IF IS_MALE(레밀리아_대상)
+		PRINTFORML 「내고 있을 뿐으로 수도꼭지같이 되어 버려, 몇일도 멈추지 않는 꿈을 꾸세요」
+		PRINTFORML 「내가 보여 주어?   응, 쥬웃……푸,?   좋은 맛 해……읏읏」
+	ELSE
+		PRINTFORML 「살고 있을 뿐으로 경련도 할 수 없게 되어, 몇일도 멈추지 않는 꿈을 꾸세요」
+		PRINTFORML 「내가 보여 주어?   응, ……응, 후구, 는?   좋은 맛 해……읏읏」
+	ENDIF
+	PRINTFORMDL %ANAME(레밀리아)%는 완전히 지쳐 버린 %ANAME(레밀리아_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;첫회
+;─────────────────────────────────────── 
+IF CFLAG:레밀리아:206 < 2
+	CFLAG:206 = 2
+	PRINTFORML 「아무것도 걱정하지 않아도 괜찮아요. 너는 나의 것」
+	PRINTFORML 「그것마저 변화가 없으면, 그 밖에 우려함은 없다. 그렇겠지?」
+	PRINTFORML 「너는 다만 나에게 안겨, 나에게 피를 바쳐, 기뻐하고 있으면 된다」
+	PRINTFORML 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% 그 때문에 태어났어」
+;─────────────────────────────────────── 
+;2회째 이후
+;─────────────────────────────────────── 
+ELSE
+	PRINTFORML 「너는 아무것도 생각하지 않고, 나에게 피를 바치는 것만을 행복하게 하세요」
+	PRINTFORML 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% 그 때문에 태어났어」
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+

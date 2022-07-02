@@ -1,0 +1,94 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K42_HANAYOME_SYUGYOU_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K42_HANAYOME_SYUGYOU_DECISION(대상)
+#DIM 대상
+#DIM 카나코
+#DIM 스와코
+
+카나코 = NAME_TO_CHARA("카나코")
+스와코 = NAME_TO_CHARA("스와코")
+
+SIF !ALLSAMES(CFLAG:대상:소속, CFLAG:카나코:소속, CFLAG:스와코:소속)
+	RETURN 0
+
+SIF !IS_LOVER(대상)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(카나코, -1, 0, -1) && CHECK_KOJO_DAILY_HAPPEN(스와코, -1, 0, -1)
+
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K42_HANAYOME_SYUGYOU_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K42_HANAYOME_SYUGYOU(대상)
+#DIM 대상
+#DIM 카나코
+#DIM 스와코
+
+카나코 = NAME_TO_CHARA("카나코")
+스와코 = NAME_TO_CHARA("스와코")
+
+
+LOCALS:0 = \@ RAND:2 ? %ANAME(카나코)% # %ANAME(스와코)% \@
+
+SELECTCASE IFRAND("0, 1, 2, 3, 4", 1, "5", RAND:2)
+	CASE 0
+		PRINTFORMW 「이런 시대니까, 좋아하는 사람을 번거롭게 할 수 없게, 자신의 몸은 스스로 지킬 수 있게 되어」
+		PRINTFORMW 「네, %LOCALS:0%님!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(LOCALS:0,"로")%부터 싸움의 지도를 받고 있다……
+		CALL PRINT_ADD_EXP(대상, "무투경험치", 5, 1)
+	CASE 1
+		PRINTFORMW 「이런 시대니까, 집을 지킬 수 있을 정도로 영리한 여자가 아니면 안 돼」
+		PRINTFORMW 「네, %LOCALS:0%님!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(LOCALS:0,"로")%부터 전략의 지도를 받고 있다……
+		CALL PRINT_ADD_EXP(대상, "지략경험치", 5, 1)
+	CASE 2
+		PRINTFORMW 「만일의 경우는, 남편의 고삐를 잡을 수 있도록(듯이) 안 되면」
+		PRINTFORMW 「네, %LOCALS:0%님!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(LOCALS:0,"로")%부터 정치의 지도를 받고 있다……
+		CALL PRINT_ADD_EXP(대상, "정치경험치", 5, 1)
+	CASE 3
+		;아무래도 좋지만인가 이루어요의 요리 초기 스테는 대상보다 많이 낮네요……
+		PRINTFORMW 「남자는 위로 잡는다!   이것이 기본이구나」
+		PRINTFORMW 「네, %LOCALS:0%님!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(LOCALS:0,"로")%부터 요리의 지도를 받고 있다……
+		CALL PRINT_ADD_EXP(대상, "요리경험치", 5, 1)
+	CASE 4
+		PRINTFORMW 「역시 소리구나, 소리가 좋은 것은 칠난 숨긴다」
+		PRINTFORMW 「네, %LOCALS:0%님!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(LOCALS:0,"로")%부터 노래의 지도를 받고 있다……
+		CALL PRINT_ADD_EXP(대상, "가창경험치", 5, 1)
+	CASE 5
+		PRINTFORMW 「침실이 생기면, 남자는 그대로 두지 않게 되는거야……이봐요 이봐요」
+		PRINTFORMW 「앗!   하, 네, %LOCALS:0%님……♥」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %조사처리(LOCALS:0,"로")%부터 침실의 지도를 받고 있다……
+		CALL FUCK(대상, "Ｃ, Ｖ, Ｂ, Ａ, 욕망, 성기술, 봉사, 성교, 정애")
+ENDSELECT
+
+CALL TRAIN_AUTO_ABLUP(대상)
+
+
+RETURN 1

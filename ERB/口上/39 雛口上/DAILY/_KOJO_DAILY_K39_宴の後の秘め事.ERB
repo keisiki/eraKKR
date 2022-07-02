@@ -1,0 +1,118 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K39_AFTER_HIDDEN_RATE(대상)
+#DIM 대상
+RETURN 100
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K39_AFTER_HIDDEN_DECISION(대상)
+#DIM 대상
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+	
+SIF KDVAR:대상:추_연의뒤의은밀한일
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K39_AFTER_HIDDEN_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K39_AFTER_HIDDEN(대상)
+#DIM 대상
+
+PRINTFORML 연회도 끝나, 사람도 드문드문하게 되기 시작한 안, 문득%조사처리(ANAME(대상),"를")% 찾아냈다
+PRINTFORML %조사처리(ANAME(대상),"는")% 구석의 (분)편으로 후드득후드득 잔을 부추기고 있다
+PRINTFORML 그 모습이 매우 요염해서, 묘하게 불끈불끈 해 버린다
+CALL ASK_YN("쓰러트려 끝내자", "그런 일은 하지 않는다")
+IF RESULT == 1
+	PRINTFORML 멈추어 두자
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% 머리를 흔들어 취기를 깨면, 정리를 시작했다……
+	RETURN 1
+ELSE
+	PRINTFORMW 「꺗」
+	PRINTFORML %조사처리(ANAME(대상),"는")% 어둠에 데리고 들어가지면, 사랑스럽게 비명을 올렸다
+	PRINTFORML %ANAME(MASTER)%의 얼굴을 봐 일순간 멍청히 했지만, 곧 요염하게 웃었다
+	PRINTFORMW 「후후……이렇게 액을 모아두어선……안 되는 사람이네. 좋을 것입니다. 내가 짜내 줍시다. 충분히 시간을 들여……」
+	PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 사타구니를 쓰다듬어 올리면서, 귓전으로 속삭였다
+	PRINTFORML 다만, 이라고 %조사처리(ANAME(대상),"는")% 계속해 말한다
+	PRINTFORMW 「나를 만족 시킬 수 없었으면, 그만한 대응을 하도록 해 받으니까요?」
+	PRINTFORML 경고에도 들리는 군소리는, 우려함을 느끼게 하는 것이 있었다
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML ·
+	IF ABL:MASTER:성기술 >= (ABL:대상:욕망 + ABL:대상:성기술)
+		PRINTFORMW 「앗♥  아♥  앙읏♥  나♥」
+		PRINTFORML 허리를 쳐박을 때에, %ANAME(대상)%의 달콤한 목소리가 울린다
+		PRINTFORML 처음은 호각이었지만, 마루이치밤 사귀는 동안에 추세는 정하고 있었다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")%, 또 느슨해져 왔지 않은가, 확실히 잡으라고 하면서, 난폭하게 가슴을 주무른다
+		PRINTFORML 이미 쾌감으로 경련하고 있을 뿐의 질이 다시 힘들어진다. 기특하게 봉사하는 %ANAME(대상)%의 모습을 봐, %조사처리(ANAME(MASTER),"는")% 머리를 어루만져 주었다
+		PRINTFORMW 「포상♥  -주세요♥」
+		PRINTFORML 입을 내밀면서 응석부려 오는 %ANAME(대상)%에, %조사처리(ANAME(MASTER),"는")% 입술에 달라붙어서 놓지 않은 일로 대답하여 주었다
+		PRINTFORML 페니스가 1바퀴 굵어지는 것을 느껴, %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 허리에 다리를 휘감기게 했다
+		PRINTFORML 절대외에는 내게 하지 않다고 하는 %ANAME(대상)%의 의사에 대답해, 몇 번째인가의 사정을 쏟았다
+		PRINTFORML ……아침해가 오르기 직전에, 겨우 두 명의 은밀한 일은 끝났다
+		PRINTFORML %ANAME(MASTER)%의 가슴판에 손가락을 기게 하면서, %조사처리(ANAME(대상),"가")% 물어 온다
+		PRINTFORMW 「우후후……액은 전부 토해낼 수 있었습니까?」
+		PRINTFORML 어딘지 모르게 의도를 헤아려, 어떨까라고 대답한다
+		PRINTFORML %조사처리(ANAME(대상),"는")% 정액으로 흘러넘친 보지를 열어 과시하면서, %ANAME(MASTER)%의 귀에 입술을 대었다
+		PRINTFORMW 「또 권해 주세요. 이번은 맹숭맹숭한 얼굴때에……♥」
+;		CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", @"%ANAME(MASTER)%")
+		CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", @"%ANAME(MASTER)%")
+		CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+		TALENT:대상:합의 = 1
+		CFLAG:대상:호감도 += 300
+	ELSE
+		PRINTFORML 츄 응, 츄 응, 이라는 소리가, 근처에 울린다
+		PRINTFORML 음이 울고 있는 것은 %ANAME(MASTER)%의 사타구니이며, 울리고 있는 것은 %ANAME(대상)%의 다리였다
+		PRINTFORML , 라고 소리를 내, 이제 몇 번째일지도 모르는 사정을 한다
+		PRINTFORML %조사처리(ANAME(대상),"는")% 한심하게 정액을 흘려 보내는 페니스와 %ANAME(MASTER)%의 얼굴을, 냉혹하고 무표정해서 교대로 바라보았다
+		PRINTFORMW 「이제 몇 번째일지도 모릅니다만……조루 레이 파의 쓰레기 페니스, 또 사정했어요」
+		PRINTFORML 그녀의 경고는 거짓 없고, %조사처리(ANAME(MASTER),"가")% %ANAME(대상)%의 성기술로 조속히 감쪽같이 속자, 곧바로 기분을 해쳤다
+		PRINTFORML 한 번의 성교도 용서되지 않고, 발바닥으로 사정 당해 그것을 빨고 받아들이게 해지고……라는 일을 이미 몇번이고 가고 있다
+		PRINTFORMW 「변변히 인내도 할 수 없는 쓰레기 페니스인 것이니까, 적어도 다른 부분에서 나를 만족시키세요」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 위압적으로 말하면, %ANAME(MASTER)%의 얼굴을 엉덩이로 찌부러뜨렸다
+		PRINTFORML 강렬한 여자의 냄새에 어찔어찔 하면서, %조사처리(ANAME(MASTER),"는")% (듣)묻는 대로 쿤닐링구스를 시작했다
+		PRINTFORMW 「……페니스도 안 돼, 혀놀림도 논외……. 자주(잘) 그래서 취한 여자를 물건으로 하자 등이라고 생각된 거네」
+		PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 실망해, 스스로 쾌감을 얻으려고 얼굴에 사타구니를 문질러 온다
+		PRINTFORML 페니스를 희롱하는 다리가 배로 증가해, 손가락끝으로 귀두를 뭉그러뜨려질 때에, 한심하게 사정을 해 버린다
+		IF IS_MALE(MASTER)
+			PRINTFORMW 「쓰레기, 쓰레기, 입만 남자, 인간 실격, 딜도 이하의 무능 페니스……싫구나, 매도해져 기뻐하고 있지 않아. 이 똥 마조」
+		ELSE
+			PRINTFORMW 「쓰레기, 쓰레기, 인간 실격, 여자인데 한심한 페니스는 매달아 부끄럽지 않은거야? ……싫구나, 매도해져 기뻐하고 있지 않아. 이 똥 마조」
+		ENDIF
+		PRINTFORML 꽂히는 말을 토해질 때에 반응하고 있던 페니스를 간파되어 모멸과 함께 발뒤꿈치를 떨어뜨려지고 또 사정해 버린다
+		PRINTFORML %ANAME(MASTER)%의 정액의 출이 나빠졌을 무렵, 겨우%ANAME(대상)%의 능욕으로부터 해방되었다
+		PRINTFORMW 「액을 짜낸다는 나은 끝나. 이것으로 불능이라도는 있어 준다면 좋은 것뿐, 그렇게 능숙하게는 가지 않네요……. 두 번 다시 여성을 덮치자 등이라고 생각하지 않는 것. 알았군요, 돼지」
+		PRINTFORML %조사처리(ANAME(대상),"가")% 페니스를 차버리면, 알았다고 하도록(듯이) 소량 사정했다
+		PRINTFORML 정액 투성이로 구르는 %조사처리(ANAME(MASTER),"를")% 무시해, %조사처리(ANAME(대상),"는")% 떠나 갔다……
+		CALL FUCK(MASTER, "Ｃ, 봉사, 정애, 사정", "키스상실", GET_SPERM_ID("불명"), @"%ANAME(대상)%의 다리")
+		CFLAG:대상:호감도 -= 300
+	ENDIF
+KDVAR:대상:추_연의뒤의은밀한일 = 1
+ENDIF
+
+
+
+
+
+RETURN 1
+

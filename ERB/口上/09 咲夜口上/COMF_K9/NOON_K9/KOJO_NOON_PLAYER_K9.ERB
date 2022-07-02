@@ -1,0 +1,559 @@
+﻿;─────────────────────────────────────── 
+;■일상_실행_실행전
+;─────────────────────────────────────── 
+@KOJO_K9_NOON_BEFORE_PLAYER(사쿠야_대상)
+#DIM 사쿠야
+#DIM 사쿠야_대상
+#DIMS 사쿠야기분
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야기분 '= TOSTR_EMOTION(사쿠야)
+
+;─────────────────────────────────────── 
+;●기분이 나쁘면 통상의 커맨드 구상은 말하지 않는다
+;─────────────────────────────────────── 
+SELECTCASE 사쿠야기분
+	CASE "원한", "분노", "분개"
+		IF PALAM:사쿠야:로주 <= PALAM:사쿠야:로외
+			PRINTDATAL
+				DATALIST
+					DATAFORM 「조금 기분이 나쁜거야」
+					DATAFORM 「걱정은 필요없어요, %CALLNAME_K9(사쿠야_대상)%태우고 있고는 아니니까」
+				ENDLIST
+				DATAFORM 「미안해요, 조금 다른 일로 안절부절 하고 있어」
+				DATALIST
+					DATAFORM 「하아, 이제(이미/벌써/더는/정말)……아. %CALLNAME_K9(사쿠야_대상)%에 화나 있는 것은 아닌거야」
+					DATAFORM 「기분이 나쁜 곳을 보여 버려 미안해요」
+				ENDLIST
+				DATAFORM 「싫은 일이 있던거야. (들)물어 줄까」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「하아……」
+				DATAFORM 「이제(이미/벌써/더는/정말)」
+				DATAFORM 「안절부절 해요」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		IF PALAM:사쿠야:액주 <= PALAM:사쿠야:액외
+			PRINTDATAL
+				DATAFORM 「조금 기분이 막고 있어. 아니오, %CALLNAME_K9(사쿠야_대상)%태우고 있고는 아니에요」
+				DATAFORM 「미안해요. 조금 낙담하는 일이 있었어」
+				DATAFORM 「하아……아. %CALLNAME_K9(사쿠야_대상)%에 한숨을 토했을 것은 아닌거야. 미안해요」
+				DATAFORM 「그렇구나……조금, 싫은 일이 있어, 우울했어」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「하아……」
+				DATAFORM 「마음이 가라앉음원이군요」
+				DATAFORM 「우울하구나」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		IF PALAM:사쿠야:포주 <= PALAM:사쿠야:포외
+			PRINTDATAL
+				DATAFORM 「무엇인 것일까……아니요%조사처리(CALLNAME_K9(사쿠야_대상),"은")% 아닌거야」
+				DATAFORM 「조금 무섭네요……%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 곁에 있어 주지 않을까」
+				DATAFORM 「도무지 알 수 없네요……아니요%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 아니라」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「무엇인 것일까」
+				DATAFORM 「정직, 무섭지만」
+				DATAFORM 「도무지 알 수 없네요」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASEELSE
+
+ENDSELECT
+
+;─────────────────────────────────────── 
+;●동일 커맨드
+;─────────────────────────────────────── 
+IF SELECTCOM == PREVCOM && RAND:10 == 0
+	;사쿠야에 주도권 없음
+	IF !IS_INITIATIVE(사쿠야)
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶군요. 기뻐해」
+				DATAFORM 「이대로입니까?   잘 알았습니다」
+				DATAFORM 「네. 좀 더, 이대로……」
+				DATAFORM 「나도 아직, %KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶습니다」
+				DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶군요」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶은거네. 후훗」
+				DATAFORM 「이대로?   알고 있어요」
+				DATAFORM 「그렇구나. 좀 더, 이대로가 좋아요」
+				DATAFORM 「나도 아직, %KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶어요」
+				DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶을 것입니다?」
+			ENDDATA
+		ENDIF
+	;사쿠야에 주도권 있어
+	ELSE
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「아직 %KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶습니다……」
+				DATAFORM 「좀 더 교제 받을 수 없습니까?」
+				DATAFORM 「부디 이대로 함께 주세요」
+				DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶지는 않습니까?」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「좀 더%KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶어요」
+				DATAFORM 「좀 더 교제해 받을 수 있을까?」
+				DATAFORM 「아직 해도 될까?」
+				DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶지는 않을까?」
+			ENDDATA
+		ENDIF
+	ENDIF
+;─────────────────────────────────────── 
+;●동일 커맨드가 아니다
+;─────────────────────────────────────── 
+ELSEIF RAND:10 == 0
+	;사쿠야에 주도권 없음
+	IF !IS_INITIATIVE(사쿠야)
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶군요」
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶군요. 기뻐해」
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶군요. 잘 알았습니다」
+				DATAFORM 「나도 %KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶습니다」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶은거네」
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶은거네. 후훗. 좋아요」
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶은거네. 알고 있어요」
+				DATAFORM 「나도 %KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶어요」
+			ENDDATA
+		ENDIF
+	;사쿠야에 주도권 있어
+	ELSE
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「%KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶습니다만, 교제 받을 수 없습니까?」
+				DATAFORM 「%KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶습니다. 좋을까요?」
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶지는 않습니까?」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「%KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶어요. 교제해 받을 수 있을까?」
+				DATAFORM 「%KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)%싶어요. 좋을까?」
+				DATAFORM 「%KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)%싶지는 않을까?」
+			ENDDATA
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●스킨쉽·등을 씻는다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 320, 358)
+	;사쿠야에 주도권 없음
+	IF !IS_INITIATIVE(사쿠야)
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「이러할까요……낯간지럽습니까?」
+				DATAFORM 「좀 더 접근해도 괜찮군요. 기쁩니다」
+				DATAFORM 「이렇게 하고 있으면 상냥한 기분이 될 수 있습니다」
+				DATAFORM 「이 정도입니까?」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「이러한가?   ……낯간지러워?」
+				DATAFORM 「이렇게?   후후, 가깝네요. 사랑스러워요」
+				DATAFORM 「이렇게 하고 있으면 상냥한 기분이 될 수 있어요」
+				DATAFORM 「이 정도일까」
+			ENDDATA
+		ENDIF
+	;사쿠야에 주도권 있어
+	ELSE
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「후훗. 낯간지러울까요?」
+				DATAFORM 「조금 접근해 보고 싶어져……실례입니까?」
+				DATAFORM 「이런 것은 상냥한 기분이 될 수 있군요」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「후훗. 낯간지러울까」
+				DATAFORM 「조금 사이좋게 지내 보고 싶어진거야」
+				DATAFORM 「이런 것은 상냥한 기분이 되는 거네」
+				DATAFORM 「이 정도일까」
+			ENDDATA
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●321마리를 어루만진다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 321)
+	;사쿠야에 주도권 없음
+	IF !IS_INITIATIVE(사쿠야)
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「응석부려 주시는군요. 기쁩니다」
+				DATAFORM 「방심해 받고 있는 생각이 듭니다」
+				DATAFORM 「상냥한 기분이 될 수 있습니다」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「후후. 응석꾸러기씨. 사랑스러워요」
+				DATAFORM 「방심해지고 있는 생각이 들어요」
+				DATAFORM 「상냥한 기분이 될 수 있어요」
+			ENDDATA
+		ENDIF
+	;사쿠야에 주도권 있어
+	ELSE
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「방심해 받아지고 있는 생각이 듭니다」
+				DATAFORM 「상냥한 기분이 될 수 있습니다」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「방심해지고 있는 생각이 들어요」
+				DATAFORM 「상냥한 기분이 될 수 있어요」
+			ENDDATA
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●322머리카락을 빗는·323빗으로빗어준다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 322, 323)
+	;첫회 또한 대머리라면 마사지의 흐름을 만들어 둔다
+	;IS_COM_FIRST(1)는 타겟측의 확인을 위해 플래그를 준비/1회 한정인 것으로 클릭 있어
+	IF !사쿠야_미용사나무첫회 && TALENT:사쿠야_대상:머리길이 == 1
+		IF !IS_INITIATIVE(사쿠야)
+			IF CHECK_K9("경어")
+				PRINTFORML 「농담을. %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 깎고 계시지 않습니까」
+				PRINTFORMDW %ANAME(사쿠야)%는 어이를 상실해, 쿡쿡 웃기 시작했다
+				PRINTL 
+				PRINTFORML 「손질 하는 머리카락이 없어요. 마사지에 할까요」
+			ELSE
+				PRINTFORML 「무슨 농담일까. %CALLNAME_K9(사쿠야_대상)%, 깎고 있지 않아」
+				PRINTFORMDW %ANAME(사쿠야)%는 어이를 상실해, 쿡쿡 웃기 시작했다
+				PRINTL 
+				PRINTFORML 「손질 하는 머리카락이 없어요. 어루만지면 좋은 것일까」
+			ENDIF
+		ELSE
+			IF CHECK_K9("경어")
+				PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"는")% 머리카락을 깎고 계시는 거예요」
+				PRINTFORMDW %ANAME(사쿠야)%는 입술에 손을 대어 골똘히 생각하고 있다
+				PRINTL 
+				PRINTFORML 「그래그래, 어깨는 뻐근하고 있지 않습니까?   마사지는 어떻습니까?」
+				PRINTFORMDL 이윽고 납득이 간 것처럼 하나 수긍해, %ANAME(사쿠야_대상)%의 얼굴을 치뜬 눈에 응시했다
+			ELSE
+				PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"는")% 머리카락은 깎고 있는거네요」
+				PRINTFORMDW %ANAME(사쿠야)%는 입가에손을 대어 골똘히 생각하고 있다
+				PRINTL 
+				PRINTFORML 「그렇구나. 마사지 해 준다」
+				PRINTFORMDL 이윽고 납득이 간 것처럼 하나 수긍해, %ANAME(사쿠야_대상)%에 손을 뻗었다
+			ENDIF
+		ENDIF
+	;첫회가 아닌 or첫회이지만 대머리는 아니다
+	ELSE
+		;대머리
+		IF TALENT:사쿠야_대상:머리길이 == 1
+			IF !IS_INITIATIVE(사쿠야)
+				IF CHECK_K9("경어")
+					PRINTFORML 「후후, 마사지군요」
+				ELSE
+					PRINTFORML 「후후. 마사지」
+				ENDIF
+			ELSE
+				IF CHECK_K9("경어")
+					PRINTFORML 「후훗. 또 마사지이지만」
+				ELSE
+					PRINTFORML 「후훗. 또 마사지가 되어 버리지만」
+				ENDIF
+			ENDIF
+			IF CHECK_K9("경어")
+				PRINTDATAL
+					DATAFORM 「방심해 받고 있는 생각이 듭니다」
+					DATAFORM 「상냥한 기분이 될 수 있습니다」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「방심해지고 있는 생각이 들어요」
+					DATAFORM 「상냥한 기분이 될 수 있어요」
+				ENDDATA
+			ENDIF
+		;대머리는 아니다
+		ELSE
+			IF !IS_INITIATIVE(사쿠야)
+				IF CHECK_K9("경어")
+					PRINTFORML 「후후, 알았습니다. %KOJO_HAIR_NAME(사쿠야_대상)%, 손질 하네요」
+				ELSE
+					PRINTFORML 「후후. 알았어요. %KOJO_HAIR_NAME(사쿠야_대상)%, 빗고 빌려준다」
+				ENDIF
+				PRINTFORMDW %조사처리(ANAME(사쿠야_대상),"는")% %ANAME(사쿠야)%에 부탁해, 머리카락을 빗고 빌려주어 받았다
+			ELSE
+				IF CHECK_K9("경어")
+					PRINTFORML 「%KOJO_HAIR_NAME(사쿠야_대상)%로, 손대고 있어 기분이 괜찮습니다」
+				ELSE
+					PRINTFORML 「%KOJO_HAIR_NAME(사쿠야_대상)%군요. 손대고 있어 기분이 좋은거야」
+				ENDIF
+				PRINTFORMDW %ANAME(사쿠야)%는 %ANAME(사쿠야_대상)%의 머리카락을 빗고 빌려주었다
+			ENDIF
+			IF CHECK_K9("경어")
+				PRINTDATAL
+					DATAFORM 「낯간지럽지는 않습니까?」
+					DATAFORM 「방심해 받아지고 있는 것이 전해져, 침착합니다」
+					DATAFORM 「상냥한 기분이 될 수 있습니다」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「낯간지러울까?」
+					DATAFORM 「머리카락에 손대게 해 받을 수 있는 것은, 방심해지고 있는 생각이 들어요」
+					DATAFORM 「이런 것은 상냥한 기분이 되는 거네」
+				ENDDATA
+			ENDIF
+		ENDIF
+	ENDIF
+
+	PRINTFORMD %ANAME(사쿠야)%는 %ANAME(사쿠야_대상)%의
+	;대머리
+	IF TALENT:사쿠야_대상:머리길이 == 1
+		PRINTDATADL
+			DATAFORM 목을 중요한 것 같게 주물러 풀고 있다
+			DATAFORM 귀청을 간질여 행복하게 미소짓고 있다
+			DATAFORM 목덜미에 손가락을 미끄러지게 하고 은밀한 미소를 흘리고 있다
+			DATAFORM 목덜미를 살그머니 풀도록(듯이) 비비고 있다
+			DATAFORM 어깨를 똑똑 두드리고 있다
+			DATAFORM 견갑골을 훨씬 잡아 주물러 풀고 있다
+		ENDDATA
+	;길다
+	ELSEIF TALENT:사쿠야_대상:머리길이 >= 5
+		PRINTDATADL
+			DATAFORM 모속을 손에 들어 살그머니 키스를 하고 있다
+			DATAFORM 머리카락을 사랑하도록(듯이) 어루만지고 있다
+			DATAFORM 머리카락을 손가락에 걸어 희롱하고 있다
+			DATAFORM 머리카락을 세가닥 땋기로 해 놀기 시작하고 있다
+			DATAFORM 귀청을 간질여 행복하게 미소짓고 있다
+			DATAFORM 목덜미에 손가락을 미끄러지게 하고 은밀한 미소를 흘리고 있다
+			DATAFORM 지연털을 집어 츤츤 당겨 놀고 있다
+			DATAFORM 머리카락에 손가락을 통해 공기를 포함하게 하고 있다
+		ENDDATA
+	;중간
+	ELSE
+		PRINTDATADL
+			DATAFORM 털끝을 손에 들어 살그머니 키스를 하고 있다
+			DATAFORM 머리카락을 사랑하도록(듯이) 어루만지고 있다
+			DATAFORM 귀청을 간질여 행복하게 미소짓고 있다
+			DATAFORM 목덜미에 손가락을 미끄러지게 하고 은밀한 미소를 흘리고 있다
+			DATAFORM 머리카락을 한줄기 집어 츤츤 당겨 놀고 있다
+			DATAFORM 머리카락에 손가락을 통해 공기를 포함하게 하고 있다
+		ENDDATA
+	ENDIF
+
+	;플래그 주역이 아직이라면 플래그를 세워 둔다
+	;IS_COM_FIRST()는 타겟측의 확인을 위해 플래그 준비
+	IF !사쿠야_미용사나무첫회
+		사쿠야_미용사나무첫회 = 1
+	ENDIF
+
+	;묘사 오프
+	RETURN 1
+ENDIF
+
+;─────────────────────────────────────── 
+;●응시하는·달콤한 말
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 324, 325)
+	IF CHECK_K9("경어")
+		PRINTDATAL
+			DATAFORM 「……좋아합니다」
+			DATAFORM 「응……」
+			DATAFORM 「%조사처리(CALLNAME_K9(사쿠야_대상),"와")% 있을 때가 제일의 행복합니다」
+			DATAFORM 「나에게 할 수 있는 것은, %조사처리(CALLNAME_K9(사쿠야_대상),"로")%부터 맡겨 받을 수 있으면 기쁩니다」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM 「좋아해요」
+			DATAFORM 「응……」
+			DATAFORM 「%조사처리(CALLNAME_K9(사쿠야_대상),"와")% 있을 때가 제일의 행복해요」
+			DATAFORM 「나에게 할 수 있는 것은, %조사처리(CALLNAME_K9(사쿠야_대상),"로")%부터 의지해 받을 수 있으면 기뻐요」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●훈련계
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 301, 302, 303, 304, 305, 306, 307)
+	SELECTCASE SELECTCOM
+		CASE 301
+			PRINTFORML 「%POLITE_K9("적을 갖고 싶은거야", "팔이 무디어지는 것이 걱정입니다")%」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에 %POLITE_K9("부탁하는 것이 제일이야. 최고의 긴장을 얻을 수 있는 것", "부탁하는 것이 제일입니다. 최고의 긴장을 얻을 수 있을테니까")%」
+			ENDIF
+		CASE 302
+			PRINTFORML 「몸을 지킬 방법은 필요%POLITE_K9("해", "합니다")%」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「만일의 경우, %CALLNAME_K9(사쿠야_대상)%만은 %POLITE_K9("도망쳤으면 좋은 것", "무사했으면 좋으니까요")%」
+			ENDIF
+		CASE 303
+			PRINTFORML 「평소의 시행착오는 큰 일%POLITE_K9("이야", "입니다")%」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%%POLITE_K9(@"%조사만처리(CALLNAME_K9(사쿠야_대상),"를")% 누군가에게 빼앗기면 곤란한 것", @"%조사만처리(CALLNAME_K9(사쿠야_대상),"가")% 어딘가의 어리석은 자에게 노려지는 것이 걱정입니다")%」
+			ENDIF
+		CASE 304
+			PRINTFORML 「많이 서류가 모여 %POLITE_K9("있는거야", "있어……죄송합니다")%」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"와")%라면 언제까지나 책상에 향해 있을 수 있을 것 같%POLITE_K9("은걸", "습니다")%」
+				PRINTFORML 「한눈 팔기 %POLITE_K9("해 버릴까?", "해버리고 끝낼지도 모릅니다")%」
+			ENDIF
+		CASE 305
+			PRINTFORML 「군사도 추가하고 싶%POLITE_K9("어", "습니다")%, 가게도 활발하게 되었으면 좋겠%POLITE_K9("다", "습니다")%」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에 호위를 붙이고 싶%POLITE_K9("은데", "은데요")%, 함께 쇼핑도 즐기고 싶%POLITE_K9("어", "습니다")%」
+			ENDIF
+		CASE 306
+			PRINTFORML 「노래에 자신%POLITE_K9("은 없지만", "은 없습니다만")%……」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%의 노래를 듣고 싶%POLITE_K9("어", "습니다")%」
+			ENDIF
+		CASE 307
+			PRINTFORML 「나이프의 취급의 훈련으로도 되는 %POLITE_K9("거네", "것이군요")%」
+			IF CHECK_K9("함락",사쿠야_대상)
+				PRINTFORML 「게다가, 요리를 맛있게 할 수 있으면 %CALLNAME_K9(사쿠야_대상)%에 %POLITE_K9("먹어 보여 받고 싶은거야", "드셔 받고 싶습니다")%」
+			ENDIF
+	ENDSELECT
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●배의 소리
+;─────────────────────────────────────── 
+IF SELECTCOM == 326
+	PRINTFORML 「아기가……있%POLITE_K9("어", "습니다")%」
+	RETURN 0
+
+ENDIF
+
+;─────────────────────────────────────── 
+;●그 외
+;─────────────────────────────────────── 
+PRINTDATAL
+	DATAFORM 「%POLITE_K9("는, 이렇게 합시다", "에서는 이렇게 합시다")%」
+	DATAFORM 「위해%POLITE_K9("네", "군요")%」
+	DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 이것으로 좋을까」
+	DATAFORM 「그렇%POLITE_K9("네", "군요")%」
+	DATAFORM 「이런 것은 %POLITE_K9("어떨까", "어떻습니까")%」
+	DATAFORM 「좋%POLITE_K9("아", "아요")%」
+	DATAFORM 「%POLITE_K9("그렇구나. 고마워", "그렇네요. 감사합니다")%」
+ENDDATA
+RETURN 0
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+
+
+
+;─────────────────────────────────────── 
+;■일상_실행_실행 후
+;─────────────────────────────────────── 
+@KOJO_K9_NOON_AFTER_PLAYER(사쿠야_대상)
+#DIM 사쿠야
+#DIM 사쿠야_대상
+#DIMS 사쿠야기분
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야기분 '= TOSTR_EMOTION(사쿠야)
+
+;─────────────────────────────────────── 
+;●기분이 나쁘면 통상의 커맨드 구상은 말하지 않는다
+;─────────────────────────────────────── 
+SELECTCASE 사쿠야기분
+	CASE "원한", "분노", "분개"
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		RETURN 0
+
+	CASEELSE
+
+ENDSELECT
+
+;─────────────────────────────────────── 
+;●머리카락을 빗는·빗으로빗어준다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 322, 323)
+	;묘사 오프
+	RETURN 1
+ENDIF
+
+;─────────────────────────────────────── 
+;●Ｍ절정
+;─────────────────────────────────────── 
+IF NOWEX:사쿠야:Ｍ절정 > NOWEX:사쿠야:Ｃ절정 && NOWEX:사쿠야:Ｍ절정 > NOWEX:사쿠야:Ｂ절정 && NOWEX:사쿠야:Ｍ절정 > NOWEX:사쿠야:Ａ절정 && NOWEX:사쿠야:Ｍ절정 > NOWEX:사쿠야:Ｖ절정 && NOWEX:사쿠야:Ｍ절정 > NOWEX:사쿠야:사정
+	IF NOWEX:사쿠야:Ｍ절정 > 0
+		PRINT 「
+
+		PRINTDATA
+			DATAFORM 응
+			DATAFORM 으응
+			DATAFORM 하음
+			DATAFORM 응읏
+			DATAFORM 으우웅
+			DATAFORM 으응, 흥
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+		PRINTDATA
+			DATAFORM 으응, 응쿠웃
+			DATAFORM 아움
+			DATAFORM 흐, 읏
+			DATAFORM 으응～……읏
+			DATAFORM 후읏
+			DATAFORM 응긋
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+		PRINTDATA
+			DATAFORM 응구
+			DATAFORM 우흐읏
+			DATAFORM 후읏
+			DATAFORM 하응
+			DATAFORM 우우
+			DATAFORM 응응응
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+
+		PRINTL 」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

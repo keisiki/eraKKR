@@ -1,0 +1,5 @@
+﻿#DIM CONST 미코_호족의즐거움 = 0
+#DIM CONST 미코_기분에말했다 = 1
+#DIM CONST 미코_미코로부터의권유 = 2
+#DIM CONST 미코_천직이기때문에정자 = 3
+#DIM CONST 미코_좋은기분 = 4

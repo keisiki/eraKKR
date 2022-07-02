@@ -1,0 +1,474 @@
+﻿;─────────────────────────────────────── 
+;■일상_레밀리아_대상_실행전
+;─────────────────────────────────────── 
+@KOJO_K10_NOON_BEFORE_TARGET(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;─────────────────────────────────────── 
+;●기분이 나쁘면 통상의 커맨드 구상은 말하지 않는다
+;─────────────────────────────────────── 
+레밀리아기분 = %TOSTR_EMOTION(레밀리아)%
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		IF PALAM:레밀리아:로주 <= PALAM:레밀리아:로외
+
+		ELSE
+			PRINTDATAL
+				DATAFORM 「저 녀석은 뭐 하고 있어」
+				DATAFORM 「이제(이미/벌써/더는/정말)!   확실히 해 주세요」
+				DATAFORM 「합선이군요」
+				DATAFORM 「이유를 모른다」
+				DATAFORM 「흥」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		IF PALAM:레밀리아:액주 <= PALAM:레밀리아:액외
+
+		ELSE
+			PRINTDATAL
+				DATAFORM 「지루해」
+				DATAFORM 「태양은 싫어요」
+				DATAFORM 「졸려요」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		IF PALAM:레밀리아:포주 <= PALAM:레밀리아:포외
+
+		ELSE
+			PRINTDATAL
+				DATAFORM 「이상한 것으로 한 것이겠지」
+				DATAFORM 「무, 문제없다」
+				DATAFORM 「무슨 말하고 있는거야」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASEELSE
+
+ENDSELECT
+
+;─────────────────────────────────────── 
+;●동일 커맨드
+;─────────────────────────────────────── 
+IF SELECTCOM == PREVCOM
+	;레밀리아에 주도권 없음
+	IF !IS_INITIATIVE(레밀리아)
+		PRINTDATAL
+			DATAFORM 「좀 더%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶은거네. 좋아요」
+			DATAFORM 「좀 더%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶을까. 좋아요」
+			DATAFORM 「나도 아직, %KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶어요」
+			DATAFORM 「좋아요. 이대로」
+		ENDDATA
+	;레밀리아에 주도권 있어
+	ELSE
+		PRINTDATAL
+			DATAFORM 「아직 %KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶지는 않을까?」
+			DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶어요. 좋네요?」
+			DATAFORM 「이대로?   좋아요」
+			DATAFORM 「좀 더 이렇게 해 %KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶어요」
+		ENDDATA
+	ENDIF
+;─────────────────────────────────────── 
+;●동일 커맨드가 아니다
+;─────────────────────────────────────── 
+ELSE
+	;레밀리아에 주도권 없음
+	IF !IS_INITIATIVE(레밀리아)
+		PRINTDATAL
+			DATAFORM 「%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶은거야?   좋아요」
+			DATAFORM 「%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶은거네. 알았어요」
+			DATAFORM 「%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶을까. 그렇구나」
+			DATAFORM 「나도 %KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶어요」
+		ENDDATA
+	;레밀리아에 주도권 있어
+	ELSE
+		PRINTDATAL
+			DATAFORM 「%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶어요. 좋네요?」
+			DATAFORM 「%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶어요」
+			DATAFORM 「%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶기 때문에, 교제하세요」
+			DATAFORM 「%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶지는 않아?」
+		ENDDATA
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●회화
+;─────────────────────────────────────── 
+IF SELECTCOM == 300
+	;레밀리아에 주도권 있어（화자）
+	IF IS_INITIATIVE(레밀리아)
+		IF RAND:13 == 0
+			IF CSTR:레밀리아_대상:99 != "사쿠야"
+				PRINTFORML 「우리 메이드는 우수하지만, 공간을 너무 넓힌 것이군요」
+			ELSE
+				PRINTFORML 「우리 메이드는 우수하다고 생각하고 있어요. 공간을 너무 넓히는 것 이외는 말야」
+			ENDIF
+		ELSEIF RAND:12 == 0
+			IF CSTR:레밀리아_대상:99 != "프랑"
+				PRINTFORML 「그래그래, 좋은 가정교사는 없어?   이따금 여동생이 나를 저 녀석이라고 불러」
+			ELSE
+				PRINTFORML 「그래그래, 죽지 않는 가정교사를 찾고 있어요」
+			ENDIF
+		ELSE
+			PRINTDATAL
+				DATAFORM 「아-아, 달에 가고 싶어요」
+				DATAFORM 「으음. 안개가 얇을까」
+				DATAFORM 「재미있는 것은 없는거야」
+				DATAFORM 「방?   붉은 편이 피의 더러움이 눈에 띄지 않지요」
+				DATAFORM 「에?   박쥐는 사랑스럽지요」
+				DATAFORM 「대도서관?   그 방은 곰팡내 나요. 무엇이 좋은거야」
+				DATAFORM 「그렇구나. 인간 마을에는 그다지 가지 않아요」
+				DATAFORM 「방치하는 거야?   지식인은 책뿐 읽고 있어, 그다지 도움이 되지 않네요」
+				DATAFORM 「해요. 몇시나의 빚을 갚을 찬스야」
+				DATAFORM 「관은 죽은 사람이 들어오는 것이라면」
+				DATAFORM 「자는 것은 4시 정도. 조기조침이 자랑이야」
+				DATAFORM 「저기 술래잡기 하지 않아?   이기면 피를 줘」
+			ENDDATA
+		ENDIF
+	;레밀리아에 주도권 없음（청자）
+	ELSE
+		PRINTDATAL
+			DATAFORM 「방?   붉은 편이 피가 눈에 띄지 않아서야」
+			DATAFORM 「송곳니가 짧은 것일까요. 흘리지 않고 마시는 것은 어려워요」
+			DATAFORM 「이것?   안개를 만들고 있어」
+			DATAFORM 「재미있을 것 같구나, 그것」
+			DATAFORM 「그 밖에도 그러한 이야기는 있어?   이야기해 보세요」
+			DATAFORM 「그래서 그렇게 군사가 증가하고 있던 거네」
+			DATAFORM 「좋아요. 그 작전, 협력 해 준다」
+			DATAFORM 「즐거운 듯 같구나. 나에게도 시켜」
+			DATAFORM 「나는 소식해」
+			DATAFORM 「먹어도 괜찮은거야」
+			DATAFORM 「그다지 밖에 내 받을 수 없는거야. 병약아가씨인 것이야」
+		ENDDATA
+	ENDIF
+	RETURN 0
+
+;─────────────────────────────────────── 
+;●술
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 310
+	IF IS_INITIATIVE(레밀리아)
+		PRINTFORML 「좋은 것 가지고 있지 않아」
+		PRINTFORML 「붉은 것이 좋아요」
+	ELSE
+		PRINTFORML 「붉은 것은 있어?   빨리 줘」
+	ENDIF
+
+;─────────────────────────────────────── 
+;●벌꿀수
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 311
+	PRINTFORML 「나는 붉은 편이 건강 나오지만, 기분은 받아 두어요」
+
+;─────────────────────────────────────── 
+;●수영
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 354
+	PRINTDATAL
+		DATAFORM 「차갑다!   수 끼얹은 것이겠지」
+		DATAFORM 「옷이 철썩철썩 들러붙어요」
+		DATAFORM 「나무 그늘에서 기어들어 버리면 태양도 아무렇지도 않구나」
+		DATAFORM 「여기에 오세요야. 그늘에 쉬게 할 것 같은 바위가 있어요」
+	ENDDATA
+
+;─────────────────────────────────────── 
+;●헤엄친다
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 355
+	IF TFLAG:18 == 1
+		PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%의 헤엄쳐 능숙하구나. 가르쳐」
+	ELSEIF TFLAG:18 == -1
+		IF TFLAG:17 == 1
+			PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%!?   무엇을 하고 있는 거야」
+		ELSEIF TFLAG:17 == 2
+			PRINTFORML 「!   !   ～～～!」
+		ELSE
+			PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%!?   무엇을 하고 있는 거야!   여기에……!   ～～～!」
+		ENDIF
+	ELSE
+		PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%도 헤엄칠 수 있는 거네」
+	ENDIF
+
+;─────────────────────────────────────── 
+;●스킨쉽·머리를 어루만지는·머리카락을 빗는·빗으로 머리카락을 빗는·등을 민다
+;─────────────────────────────────────── 
+ELSEIF GROUPMATCH(SELECTCOM, 320, 321, 322, 323, 358)
+	PRINTDATAL
+		DATAFORM 「%CALLNAME_K10(레밀리아_대상)%에 포옹되는 것 좋아해요」
+		DATAFORM 「쭉 이렇게 (해) 있으세요」
+		DATAFORM 「나의 주선을 할 수 있다니 영광이겠지」
+		DATAFORM 「그 온순함이 필요한 것이야」
+	ENDDATA
+
+;─────────────────────────────────────── 
+;●응시하는·달콤한 말
+;─────────────────────────────────────── 
+ELSEIF GROUPMATCH(SELECTCOM, 324, 325)
+	PRINTDATAL
+		DATAFORM 「그렇게 얼굴을 봐도, 말하지 않으면 몰라요」
+		DATAFORM 「노려보기야?   나 강해요」
+		DATAFORM 「배가 고파졌을까?   나는 줄어들지 않아요」
+	ENDDATA
+
+;─────────────────────────────────────── 
+;●훈련계
+;─────────────────────────────────────── 
+ELSEIF GROUPMATCH(SELECTCOM, 301, 302, 303, 304, 305, 306, 307)
+	SELECTCASE SELECTCOM
+		CASE 301
+			PRINTFORML 「술래잡기 합시다. 내가 오니군요. 흡혈 『오니』이니까」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「하지만-―. %CALLNAME_K10(레밀리아_대상)%～. 먹어 버리겠어―!  아하하 하」
+			ENDIF
+		CASE 302
+			PRINTFORML 「상대의 힘을 이용하는 거네. 재미있을 것 같구나」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%의 힘을 이용해, 쓰러트려 보고 싶어요」
+			ENDIF
+		CASE 303
+			PRINTFORML 「본?   놀이가 재미있어지는 것, 써 있어?   봐요」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「전략적인 일도 조금은 알고 싶어요. %CALLNAME_K10(레밀리아_대상)%의 이야기를 따라갈 수 없고」
+			ENDIF
+		CASE 304
+			PRINTFORML 「대도서관에 가는 거야?   나도 해요. 일짓거리」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「내용의 확인은 나의 일이 아니에요」
+				PRINTFORML 「서류는 시시하고, 쓸데없게 아야장이 긴 것」
+				PRINTFORML 「정리한 이야기를 들어, 날인하는 것이 나의 일이야」
+			ENDIF
+		CASE 305
+			PRINTFORML 「환상향 둘러싸고?   재미있는 말이 있으면 좋네요」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「데이트야. 좋을 것입니다」
+			ENDIF
+		CASE 306
+			PRINTFORML 「좋지만, 소리에 자신은 있는 거야?   서투른 노래는 듣고 싶지 않아요」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「어머니가 나를 죽여♪  아버지가 나를 먹고 있다♪」
+				PRINTFORML 「……머더 구스는 싫어?」
+			ENDIF
+		CASE 307
+			PRINTFORML 「무엇을 만들어 줄래?   재미있는 것을 만들어」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「나는 안 돼요. 먹는 역. 아기가 양상추의 어디에 있는지 모르는 것」
+			ENDIF
+	ENDSELECT
+
+;─────────────────────────────────────── 
+;●음담
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 309
+	;레밀리아에 주도권이 있다（화자）
+	IF IS_INITIATIVE(레밀리아)
+		IF MARK:레밀리아:기성사실 == 0
+			PRINTFORML 「일전에 읽은 만화에 입술을 거듭하는 장면이 있던 것이지만」
+			PRINTFORML 「그건 어떤 느낌이야?   하고 싶지는 않지만 신경이 쓰인다의」
+		ELSEIF MARK:레밀리아:기성사실 == 1
+			PRINTFORML 「키스는 얼굴이 굉장히 가까워지지 않아?   눈을 열고 있으면 깜짝 놀라요」
+		ELSEIF MARK:레밀리아:기성사실 == 2
+			PRINTFORML 「하그라는거 뭔가 바뀐 의미가 있는 거야?   재미있는 것이라면 알고 싶어요」
+		ELSEIF MARK:레밀리아:기성사실 == 3
+			PRINTFORML 「나지 않은 것은……이상해?   보통이겠지」
+		ENDIF
+	;레밀리아에 주도권이 없다（청자）
+	ELSE
+		IF MARK:레밀리아:기성사실 == 0
+			PRINTFORML 「그 정도 알고 있어요. 양상추로부터 출생하는거네요」
+		ELSEIF MARK:레밀리아:기성사실 == 1
+			PRINTFORML 「그 밖에 의미가 있는 거야?   입술을 접촉하게 하는 것은 약속의 표겠지」
+		ELSEIF MARK:레밀리아:기성사실 == 2
+			PRINTFORML 「인간은 기묘한 일을 하는 거네」
+		ELSEIF MARK:레밀리아:기성사실 == 3
+			PRINTFORML 「저것 기분 좋았어요. 또 하세요」
+		ENDIF
+	ENDIF
+
+;─────────────────────────────────────── 
+;●식사
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 351
+	PRINTFORML 「가끔씩은 인간용의 식사도 먹어 보고 싶어요. 마늘이나 정어리는 싫어요」
+	;한턱냄 발생의 경우
+	IF IS_MALE(레밀리아_대상) && IS_FEMALE(레밀리아)
+		PRINTFORML 「좋은거야?   기뻐요. 대접하게 되어요」
+	ENDIF
+
+;─────────────────────────────────────── 
+;●이동
+;─────────────────────────────────────── 
+ELSEIF GROUPMATCH(SELECTCOM, 390, 391)
+	IF IS_INITIATIVE(레밀리아)
+		IF SELECTCOM == 390
+			PRINTFORML 「나가요. 으음 양산……있었다 있었다」
+		ELSE
+			PRINTFORML 「다른 곳에 가요」
+		ENDIF
+	ELSE
+		IF SELECTCOM == 390
+			PRINTFORML 「나가는 거야?   양산을 준비하기 때문에 기다려」
+		ELSE
+			PRINTFORML 「다른 곳에 가는 거네」
+		ENDIF
+	ENDIF
+
+	;TFLAG:17은 권하는 방법의 종류. 0=통상
+	IF TFLAG:17 == 0
+		IF TFLAG:18 == 1
+			PRINTFORML 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% %GET_PLACENAME(TFLAG:54)%에 가고 싶은거네」
+		ELSEIF TFLAG:18 == 0
+			PRINTFORML 「좋아요. %GET_PLACENAME(TFLAG:54)%에 갑시다」
+		ELSE
+			PRINTFORML 「%GET_PLACENAME(TFLAG:54)%?   -……뭐 좋은가」
+		ENDIF
+
+	;TFLAG:17은 권하는 방법의 종류. 1=레밀리아가 멋대로 결정
+	ELSEIF TFLAG:17 == 1
+		PRINTFORML 「그러면 %GET_PLACENAME(TFLAG:54)%에 갑시다」
+
+	;TFLAG:17은 권하는 방법의 종류. 2=레밀리아의 가고 싶은 데이트처
+	ELSEIF TFLAG:17 == 2
+		IF TFLAG:18 == 1
+			PRINTFORML 「%GET_PLACENAME(TFLAG:54)%로 좋은거야?」
+			PRINTFORML 「가고 싶은 곳이 있었지 않아?   교제해 받지만」
+		ELSE
+			PRINTFORML 「%GET_PLACENAME(TFLAG:54)%로 좋아?   나쁘네요」
+		ENDIF
+
+	;TFLAG:17은 권하는 방법의 종류. 3=레밀리아가 가고 싶은 데이트처 이외
+	ELSE
+		IF TFLAG:18 == 1
+			PRINTFORML 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% %GET_PLACENAME(TFLAG:54)%에 가고 싶은거네」
+			PRINTFORML 「뭐 좋아요. %조사처리(CALLNAME_K10(레밀리아_대상),"가")% 가고 싶으면 교제해 주어요」
+		ELSEIF TFLAG:18 == 0
+			PRINTFORML 「%조사처리(CALLNAME_K10(레밀리아_대상),"가")% %GET_PLACENAME(TFLAG:54)%에 가고 싶으면 좋아요」
+		ELSE
+			PRINTFORML 「%GET_PLACENAME(TFLAG:54)%-. 뭐 교제해 준다」
+		ENDIF
+	ENDIF
+	RETURN 0
+
+;─────────────────────────────────────── 
+;●귀환
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 392
+	PRINTDATAL
+		DATAFORM 「돌아가는 것은이나 있고 거네」
+		DATAFORM 「돌아가 버리는 거야?」
+		DATAFORM 「이제(이미/벌써/더는/정말) 돌아가는 거야?   일은 아직 오르지 않는데」
+	ENDDATA
+	RETURN 0
+
+;─────────────────────────────────────── 
+;●배의 소리
+;─────────────────────────────────────── 
+ELSEIF SELECTCOM == 326
+	PRINTFORML 「뭔가 들리는 거야?   조금 무서워요」
+	RETURN 0
+
+;─────────────────────────────────────── 
+;●그 외
+;─────────────────────────────────────── 
+ELSE
+	PRINTDATAL
+		DATAFORM 「으음」
+		DATAFORM 「뭔가 재미있는 녀석 가져 와요」
+		DATAFORM 「소문을 (들)물었지만」
+		DATAFORM 「홍차를 흘려 버렸다」
+		DATAFORM 「이러한가」
+		DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 무엇을 하고 있는 거야」
+		DATAFORM 「아무렇지도 않아요」
+		DATAFORM 「어디에 두었는지」
+		DATAFORM 「유감이었지」
+		DATAFORM 「확실히 해 주세요」
+		DATAFORM 「시원시원 움직이세요」
+		DATAFORM 「어쩔 수 없네요」
+		DATAFORM 「글쎄요」
+		DATAFORM 「날씨가 나쁜 상황에서 나가고 싶지 않은거야. 화창한 나쁜 날씨」
+	ENDDATA
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+
+
+
+;─────────────────────────────────────── 
+;■일상_레밀리아_대상_실행 후
+;─────────────────────────────────────── 
+@KOJO_K10_NOON_AFTER_TARGET(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;─────────────────────────────────────── 
+;●기분이 나쁘면 통상의 커맨드 구상은 말하지 않는다
+;─────────────────────────────────────── 
+레밀리아기분 = %TOSTR_EMOTION(레밀리아)%
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		RETURN 0
+
+	CASEELSE
+
+ENDSELECT
+
+;─────────────────────────────────────── 
+;●주인공의Ｍ절정
+;─────────────────────────────────────── 
+IF NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ｃ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ｂ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ａ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ｖ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:사정
+	IF NOWEX:레밀리아_대상:Ｍ절정 > 0
+		PRINTFORM 「
+
+		PRINTDATA
+			DATAFORM 가 버렸어
+			DATAFORM 기분 좋아져 버렸어
+			DATAFORM 갔어
+		ENDDATA
+		PRINTFORM ? 　
+
+		PRINTDATA
+			DATAFORM 입으로
+			DATAFORM 혀로
+			DATAFORM 목으로
+		ENDDATA
+		PRINTFORM %BREAK_K10("말", 레밀리아_대상)%
+
+		PRINTFORML 」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

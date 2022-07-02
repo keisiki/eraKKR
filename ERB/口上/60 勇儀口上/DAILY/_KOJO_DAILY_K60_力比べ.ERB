@@ -1,0 +1,163 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K60_COMPETE_RATE(대상)
+#DIM 대상
+RETURN (60 <= ABL:MASTER:무투) * (20 + (ABL:MASTER:무투 - 60) * 5)
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K60_COMPETE_DECISION(대상)
+#DIM 대상
+
+;끝나고 있으면 나오지 않는다
+SIF KDVAR:대상:유우기_힘겨루기 == -1
+	RETURN 0
+
+;유우기가 방랑하고 있지 않으면 안 돼
+SIF CFLAG:대상:특수상태 != 특수상태_방랑
+	RETURN 0
+
+;마스터에 페니스가 없으면 나오지 않는다
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K60_COMPETE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K60_COMPETE(대상)
+#DIM 대상
+#DIM 판정치
+
+PRINTFORMW 「%ANAME(MASTER)%, 던가?   라는 것은 있을까!?」
+PRINTFORMW %조사처리(ANAME(MASTER),"가")% 일에 쫓기고 있고 말이야 (안)중, 갑자기 누군가가 들어 왔다
+PRINTFORML 제대로 한 몸매의, 금발의 여성이다. 이마로부터 난 훌륭한 모퉁이와 흘러넘칠 것 같은 젖이 각각 눈을 끈다
+PRINTFORMW 그야말로 자신이 %조사처리(ANAME(MASTER),"라")%고 응하면, 여성은 확하고 웃어 보였다
+IF IS_MALE(MASTER)
+	PRINTFORMW 「과연 너가!   꽤 좋은 남자가 아닌가, 만나러 온 보람이 있었어」
+ELSE
+	PRINTFORMW 「과연 너가!   여자로 해 좀처럼 할 것 같지 않은지, 만나러 온 보람이 있었어」
+ENDIF
+PRINTFORM 「나는 %ANAME(대상)%, 오니의 사천왕,
+CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+PRINTFORMW 야. 하나 잘 부탁드립니다」
+PRINTFORML 오니. 과연, 그것은 훌륭한 모퉁이도 나 있을 것이다
+PRINTFORMW 하지만 그 오니가, 도대체 무슨 용무라고 할 것이다
+PRINTFORMW 「아니 뭐, 나는 강한 녀석을 좋아해, 이따금 이렇게 (해) 돌아 다녀서는, 대국 바라고 있는 것」
+PRINTFORML ……즉, 무사 수행이라는 것인가
+PRINTFORMW 나쁘지만 지금은 정말로 일이 바쁜, 그렇게 말해 거절하려고 하지만, %조사처리(ANAME(대상),"는")% 물고 늘어졌다
+PRINTFORMW 「그렇게 말하지 않고, 하나 부탁한다. 실제, 너에게 있어서도 나쁜 이야기가 아니기 때문에」
+PRINTFORM 「만약 너가 이기면, 그렇네……
+CALL COLOR_PRINT(@"너의 부탁을 하나 (들)물어 주자", 칼라_주의)
+PRINTFORMW 」
+PRINTFORMW 「거짓말이 아니야?   오니는 거짓말이 싫다. 신용해 주어도 좋다」
+PRINTFORMW 「그렇다, 핸디캡도 붙여 준다. 나는 한 손에 쥐고배를 가지고, 술을 한 방울도 흘리지 않게 돌아다닌다」
+CALL ICPRINT(@"「그 대신……내가 이기면,<가진 돈 모두>받을까」", "W", 칼라_주의)
+PRINTFORMW 무슨 말을 하고 있다고 생각했지만, 아무래도 %조사처리(ANAME(대상),"는")% 진심인 것 같았다
+PRINTFORML ……오니라고 하면, 옛날 이야기로 친숙한, 힘자랑의 요괴다. 핸디캡을 붙여도, 이기는 것은 용이하지 않을 것이다
+PRINTFORML 하지만―-만약 이기면, 부탁을 뭐든지 하나.
+PRINTFORMW ……%ANAME(대상)%의 얼굴, 몸집은, 여성으로서 실로 매력적인 것이다. 가진 돈 모두를 걸고서라도, 받아 서는 가치는 있다……
+PRINTL
+CALL ASK_YN("바라는 곳이다!", "아니 지금 바쁜 매달고 있을 것이다")
+IF RESULT == 1
+	PRINTFORMW 아니아니, 일이 있다. 이 대량의 서류를 봐라. 대국할 경황은 아니다
+	PRINTFORMW 「뭇……. 그런가, 그거야 유감이다」
+	PRINTFORMW 「너는 꽤 수완이 있다고 듣고 있었기 때문에, 부디 서로 해 보고 싶었지만」
+	PRINTFORMW 「뭐, 그런 일이라면 어쩔 수 없다. 방해 했군요」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+ELSE
+	PRINTFORMW 「그렇게 오지 않으면!   , 즉시 하지 않겠는가!」
+	PRINTFORMW %ANAME(대상)%에 팔을 끌리도록(듯이)해, 안뜰에 나왔다……
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML ·
+	;대상과 무투가 동일하면 50%. 이후 1우수할 때 마다 5％.
+	판정치 = (ABL:MASTER:무투 + 10 - ABL:대상:무투) * 5
+	IF RAND:100 <= 판정치
+		PRINTFORMW 「하하하, 패배다!   나의!」
+		PRINTFORML 어떻게든 된……빠듯이였지만
+		PRINTFORMW 오니의 주먹은 예상 이상이었다. 아슬아슬한 곳에서 주고 받으면서, 술한 방울을 흘리게 해 이기는 것이 겨우였다
+		PRINTFORMW 「그런데도 좋은 거야, 너의 승리라는 것에 변화는 없다」
+		PRINTFORMW 「그런데……설마 정직, 진다고는 생각하지 않았지만. 부탁을 하나, 뭐든지 (들)물어 주자」
+		PRINTL
+		CALL ASK_MULTI("부하가 되어", "감 소스가 되어", "투옥한다", "힘을 갖고 싶다", "금줘")
+		SELECTCASE RESULT
+			CASE 0
+				PRINTFORMW 「아아, 그런 일이라면 여기도 대환영이야」
+				PRINTFORMW 「나에게 이길 수 있는 녀석이라니, 오래간만이니까. 그런데, 그러면 하나, 하고 주지 않겠는가!」
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 부하가 되었습니다", 칼라_주의)
+				CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+				CFLAG:대상:호감도 += 500
+			CASE 1
+				PRINTFORMW 「엣,……아, 아아, 부탁은 그러한?」
+				PRINTFORMW 「응, 영웅색을 좋아한다든가 말하거나 하지만……아니, 뭐, 약속이고, 받아들이지만 말야」
+				PRINTFORMW 「그……뭐랄까, 관대히 부탁해?」
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 부하가 되었습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_핑크)
+				CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+				TALENT:대상:합의 = 1
+				TALENT:대상:쵸로인 = 1
+			CASE 2
+				PRINTFORMW 이만큼의 실력자를 제멋대로 설치게 하는 것은 위험함
+				PRINTFORMW %조사처리(ANAME(대상),"를")% 투옥하기로 했다
+				PRINTFORMW 「앙?   아무튼, 시비도 없음」
+				PRINTFORMW 「겨우 착실한 대우를 기대하고 있다」
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 투옥했습니다", 칼라_주의)
+				CALL CAPTURE(대상, CFLAG:MASTER:소속)
+			CASE 3
+				PRINTFORMW 「호우, 나에게 이겨 둬, 아직 힘을 욕구라고 했다!   는은, 너 같은 무변자는 정말 좋아해」
+				PRINTFORMW 「그러면 그렇네, 귀류의 싸움의 방법을 전수 해 준다」
+				CALL COLOR_PRINTW(@"%ANAME(대상)%에 싸움의 방법을 배웠습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 무투가 3 상승했습니다", 칼라_주의)
+				CALL LEARN_SKILL_GENERAL_BY_NAME(대상, "총력전＋＋")
+				SIF RESULT
+					CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")%＜총력전＋＋＞을 얻었습니다", 칼라_주의)
+				CFLAG:대상:호감도 += 300
+				ABL:MASTER:무투 += 3
+				PRINTFORMW 「그러면, 나는 이것으로. 즐거웠어요!」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+			CASE 4
+				PRINTFORMW 「돈인가. 견실하고 좋은 소망이 아닌가」
+				PRINTFORMW 「오니 퇴치해 재보를 얻는 것은, 옛날 이야기의 고정적이고」
+				PRINTFORMW 「알았다!   이봐요, 있을 만큼 가져 가세요」
+				CALL COLOR_PRINTW(@"금 100000을 얻었습니다", 칼라_주의)
+				MONEY += 100000
+				PRINTFORMW 「그러면, 나는 이것으로. 즐거웠어요!」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+		ENDSELECT
+	ELSE
+		PRINTFORMW 「하하하, 승리다!   나의!」
+		PRINTFORML ……역시, 오니에는 이길 수 없었다
+		PRINTFORMW 배의 술을 흘리지 않도록 한다는 것은 상당한 핸디캡이라고 생각하지만, 그런데도 더욱 안 된다고는……
+		PRINTFORMW 「그럼, 나쁘지만 약속은 약속이다」
+		PRINTFORMW 「가진 돈 전부, 받아 간다」
+		PRINTFORMW 「옛날이라면 생명을 받고 있었던 곳이니까, 뭐, 줍기도 라고 생각인」
+		CALL COLOR_PRINTW(@"소지금을 모두 빼앗겼습니다", 칼라_경고)
+		PRINTFORMW 「그러면, 나는 이것으로. 즐거웠어요!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+		MONEY = 0
+	ENDIF
+ENDIF
+
+CALL COLOR_PRINTW(@"%ANAME(대상)%의 안면을 얻었습니다", 칼라_주의)
+CFLAG:대상:안면 = 1
+KDVAR:대상:유우기_힘겨루기 = 1
+
+RETURN 1

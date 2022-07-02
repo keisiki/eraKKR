@@ -1,0 +1,1020 @@
+﻿;─────────────────────────────────────── 
+;●침실_접수_실행 전_소스 참조  CALL MOAN_K9(MASTER)
+;─────────────────────────────────────── 
+@MOAN_K9(사쿠야_대상)
+#DIM 사쿠야
+#DIM 사쿠야_대상
+#DIM 사쿠야_이번부위치
+#DIM 사쿠야_최대부위치
+#DIM 사쿠야_표시플래그
+#DIMS 사쿠야_이번부위
+#DIMS 사쿠야_최대부위
+#DIMS 사쿠야_이번부위칭
+#DIMS 사쿠야_최대부위칭
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+;초기화
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야_이번부위치 = 0
+사쿠야_최대부위치 = 0
+사쿠야_표시플래그 = 0
+사쿠야_이번부위 = ""
+사쿠야_최대부위 = ""
+사쿠야_이번부위칭 = ""
+사쿠야_최대부위칭 = ""
+
+;─────────────────────────────────────── 
+;○사쿠야의 쾌락 상태를 체크
+;─────────────────────────────────────── 
+;▼SOURCE
+;  전문의 경우 SOURCE·후문이라면 CUP·값은 최대 부위치와의 비교용인 것으로 PALAM로 보존
+;  최저 1없으면 자극으로 간주하지 않는 PALAM에는 쾌Ｐ가 없다
+IF SOURCE:사쿠야:쾌Ｖ >= 1 && SOURCE:사쿠야:쾌Ｖ >= SOURCE:사쿠야:쾌Ｐ && SOURCE:사쿠야:쾌Ｖ >= SOURCE:사쿠야:쾌Ｃ && SOURCE:사쿠야:쾌Ｖ >= SOURCE:사쿠야:쾌Ａ && SOURCE:사쿠야:쾌Ｖ >= SOURCE:사쿠야:쾌Ｂ
+	사쿠야_이번부위치 = PALAM:사쿠야:쾌Ｖ
+	사쿠야_이번부위 '= "Ｖ"
+	사쿠야_이번부위칭 '= CALL_DIRTY_K9("Ｖ")
+ELSEIF SOURCE:사쿠야:쾌Ａ >= 1 && SOURCE:사쿠야:쾌Ａ >= SOURCE:사쿠야:쾌Ｐ && SOURCE:사쿠야:쾌Ａ >= SOURCE:사쿠야:쾌Ｃ && SOURCE:사쿠야:쾌Ａ >= SOURCE:사쿠야:쾌Ｖ && SOURCE:사쿠야:쾌Ａ >= SOURCE:사쿠야:쾌Ｂ
+	사쿠야_이번부위치 = PALAM:사쿠야:쾌Ａ
+	사쿠야_이번부위 '= "Ａ"
+	사쿠야_이번부위칭 '= CALL_DIRTY_K9("Ａ")
+ELSEIF SOURCE:사쿠야:쾌Ｐ >= 1 && SOURCE:사쿠야:쾌Ｐ >= SOURCE:사쿠야:쾌Ｖ && SOURCE:사쿠야:쾌Ｐ >= SOURCE:사쿠야:쾌Ａ && SOURCE:사쿠야:쾌Ｐ >= SOURCE:사쿠야:쾌Ｃ && SOURCE:사쿠야:쾌Ｐ >= SOURCE:사쿠야:쾌Ｂ
+	사쿠야_이번부위치 = PALAM:사쿠야:쾌Ｃ
+	사쿠야_이번부위 '= "Ｐ"
+	사쿠야_이번부위칭 '= CALL_DIRTY_K9("Ｐ")
+ELSEIF SOURCE:사쿠야:쾌Ｃ >= 1 && SOURCE:사쿠야:쾌Ｃ >= SOURCE:사쿠야:쾌Ｐ && SOURCE:사쿠야:쾌Ｃ >= SOURCE:사쿠야:쾌Ｖ && SOURCE:사쿠야:쾌Ｃ >= SOURCE:사쿠야:쾌Ａ && SOURCE:사쿠야:쾌Ｃ >= SOURCE:사쿠야:쾌Ｂ
+	IF HAS_PENIS(사쿠야)
+		사쿠야_이번부위치 = PALAM:사쿠야:쾌Ｃ
+		사쿠야_이번부위 '= "Ｐ"
+		사쿠야_이번부위칭 '= CALL_DIRTY_K9("Ｐ")
+	ELSE
+		사쿠야_이번부위치 = PALAM:사쿠야:쾌Ｃ
+		사쿠야_이번부위 '= "Ｃ"
+		사쿠야_이번부위칭 '= CALL_DIRTY_K9("Ｃ")
+	ENDIF
+ELSEIF SOURCE:사쿠야:쾌Ｂ >= 1 && SOURCE:사쿠야:쾌Ｂ >= SOURCE:사쿠야:쾌Ｐ && SOURCE:사쿠야:쾌Ｂ >= SOURCE:사쿠야:쾌Ｃ && SOURCE:사쿠야:쾌Ｂ >= SOURCE:사쿠야:쾌Ｖ && SOURCE:사쿠야:쾌Ｂ >= SOURCE:사쿠야:쾌Ａ
+	사쿠야_이번부위치 = PALAM:사쿠야:쾌Ｂ
+	사쿠야_이번부위 '= "Ｂ"
+	사쿠야_이번부위칭 '= CALL_DIRTY_K9("Ｂ")
+ELSE
+	사쿠야_이번부위치 = 0
+	사쿠야_이번부위 '= ""
+	사쿠야_이번부위칭 '= ""
+ENDIF
+
+;▼PALAM
+;  PALAM는 절정까지의 축적＆절정에 의해 침착한다（LIMIT9999）
+;  최저 10없으면 자극으로 간주하지 않는 PALAM에는 쾌Ｐ가 없다
+IF PALAM:사쿠야:쾌Ｖ >= 10 && PALAM:사쿠야:쾌Ｖ >= PALAM:사쿠야:쾌Ｃ && PALAM:사쿠야:쾌Ｖ >= PALAM:사쿠야:쾌Ａ && PALAM:사쿠야:쾌Ｖ >= PALAM:사쿠야:쾌Ｂ
+	사쿠야_최대부위치 = PALAM:사쿠야:쾌Ｖ
+	사쿠야_최대부위 '= "Ｖ"
+	사쿠야_최대부위칭 '= CALL_DIRTY_K9("Ｖ")
+ELSEIF PALAM:사쿠야:쾌Ａ >= 10 && PALAM:사쿠야:쾌Ａ >= PALAM:사쿠야:쾌Ｃ && PALAM:사쿠야:쾌Ａ >= PALAM:사쿠야:쾌Ｖ && PALAM:사쿠야:쾌Ａ >= PALAM:사쿠야:쾌Ｂ
+	사쿠야_최대부위치 = PALAM:사쿠야:쾌Ａ
+	사쿠야_최대부위 '= "Ａ"
+	사쿠야_최대부위칭 '= CALL_DIRTY_K9("Ａ")
+ELSEIF PALAM:사쿠야:쾌Ｃ >= 10 && PALAM:사쿠야:쾌Ｃ >= PALAM:사쿠야:쾌Ｖ && PALAM:사쿠야:쾌Ｃ >= PALAM:사쿠야:쾌Ａ && PALAM:사쿠야:쾌Ｃ >= PALAM:사쿠야:쾌Ｂ
+	IF HAS_PENIS(사쿠야)
+		사쿠야_최대부위치 = PALAM:사쿠야:쾌Ｃ
+		사쿠야_최대부위 '= "Ｐ"
+		사쿠야_최대부위칭 '= CALL_DIRTY_K9("Ｐ")
+	ELSE
+		사쿠야_최대부위치 = PALAM:사쿠야:쾌Ｃ
+		사쿠야_최대부위 '= "Ｃ"
+		사쿠야_최대부위칭 '= CALL_DIRTY_K9("Ｃ")
+	ENDIF
+ELSEIF PALAM:사쿠야:쾌Ｂ >= 10 && PALAM:사쿠야:쾌Ｂ >= PALAM:사쿠야:쾌Ｃ && PALAM:사쿠야:쾌Ｂ >= PALAM:사쿠야:쾌Ｖ && PALAM:사쿠야:쾌Ｂ >= PALAM:사쿠야:쾌Ａ
+	사쿠야_최대부위치 = PALAM:사쿠야:쾌Ｂ
+	사쿠야_최대부위 '= "Ｂ"
+	사쿠야_최대부위칭 '= CALL_DIRTY_K9("Ｂ")
+ELSE
+	사쿠야_최대부위치 = 0
+	사쿠야_최대부위 '= ""
+	사쿠야_최대부위칭 '= ""
+ENDIF
+
+;─────────────────────────────────────── 
+;○대사 1_사쿠야의 실신 피로
+;─────────────────────────────────────── 
+;주도권이 없다
+IF !IS_INITIATIVE(사쿠야)
+	;▼체력
+	IF BASE:사쿠야:체력 <= (MAXBASE:사쿠야:체력 / 3)
+		PRINT 「
+		PRINTDATA
+			DATAFORM 후~……하아
+			DATAFORM 응……우
+			DATAFORM 하, 아아
+			DATAFORM ……아, 하
+			DATAFORM 도, 하아……하아
+			DATAFORM , 쿠……하아
+			DATAFORM 체가……지쳐
+			DATAFORM 더는……하아, 하아
+			DATAFORM 도, 지쳐, 아, 아
+			DATAFORM 더는, 몸이……개등……이, 와
+			DATAFORM 더는 ……하아, 하아
+			DATAFORM 숨이, 괴롭다……와
+			DATAFORM 두가 뿌옇게……하는, 와
+			DATAFORM 몸이……움직이지 않는, 와
+			DATAFORM 응구, 콜록
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		PRINTDATA
+			DATAFORM 는, 후
+			DATAFORM 후~
+			DATAFORM 쉬게 해
+			DATAFORM 머리가……도
+			DATAFORM 후~, 응우
+			DATAFORM 조금, 휴일……
+			DATAFORM 한계, 여어
+			DATAFORM 후~……아, 히이
+			DATAFORM , 아. 하
+		ENDDATA
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+	;▼기력
+	ELSEIF BASE:사쿠야:기력 <= (MAXBASE:사쿠야:기력 / 3)
+		PRINT 「
+		PRINTDATA
+			DATAFORM 후~……하아
+			DATAFORM 응, 개등……있고 원
+			DATAFORM 기분……자주(잘)
+			DATAFORM ……아, 하
+			DATAFORM 도, 짜라……하아
+			DATAFORM , 쿠……하아
+			DATAFORM 삶……지나
+			DATAFORM 더는……하아, 하아
+			DATAFORM 도, 느끼고 지쳐, 아, 아
+			DATAFORM 더는, 몸이……개등……이, 와
+			DATAFORM 더는 ……하아, 하아
+			DATAFORM 숨이, 괴롭다……와
+			DATAFORM 히……아, 하아
+			DATAFORM 몸이……움직이지 않는, 와
+			DATAFORM 응구, 콜록
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		PRINTDATA
+			DATAFORM 는, 후
+			DATAFORM 후~
+			DATAFORM 쉬게 해
+			DATAFORM 머리가……도
+			DATAFORM 후~, 응우
+			DATAFORM 조금 있고, 휴……키, 응
+			DATAFORM 한계, 여어
+			DATAFORM 후~……아, 히이
+			DATAFORM 아……응
+		ENDDATA
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;○대사 2_소스에 관해서
+;─────────────────────────────────────── 
+사쿠야_표시플래그 = 0
+;피스트·이라마·문신·목조르기·배빵·채찍 따위의 강고통
+IF SOURCE:사쿠야:고통 >= 100
+	사쿠야_표시플래그 += 1
+	IF 사쿠야_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 사쿠야_표시플래그 > 3
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 
+		DATAFORM 우아아아아―-
+		DATAFORM 히
+		DATAFORM 히 좋다
+		DATAFORM , 우우
+		DATAFORM 먹는다……!   아, 구
+		DATAFORM 아―-!   , 아
+	ENDDATA
+;밧줄이나 스팽킹 따위의 고통
+ELSEIF SOURCE:사쿠야:고통 >= 10
+	사쿠야_표시플래그 += 1
+	IF 사쿠야_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 사쿠야_표시플래그 > 3
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 히……아%POLITE_K9("파", "픕니다")%
+		DATAFORM 아얏, 아
+		DATAFORM 있었닷, 우아
+		DATAFORM 있던, 앙
+		DATAFORM 구……개, 우
+		DATAFORM 통……응쿠우
+		DATAFORM 있고, , 우우
+	ENDDATA
+ENDIF
+
+IF SOURCE:사쿠야:공포 >= 10 || SOURCE:사쿠야:불안 >= 10
+	사쿠야_표시플래그 += 1
+	IF 사쿠야_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 사쿠야_표시플래그 > 3
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 나, 그만두고……무%POLITE_K9("서워", "섭습니다")%
+		DATAFORM 포……히, 우
+		DATAFORM 무엇을 %POLITE_K9("해", "하십니까")%……히우
+		DATAFORM 히……아, 아니
+		DATAFORM 히……아
+		DATAFORM 무%POLITE_K9("서워", "섭습니다")%……아니
+		DATAFORM 무서운 것, 아……그만두고
+	ENDDATA
+ENDIF
+
+IF SOURCE:사쿠야:반감 >= 10
+	사쿠야_표시플래그 += 1
+	IF 사쿠야_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 사쿠야_표시플래그 > 3
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 아니. 아%POLITE_K9("니야", "닙니다")%
+		DATAFORM 그만둬%POLITE_K9("줘", "주세요")%……아%POLITE_K9("니", "닙니다")%
+		DATAFORM 어째서……?   이런
+		DATAFORM 일부러 %POLITE_K9("야", "입니까")%?   어째서
+		DATAFORM 그만둬어
+		DATAFORM 싫%POLITE_K9("어, 부탁이니까", "습니다, 제발")%
+	ENDDATA
+ENDIF
+
+;애정계는 함락시만으로, 고통이 너무 높지 않는 경우나 마조만
+IF CHECK_K9("함락", 사쿠야_대상)
+	IF SOURCE:사쿠야:고통 < 80 || GETBIT(TALENT:사쿠야:음란계, 소질_음란_마조)
+		IF SOURCE:사쿠야:환락 >= 10 || SOURCE:사쿠야:애정 >= 10 || SOURCE:사쿠야:우월 >= 10 || SOURCE:사쿠야:접촉 >= 10 || SOURCE:사쿠야:봉사 >= 10 || SOURCE:사쿠야:환희 >= 10 
+			사쿠야_표시플래그 += 1
+			IF 사쿠야_표시플래그 == 1
+				PRINTFORM 「
+			ELSEIF 사쿠야_표시플래그 > 3
+				PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+				PRINTFORM 「
+			ELSE
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			ENDIF
+			PRINTDATA
+				DATAFORM %조사처리(CALLNAME_K9(사쿠야_대상),"가")% %POLITE_K9("좋아해", "좋아합니까")%?   응응……아
+				DATAFORM 응, 츗?   후후. 좋아
+				DATAFORM 를 좋아하는 사람?   응. %CALLNAME_K9(사쿠야_대상, "")%
+				DATAFORM 멋져요, %CALLNAME_K9(사쿠야_대상)%……후훗
+				DATAFORM 아? 　%POLITE_K9("좋아해", "좋아합니다")%
+				DATAFORM 꾸욱……해%POLITE_K9("", "주세요")%
+				DATAFORM 해%POLITE_K9("", "주세요")%。%CALLNAME_K9(사쿠야_대상, "")%?   아
+			ENDDATA
+		ENDIF
+	ENDIF
+ENDIF
+
+IF SOURCE:사쿠야:노출 >= 10 || SOURCE:사쿠야:일탈 >= 10
+	;그다지 아픔이 없으면 체력 기력이 있으면 부끄러워한다
+	IF SOURCE:사쿠야:고통 < 80 && BASE:사쿠야:기력 <= (MAXBASE:사쿠야:기력 / 3) && BASE:사쿠야:체력 > (MAXBASE:사쿠야:체력 / 3)
+		사쿠야_표시플래그 += 1
+		IF 사쿠야_표시플래그 == 1
+			PRINTFORM 「
+		ELSEIF 사쿠야_표시플래그 > 3
+			PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 보……보면 아니
+			DATAFORM 는……부끄럽%POLITE_K9("다", "습니다")%
+			DATAFORM 보, 보지 %POLITE_K9("마", "말아주세요")%
+			DATAFORM %POLITE_K9("안 돼", "안 됩니다")%, 이런
+			DATAFORM 안 돼애, 봐서는
+			DATAFORM 는, 부끄럽다
+			DATAFORM 는……부끄러운, %POLITE_K9("것", "것입니다")%
+			DATAFORM 아니, 보지 마아
+		ENDDATA
+	;너무 아파 그럴 때가 아니다
+	ELSEIF SOURCE:사쿠야:고통 >= 80
+		사쿠야_표시플래그 += 1
+		IF 사쿠야_표시플래그 == 1
+			PRINTFORM 「
+		ELSEIF 사쿠야_표시플래그 > 3
+			PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 야
+			DATAFORM 야
+			DATAFORM 나
+			DATAFORM 야
+			DATAFORM 안 돼애에
+			DATAFORM 그만둬어어
+			DATAFORM 히이이
+			DATAFORM 힉
+			DATAFORM 
+			DATAFORM 히
+			DATAFORM 아
+			DATAFORM 나
+		ENDDATA
+	ENDIF
+ENDIF
+
+IF SOURCE:사쿠야:해소 >= 10
+	사쿠야_표시플래그 += 1
+	IF 사쿠야_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 사쿠야_표시플래그 > 3
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 
+		DATAFORM 후~아……응
+		DATAFORM 아, 하아
+		DATAFORM ……우
+		DATAFORM 
+		DATAFORM 아, 하
+		DATAFORM 
+	ENDDATA
+ENDIF
+
+IF SOURCE:사쿠야:촉수 >= 10
+	사쿠야_표시플래그 += 1
+	IF 사쿠야_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 사쿠야_표시플래그 > 3
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	;촉수는 촉수측을 묘사하면 바리에이션을 내기 쉽겠지만
+	;접수측의 경우는 플레이어의 이미지에 맡겨지도록(듯이) 묘사하지 않고 둔다
+	PRINTDATA
+		DATAFORM 촉수가, 히잇
+		DATAFORM 안 돼앳. 촉수가
+		DATAFORM 촉수 아니
+		DATAFORM 용서해엣. 촉수 무서운 것
+		DATAFORM 부탁해요, 촉수는 %SPLIT_R("그만둬 :용서해 :안 돼애")%
+		DATAFORM %SPLIT_R("그만둬 :용서해 :안 돼애")%. 촉수%SPLIT_R("그만둬 :용서해 :안 돼애")%
+		DATAFORM 촉수%SPLIT_R("로 느껴 버리다는 :그리고 기분 좋아져 버리는 것 무서운 :에 가게 되는 것 아니:그리고 가 버리는 것 아니:하지만 기분이 좋은 것 싫어요")%
+	ENDDATA
+ENDIF
+
+;봉사되고 있는 대사
+IF SOURCE:사쿠야:불결 >= 10
+	;그다지 아픔이 없고 체력 기력이 있으면
+	IF SOURCE:사쿠야:고통 < 80 && BASE:사쿠야:기력 > (MAXBASE:사쿠야:기력 / 3) && BASE:사쿠야:체력 > (MAXBASE:사쿠야:체력 / 3)
+		사쿠야_표시플래그 += 1
+		IF 사쿠야_표시플래그 == 1
+			PRINTFORM 「
+		ELSEIF 사쿠야_표시플래그 > 3
+			PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 그런……더럽혀 버려요
+			DATAFORM 나……더럽혀 버려요
+			DATAFORM %POLITE_K9("안 돼", "안됩니다")%, 그런 %POLITE_K9("일. 앗. 응우", "일, 하셔서는……앗. 응우")%
+			DATAFORM ……우
+			DATAFORM 수치않다 빌려주어……읏, 아
+			DATAFORM 나……우. %POLITE_K9("안 돼", "안됩니다")%, 더러워%POLITE_K9("져", "집니다")%
+			DATAFORM 아, 응우. 미안 없음, 이
+		ENDDATA
+	ENDIF
+ENDIF
+
+IF 사쿠야_표시플래그
+	PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;○대사 3_사쿠야가 느끼는 상태에 관해서
+;─────────────────────────────────────── 
+PRINTFORM 「
+;▼～1500  아……응……
+IF 사쿠야_최대부위치 < 1500 || 사쿠야_이번부위치 == 0
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 응
+		DATAFORM ……아
+		DATAFORM 응구
+		DATAFORM 후~……후
+		DATAFORM 
+		DATAFORM 응구
+		DATAFORM 아……우
+		DATAFORM 하……후
+		DATAFORM 아……하
+		DATAFORM 아, 후아
+		DATAFORM 응……아
+		DATAFORM 구 곧……아
+		DATAFORM ……응
+		DATAFORM 아……아
+		DATAFORM 응, 응
+		DATAFORM 아, 응
+		DATAFORM , 아
+		DATAFORM 
+		DATAFORM 응구
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 응
+		DATAFORM 
+		DATAFORM 응구
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 만난다
+		DATAFORM 
+		DATAFORM 아, 하
+		DATAFORM 아, 후아
+		DATAFORM 응, 아
+		DATAFORM 아
+		DATAFORM , 우
+		DATAFORM 아
+		DATAFORM 응, 응
+		DATAFORM 만나는, 응
+		DATAFORM 아, 아
+		DATAFORM 아
+		DATAFORM 응, 쿠
+	ENDDATA
+	PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+;▼1500～5000  아, 우, 아?   응……, 응
+ELSEIF 사쿠야_최대부위치 >= 1500 && 사쿠야_최대부위치 < 5000
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 응응
+		DATAFORM , 아
+		DATAFORM 응구
+		DATAFORM 하. 후아
+		DATAFORM 
+		DATAFORM 응구
+		DATAFORM 만난다
+		DATAFORM 하. 후
+		DATAFORM 아……하
+		DATAFORM 아……후아
+		DATAFORM 응. 아
+		DATAFORM 아
+		DATAFORM , 앙
+		DATAFORM 아
+		DATAFORM 응～. 응
+		DATAFORM 아
+		DATAFORM 아
+		DATAFORM ……하
+		DATAFORM 응 먹는다
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 응
+		DATAFORM 
+		DATAFORM 응
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 만난다
+		DATAFORM 
+		DATAFORM 아, 하
+		DATAFORM 아, 후아
+		DATAFORM 응, 아
+		DATAFORM 아
+		DATAFORM , 우
+		DATAFORM 아
+		DATAFORM 
+		DATAFORM 만나는, 후
+		DATAFORM 아
+		DATAFORM 아
+		DATAFORM 응, 쿠
+		DATAFORM %CALLNAME_K9(사쿠야_대상, "")%
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTDATA
+		DATAFORM 응……응
+		DATAFORM ……하
+		DATAFORM 만난다……쿠, 후
+		DATAFORM 구응……아
+		DATAFORM ……우
+		DATAFORM 응
+		DATAFORM 구, 후……아후
+		DATAFORM 아……아우
+		DATAFORM 아……아하아
+		DATAFORM ……하
+		DATAFORM 
+		DATAFORM 후~……아아
+		DATAFORM 응……아, 응
+		DATAFORM ……앙
+		DATAFORM , 하아
+		DATAFORM 응 먹는다
+		DATAFORM 응……아
+		DATAFORM 하……아아아
+		DATAFORM 아……후아
+		DATAFORM 응, 쿠
+	ENDDATA
+	PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+;▼5000～9000  아?   안 돼  도, 이제(이미/벌써/더는/정말). 는 응?
+ELSEIF 사쿠야_최대부위치 >= 5000 && 사쿠야_최대부위치 < 9000
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 응응
+		DATAFORM 아
+		DATAFORM 응구
+		DATAFORM 아
+		DATAFORM 
+		DATAFORM 아
+		DATAFORM 만난다
+		DATAFORM 
+		DATAFORM 아는
+		DATAFORM 
+		DATAFORM 응아
+		DATAFORM 히아
+		DATAFORM , 아
+		DATAFORM 아
+		DATAFORM 응～. 응
+		DATAFORM 아
+		DATAFORM 아
+		DATAFORM , 하
+		DATAFORM 응 먹는다
+		DATAFORM %CALLNAME_K9(사쿠야_대상, "")%, 후아
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 응
+		DATAFORM 
+		DATAFORM 응구
+		DATAFORM , 우쿠
+		DATAFORM 안 돼
+		DATAFORM 
+		DATAFORM 만난다
+		DATAFORM 
+		DATAFORM 아는
+		DATAFORM 
+		DATAFORM 아
+		DATAFORM 이제(이미/벌써/더는/정말)
+		DATAFORM 와 버린다
+		DATAFORM , 아
+		DATAFORM 기분, 좋아서
+		DATAFORM 굉장한거야
+		DATAFORM 이제(이미/벌써/더는/정말), 아아
+		DATAFORM 안 돼애
+		DATAFORM 좋다
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTDATA
+		DATAFORM 히아
+		DATAFORM 응 만난다
+		DATAFORM 는 아
+		DATAFORM 응아
+		DATAFORM 아
+		DATAFORM 안 돼애에
+		DATAFORM 아
+		DATAFORM 아는 아 응
+		DATAFORM 아
+		DATAFORM 는 만난다
+		DATAFORM 아 아
+		DATAFORM 응구아
+		DATAFORM 도―-아
+		DATAFORM 와 버린다아아
+		DATAFORM , 아아아
+		DATAFORM 기분이 좋다
+		DATAFORM 굉장한 것
+		DATAFORM 이제(이미/벌써/더는/정말) 아 아
+		DATAFORM 안 돼애에
+		DATAFORM 좋은 있고
+	ENDDATA
+	PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+;▼9000～  가는 우우 우우?   말해 섬우우?
+;  생각보다는 곧 매턴 이 상태가 되므로 기력 체력 부족해 완급을
+ELSE
+	;▽이번 부위칭이나 최대 부위칭을 취할 수 없기에 부위 표현을 애매하게 한다
+	IF 사쿠야_이번부위칭 == "" || 사쿠야_최대부위칭 == ""
+		;기력 체력이 있다, 또는 주도권이 있다
+		IF CHECK_K9("활력")
+			PRINTDATA
+				DATAFORM 온다아
+				DATAFORM 가서는
+				DATAFORM 아
+				DATAFORM 와 버린다아
+				DATAFORM 간다아
+				DATAFORM 녹아 버린다
+				DATAFORM %POLITE_K9("와 버려", "가 버립니다")%
+				DATAFORM 간다아아아
+				DATAFORM 도, 안 돼?   거기
+				DATAFORM 멋져어
+				DATAFORM 거기
+				DATAFORM 갖고 싶었던 %POLITE_K9("거야", "것입니다아")%
+			ENDDATA
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			PRINTDATA
+				DATAFORM 아
+				DATAFORM 이제(이미/벌써/더는/정말) 안 돼애
+				DATAFORM 이제(이미/벌써/더는/정말) 야
+				DATAFORM 가 버린다아
+				DATAFORM 나
+				DATAFORM 굉장하다아
+				DATAFORM 그거어
+				DATAFORM 이런
+				DATAFORM 기분이 좋은
+			ENDDATA
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			PRINTDATA
+				DATAFORM 가 버린다아
+				DATAFORM %POLITE_K9("가 버려", "가 버립니다")%
+				DATAFORM 이상한 것
+				DATAFORM %POLITE_K9("이상해져 버린다아", "이상해져 버립니다아")%
+				DATAFORM 이상하게 된다아
+				DATAFORM 아
+				DATAFORM 간다아아
+				DATAFORM 굉장하다아
+			ENDDATA
+		;기력 체력이 없는가 개주도권이 없다
+		ELSE
+			PRINTDATA
+				DATAFORM 히 좋다
+				DATAFORM 가 버린다아
+				DATAFORM 아, 아아, 아
+				DATAFORM 이제(이미/벌써/더는/정말) 안 돼요
+				DATAFORM 간다아, 히아아
+				DATAFORM 죽어버린다
+				DATAFORM 있고, 쿠우우우
+				DATAFORM 괴롭다아
+				DATAFORM 용서해
+				DATAFORM 거기이제(이미/벌써/더는/정말) 안 돼애
+			ENDDATA
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			PRINTDATA
+				DATAFORM 아
+				DATAFORM 이제(이미/벌써/더는/정말) 안 돼애
+				DATAFORM 이제(이미/벌써/더는/정말) 야
+				DATAFORM 가 버린다아
+				DATAFORM 나
+				DATAFORM 굉장하다아
+				DATAFORM 그거어
+				DATAFORM 이런
+				DATAFORM 기분이 좋은
+			ENDDATA
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			PRINTDATA
+				DATAFORM 이″, 아
+				DATAFORM 이상한 것
+				DATAFORM 안 돼애
+				DATAFORM 용서해
+				DATAFORM 망가진다아
+				DATAFORM 아
+				DATAFORM 간다아아
+				DATAFORM 이제(이미/벌써/더는/정말) 싫어
+			ENDDATA
+		ENDIF
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+	;▽이번 부위칭과 최대 부위칭을 잡히고 있다
+	ELSE
+		;·1번 기분이 좋은 곳에 손대었을 경우
+		IF 사쿠야_이번부위 == 사쿠야_최대부위
+			;기력 체력이 있다, 또는 주도권이 있다
+			IF CHECK_K9("활력")
+				PRINTDATA
+					DATAFORM 온다아
+					DATAFORM 가서는
+					DATAFORM 아
+					DATAFORM 와 버린다아
+					DATAFORM 간다아
+					DATAFORM 녹아 버린다
+					DATAFORM %POLITE_K9("와 버려", "가 버립니다")%
+					DATAFORM 간다아아아
+					DATAFORM 도, 안 돼?   거기
+					DATAFORM 멋져어
+					DATAFORM 거기
+					DATAFORM 갖고 싶었던 %POLITE_K9("거야", "것입니다아")%
+				ENDDATA
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			;기력 체력이 없는가 개주도권이 없다
+			ELSE
+				PRINTDATA
+					DATAFORM 히 좋다
+					DATAFORM 가 버린다아
+					DATAFORM 아, 아아, 아
+					DATAFORM 이제(이미/벌써/더는/정말) 안 돼요
+					DATAFORM 간다아, 히아아
+					DATAFORM 죽어버린다
+					DATAFORM 있고, 쿠우우우
+					DATAFORM 괴롭다아
+					DATAFORM 용서해
+					DATAFORM 거기이제(이미/벌써/더는/정말) 안 돼애
+				ENDDATA
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			ENDIF
+
+			IF 사쿠야_최대부위 == "Ｖ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%깊다아
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%이제(이미/벌써/더는/정말) 안 돼애
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%좋은
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%가 버린다아
+					DATAFORM %CALL_DIRTY_K9("Ｖ")%가
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%나
+					DATAFORM %CALL_DIRTY_K9("Ｖ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM %CALL_DIRTY_K9("Ｖ")%굉장하다아
+					DATAFORM 그것? 　%CALL_DIRTY_K9("Ｖ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K9("Ｖ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K9("Ｖ", "")%
+					DATAFORM 깊은? 　%CALL_DIRTY_K9("Ｖ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ｖ")%?   녹아 버린다아
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%움직여 버린다아
+					DATAFORM %CALL_DIRTY_K9("Ｖ", "")%뜨겁다아
+				ENDDATA
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+			ELSEIF 사쿠야_최대부위 == "Ａ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K9("Ａ", "")%좋다
+					DATAFORM 도, 나? 　%CALL_DIRTY_K9("Ａ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ａ", "")%야
+					DATAFORM 가 버린다? 　%CALL_DIRTY_K9("Ａ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ａ")%가
+					DATAFORM %CALL_DIRTY_K9("Ａ", "")%나
+					DATAFORM %CALL_DIRTY_K9("Ａ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM %CALL_DIRTY_K9("Ａ")%굉장하다아
+					DATAFORM 그것? 　%CALL_DIRTY_K9("Ａ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K9("Ａ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K9("Ａ", "")%
+					DATAFORM 깊은? 　%CALL_DIRTY_K9("Ａ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ａ")%?   녹아 버린다아
+					DATAFORM %CALL_DIRTY_K9("Ａ", "")%움직여 버린다아
+					DATAFORM %CALL_DIRTY_K9("Ａ", "")%뜨겁다아
+				ENDDATA
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+			ELSEIF 사쿠야_최대부위 == "Ｃ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K9("Ｃ", "")%좋다
+					DATAFORM 도, 나? 　%CALL_DIRTY_K9("Ｃ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ｃ")%이제(이미/벌써/더는/정말) 안 돼애
+					DATAFORM %CALL_DIRTY_K9("Ｃ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ｃ")%가
+					DATAFORM %CALL_DIRTY_K9("Ｃ", "")%나
+					DATAFORM %CALL_DIRTY_K9("Ｃ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM 그것? 　%CALL_DIRTY_K9("Ｃ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K9("Ｃ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K9("Ｃ", "")%
+					DATAFORM 튄다? 　%CALL_DIRTY_K9("Ｃ", "")%
+				ENDDATA
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+			ELSEIF 사쿠야_최대부위 == "Ｂ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K9("Ｂ", "")%아
+					DATAFORM 더는 안 돼? 　%CALL_DIRTY_K9("Ｂ", "")%
+					DATAFORM %CALL_DIRTY_K9("Ｂ", "")%이제(이미/벌써/더는/정말) 야
+					DATAFORM 가 버린다아
+					DATAFORM %CALL_DIRTY_K9("Ｂ")%가
+					DATAFORM %CALL_DIRTY_K9("Ｂ", "")%나
+					DATAFORM %CALL_DIRTY_K9("Ｂ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM %CALL_DIRTY_K9("Ｂ", "")%굉장하다아
+					DATAFORM 그것? 　%CALL_DIRTY_K9("Ｂ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K9("Ｂ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K9("Ｂ", "")%
+					DATAFORM 튄다? 　%CALL_DIRTY_K9("Ｂ", "")%
+				ENDDATA
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			ENDIF
+
+			;기력 체력이 있다, 또는 주도권이 있다
+			IF CHECK_K9("활력")
+				PRINTDATA
+					DATAFORM 가 버린다아
+					DATAFORM %POLITE_K9("가 버려", "가 버립니다")%
+					DATAFORM 이상한 것
+					DATAFORM %POLITE_K9("이상해져 버린다아", "이상해져 버립니다아")%
+					DATAFORM 이상하게 된다아
+					DATAFORM 아
+					DATAFORM 간다아아
+					DATAFORM 굉장하다아
+				ENDDATA
+			;기력 체력이 없는가 개주도권이 없다
+			ELSE
+				PRINTDATA
+					DATAFORM 이″, 아
+					DATAFORM 이상한 것
+					DATAFORM 안 돼애
+					DATAFORM 용서해
+					DATAFORM 망가진다아
+					DATAFORM 아
+					DATAFORM 간다아아
+					DATAFORM 이제(이미/벌써/더는/정말) 싫어
+				ENDDATA
+			ENDIF
+
+			;─────────────────────────────────────── 
+			;이따금 상대가 애무에 사용하고 있는 부위에 언급하지만 여기는 그다지 범용적이지 않다
+			;（커맨드 번호로 판단하므로 COMF 변화에 대응 할 수 없다）
+			;─────────────────────────────────────── 
+			IF RAND:10 == 0
+				;1대 1 성교계
+				IF ( IS_MTAR(사쿠야) && ((SELECTCOM >= 30 && SELECTCOM <= 36)||(SELECTCOM >= 40 && SELECTCOM <= 46)) ) || ( IS_EQUIP_TARGET(사쿠야, 30, 31, 32, 33, 34, 35, 36) || IS_EQUIP_TARGET(사쿠야, 40, 41, 42, 43, 44, 45, 46) )
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+					;사쿠야_대상이 주인공으로 함락완료
+					IF CHECK_K9("함락", 사쿠야_대상)
+						;주인공에게 장대 있어
+						IF HAS_PENIS(MASTER)
+							PRINTDATA
+								DATAFORM %CALL_DIRTY_K9("Ｐ", "")%굉장하다아
+								DATAFORM %CALL_DIRTY_K9("Ｐ", "")%좋다
+								DATAFORM 를 좋아하는 사람
+								DATAFORM 내 %BREAK_K9("중", 사쿠야_대상)%%CALL_DIRTY_K9("Ｖ", "")%
+								DATAFORM 구멍이 되어 있다아
+								DATAFORM 씨뿌리기 해
+								DATAFORM %CALLNAME_K9(사쿠야_대상)%의 %CALL_DIRTY_K9("Ｐ", "")%를 좋아하는 사람%POLITE_K9("이야", "입니다아")%
+							ENDDATA
+						ELSE
+							PRINTDATA
+								DATAFORM 굵은 것
+								DATAFORM 기쁘다아
+								DATAFORM 연결되고 있다아 %BREAK_K9("중", 사쿠야_대상)%%조사처리(CALLNAME_K9(사쿠야_대상),"와")%
+								DATAFORM %CALLNAME_K9(사쿠야_대상, "")%
+							ENDDATA
+						ENDIF
+					;사쿠야에 주도권이 없다
+					ELSEIF !IS_INITIATIVE(사쿠야)
+						PRINTFORM %SPLIT_R("안 돼:아니:야아")%
+					ENDIF
+				ENDIF
+
+				;손가락 애무
+				IF (IS_MTAR(사쿠야) && GROUPMATCH(SELECTCOM, 0, 1, 3, 4, 10)) || IS_EQUIP_TARGET(사쿠야, 0, 1, 3, 4, 10)
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+					;사쿠야_대상이 주인공으로 함락완료
+					IF CHECK_K9("함락", 사쿠야_대상)
+						PRINTDATA
+							DATAFORM 손가락
+							DATAFORM 손가락이 %BREAK_K9("중", 사쿠야_대상)%기쁜거야
+							DATAFORM %CALLNAME_K9(사쿠야_대상, "")%, 손가락 좋%POLITE_K9("아", "습니다아")%
+						ENDDATA
+					;사쿠야에 주도권이 없다
+					ELSE
+						PRINTFORM %SPLIT_R("아……손가락이 :손가락이")%
+					ENDIF
+				ENDIF
+
+				;혀애무
+				IF (IS_MTAR(사쿠야) && GROUPMATCH(SELECTCOM, 2, 8, 9, 11)) || IS_EQUIP_TARGET(사쿠야, 2, 8, 9, 11)
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+					;사쿠야_대상이 주인공으로 함락완료
+					IF CHECK_K9("함락", 사쿠야_대상)
+						PRINTDATA
+							DATAFORM 혀
+							DATAFORM 했다?   미끈미끈은
+							DATAFORM %CALLNAME_K9(사쿠야_대상, "")%, 입술 굉장해에
+						ENDDATA
+					;사쿠야에 주도권이 없다
+					ELSE
+						PRINTFORM %SPLIT_R("혀가:혀")%
+					ENDIF
+				ENDIF
+
+				;함락로 완구 애무（이따금）
+				IF (IS_MTAR(사쿠야) && GROUPMATCH(SELECTCOM, 60, 61, 62, 63, 64, 65, 66)) || IS_EQUIP_TARGET(사쿠야, 60, 61, 62, 63, 64, 65, 66)
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+					;사쿠야_대상이 주인공으로 함락완료
+					IF CHECK_K9("함락", 사쿠야_대상)
+						PRINTDATA
+							DATAFORM 완구는
+							DATAFORM 장난감 안 돼애. %조사처리(CALLNAME_K9(사쿠야_대상),"가")% 좋은데
+							DATAFORM 아니?   완구 아니
+						ENDDATA
+					;사쿠야에 주도권이 없다
+					ELSE
+						PRINTDATA
+							DATAFORM 완구는
+							DATAFORM 장난감 안 돼애
+							DATAFORM 아니!   완구 아니
+						ENDDATA
+					ENDIF
+				ENDIF
+			ENDIF
+			PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+		;·1번 기분이 좋은 곳에 손대지 않았던 경우
+		ELSE
+			;최대 부위치와 이번 부위치에 7000이상차이가 있다면 초조해 해지고 있다고 느낀다
+			IF 사쿠야_최대부위치 - 사쿠야_이번부위치 >= 7000
+				;기력 체력이 있어 주도권이 없게 함락이 있으면 조르기
+				IF ( BASE:사쿠야:기력 <= (MAXBASE:사쿠야:기력 / 3) && BASE:사쿠야:체력 > (MAXBASE:사쿠야:체력 / 3) ) && CHECK_K9("함락", 사쿠야_대상) && !IS_INITIATIVE(사쿠야)
+					PRINTDATA
+						DATAFORM 아……초조하게 하지 말라고아
+						DATAFORM 응……심술쟁이 하지 말아줘어
+						DATAFORM 부탁해요, 하앗. 응우
+						DATAFORM 나, 응우. 가게해
+						DATAFORM 아니, %사쿠야_이번부위칭%가 아니고……용서해
+						DATAFORM 거기는……. 부탁
+						DATAFORM %사쿠야_이번부위칭%가 아닌 것
+					ENDDATA
+				;기력 체력이나 주도권이 있을까 함락이 없다
+				ELSE
+					PRINTDATA
+						DATAFORM ……하아, 응
+						DATAFORM 도……편하게, 되고 싶다아
+						DATAFORM 부탁
+						DATAFORM 편하게……해
+						DATAFORM 하, 아아……괴로운, 의
+						DATAFORM 후~, 하앗……괴로워요, 응쿠
+					ENDDATA
+				ENDIF
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+				;기력 체력이 있으면
+				IF BASE:사쿠야:기력 > (MAXBASE:사쿠야:기력 / 3) && BASE:사쿠야:체력 > (MAXBASE:사쿠야:체력 / 3) && CHECK_K9("함락", 사쿠야_대상)
+					PRINTFORM %SPLIT_R("괴로운 것 :가고 싶은 것 용서해 :변이 되는 :이상해져 버린다:부탁")%
+				;체력이나 함락이 없으면 
+				ELSE
+					PRINTFORM %SPLIT_R("망가져, :용서해 :이상하게 되는, :원, 이")%
+				ENDIF
+				PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+			;최대 부위치와 이번 부위치가 3000 미만의 차이라면 저쪽도 여기도 기분이 좋다
+			ELSE
+				;기력 체력이 있으면
+				IF BASE:사쿠야:기력 > (MAXBASE:사쿠야:기력 / 3) && BASE:사쿠야:체력 > (MAXBASE:사쿠야:체력 / 3) && CHECK_K9("함락", 사쿠야_대상)
+					PRINTFORM %SPLIT_R("굉장한 것 :머리 이상하게 된다:이런 건은 가는, :이상해진다:이제(이미/벌써/더는/정말) 안 돼요 :미쳐 버린다아")%
+				;체력이나 함락이 없으면 
+				ELSE
+					PRINTFORM %SPLIT_R("머리 이상하게 된다:이런 건은:용서해 :이상해진다:더는 안 돼:미쳐 버린다아")%
+				ENDIF
+				PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+				IF 사쿠야_이번부위 == "Ｐ"
+					PRINTFORM %CALL_DIRTY_K9("Ｐ")%
+				ELSEIF 사쿠야_이번부위 == "Ｖ"
+					PRINTFORM %CALL_DIRTY_K9("Ｖ")%
+				ELSEIF 사쿠야_이번부위 == "Ａ"
+					PRINTFORM %CALL_DIRTY_K9("Ａ")%
+				ELSEIF 사쿠야_이번부위 == "Ｂ"
+					PRINTFORM %CALL_DIRTY_K9("Ｂ")%
+				ELSEIF 사쿠야_이번부위 == "Ｃ"
+					PRINTFORM %CALL_DIRTY_K9("Ｃ")%
+				ENDIF
+
+				;최대 부위도 자극되고 있으면 주장
+				IF 사쿠야_최대부위 == "Ｐ" && SOURCE:사쿠야:쾌Ｃ >= 10
+					PRINTFORM 도%CALL_DIRTY_K9("Ｐ")%
+					PRINTFORM %SPLIT_R("도, 이제(이미/벌써/더는/정말) 안된 :기, 기분이 좋은 것 :도?   간다:도 안 돼:나온다:나와 버린다아")%
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+				ELSEIF 사쿠야_최대부위 == "Ｖ" && SOURCE:사쿠야:쾌Ｖ >= 10
+					PRINTFORM 도%CALL_DIRTY_K9("Ｖ")%
+					PRINTFORM %SPLIT_R("도, 이제(이미/벌써/더는/정말) 안된 :기, 기분이 좋은 것 :도?   간다:도 안 돼애")%
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+				ELSEIF 사쿠야_최대부위 == "Ａ" && SOURCE:사쿠야:쾌Ａ >= 10
+					PRINTFORM 도%CALL_DIRTY_K9("Ａ")%
+					PRINTFORM %SPLIT_R("도 :도 굉장한 것 :뜨, 뜨거운 것 :도?   가 버린다:기, 기분이 좋다")%
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+				ELSEIF 사쿠야_최대부위 == "Ｂ" && SOURCE:사쿠야:쾌Ｂ >= 10
+					PRINTFORM 도%CALL_DIRTY_K9("Ｂ")%
+					PRINTFORM %SPLIT_R("도!   좋은 것 :도, 굉장한 것 :도 좋은 것 :도?   아, 아:도 행은은")%
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+				ELSEIF 사쿠야_최대부위 == "Ｃ" && SOURCE:사쿠야:쾌Ｃ >= 10
+					PRINTFORM 도%CALL_DIRTY_K9("Ｃ")%
+					PRINTFORM %SPLIT_R("도?   이제(이미/벌써/더는/정말) :아이참, 갈것같다인 것 :도, 좋은 것 :아이참")%
+					PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+				ENDIF
+
+				;기력 체력이 있다, 또는 주도권이 있다
+				IF CHECK_K9("활력")
+					PRINTFORM %SPLIT_R("가 버린다:이상한 것 :이상해져 버린다:뜨거운 :변이 되는 :아:행 먹는다:튀어 버리는:머리 녹아 버린다아")%
+				;체력이나 함락이 없으면 
+				ELSE
+					PRINTFORM %SPLIT_R("도와 :이제(이미/벌써/더는/정말), 용서해 :망가진다:이상하게, :아:먹는″")%
+				ENDIF
+
+				PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;◆돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

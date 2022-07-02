@@ -1,0 +1,46 @@
+﻿;---------------------
+;대응하는 데일리의 DISABLE를 돌려준다. 설정하지 않는 경우, 이벤트는 발생하지 않는다.
+;---------------------
+@KOJO_DAILY_K76_DERIVATION_KNIGHT_ERRANT_DISABLE(대상)
+#DIM 대상
+RETURN KOJO_DAILY_GET_DISABLE_CONFIG(대상, "KNIGHT_ERRANT")
+
+
+;---------------------
+;발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K76_DERIVATION_KNIGHT_ERRANT_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:쇼우_무사수행 != 1
+	RETURN 0
+
+KDVAR:대상:쇼우_무사수행나머지턴 --
+
+SIF KDVAR:대상:쇼우_무사수행나머지턴
+	RETURN 0
+
+RETURN 1
+
+
+;---------------------
+;본체
+;---------------------
+@KOJO_DAILY_K76_DERIVATION_KNIGHT_ERRANT(대상)
+#DIM 대상
+PRINTFORMW %조사처리(ANAME(대상),"가")% 무사 수행으로부터 돌아왔다……
+PRINTFORMW 행동거지로부터, 이전과는 딴사람과 같이 강해지고 있는 것을 알 수 있다
+PRINTFORMW 수행은 확실히, %PRONOUN(대상)%의 혈육이 된 것 같다……
+PRINTFORMW 「%ANAME(MASTER)%, 귀중한 기회를 주어, 감사합니다」
+PRINTFORMW 「폐를 끼친 만큼, 도움이 되어 보입니다. 아무쪼록 나를, 마음껏 사용해 주세요」
+CALL COLOR_PRINTW(@"%ANAME(대상)%의 무투와 방위와 지략이 10씩 상승했습니다", 칼라_주의)
+CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 스킬 「정의의 위광」을 사용 가능하게 되었습니다", 칼라_주의)
+ABL:대상:무투 += 10
+ABL:대상:방위 += 10
+ABL:대상:지략 += 10
+CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속)
+CALL SKILL_LEARN_BY_NAME(대상, 스킬_장르_SP, NO:대상, "정의의 위광")
+
+RETURN 1
+

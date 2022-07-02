@@ -1,0 +1,279 @@
+﻿;=================================================
+;●「침실호출」의 개시시의 대사 ※단독으로 불렸을 경우만 불린다
+;=================================================
+@KOJO_TRAIN_START_A2_K8
+;[공허]상태라면 구상을 표시하지 않는다
+IF TALENT:공허
+	RETURN
+ENDIF
+
+
+
+;=================================================
+;●「침실호출」의 종료시의 대사 ※단독으로 불렸을 경우만 불린다
+;=================================================
+@KOJO_TRAIN_END_A2_K8
+#DIM 보수
+;[공허]상태라면 구상을 표시하지 않는다
+IF TALENT:공허
+	RETURN
+ENDIF
+
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;=================================================
+@KOJO_COM_AFTER_A_K8
+;[공허]상태의 경우는 구상을 표시하지 않는다
+IF TALENT:공허
+	RETURN 0
+ENDIF
+IF KDVAR:파츄리_정액채취_조교중
+	BASE:체력 = MAXBASE:체력
+	BASE:기력 = MAXBASE:기력
+ENDIF
+;-------------------------------------------------
+;주인공을 사정시켰다
+;-------------------------------------------------
+IF NOWEX:MASTER:사정 > 0
+	SELECTCASE TCVAR:MASTER:420
+		;질에 사정
+		CASE 1
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「읏아, (안)중, 아, 아아……!」
+					CASE 1
+						PRINTFORML 「……아, (안)중, 아뜻……!」
+					CASE 2
+						PRINTFORML 「읏, 쿠우읏……!」
+					CASE 3
+						PRINTFORML 「아, 나와……아앗……!」
+					CASE 4
+						PRINTFORML 「읏아, 아앗……!」
+						PRINTFORML 「……아, 채, 채취, 하지 않으면……」
+					CASE 5
+						PRINTFORML 「하아, 뱃속, 사정이라고……!」
+						PRINTFORML 「……채취, 하기 어렵지 않은거야……」
+					CASE 6
+						PRINTFORML 「응응응읏……!」
+					CASE 7
+						PRINTFORML 「읏하, 아핫……」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;애널에 사정
+		CASE 2
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「읏아, 엉덩이, 아, 아아……!」
+					CASE 1
+						PRINTFORML 「……아, 얏, 아뜻……!」
+					CASE 2
+						PRINTFORML 「읏, 우아, 엉덩이, 좋앗……!」
+					CASE 3
+						PRINTFORML 「앗, 뱃속, 나와……!」
+					CASE 4
+						PRINTFORML 「하아앗, 악……!」
+						PRINTFORML 「……아, 채, 채취, 하지 않으면……」
+					CASE 5
+						PRINTFORML 「우아, 뱃속, 나와……!」
+						PRINTFORML 「……그쪽에 사정되면, 불순물이 섞이는 것이지만……」
+					CASE 6
+						PRINTFORML 「응응응읏……!」
+					CASE 7
+						PRINTFORML 「읏하, 아핫……」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;손에 사정
+		CASE 3
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「응……, 냈어?」
+					CASE 1
+						PRINTFORML 「……정액은, 의외로 뜨거운거네」
+					CASE 2
+						PRINTFORML 「조금 기다려……채취하기 때문에」
+					CASE 3
+						PRINTFORML 「많이 나와요……뭐, 나에 있어서도 형편상 좋구나」
+					CASE 4
+						PRINTFORML 「기분 좋은 것 같은 얼굴이군요……」
+						PRINTFORML 「……나의 손, 그렇게 좋았어?」
+					CASE 5
+						PRINTFORML 「응,……」
+						PRINTFORML 「……손으로 사정시키는 것이, 불순물도 섞이지 않아서 제일 효율적이군요」
+					CASE 6
+						PRINTFORML 「응……사정했어?」
+						PRINTFORML 「나쁘지만, 좀 더 교제해 줘……나머지 얼마인가 샘플을 갖고 싶은거야」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;구에 사정
+		CASE 4
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「응……, 응무……」
+					CASE 1
+						PRINTFORML 「응쿳……응우」
+						PRINTFORML 「……씁쓸하다든가, 수상하다든가, 책에는 써 있었지만」
+						PRINTFORML 「무미 무취인 거네, 의외로」
+					CASE 2
+						PRINTFORML 「응쿳……!?」
+						PRINTFORML 「읏, 어흠, 콜록……」
+					CASE 3
+						PRINTFORML 「응긋……」
+						PRINTFORML 「……저기, 이 방법, 목에 좋지 않다고 생각하는 것이지만」
+					CASE 4
+						PRINTFORML 「응응구……」
+						PRINTFORML 「……혀에 맛이 남아 있다. 물건을 먹을 수 없잖아……」
+					CASE 5
+						PRINTFORML 「응,……엣취」
+						PRINTFORML 「……읏…………응후……」
+					CASE 6
+						PRINTFORML 「응……」
+						PRINTFORML 「……타액이 섞이는 것이 난점이군요. 그리고턱도 지치고」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;가슴에 사정
+		CASE 5
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「……남자는, 정말로 가슴을 좋아하는」
+					CASE 1
+						PRINTFORML 「응……」
+						PRINTFORML 「정액은, 의외로 뜨거운거네」
+					CASE 2
+						PRINTFORML 「조금 기다려……채취하기 때문에」
+					CASE 3
+						PRINTFORML 「많이 나와요……뭐, 나에 있어서도 형편상 좋구나」
+					CASE 4
+						PRINTFORML 「기분 좋은 것 같은 얼굴이군요……」
+						PRINTFORML 「……나의 가슴, 그렇게 좋았어?」
+					CASE 5
+						PRINTFORML 「응,……」
+						PRINTFORML 「……가슴으로 사정시키는 것, 불순물도 섞이지 않아서 효율적이군요」
+						PRINTFORML 「행위 자체는 얼간이이지만 말야……」
+					CASE 6
+						PRINTFORML 「응……사정했어?」
+						PRINTFORML 「나쁘지만, 좀 더 교제해 줘……좀 더 샘플을 갖고 싶은거야」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;다리에 사정
+		CASE 6
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「응……」
+						PRINTFORML 「……저기, 이런 곳에 사정해 즐거워?」
+					CASE 1
+						PRINTFORML 「그렇다면, 샘플을 얻을 수 있으면 나는 그것으로 좋지만」
+						PRINTFORML 「거기에 했다고, 충분해, 저기?」
+					CASE 2
+						PRINTFORML 「……그런 곳에 내고 싶었어?」
+						PRINTFORML 「뭐랄까, 잘 모르는 세계예요」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;꼬리에 사정
+		CASE 7
+		;얼굴에 사정
+		CASE 8
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「응읏……!?」
+						PRINTFORML 「……낸다면 낸다고 하기를 원했던 것이지만」
+					CASE 1
+						PRINTFORML 「응……」
+						PRINTFORML 「……하아. 채취하는 것이 큰 일이구나」
+					CASE 2
+						PRINTFORML 「읏……」
+						PRINTFORML 「피부에 나쁜 것 같고, 얼굴에 걸치는 것은 별로……」
+					CASE 3
+						PRINTFORML 「응읏……」
+						PRINTFORML 「……보통에게 따뜻하네요」
+					CASE 4
+						PRINTFORML 「꺄……!?」
+						PRINTFORML 「……낸다면 낸다고 해요」
+					CASE 5
+						PRINTFORML 「응,……」
+						PRINTFORML 「남자는, 이렇게 해 얼굴에 사정하는 것을 상징적인 의미를 발견하는 것 같지만」
+						PRINTFORML 「잘 모르네요. 어디에 낼지가 그렇게 소중해?」
+					CASE 6
+						PRINTFORML 「응……사정했어?」
+						PRINTFORML 「샘플을 채취하기 때문에, 조금 기다리고 있어 줘」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;머리카락에 사정
+		CASE 9
+			IF KDVAR:파츄리_정액채취_조교중
+				SELECTCASE RAND:12
+					CASE 0
+						PRINTFORML 「……머리카락에 휘감겨, 샘플이 회수하기 어려운 것이지만」
+						PRINTFORML 「당신의 즐거움보다 그 쪽을 우선해 주지 않을까요」
+					CASE 1
+						PRINTFORML 「아, 조금……」
+						PRINTFORML 「……머리카락에 붙은 정액은 잡기 어렵다의. 회수가 귀찮구나……」
+					CASE 2
+						PRINTFORML 「……머리카락에 내는 것을, 어떤 의미를 발견하고 있을까」
+						PRINTFORML 「남자가 생각하는 것은, 이따금 몰라요」
+					CASE 3
+						PRINTFORML 「……이것, 머리카락이 아프기 때문에, 적당히 해?」
+				ENDSELECT
+			;연모 or 복종
+			ELSEIF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;겨드랑이에 사정
+		CASE 10
+		;그 외의 장소에 사정
+		CASEELSE
+	ENDSELECT
+	KDVAR:파츄리_정액채취량 += (KDVAR:파츄리_정액채취량 >= 50 ? NOWEX:MASTER:사정 / 20 # NOWEX:MASTER:사정)
+ENDIF

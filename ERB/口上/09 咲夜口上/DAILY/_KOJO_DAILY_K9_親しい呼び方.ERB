@@ -1,0 +1,209 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K9_ASK_MASTER_NAME_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K9_ASK_MASTER_NAME_DECISION(대상)
+#DIM 대상
+
+;대상 구상 데일리 입력계 사용의 설정이 「사용한다」는 아니면 돌아온다
+SIF 사쿠야_구상데일리입력계사용 != 2
+	RETURN 0
+
+SIF !TALENT:대상:연인 && !TALENT:대상:낙인
+	RETURN 0
+
+;일회뿐
+SIF KDVAR:대상:사쿠야_친한호분
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K9_ASK_MASTER_NAME_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K9_ASK_MASTER_NAME(대상)
+#DIM 대상
+#DIM 사쿠야_대상
+#DIMS NOW_CALLNAME_MASTER_K9
+#DIMS NOW_CALLNAME_MASTER_RUBY_K9
+
+;리셋트
+사쿠야_대상 = MASTER
+
+
+SETCOLOR 사쿠야_구상칼라
+
+IF CHECK_K9("경어")
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%」
+	PRINTFORMDW 거점의 순찰을 하고 있으면, %조사처리(ANAME(대상),"가")% 빠른 걸음으로 접근해 왔다
+	PRINTL 
+	PRINTFORML 「그, 부탁이 있습니다. ……분을 분별하지 않는 부탁인 것입니다만」
+	PRINTFORML 「평상시, %조사처리(CALLNAME_K9(사쿠야_대상),"를")% %조사처리(CALLNAME_K9(사쿠야_대상),"라")%고 부르도록 해 받고 있습니다만」
+	PRINTFORML 「할 수 있으면, 좀 더 친밀감을 담아 불러 보고 싶다고 생각하는 일이 있습니다」
+	PRINTFORMDW %조사처리(ANAME(대상),"는")% 침착해 없게 눈을 유영하게 해 뺨을 물들이고 있다
+	PRINTL 
+	PRINTL 
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%의 마음에 드시지 않는 부르는 법은 하고 싶지 않습니다」
+	PRINTFORML 「좋아하는 부르는 법이 있으면, 가르쳐 줘 주실 수 없을까요?」
+ELSE
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%」
+	PRINTFORMDW 거점의 순찰을 하고 있으면, %조사처리(ANAME(대상),"가")% 빠른 걸음으로 접근해 왔다
+	PRINTL 
+	PRINTFORML 「그, 부탁이 있어」
+	PRINTFORML 「언제나 나, %조사처리(CALLNAME_K9(사쿠야_대상),"를")% %조사처리(CALLNAME_K9(사쿠야_대상),"라")%고 부르고 있지 않아?」
+	PRINTFORML 「좀 더 친밀감을 담아 불러 보고 싶네요」
+	PRINTFORMDW %조사처리(ANAME(대상),"는")% 뺨을 물들여 미소짓고 있다
+	PRINTL 
+	PRINTFORML 「그렇지만, %CALLNAME_K9(사쿠야_대상)%의 마음에 들지 않는 부르는 법을 멋대로 결정하고 싶지는 않으니까……」
+	PRINTFORML 「좋아하는 부르는 법이 있으면, 가르쳐 주지 않을까?」
+ENDIF
+
+;CALLNAME_K9로 현재 호칭 판정과 후리가나의 재취득을 하고 있으므로 여기서 리셋트
+NOW_CALLNAME_MASTER_K9 '= CALLNAME_K9(사쿠야_대상)
+NOW_CALLNAME_MASTER_RUBY_K9 '= 사쿠야_주인공에게로의호칭후리가나
+
+LOCAL:0 = LINECOUNT
+$SHOW_LOOP
+
+RESETCOLOR
+CALL SINGLE_DRAWLINE
+
+SETCOLOR 칼라_선택불가
+PRINTFORM 가르치고 싶은 명칭을 입력·또는 결정
+PRINTL 
+PRINTFORM 현재의 %조사처리(ANAME(대상),"로")%부터 %ANAME(사쿠야_대상)%에의 호칭         : 
+RESETCOLOR
+
+PRINTFORM %NOW_CALLNAME_MASTER_K9, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력"
+PRINTL 
+
+SETCOLOR 칼라_선택불가
+PRINTFORM 현재의 %조사처리(ANAME(대상),"로")%부터 %ANAME(사쿠야_대상)%에의 호칭 후리가나 : 
+RESETCOLOR
+
+PRINTFORM %NOW_CALLNAME_MASTER_RUBY_K9, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력 후리가나"
+PRINTBUTTON "  [결정]", "결정"
+
+PRINTL 
+CALL SINGLE_DRAWLINE
+
+;입력·초기치는 "결정"
+INPUTS 결정
+
+IF RESULTS == "결정"
+	사쿠야_주인공에게로의호칭 '= NOW_CALLNAME_MASTER_K9
+	사쿠야_주인공에게로의호칭후리가나 '= NOW_CALLNAME_MASTER_RUBY_K9
+	CLEARLINE LINECOUNT - LOCAL:0
+	PRINTL 
+
+ELSEIF RESULTS == "입력"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTFORML 호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_CALLNAME_MASTER_K9
+		INPUTS %NOW_CALLNAME_MASTER_K9%
+		LOCALS:0 '= RESULTS
+		;반각을 1자와 세어 LOCALS:0의 0자눈으로부터 20자눈까지를 자른다
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_CALLNAME_MASTER_K9 '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSEIF RESULTS == "입력 후리가나"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTFORML 호칭 후리가나 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_CALLNAME_MASTER_RUBY_K9
+		INPUTS %NOW_CALLNAME_MASTER_RUBY_K9%
+		LOCALS:0 '= RESULTS
+		;반각을 1자와 세어 LOCALS:0의 0자눈으로부터 20자눈까지를 자른다
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_CALLNAME_MASTER_RUBY_K9 '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSE
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+ENDIF
+
+;※여기서 플래그를 세우지 않으면 아래같이 텍스트내에서 변경 후의 호칭에 대응 할 수 없다
+KDVAR:대상:사쿠야_친한호분 = 1
+
+SETCOLOR 칼라_선택불가
+PRINTFORML ➡%CALLNAME_K9(사쿠야_대상)%（%사쿠야_주인공에게로의호칭후리가나%）
+PRINTL 
+
+SETCOLOR 사쿠야_구상칼라
+
+IF 사쿠야_주인공에게로의호칭 == "" && 사쿠야_주인공에게로의호칭후리가나 == ""
+	PRINTFORMDW %조사처리(ANAME(사쿠야_대상),"는")% %ANAME(대상)%에 이것까지 대로 『%CALLNAME_K9(사쿠야_대상)%（%사쿠야_주인공에게로의호칭후리가나%）』라고 불렀으면 좋겠다고 전했다
+	PRINTL 
+	IF CHECK_K9("경어")
+		PRINTFORML 「잘 알았습니다. ……조금 유감이지만」
+		PRINTFORMW 「지금의 부르는 법을 마음에 들어 주시고 있다면, 무리하게 바꿀 것은 없겠지요」
+		PRINTL 
+		PRINTFORML 「(들)물어 주셔서 감사합니다」
+		PRINTFORML 「아무쪼록, 앞으로도 잘 부탁드립니다. %CALLNAME_K9(사쿠야_대상)%❤」
+		PRINTFORMDL %조사처리(ANAME(대상),"로")%부터 정중하게 인사를 되어 헤어졌다
+	ELSE
+		PRINTFORML 「그렇게……조금 유감이지만」
+		PRINTFORMW 「%조사처리(CALLNAME_K9(사쿠야_대상),"라")%고 부르는 법을 마음에 들어 준다면, 무리하게 바꿀 것도 없네요」
+		PRINTL 
+		PRINTFORML 「(들)물어 주어 고마워요. 앞으로도 아무쪼록 부탁해요, %CALLNAME_K9(사쿠야_대상)%❤」
+		PRINTFORMDL %조사처리(ANAME(대상),"로")%부터 뺨에 키스를 되어 헤어졌다
+	ENDIF
+ELSE
+	PRINTFORMDW %조사처리(ANAME(사쿠야_대상),"는")% %ANAME(대상)%에 『%CALLNAME_K9(사쿠야_대상)%（%사쿠야_주인공에게로의호칭후리가나%）』라고 불렀으면 좋겠다고 전했다
+	PRINTL 
+	IF CHECK_K9("경어")
+		PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%군요. %CALLNAME_K9(사쿠야_대상)%、%CALLNAME_K9(사쿠야_대상)%……」
+		PRINTFORMDW %조사처리(ANAME(대상),"는")% 행복하게 가득 찬 웃는 얼굴로 %조사처리(ANAME(사쿠야_대상),"가")% 가르친 통칭을 입 놀고 있다
+		PRINTL 
+		PRINTFORML 「생각해 주셔서 감사합니다. 서서 이야기를 나누어 버려 미안합니다」
+		PRINTFORML 「앞으로도 잘 부탁드립니다. %CALLNAME_K9(사쿠야_대상)%❤」
+		PRINTFORMDL %조사처리(ANAME(대상),"로")%부터 정중하게 인사를 되어 헤어졌다
+
+	ELSE
+		PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"로")% 좋은거네. %CALLNAME_K9(사쿠야_대상)%、%CALLNAME_K9(사쿠야_대상)%……」
+		PRINTFORMDW %조사처리(ANAME(대상),"는")% 행복하게 가득 찬 웃는 얼굴로 %조사처리(ANAME(사쿠야_대상),"가")% 가르친 통칭을 입 놀고 있다
+		PRINTL 
+		PRINTFORML 「생각해 주어 기뻐요」
+		PRINTFORML 「앞으로도 아무쪼록 부탁해요, %CALLNAME_K9(사쿠야_대상)%❤」
+		PRINTFORMDL %조사처리(ANAME(대상),"로")%부터 뺨에 키스를 되어 헤어졌다
+	ENDIF
+ENDIF
+WAIT
+RESETCOLOR
+CFLAG:대상:호감도 = CFLAG:대상:호감도 + 100
+CFLAG:대상:의존도 = CFLAG:대상:의존도 + 100
+CFLAG:대상:종속도 = CFLAG:대상:종속도 + 100
+
+RETURN 1
+

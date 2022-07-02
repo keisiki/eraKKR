@@ -1,0 +1,185 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K3_EX_RUMIA_RATE(대상)
+#DIM 대상
+RETURN 50
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K3_EX_RUMIA_DECISION(대상)
+#DIM 대상
+
+;합의가 없으면 안 돼
+SIF !TALENT:대상:합의
+	RETURN 0
+	
+;주인공과 동일 세력으로 포로가 아니고, 주인공이 페니스 소유로, 호감도 1500이상
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0) && HAS_PENIS(MASTER) && CFLAG:대상:호감도 >= 1500
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K3_EX_RUMIA_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K3_EX_RUMIA(대상)
+#DIM 대상
+#DIM 레이무
+레이무 = NAME_TO_CHARA("레이무")
+
+;1회째
+IF KDVAR:대상:루미아_EX루미아 == 0
+	PRINTFORML 「있지있지, %ANAME(MASTER)%. 놀아라고 해?」
+	PRINTFORMW 휴일에, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%의 방을 방문해 왔다
+	PRINTFORML 특별히 거절할 이유도 없기에 방에 올렸다
+	PRINTFORMW 「와-이, 고마워요♪」
+	PRINTFORML 뒹굴어 간식을 먹거나 만화를 읽거나 둘이서 기다리거나 보내 실,
+	PRINTFORMW 문득 %ANAME(대상)%의 머리에 있는 리본에 눈이 붙는다. 자주(잘) 보면, 조금 더러워져 있다
+	PRINTFORMW 평상시부터 피부염이나 머리카락이 아픈 것 따위를 신경쓰고 있는 %조사처리(ANAME(대상),"다")%
+	PRINTFORMW 그런 그녀가 눈에 띄는 리본의 더러움을 그대로 하고 있는 것을, 어딘지 모르게 위화감을 기억한다
+	PRINTFORML 「응-?   아, 이것?   알고 있지만 자신은 접하지 않네요-」
+	PRINTFORMW %ANAME(대상)% 사정, 이것은 단순한 리본은 아니고 뭔가를 봉인하고 있는 지폐인 것이라고 한다
+	PRINTFORMW 봉인때의 방법에 의해, 그녀는 이 지폐에 접하지 않고, 의식해도 곧바로 잊어 버리게 되고 있는 것이라고…
+	PRINTFORML 「나도 말야-, 거울로 보면 최근 더러워져 오고 싶은 하고 생각하고 있던 곳인 것이야」
+	PRINTFORMW 「나 이외라면 접하는 것 같으니까, %조사처리(ANAME(MASTER),"가")% 취해 봐?」
+	PRINTFORMW 「하는 김에 씻어 주면 기쁘구나. 아, 혹시 파워업이라든지 해 버릴지도!?」
+	PRINTFORML 자신의 봉인 운운의 이야기인데 대단히 가벼운 취급이다…
+	PRINTFORMW 뭐, 지폐는 또 대면 좋은 것뿐과 같지만, 봉인된 것이 무엇인 것인가 모르는데 취해도 좋은 것인가…
+	PRINTFORMW 자, 그럼, 어떻게 하지……
+	CALL ASK_YN("지폐를 취해 본다", "그대로 해 둔다")
+	IF RESULT == 1
+		PRINTFORMW 봉인되고 있다는 일은, 그만한 이유가 있을 것이다
+		PRINTFORMW 손대지 않는 신에 뒤탈 없음이다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 지폐를 그대로 해, %조사처리(ANAME(대상),"와")% 서로 장난했다……
+		CFLAG:대상:호감도 += 200
+		RETURN 1
+	ELSE
+		PRINTFORML 뭐, 이런 눈에 띄는 형태로 방치해지고 있다는 일은, 그만큼 심각한 것은 아닌 것인지도 모른다
+		PRINTFORMW 자그만 호기심도 도와, 지폐를 취해 보는 일로 했다
+		PRINTFORML 「응-, 조금 두근두근 거릴지도. 뭔가 위험한 느낌이 들면 바로 되돌려」
+		PRINTFORMW %ANAME(대상)%도 조금 긴장의 표정이다. 우선, 상냥하게 지폐를 취해 본다
+		PRINTFORML …집어 초롱초롱 관찰한다. 멀리서는 흰 라인으로 보인 부분은 모두흰색자로 주문과 같은 물건이 쓰여져 있었다…
+		PRINTFORMW 「……응?   이것……」
+		PRINTFORML %조사처리(ANAME(대상),"가")% 몸의 이변을 눈치챈다. 뭔가 파워의 고조를 느끼는 것 같다
+		PRINTFORMW 「이, 이것은…!   어둠의 힘이 높아지는……흘러넘친다아…!」
+		PRINTFORML 「이것이 나의, 진정한 힘인 것인가!!」
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")%, 봉인되고 있던 진정한 힘을 풀었다!", 칼라_주의) 
+		CALL COLOR_PRINTL(@"%ANAME(대상)%의 무투가 1올랐다!", 칼라_주의)
+		ABL:대상:무투 += 1
+		CALL COLOR_PRINTL(@"%ANAME(대상)%의 방위가 1올랐다!", 칼라_주의)
+		ABL:대상:방위 += 1
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 지략이 1올랐다!", 칼라_주의)
+		ABL:대상:지략 += 1
+		PRINTFORML 
+		PRINTFORML 
+		PRINTFORMW …
+		PRINTFORMW 너무 강해지고 있도록(듯이)는 느끼지 않겠지만……
+		PRINTFORMW 「…응, 뭐, 이런 거네요」
+		IF CFLAG:레이무:소속 == CFLAG:MASTER:소속 &&  !(MASTER == NAME_TO_CHARA("레이무"))
+			PRINTFORML 
+			CALL SINGLE_DRAWLINE
+			PRINTFORML 
+			PRINTFORML 　　봉인된다는 일은, 즉 그 정도라는 것
+			PRINTFORML 
+			CALL SINGLE_DRAWLINE
+			PRINTFORML 
+			PRINTFORML 어디에서랄 것도 없고, 하쿠레이의 무녀가 있기 어려운 말이 들려 온 것 같은 생각이 들었다…
+			PRINTFORMW 
+		ENDIF
+		PRINTFORMW 「아-아, 간단 파워업으로 『ＥＸ%조사처리(ANAME(대상),"다")%―!』는 할 수 있을까하고 생각했었는데―」
+		PRINTFORML 
+		CALL COLOR_PRINTL(@"두근", 칼라_경고)
+		PRINTFORMW 
+		PRINTFORMW 「어, 어랏?   …무엇인가…기분이……」
+		PRINTFORML %조사처리(ANAME(대상),"가")% 갑자기 무릎을 꿇는다. 역시 뭔가 좋지 않는 것이 일어났을 것인가!?
+		PRINTFORMW 급한 것 %ANAME(대상)%에 지폐를 달려고 한 곳을, 반대로 그녀에게 억제 당해 그대로 밀어 쓰러트려져 버렸다
+		PRINTFORML %조사처리(ANAME(MASTER),"가")% 놀라움과 저항의 소리를 높이기 전에, %ANAME(대상)%의 입술에 의해 입을 막혀 버린다
+		PRINTFORMW 「앙응…읏♥응…츄붓…응응…♥♥」
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의, 호흡도 허락하지 않는 격렬한 입 맞춤에 산소 결핍 상태가 되어, 의식 몽롱과 해 버린다
+		PRINTFORMW %ANAME(MASTER)%의 저항이 약해진 것을 확인한 %조사처리(ANAME(대상),"는")%, %ANAME(MASTER)%의 몸에 걸쳐 스스로의 옷을 벗어 던진다
+		PRINTFORML 그 모습은 평상시의 순진한 소녀는 아니고, 오로지 추잡하고 요염한 빛을 눈에 켠, 요염한 요괴였다
+		PRINTFORMW 완전하게 정욕에 지배된 모습의 %조사처리(ANAME(대상),"가")%, %ANAME(MASTER)%의 정액을 요구해 덮어씌워 왔다……
+		
+		CVARSET CFLAG, 6, 0
+		KDVAR:대상:루미아_EX루미아와섹스중 = 1
+		FLAG:턴엔드조교 = 2
+		CVARSET CFLAG, 6, 0
+		CFLAG:대상:조교참가플래그 = 1
+		CFLAG:대상:조교중돌아가지않는다 = 1
+		ABL:대상:주도도Ｕ += 500
+		CFLAG:대상:강제우호화 = 1
+		BASE:대상:체력 = MAXBASE:대상:체력
+		BASE:대상:기력 = MAXBASE:대상:기력
+		;그 이후의 데일리 이벤트 발생을 잡는다
+		DAILY_CANCEL = 1
+	ENDIF
+;2회째 이후
+ELSE
+	PRINTFORML 「있지있지, %ANAME(MASTER)%. 또 놀아라고 해?」
+	PRINTFORMW 휴일에, %조사처리(ANAME(대상),"가")% 또 %ANAME(MASTER)%의 방에 놀러 왔다
+	PRINTFORML 아무래도, 전회 여기서 갔던 것은 기억하지 않는 것 같다
+	PRINTFORMW 「에헤헤-, 거리낌 없고 뒹굴뒹굴 하겠어(한다고)―♪」
+	PRINTFORML 뒹굴어 간식을 먹거나 만화를 읽거나 둘이서 기다리거나 보내 실,
+	PRINTFORMW 문득 %ANAME(대상)%의 머리에 있는 리본이 눈이 띈다
+	PRINTFORMW 전회, 이것을 취해 표변하고, 혼란에 흐트러진 그녀의 모습이 어쩔 수 없이 머리에 떠오른다
+	PRINTFORMW 「응-?   무슨 일이야? 　%ANAME(MASTER)%. 아아, 이것?」
+	PRINTFORML 「더러워져 오고 있는 것은 알고 있지만…이것, 자신은 접하지 않네요-」
+	PRINTFORMW 「나 이외라면 접하는 것 같으니까, %조사처리(ANAME(MASTER),"가")% 취해 봐?」
+	PRINTFORMW 「하는 김에 씻어 주면 기쁘구나. 아, 혹시 파워업이라든지 해 버릴지도!?」
+	PRINTFORML 기억이 없는이기 때문에, 순진하게 제안하는 %ANAME(대상)%
+	PRINTFORML 하지만 %조사처리(ANAME(MASTER),"는")%, 그것이 추잡하고 격렬한 교제가 되는 것을 알고 있다…
+	PRINTFORML 어떻게 하지……
+	CALL ASK_YN("지폐를 취한다", "그대로 해 둔다")
+	IF RESULT == 1
+		PRINTFORMW ……기억이 없는 것을 구실로, 다시 몸을 겹친다는 것도 도리에 어긋날 것이다
+		PRINTFORMW 거기에……저런 일을 계속하면, 그녀에게 빠져 버릴지도 모른다…
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 지폐를 그대로 해, %조사처리(ANAME(대상),"와")% 서로 장난했다……
+		CFLAG:대상:호감도 += 200
+		RETURN 1
+	ELSE
+		PRINTFORML 전회, 여기서 일어난 사건을 생각해 낸다
+		PRINTFORMW 그리고 %ANAME(MASTER)%의 신체의 심지가, 정욕에 의해 달콤하게 쑤시기 시작한다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 지폐를 떼어냈다
+		PRINTFORMW 「좋아!   이것으로ＥＸ인 나에게…」
+		PRINTFORML 
+		CALL COLOR_PRINTL(@"두근", 칼라_경고)
+		PRINTFORMW 
+		PRINTFORMW 「어, 어랏?   …무엇인가…기분이……」
+		PRINTFORML %조사처리(ANAME(대상),"가")% 갑자기 무릎을 꿇는다. 그리고 지금부터 일어나는 일을 기대해, 그녀에게 다가간다
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 그 기대를 배반하지 않고, %조사처리(ANAME(MASTER),"를")% 침대에쓰러트린다
+		PRINTFORML 그리고 기다릴 수 없다는 모습으로, %ANAME(MASTER)%의 입을 입술에 의해 격렬하게 탐낸다
+		PRINTFORMW 「앙응…읏♥응…츄붓…응응…♥♥」
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의, 호흡도 허락하지 않는 격렬한 입 맞춤에 산소 결핍 상태가 되어, 의식 몽롱과 해 버린다
+		PRINTFORMW %ANAME(MASTER)%의 저항이 약해진 것을 확인한 %조사처리(ANAME(대상),"는")%, %ANAME(MASTER)%의 몸에 걸쳐 스스로의 옷을 벗어 던진다
+		PRINTFORML 그 모습은 평상시의 순진한 그녀는 아니고, 오로지 추잡하고 요염한 빛을 눈에 켠, 요염한 요괴였다
+		PRINTFORMW 다시 욕망의 봉인을 풀린 %조사처리(ANAME(대상),"가")%, %ANAME(MASTER)%의 정액을 요구해 덮어씌워 왔다……
+
+		CVARSET CFLAG, 6, 0
+		KDVAR:대상:루미아_EX루미아 ++
+		KDVAR:대상:루미아_EX루미아와섹스중 = 1
+		FLAG:턴엔드조교 = 2
+		CVARSET CFLAG, 6, 0
+		CFLAG:대상:조교참가플래그 = 1
+		CFLAG:대상:조교중돌아가지않는다 = 1
+		ABL:대상:주도도Ｕ += 300
+		CFLAG:대상:강제우호화 = 1
+		BASE:대상:체력 = MAXBASE:대상:체력
+		BASE:대상:기력 = MAXBASE:대상:기력
+		;그 이후의 데일리 이벤트 발생을 잡는다
+		DAILY_CANCEL = 1
+	ENDIF
+ENDIF
+
+RETURN 1

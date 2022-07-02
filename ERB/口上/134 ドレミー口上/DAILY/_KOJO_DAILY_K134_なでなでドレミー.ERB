@@ -1,0 +1,197 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_NADENADE_RATE(대상)
+#DIM 대상
+RETURN 30
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_NADENADE_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:도레미_스윽스윽도레미
+	RETURN 0
+
+;네토라레미중은 일어나지 않는다
+SIF KDVAR:대상:도레미_네토라레미 > 0
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) 
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_NADENADE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_NADENADE(대상)
+#DIM 대상
+
+PRINTFORML 
+PRINTFORMW 간신히 오늘의 분의 일이 끝났다……
+PRINTFORML 우선 저녁식사로 할까, 그렇지 않으면 목욕탕이라도 할까
+PRINTFORML 고민하면서 복도를 걷고 있으면, 회의실로부터 소란스러운 목소리가 들려 온다
+CALL ASK_YN("본다", "식사를 우선한다")
+IF RESULT == 0
+	PRINTFORMW 방에 들어가면 %조사처리(ANAME(대상),"를")% 포함한 몇사람의 문관들이 격렬한 토론을 펼치고 있었다……
+	PRINTFORML 「여기는 즉시 도둑 토벌의 군사를 두어야 하겠지만!」
+	PRINTFORML 「어떻게 계산해도 1천의 군사 밖에 낼 수 없어!   그 이상 내면 이웃나라에 배후를 찔린다!」
+	PRINTFORML 「지금은 이웃나라를 두드리는 것이 우선 사항일까하고……」
+	PRINTFORML 「아니!   지금은 부국 강병에 의무 기반을 굳혀야 하는 것이다!」
+	PRINTFORML 「도둑에게 의해 부근의 마을에 손해가 나오기 시작한 지금, 부국 강병에는 도둑 토벌이다!」
+	PRINTFORMW 「무슨 말을 한다!   더 이상 이웃나라를 방치하면 지금 이상으로 귀찮게 되겠어!」
+	PRINTFORML 
+	PRINTFORML 좀처럼 이야기가 끝나지 않는 데다가 자리가 어두운, 이대로는 죽을 때까지 토론할 것 같은 기세다
+	PRINTFORMW 간신히 문관들이 %ANAME(MASTER)%의 존재를 알아차려 입다물기 시작한다……
+	PRINTFORMW 『공격하는 것을 괴롭힐 수 있는 이웃나라의 맹장……우리 물건으로 할 수 없을까?』
+	PRINTFORML 무심코 이웃나라의 맹장을 뇌리에 띄웠다
+	PRINTFORMW 부하로 해 일하게 하는 것도 좋다, 그 몸에 식지를 훑으게 해도 좋다……
+	PRINTFORML 「%ANAME(MASTER)%, 장난치고 있습니까?」
+	PRINTFORMW 「지금은 당신의 희망을 (듣)묻는 장소는 아니고……!」
+	PRINTFORML 말은 아직도 토론의 여열을 띠고 있다
+	PRINTFORMW 그렇네 그렇네와 달래면서 %조사처리(ANAME(MASTER),"는")% 뒤로부터, %ANAME(대상)%의 양어깨를 비볐다
+	PRINTFORMW 「!   !」
+	PRINTFORML 갑자기 어깨를 비비어지고 혼란하는 %ANAME(대상)%, 그것을 다른 장소에 %조사처리(ANAME(MASTER),"는")% 자신의 전략을 말해 간다
+	PRINTFORML 
+	CALL ASK_YN("더욱 어깨를 비빈다", "비비는 것을 그만둔다")
+	IF RESULT == 0
+		IF RAND:10 == 0
+			PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+			PRINTFORMW 비비고 있던 손을 멈추자, 곧바로 %조사처리(ANAME(대상),"는")% 손으로부터 멀어진다
+			PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+			PRINTFORMW 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+			PRINTFORMW 
+			PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+			CALL COLOR_PRINTW(@"호감도가 100올랐다", 칼라_주의)
+			CFLAG:대상:호감도 += 100
+		ELSE
+			PRINTFORMW 「앗!   응응!   후~응!」
+			PRINTFORML 「그, 그것은!   , 물론!」
+			PRINTFORML 생각하도록(듯이) 소리가 나오지 않고, 말하고 싶은 것이 말할 수 없는 %ANAME(대상)%
+			PRINTFORML 그것을 보며 %조사처리(ANAME(MASTER),"는")%……
+			CALL ASK_YN("두를 어루만졌다", "가슴을 비볐다")
+			IF RESULT == 0
+				IF RAND:10 == 0
+					PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+					PRINTFORMW 두를 어루만지려고 하면, %ANAME(대상)%에 손을 거부되고 떨어질 수 있었다
+					PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+					PRINTFORMW 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+					PRINTFORML 
+					PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+					CALL COLOR_PRINTW(@"호감도가 200올랐다", 칼라_주의)
+					CFLAG:대상:호감도 += 200
+				ELSE
+					PRINTFORMW 「끄, 끝났어……?」
+					PRINTFORML 어깨를 비비는 것을 멈추면, %조사처리(ANAME(대상),"는")% 해방되었는지같이 안도의 숨을 흘렸다
+					PRINTFORMW 그런 %ANAME(대상)%의 모자를 벗어, 귀여워하는 말을 늘어놓으면서 머리를 어루만진다
+					PRINTFORMW 「낫……그, 그러한, 자자자장난은!」
+					PRINTFORML 그렇게 말하면서 머리를 어루만지면 어루만질수록, 꼬리는 모습우려져 동물과 같은 귀를 삑삑 시키고 있다
+					PRINTFORML 그것을 보며 %조사처리(ANAME(MASTER),"는")%……
+					CALL ASK_YN("더욱 더 머리를 어루만진다", "어루만지는 것을 그만두었다")
+					IF RESULT == 0
+						IF RAND:10 == 0
+							PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+							PRINTFORMW 더욱 머리를 어루만지려고 하면, %ANAME(대상)%에 손을 거부되고 떨어질 수 있었다
+							PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+							PRINTFORMW 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+							PRINTFORML 
+							PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+							CALL COLOR_PRINTW(@"호감도가 300올랐다", 칼라_주의)
+							CFLAG:대상:호감도 += 300
+						ELSE
+							PRINTFORMW 「앗, 읏……아, 아앗……쿳, 읏……아, 아앙……히아앗!」
+							PRINTFORML 조금 요염한 소리가 나오기 시작해, 드디어 다른 문관이 눈을 피하기 시작했다……
+							PRINTFORMW 그런 %ANAME(대상)%의 모습도 상관치 않고, 더욱 귀여워하는 말을 늘어놓으면서 머리를 어루만진다
+							PRINTFORMW 「앗……그만두고……읏, 아앗……앗……이제(이미/벌써/더는/정말) 그만두고……」
+							PRINTFORML 주위의 문관에 보여지고 있는 일을 떠올려 수치심으로 얼굴을 세키%ANAME(대상)%
+							PRINTFORML 그것을 보며 %조사처리(ANAME(MASTER),"는")%……
+							CALL ASK_YN("계속 어쨌든 어루만졌다", "어루만지는 것을 그만두었다")
+							IF RESULT == 0
+								PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+								PRINTFORMW 어루만지고 있던 손을 뿌리칠 수 있어 곧바로 %조사처리(ANAME(대상),"는")% 손으로부터 멀어진다
+								PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+								PRINTFORMW 놓친 모자를 신경쓰는 일 없이, 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+								PRINTFORML 
+								PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+								CALL COLOR_PRINTW(@"호감도가 400올랐다", 칼라_주의)
+								CFLAG:대상:호감도 += 400
+							ELSE
+								IF RAND:10 == 0
+									PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+									PRINTFORMW 어루만지고 있던 손을 멈추면, %ANAME(대상)%에 손을 거부되고 떨어질 수 있었다
+									PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+									PRINTFORMW 놓친 모자를 신경쓰는 일 없이, 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+									PRINTFORML 
+									PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+									CALL COLOR_PRINTW(@"호감도가 400올랐다", 칼라_주의)
+									CFLAG:대상:호감도 += 400
+								ELSE
+									PRINTFORMW 「앗, 그만두고……」
+									PRINTFORML 어루만지고 있던 손을 멈추면, %조사처리(ANAME(대상),"는")% 조금 어딘지 부족한 것 같은 얼굴을 조금 보인다
+									PRINTFORMW 도둑에게 이웃나라를 덮치게 하는 제안을 하면서, %ANAME(대상)%의 양어깨를 폰과 두드린다
+									PRINTFORMW 「……좋을 것입니다, 그럼%ANAME(MASTER)%의 생각을 사용하도록 해 받을까요」
+									PRINTFORMW 문관들은 돌연의 안에 곤혹하면서 %ANAME(MASTER)%의 안을 승낙했다……
+									PRINTFORMW ·
+									PRINTFORMW ·
+									PRINTFORMW ·
+									PRINTFORMW 「(이 내가 상당히 빠져 버렸군요, 또 어루만져 주지 않을까)」
+									CALL COLOR_PRINTW(@"호감도가 800올랐다", 칼라_주의)
+									CALL COLOR_PRINTW(@"%ANAME(대상)%의 정치가 5 상승했습니다", 칼라_주의)
+									CFLAG:대상:호감도 += 800
+									ABL:대상:정치 += 5
+								ENDIF
+							ENDIF
+						ENDIF
+					ELSE
+						PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+						PRINTFORMW 어루만지고 있던 손을 멈추자, 곧바로 %조사처리(ANAME(대상),"는")% 손으로부터 멀어진다
+						PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+						PRINTFORMW 놓친 모자를 신경쓰는 일 없이, 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+						PRINTFORML 
+						PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+						CALL COLOR_PRINTW(@"호감도가 300올랐다", 칼라_주의)
+						CFLAG:대상:호감도 += 300
+					ENDIF
+				ENDIF
+			ELSE
+				PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+				PRINTFORMW 가슴을 비비려고 하면, %ANAME(대상)%에 손을 거부되고 떨어질 수 있었다
+				PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+				PRINTFORMW 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+				PRINTFORML 
+				PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+				CALL COLOR_PRINTW(@"호감도가 200올랐다", 칼라_주의)
+				CFLAG:대상:호감도 += 200
+			ENDIF
+		ENDIF
+	ELSE
+		PRINTFORMW 「이, 이제(이미/벌써/더는/정말)!」
+		PRINTFORMW 비비고 있던 손을 멈추자, 곧바로 %조사처리(ANAME(대상),"는")% 손으로부터 멀어진다
+		PRINTFORMW 「여러분, 오늘은 이것까지입니다!   해산!」
+		PRINTFORMW 조금 격렬해진 모습으로 방을 나가는 %ANAME(대상)%
+		PRINTFORML 
+		PRINTFORMW 「(아-이제(이미/벌써/더는/정말)!   다른 여러분의 앞에서!   부끄러운 부끄럽다!)」
+		CALL COLOR_PRINTW(@"호감도가 100올랐다", 칼라_주의)
+		CFLAG:대상:호감도 += 100
+	ENDIF
+ELSE
+	PRINTFORMW 아-노력해 줘―, 잘 되면 조금 일의 양을 줄여 줘―
+	PRINTFORMW 오늘의 저녁밥은 무엇일까인, 굉장히 생선조림을 먹고 싶구나
+	PRINTFORMW 아-에서도 목욕탕 들어가고 싶구나, 욕실로 밥 먹어도 좋을까
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 향후의 예정을 여러가지 생각하면서 사실에 돌아왔다……
+ENDIF
+KDVAR:대상:도레미_스윽스윽도레미 = 1
+
+RETURN 1

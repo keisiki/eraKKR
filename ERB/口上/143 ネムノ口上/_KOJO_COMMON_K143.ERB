@@ -1,0 +1,540 @@
+﻿;-------------------------------------------------
+;공통 부분
+;-------------------------------------------------
+
+;=================================================
+;●구상의 존재 판정
+;=================================================
+@KOJO_EXIST_K143
+
+;=================================================
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_K143
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_K143
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_K143
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_K143
+
+;=================================================
+;●커맨드 실행전(타겟·플레이어 묻지 않고)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_K143
+RETURN 0
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_K143
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;첫절정은 재사용할 수 있을 것 같은 것으로 여기에 작성
+;-------------------------------------------------
+;-------------------------------------------------
+;처음Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	IF CFLAG:220 == 0
+		CFLAG:220 = 1
+		;연모
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORMW 「얏♥간다앗♥」
+		;그 이외
+		ELSE
+			PRINTFORMW 「아읏♥」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;최강 절정시
+		IF NOWEX:Ｃ절정 > 4
+			;항상 표시되면 다중절정시에 시끄럽기 때문에, 이하 적당하게 무언을 끼워 넣어 둔다
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「얏♥♥앗♥아″아♥아―z___♥♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					PRINTFORML 「핫♥♥앗♥♥♥♥-z___♥♥♥♥」
+				CASE 3
+					;PRINTFORML 
+				CASE 4
+					PRINTFORML 「히아♥앗♥♥하아아아앗♥♥♥♥」
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「♥♥핫♥♥아아앗♥♥♥♥♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;연모 or 복종 or 친구
+		ELSEIF TALENT:연모 || TALENT:복종 || TALENT:친구
+			;항상 표시되면 다중절정시에 시끄럽기 때문에 무언을 끼워 넣어 둔다
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「핫♥앗♥아～～～♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「얏♥이구♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「응읏♥는 아～♥♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;그 이외
+		ELSE
+			SELECTCASE RAND:6
+				CASE 0
+					PRINTFORML 「응응～～～! 읏! 읏!」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					PRINTFORML 「야앗! 가서는…읏!」
+				CASE 3
+					;PRINTFORML 
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「응읏! 응……!」
+			ENDSELECT
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	IF CFLAG:221 == 0
+		CFLAG:221 = 1
+		;연모
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORMW 「앗♥아앗♥♥…♥……오, 오랜만에 이, 행이나 먹고…♥」
+		;그 이외
+		ELSE
+			PRINTFORMW 「응응～～～! 읏! 읏!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;최강 절정시
+		IF NOWEX:Ｖ절정 > 4
+			;항상 표시되면 다중절정시에 시끄럽기 때문에, 이하 적당하게 무언을 끼워 넣어 둔다
+			SELECTCASE RAND:10
+				CASE 0
+					;PRINTFORML 
+				CASE 1
+					PRINTFORML 「앗♥나무♥♥아″♥아″아″♥♥아앗♥♥♥♥」
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「히♥♥♥♥♥♥히앗♥♥아앗♥♥♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「익♥간닷♥익♥♥…쿠우우♥♥읏♥♥♥」
+				CASE 6
+					;PRINTFORML 
+				CASE 7
+					PRINTFORML 「아앗♥♥♥♥하아아아아아아앗♥♥♥♥♥」」
+				CASE 8
+					;PRINTFORML 
+				CASE 9
+					PRINTFORML 「읏아♥♥아앗♥♥아″♥아″♥응아아아아♥♥♥♥」
+			ENDSELECT
+		;연모 or 복종 or 친구
+		ELSEIF TALENT:연모 || TALENT:복종 || TALENT:친구
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「앗♥아아♥간다아앗♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「좀 더♥  기분 좋게 해 찰 수 있는♥♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「앗아앗♥…하아아…♥♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;그 이외
+		ELSE
+			SELECTCASE RAND:6
+				CASE 0
+					PRINTFORML 「응응～～～! 읏! 읏!」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					PRINTFORML 「이것!   를 좋아하는 사람♥」
+				CASE 3
+					;PRINTFORML 
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「아앗! …하아아……」
+			ENDSELECT
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	IF CFLAG:222 == 0
+		CFLAG:222 = 1
+		;연모
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORMW 「어, 엉덩이로옷♥간다앗♥」
+		;그 이외
+		ELSE
+			PRINTFORMW 「앗! 엉덩이로…♥!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;최강 절정시
+		IF NOWEX:Ａ절정 > 4
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「″♥″″♥♥호옷♥♥♥♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「이″♥♥이″국♥♥이″그♥♥♥♥♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「응오″♥♥오″♥는 ″♥♥♥♥♥♥♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;연모 or 복종 or 친구
+		ELSEIF TALENT:연모 || TALENT:복종 || TALENT:친구
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「하앗♥아아♥간다아앗♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「응아앗♥좀 더…기분 좋게 해 차라…♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「아앗♥좀 더♥  엉덩이 만지작거렷♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;그 이외
+		ELSE
+			SELECTCASE RAND:6
+				CASE 0
+					PRINTFORML 「응응～～～! 읏! 읏!」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					PRINTFORML 「앗! 어, 엉덩이로…♥!」
+				CASE 3
+					;PRINTFORML 
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「아앗! …하아아……」
+			ENDSELECT
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	IF CFLAG:223 == 0
+		CFLAG:223 = 1
+		;연모
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORMW 「앗♥  아♥  가슴으로♥간다앗♥♥」
+		;그 이외
+		ELSE
+			PRINTFORMW 「읏, 읏♥」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;최강 절정시
+		IF NOWEX:Ｂ절정 > 4
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「야앗♥아″아♥이″그♥♥♥♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					PRINTFORML 「하힛♥♥아″♥♥♥♥-z____♥♥♥」
+				CASE 3
+					;PRINTFORML 
+				CASE 4
+					PRINTFORML 「♥히♥♥히앗♥♥♥♥♥인가♥핫♥♥♥」
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「히앗♥♥♥♥♥♥♥♥♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;연모 or 복종 or 친구
+		ELSEIF TALENT:연모 || TALENT:복종 || TALENT:친구
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「야앗♥아아♥간다앗♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「후아앗! …♥좀 더, 비비어♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「앗♥  아♥  젖가슴으로♥간다앗♥♥」
+				CASE 6
+					;PRINTFORML 
+				CASE 7
+					PRINTFORML 「좀 더♥  우리 가슴♥만져엇♥♥」
+			ENDSELECT
+		;그 이외
+		ELSE
+			SELECTCASE RAND:6
+				CASE 0
+					PRINTFORML 「읏, 읏♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					PRINTFORML 「앗! 가슴으로…♥!」
+				CASE 3
+					;PRINTFORML 
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「아앗! …하아아…♥」
+			ENDSELECT
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	IF CFLAG:224 == 0
+		CFLAG:224 = 1
+		;연모
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORMW 「응읏♥♥…입으로 간다……♥」
+		;그 이외
+		ELSE
+			PRINTFORMW 「읏, 읏♥……입으로…♥」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;최강 절정시
+		IF NOWEX:Ｍ절정 > 4
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「응″♥♥응″응″♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「응″♥♥-♥응응♥♥♥-z__♥♥♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「읏♥응″응♥♥♥♥-z__♥♥♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;연모 or 복종 or 친구
+		ELSEIF TALENT:연모 || TALENT:복종 || TALENT:친구
+			SELECTCASE RAND:8
+				CASE 0
+					PRINTFORML 「응응～♥…후아아…♥♥」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「응읏♥♥…좀 더, 우리 입을…♥」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					;PRINTFORML 
+				CASE 6
+					PRINTFORML 「응응～♥읏♥……입의 안, 범해져…♥」
+				CASE 7
+					;PRINTFORML 
+			ENDSELECT
+		;그 이외
+		ELSE
+			SELECTCASE RAND:6
+				CASE 0
+					PRINTFORML 「읏, 읏! 응응～～」
+				CASE 1
+					;PRINTFORML 
+				CASE 2
+					;PRINTFORML 
+				CASE 3
+					PRINTFORML 「응응! 훗! 읏!」
+				CASE 4
+					;PRINTFORML 
+				CASE 5
+					PRINTFORML 「흥, 응～～!」
+			ENDSELECT
+		ENDIF
+	ENDIF
+ENDIF
+
+;=================================================
+;●단체 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기로부터 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람하지 않게 주의해 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_K143
+#DIM 대상
+;단체 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+SETCOLOR 칼라_실버
+PRINTFORML …
+PRINTFORML ……
+PRINTFORML ………
+PRINTFORMW 「안녕, %ANAME(MASTER)%. 아침밥은 되어있겠어―. 빨리 일어난다베」
+PRINTFORML
+PRINTFORMW ---난세가 끝난 후, %조사처리(ANAME(MASTER),"와")% %조사처리(ANAME(TARGET),"는")% 함께 살고 있다―--
+PRINTFORML 
+PRINTFORMW 전란이 다스려져 환상향이 원의 고요함을 되찾으면, %조사처리(ANAME(TARGET),"와")% %조사처리(ANAME(MASTER),"는")% 함께 요괴의산으로 살기로 했다
+PRINTFORML 
+PRINTFORMW 궁전에서의 매우 호화로운 생활보다, 검소한 산생활이 야마우바의 성에 맞고 있는 것 같다
+PRINTFORML 
+PRINTFORMW 그리고 %ANAME(MASTER)%도 거기에 교제하기로 했다. 처음은 큰 일이었지만, 지금은 완전히 이 생활에도 익숙해진 것이다
+PRINTFORML 
+PRINTFORMW 「슬슬 겨울의 일도 생각하지 않으면 안 되기 때문에. 집이 수를 하기 때문에, 당신은 마을로 구매 해」
+PRINTFORML 
+PRINTFORMW %조사처리(ANAME(TARGET),"는")% 변함 없이 사람 앞에 나오는 것은싫어한다 모아 두어 구매는 주로 자신의 역할이다
+PRINTFORML 
+PRINTFORMW 지금까지 사냥만으로 온 %조사처리(ANAME(TARGET),"이지만")%, 자신이 마을로 보존식을 구매 하게 되고 나서 훨씬 생활이 편해졌다고 한다
+PRINTFORML
+PRINTFORMW 「후후, %ANAME(MASTER)%에는 정말로 감사하고 있는이다. 이런 외로운 곳에서 함께 살아 준다고 생각하고 (안)중먹고…」
+PRINTFORML
+PRINTFORMW 감사하는 것은 이쪽의 (분)편이다. 사랑하는 사람과 함께라면 사는 장소 같은거 관계없다. 그것을 가르쳐 준 것은 %조사처리(ANAME(TARGET),"다")%
+PRINTFORML
+PRINTFORMW …에서도 확실히 조금 외로운 느낌은 든다. 하지만, 그것은 지금부터 떠들썩하게 되도록(듯이)하면 좋다
+PRINTFORML
+PRINTFORMW 「…후후♥  그러면 가족을 늘리기 위해서(때문에)도, 오늘 밤은 가득 아이 만들어 하자♥」
+PRINTFORML
+PRINTFORMW 시장에 향하려고 하는 %ANAME(MASTER)%의 등에 이마를 붙이면서 %조사처리(ANAME(TARGET),"가")% 속삭인다
+PRINTFORML
+PRINTFORMW 「%ANAME(MASTER)%…사랑하고 있다베…. 앞으로도, 집과 쭉 함께 있어……♥」
+PRINTFORML
+PRINTFORML
+RESETCOLOR
+PRINTFORMW 　　　　　　　　　　　　　ＥＮＤ
+PRINTFORML
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 1
+
+@KOJO_DEAD_ENDING_K143
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「……베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+;PRINTFORMW 
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 0
+

@@ -1,0 +1,129 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K27_PINCH_RATE(대상)
+#DIM 대상
+RETURN 150
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K27_PINCH_DECISION(대상)
+#DIM 대상
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("레이센"), NAME_TO_CHARA("에이린"), NAME_TO_CHARA("카구야"))
+	RETURN 0
+
+SIF !GETBIT(TALENT:대상:음란계, 소질_음란_음란)
+	RETURN 0
+
+SIF KDVAR:대상:테위_유실물 <= 0
+	RETURN 0
+
+SIF KDVAR:대상:테위_위기
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K27_PINCH_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K27_PINCH(대상)
+#DIM 대상
+
+PRINTFORMW 「얏호, 실례하고 있다」
+PRINTFORMW 자기 방으로 돌아가면, %조사처리(ANAME(대상),"가")% 있었다
+PRINTFORMW 손가락에 옷감과 같은 것을 걸어, 빙글빙글 돌리고 있다……
+PRINTFORMW ……이전 쿠스 잔, 유실물의 속옷이다!
+IF IS_MALE(MASTER)
+	PRINTFORMW 「있지있지, 어째서 %ANAME(MASTER)%의 방에 이런 것이 있는 거야?」
+	PRINTFORMW 「필요하지 않지요?  %조사처리(ANAME(MASTER),"는")% 남자이고」
+ELSE
+	PRINTFORMW 「있지있지, 이것 뿐%ANAME(MASTER)%의 것과 취미가 다르지 않아?」
+	PRINTFORMW 「혹시 이것%ANAME(MASTER)%의 속옷이 아닌 것이 아니야?」
+ENDIF
+PRINTFORML 「-개로 손에 넣었던가」
+PRINTFORML
+
+$ASK_LOOP
+CALL ASK_YN("모른다", "쿠스 잔 것이다")
+
+IF RESULT == 0
+	PRINTFORMW 「흐음」
+	PRINTFORML 「그래서?   열매의 곳은?」
+	GOTO ASK_LOOP
+ENDIF
+
+PRINTFORMW 이제(이미/벌써/더는/정말) 용서 할 수밖에 없는 것 같다
+PRINTFORMW 단념한 %조사처리(ANAME(MASTER),"는")%, 솔직하게 고백하기로 했다……
+PRINTFORMW 「헤-, 훔친 것이다」
+PRINTFORMW 「최악이다, 곤란하고 있을 것이다, 없애 버린 아이」
+PRINTFORMW 「설마 도둑맞고 있다고 생각하지 않을 것이고―」
+PRINTFORMW 「……그런데」
+PRINTFORML %조사처리(ANAME(대상),"가")% 스스로의 스커트의 옷자락을 집어올린다. 그리고 조용히 들어 올렸다
+PRINTFORMW ……본래라면 속옷이 있어야 할 곳에는, 아무것도 없다
+PRINTFORMW 그녀의 비부는 노출이 되어 있다……
+PRINTFORMW 「누군가씨가 나의 속옷을 훔친 탓으로, 이렇게 (해) 아무것도 대지 않고 보내지 않으면 안 되었던 것이다―」
+PRINTFORMW 「대단했어?   언제 누구에게 보여지는 것이 아닌가 하고, 두근두근 해 버려 말야」
+PRINTFORMW 「이봐요, 손대어 봐요, 벌써 이런 바람이 되어 버려……♥」
+PRINTFORML 그렇게 말해, %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 손가락을 스스로의 비부에 이끈다
+PRINTFORMW 거기는 확실히 젖고 있어 질척 소리를 냈다
+PRINTFORMW 「아핫……응, 속옷 도둑씨」
+PRINTFORMW 「이 일 입다물어 두어 줄테니까, 사랑스러운 사랑스러운 %조사처리(ANAME(대상),"를")% 조금 도와 주지 않겠어?」
+PRINTFORMW 「외로워서 울어 버리고 있는 %ANAME(대상)%의 것이든지 해-신체를 위로해 주는, 간단한 일이지만……♥」
+PRINTL 
+CALL ASK_YN("손을 댄다", "내지 않는다")
+
+IF RESULT == 1
+	PRINTFORMW 「지……진심?」
+	PRINTFORMW 「이 차린 밥상으로 거절한다고, 어떤 멍청이인 이유?」
+	PRINTFORMW 「아-아, 퇴색해 버렸다. 그러면 이제 되었어, 수고했어요」
+	PRINTFORMW 말할 만큼 말해, %조사처리(ANAME(대상),"는")% 떠났다……
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 속옷의 건을 퍼뜨렸기 때문에, 모두로부터의 호감도가 내렸습니다", 칼라_경고)
+	FOR LOCAL, 0, CHARANUM
+		SIF LOCAL != MASTER && CFLAG:LOCAL:소속 == CFLAG:MASTER:소속
+			CFLAG:LOCAL:호감도 -= 300
+	NEXT
+	KDVAR:대상:테위_위기 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「아핫♥  그렇게 말해 준다고 생각했다아♥」
+PRINTFORMW 「그러면, 즐겁게 해요♥  도둑씨♥」
+PRINTFORMW 이런 공이 많이 든 시건방짐 운 두등을 하는 아가씨에게는 벌이 필요할 것이다
+PRINTFORMW 추잡하게 이쪽을 권하는 %조사처리(ANAME(대상),"를")% 쓰러트렸다……
+CFLAG:대상:호감도 += 300
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:조교중돌아가지않는다 = 1
+CFLAG:대상:강제우호화 = 1
+TALENT:대상:쵸로인 = 1
+TALENT:대상:합의 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 1
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+;플래그
+KDVAR:대상:테위_위기 = 1
+
+RETURN 1

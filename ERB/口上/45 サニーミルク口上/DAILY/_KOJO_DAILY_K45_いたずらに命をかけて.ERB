@@ -1,0 +1,115 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K45_TRICK_RATE(대상)
+#DIM 대상
+RETURN 60
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K45_TRICK_DECISION(대상)
+#DIM 대상
+#DIM 스타
+#DIM 루나
+#DIM 판정치
+루나 = NAME_TO_CHARA("루나차일드")
+스타 = NAME_TO_CHARA("스타사파이어")
+
+SIF GROUPMATCH(MASTER, 스타, 루나, NAME_TO_CHARA("대요정"), NAME_TO_CHARA("치르노"), NAME_TO_CHARA("클라운피스"))
+	RETURN 0
+
+SIF KDVAR:대상:서니_장난에목숨을걸어 == -1
+	RETURN 0
+
+SIF !ALLSAMES(CFLAG:대상:소속, CFLAG:스타:소속, CFLAG:루나:소속)
+	RETURN 0
+
+;상에서 동일 세력 판정하고 있으므로 이것으로 좋다
+SIF GROUPMATCH(GET_COUNTRY_BOSS(CFLAG:대상:소속), 대상,　스타, 루나)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0) && CHECK_KOJO_DAILY_HAPPEN(스타, 0, 0) && CHECK_KOJO_DAILY_HAPPEN(루나, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K45_TRICK_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K45_TRICK(대상)
+#DIM 대상
+#DIM 스타
+#DIM 루나
+#DIM 판정치
+루나 = NAME_TO_CHARA("루나차일드")
+스타 = NAME_TO_CHARA("스타사파이어")
+
+판정치 = LIMIT(ABL:MASTER:지략 - (ABL:대상:지략 + ABL:루나:지략 + ABL:스타:지략), 20, 100)
+
+판정치 += KDVAR:대상:서니_장난에목숨을걸어 * 8
+
+
+IF KDVAR:대상:서니_장난에목숨을걸어 == 0 || 판정치 < RAND:100
+	CALL COLOR_PRINTW(@"저것????", 칼라_경고)
+	PRINTFORML 평소의 길을 걷고 있었을 것인데, 깨달으면 전혀 모르는 곳에 나와 있었다
+	PRINTFORML 하는 김에 말하면, 되돌아 본 길에도 본 기억이 없다
+	PRINTFORMW 무려, 미아가 되어 버린 것 같다……
+	PRINTFORMW 결국, 거점으로 돌아가는 무렵에는 날이 완전히 저물어 버렸다
+	PRINTFORMW 「있고 -있고, 대성공!」
+	PRINTFORMW 「설마 눈치채지 못한다니―」
+	PRINTFORMW 「뭐 우리들을 눈치챌 수 있는 편이 드물지만 말야」
+	CALL ADD_COOLTIME(MASTER, 1)
+	KDVAR:대상:서니_장난에목숨을걸어　++
+	RETURN 1
+ENDIF
+
+PRINTFORML 평소의 길을 걷고 있었을 것인데, 깨달으면 전혀 모르는 곳에 나와 있었다……
+PRINTFORML 그것은 요정의 소행이라고, %조사처리(ANAME(MASTER),"는")% 간파했다!
+PRINTFORMW 장난을 하고 있던 요정 3마리를 잡았다!
+PRINTFORMW 「조원원 들켜 버렸다!   조금%ANAME(루나)%, 분명하게 기색 지웠어!?」
+PRINTFORMW 「%조사처리(ANAME(대상),"야")%말로! 　　분명하게 빛 굽히고 있던 것이군요!?」
+PRINTFORMW 「……」
+PRINTFORMW 「%ANAME(스타)%!   무엇 도망치려고 하고 있는거야!」
+PRINTFORML ……회화로부터 하는 것에, 아무래도 각각 빛과 소리와 기색으로 관련한 능력을 가지는 것 같다
+PRINTFORMW 요정이니까 장난정도 밖에 사용할 수 없지만, 좀 더 지혜가 있는 무리이면, 얼마든지 악용 할 수 있을 것이다
+PRINTFORMW 위험하다. 왜 그러는 것인가……
+PRINTFORML
+CALL ASK_YN("뭐, 놓쳐 주자", "감옥에 던져 넣어 둔다")
+
+IF RESULT == 0
+	PRINTFORMW 「엣, 좋은거야?   했다!」
+	PRINTFORMW 「고마워요!   이 은혜는……뭐 잊을지도 모르지만!」
+	PRINTFORMW 3마리는 모여 어딘가에 날아 갔다……
+	CFLAG:대상:호감도 += 100
+	CFLAG:스타:호감도 += 100
+	CFLAG:루나:호감도 += 100
+	IF IS_COUNTRY(CFLAG:대상:소속)
+		CALL COLOR_PRINTW(@"3마리가 소속하는, %ANAME(GET_COUNTRY_BOSS(CFLAG:대상:소속))%와의 관계가 개선되었습니다", 칼라_주의)
+		CALL CHANGE_RELATION_C_TO_C(CFLAG:대상:소속, CFLAG:MASTER:소속, 300, -300)
+	ENDIF
+ELSE
+	PRINTFORMW 「엣, 가, 감옥은 용서!   나다―!」
+	PRINTFORMW 3마리 정리해 감옥에 던져 넣어 두었다……
+	CALL CAPTURE(대상, CFLAG:MASTER:소속)
+	CALL CAPTURE(스타, CFLAG:MASTER:소속)
+	CALL CAPTURE(루나, CFLAG:MASTER:소속)
+ENDIF
+CFLAG:대상:안면 = 1
+CFLAG:루나:안면 = 1
+CFLAG:스타:안면 = 1
+KDVAR:대상:서니_장난에목숨을걸어 = -1
+
+RETURN 1

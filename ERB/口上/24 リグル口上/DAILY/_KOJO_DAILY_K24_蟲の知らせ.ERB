@@ -1,0 +1,84 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K24_NOTICE_FROM_INSECT_RATE(대상)
+#DIM 대상
+RETURN 40
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K24_NOTICE_FROM_INSECT_DECISION(대상)
+#DIM 대상
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF MAX(CFLAG:대상:호감도, CFLAG:대상:종속도) < 500
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K24_NOTICE_FROM_INSECT_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K24_NOTICE_FROM_INSECT(대상)
+#DIM 대상
+IF ABL:대상:욕망 >= 3 && (IS_LOVER(대상) || IS_SLAVE(대상) || IS_SLAVED_BY(대상)) && HAS_PENIS(MASTER)
+	SELECTCASE IFRAND("0, 1", 1, "2", !VIRGIN(대상))
+		CASE 0
+			PRINTFORMW 「응후……츄푸, 아, 안녕, %ANAME(MASTER)%♥」
+			PRINTFORMW 「충이 알려 서비스로 일으키러 왔어……푸」
+			PRINTFORMW 눈을 뜨면, %조사처리(ANAME(대상),"가")% 입으로 %ANAME(MASTER)%의 것을 빨고 있었다
+			PRINTFORMW %조사처리(ANAME(MASTER),"가")% 참지 못하고 정액을 발하면, %조사처리(ANAME(대상),"는")% 작게 목을 울려 다 마셔 갔다
+			PRINTFORMW 「응쿠우……잘 먹었어요. 아침부터 가득 나왔군요」
+			PRINTFORMW 「그러면, 오늘도 하루 힘내요♥」
+			CALL FUCK(대상, "욕망, 봉사, 성기술, 정애, 펠라티오", "키스상실", GET_SPERM_ID("불명"), @"%ANAME(MASTER)%의 페니스", "", "", "화간")
+			CALL FUCK(MASTER, "욕망, Ｃ, 사정")
+		CASE 1
+			PRINTFORMW 「아핫……읏, 아, %ANAME(MASTER)%, 안녕♥」
+			PRINTFORMW 「충이 알려 서비스로 일으키러 왔어……아읏♥」
+			PRINTFORMW 눈을 뜨면, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)% 위를 타, 비순을 페니스에 문지르며라고 있었다
+			PRINTFORMW %조사처리(ANAME(MASTER),"가")% 참지 못하고 정액을 발하면, %조사처리(ANAME(대상),"는")% 작게 등을 진동시켰다
+			PRINTFORMW 「아하앗……!   후후, 가득 사정군요……」
+			PRINTFORMW 「그러면, 오늘도 하루 힘내자나♥」
+			CALL FUCK(대상, "욕망, Ｃ, 봉사, 성기술, 정애")
+		CASE 2
+			PRINTFORMW 「앗……하앗……쿠응……아, 안녕, %ANAME(MASTER)%♥」
+			PRINTFORMW 「충이 알려 서비스로 일으키러 왔어……읏♥」
+			PRINTFORMW 눈을 뜨면, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)% 위에서 허리를 흔들고 있었다
+			PRINTFORMW 「아하, 부풀어 올라 왔닷……좋아, 안에 사정해엣♥」
+			PRINTFORMW 사랑스러운 간원에 %조사처리(ANAME(MASTER),"가")% 참지 않고 정액을 발하면, %조사처리(ANAME(대상),"는")% 등을 뒤로 젖혀 절정 했다
+			PRINTFORMW 「아하앗……읏!   후~……뱃속 가득……」
+			PRINTFORMW 「오늘도 하루, 힘내요……♥」
+			CALL FUCK(대상, "욕망, Ｖ, 봉사, 성기술, 정애, Ｖ성교", "질내사정, 처녀상실", GET_ID(MASTER), "", ANAME(MASTER), "", "화간")
+			CALL FUCK(MASTER, "욕망, Ｃ, 사정, Ｖ삽입", "동정상실", GET_SPERM_ID("불명"), "", "", @"%ANAME(대상)%의 질")
+	ENDSELECT
+	CFLAG:대상:호감도 += 100
+	CFLAG:대상:의존도 += 50
+	RETURN 1
+ENDIF
+
+
+PRINTFORMW 「안녕, %ANAME(MASTER)%!」
+PRINTFORMW 자고 있었던 %조사처리(ANAME(MASTER),"를")%, %조사처리(ANAME(대상),"가")% 일으키러 왔다
+PRINTFORMW 「충이 알려 서비스야. 잠꾸러기은 일으켜 준다」
+PRINTFORMW 「그러면, 오늘도 하루 힘내요!」
+
+CFLAG:대상:호감도 += 10
+
+RETURN 1

@@ -1,0 +1,148 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K32_FUCKMEAT_RATE(대상)
+#DIM 대상
+RETURN 500
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K32_FUCKMEAT_DECISION(대상)
+#DIM 대상
+#DIM 하타테
+
+하타테 = NAME_TO_CHARA("하타테")
+
+SIF MASTER == 하타테
+	RETURN 0
+
+SIF !IS_SLAVE(대상)
+	RETURN 0
+
+SIF IS_SLAVE(하타테) || IS_LOVER(하타테) || IS_SLAVED_BY(하타테)
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF KDVAR:대상:아야_더블쑤컹쑤컹음란
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(하타테, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K32_FUCKMEAT_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K32_FUCKMEAT(대상)
+#DIM 대상
+#DIM 하타테
+
+하타테 = NAME_TO_CHARA("하타테")
+
+PRINTFORMW 「%ANAME(MASTER)%, 조금 좋습니까?」
+PRINTFORML 자기 방에서 일을 하고 있으면, %조사처리(ANAME(대상),"가")% 방에 들어 왔다
+PRINTFORML 시건방짐이었던 %PRONOUN(대상)%이지만, 예의범절을 가르쳐 준 보람 있어인가, 이쪽을 보는 눈은 완전히 온순한 것이 되어 있다……
+PRINTFORMW 「이제 와서 말할 필요도 없습니다만, 나는 %ANAME(MASTER)%의 하인입니다」
+PRINTFORMW 「그래서 생각한 것입니다만, 나 이외의 모든 텐구도, %ANAME(MASTER)%에 그 몸을 바쳐야 한다고 생각합니다」
+PRINTFORMW 「그렇다는 것으로 데려 왔어요, 나의 친구의 %ANAME(하타테)%입니다」
+PRINTFORML 뭐가 「그렇다는 것으로」인가 모르지만, 어쨌든%조사처리(ANAME(대상),"는")% 주머니를 짊어지고 있었다
+PRINTFORML 그 중에서 나온 것은, 눈가리개를 되고 재갈을 물려 단단히구속된 알몸의 텐구……이것이 %ANAME(하타테)%일 것이다
+PRINTFORMW %조사처리(ANAME(대상),"는")%―-뭐 그런 것이겠지만―-동의를 성립시키지 않은 것 같다. %ANAME(하타테)%는 친구에게 배신당한 쇼크와 공포로 무서워하고 있는 것 같다
+PRINTFORMW 「이봐요%ANAME(하타테)%, 도착했어요, 여기가 %ANAME(MASTER)%의 방입니다」
+PRINTFORMW 「여기서 오늘부터 %ANAME(하타테)%도 다시 태어납니다……%조사처리(ANAME(MASTER),"를")% 위한 하인에게, 우후후」
+PRINTFORML 친구의 말에 광기를 기억했는지, %ANAME(하타테)%는 몸을 비틀어 도망치려고 한다
+PRINTFORMW 당연, %조사처리(ANAME(대상),"가")% 그것을 허락할 리도 없었다
+PRINTFORMW 「%ANAME(하타테)%도 참, 모처럼%조사처리(ANAME(MASTER),"가")% 사용해 준다 라는데 그 태도는 무엇?」
+PRINTFORMW 「……친구가 미안합니다, %ANAME(MASTER)%. 그렇지만, 당신이 철저히 가르치면, 반드시 %PRONOUN(대상)%도 이해해 줄 것입니다」
+PRINTFORMW 「부디%ANAME(하타테)%의 일도, 나같이해 받을 수 있으면……♥」
+PRINTFORML %조사처리(ANAME(대상),"는")% 기대에 눈을 탕이나 키, 이쪽을 응시하고 있다
+PRINTFORML 그런데, 왜 그러는 것인가……
+PRINTFORML 
+CALL ASK_YN(@"%ANAME(하타테)%를 범한다", "해방하도록(듯이) 말한다")
+
+IF RESULT == 1
+	PRINTFORMW 아무리 뭐라해도 친구를 배반해 납치는 좋지 않을 것이다
+	PRINTFORMW 해방하도록(듯이) 말하면, %조사처리(ANAME(대상),"는")% 몹시 놀랐다
+	PRINTFORMW 「괜찮습니까?   ……아아, 과연」
+	PRINTFORMW 「나는 특별이라는 일이군요?   ……미안합니다, %ANAME(MASTER)%에 깊은 생각이 있는데, 얕은 생각이었습니다」
+	PRINTFORMW 「부디 다음에, 이 어리석은 텐구에 벌을 주세요……♥」
+	PRINTFORML 사죄인 것이나 조르기인가 잘 모르는 말을 남기면, %조사처리(ANAME(대상),"는")% %ANAME(하타테)%를 봉투에 다시 채워, 방을 뒤로 했다
+	PRINTFORMW 완전히, 너무 온순한 것도 생각할 일인가……
+	KDVAR:대상:아야_더블쑤컹쑤컹음란 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 자주(잘) 했다. %ANAME(대상)%에게 전하면, %ANAME(하타테)%의 몸에 손을 댄다
+PRINTFORMW 「!   응응, 읏!」
+PRINTFORMW 순간, %ANAME(하타테)%는 번개에 맞은 것처럼 날뛰기 시작한다. 쓸데없는 노력이라고 말하는데다
+PRINTFORMW 「이제(이미/벌써/더는/정말), %ANAME(하타테)%?   적당히 받아들이세요. %조사처리(ANAME(MASTER),"는")% 훌륭한 (분)편이니까」
+PRINTFORMW 「뭐, 당신도, %ANAME(MASTER)%에 충분히 사용해 받을 수 있으면 알아요……♥」
+PRINTFORMW 그 대로다
+PRINTFORMW %ANAME(대상)%도 가끔씩은 진실을 말하면 감탄 하면서, %조사처리(ANAME(MASTER),"는")% %ANAME(하타테)%의 몸을 즐기기로 했다……
+
+FOR LOCAL, 0, 3
+	CALL FUCK_RAPE(하타테, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+NEXT
+
+PRINTFORMW 「아웃……♥  후~, 아우우……♥」
+PRINTFORML 실컷 범해 준 후, %조사처리(ANAME(MASTER),"는")% 휴식이라고 칭해 %ANAME(하타테)%를 초조하게함에 걸린다
+PRINTFORML 양구멍으로부터 백탁을 흘리는 %ANAME(하타테)%는, 지금은 완전히 암컷으로서 완성되었다
+PRINTFORMW 후는 그 마음을 꺾을 뿐이다
+PRINTFORMW 「부탁……입니다, 조금 전 같은 일……해 주세요……읏」
+PRINTFORMW 그렇게 길게 걸리지 않고, %ANAME(하타테)%는 구속된 몸을 비틀어, 스스로 간원 하기 시작했다
+PRINTFORMW 「안 되겠지요, %ANAME(하타테)%?   인에 것을 부탁할 때는, 그만한 대가가 필요하지 않아」
+PRINTFORMW 「당신은 도대체, 무엇을 %ANAME(MASTER)%에 바치는 거야?」
+PRINTFORML %ANAME(대상)%의 말에, %ANAME(하타테)%는 일순간, 말을 막히게 한다
+PRINTFORMW ……가, 이윽고, 짜내도록(듯이) 말한다
+PRINTFORMW 「나를……나 자신을 바칩니다, %ANAME(대상)%같이, 몸으로 시중들기 때문에♥」
+PRINTFORMW 「그러니까, 부디, 나를 범해엣♥」
+PRINTFORML 조교는 성공이다. %조사처리(ANAME(MASTER),"가")% 수긍하면, %조사처리(ANAME(대상),"는")% %ANAME(하타테)%를 해방했다
+PRINTFORML %ANAME(하타테)%는 아무것도 명해지는 두와도, 녹은 표정으로, %ANAME(MASTER)%의 것을 빨기 시작한다
+PRINTFORMW 좀처럼 할 수 있던 하인인 것 같다……
+PRINTFORMW 「후후, 기뻐요%ANAME(하타테)%. 이것으로 당신도 나와 같음」
+PRINTFORMW 「그래서 저, %ANAME(MASTER)%……할 수 있으면 나에게도, 정을 받을 수 있으면♥」
+PRINTFORMW 최초부터 그러한 의도였을 것이다
+PRINTFORMW 그렇게 지적해, %ANAME(대상)%의 스커트중에 손을 돌진한다. 비부는 이미 녹진녹진 젖고 있었다
+PRINTFORMW 「아핫♥  그렇습니다, 내 쪽이 %ANAME(하타테)%보다 선배니까, 나를 먼저, 관철해……♥」
+PRINTFORMW 「앗, %ANAME(대상)%간사한, 나라도 시라고 받고 싶은데」
+PRINTFORMW 아무래도 아텐구라는 것은 이놈도 저놈도 음란한 것 같다
+PRINTFORMW 정리해 쓰러트리고, 양쪽 모두에 귀여워해 주기로 했다……
+
+FOR LOCAL, 0, 3
+	CALL FUCK_RAPE(하타테, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+	CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+NEXT
+
+CALL COLOR_PRINTW(@"%ANAME(하타테)%를 떨어뜨렸습니다", 칼라_주의)
+
+SIF GET_COUNTRY_BOSS(CFLAG:하타테:소속) != 하타테
+	CALL CHANGE_COUNTRY(하타테, CFLAG:MASTER:소속, 1)
+
+CFLAG:대상:종속도 += 3000
+CFLAG:대상:의존도 += 3000
+TALENT:대상:쵸로인 = 1
+
+CFLAG:하타테:종속도 += 3000
+CFLAG:하타테:의존도 += 3000
+TALENT:하타테:쵸로인 = 1
+TALENT:하타테:복종 = 1
+TALENT:하타테:낙인 = 1
+
+KDVAR:대상:아야_더블쑤컹쑤컹음란 = 2
+
+RETURN 1

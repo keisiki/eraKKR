@@ -1,0 +1,75 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K150_GIVE_ME_MONEY_RATE(대상)
+#DIM 대상
+RETURN 80
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K150_GIVE_ME_MONEY_DECISION(대상)
+#DIM 대상
+SIF MONEY < 10000
+	RETURN 0
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K150_GIVE_ME_MONEY_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K150_GIVE_ME_MONEY(대상)
+#DIM 대상
+#DIM 금액
+#DIM 상승치
+#DIM 능력치
+금액 = MIN(IFRAND("1000, 5000, 10000, 30000, 50000", 1), MONEY)
+
+PRINTFORMW 「%ANAME(MASTER)%, 돈 줘?」
+PRINTFORML 업무중, 갑자기%조사처리(ANAME(대상),"가")% 방문해 왔는지라고 생각하면, 밥공기를 내몄다
+PRINTFORMW 아무래도 거지에게 온 것 같지만……
+CALL ICPRINT(@"……<{금액}>정도 갖고 싶을까」", "W", 칼라_주의)
+PRINTFORMW 꽤 강경한 가격 설정이다……
+PRINTFORML 현재의 소지금:{MONEY}
+
+CALL ASK_YN("준다", "주지 않는다")
+
+IF RESULT == 1
+	PRINTFORMW 「구두쇠!」
+	PRINTFORML %조사처리(ANAME(대상),"는")% 뾰롱통 해져 버렸다……
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「정말 주는 거야?   했다!」
+PRINTFORMW 「고마워요!」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 싱글벙글 웃는 얼굴로 떠나 갔다……
+
+IF 금액 < 10000
+	상승치 = RAND:10000 < 금액
+ELSE
+	상승치 = RAND:(금액 / 10000 * 3 / 2)
+ENDIF
+
+SIF 상승치 == 0
+	RETURN 1
+
+능력치 = IFRAND(@"{GETNUM(ABL, "무투")}, {GETNUM(ABL, "방위")}, {GETNUM(ABL, "지략")}, {GETNUM(ABL, "정치")}", 1)
+
+CALL ICPRINT(@"의지를 낸 %ANAME(대상)%의 %ABLNAME:능력치%가<{상승치}>올랐다", "W", 칼라_주의)
+
+ABL:대상:능력치 += 상승치
+
+RETURN 1

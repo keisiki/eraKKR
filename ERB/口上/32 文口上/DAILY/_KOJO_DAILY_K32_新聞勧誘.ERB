@@ -1,0 +1,145 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K32_INVITATION_FROM_AYA_RATE(대상)
+#DIM 대상
+RETURN 40
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K32_INVITATION_FROM_AYA_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:아야_신문권유
+	RETURN 0
+
+;주인공은 페니스가 있는 것
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+;주인공이 군주가 아니다
+SIF GET_COUNTRY_BOSS(CFLAG:MASTER:소속) == MASTER
+	RETURN 0
+
+;3 능력의 합계가 200이상
+SIF ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치 + ABL:MASTER:방위 < 200
+	RETURN 0
+	
+
+SIF !IS_COUNTRY(CFLAG:대상:소속)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K32_INVITATION_FROM_AYA_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K32_INVITATION_FROM_AYA(대상)
+#DIM 대상
+#DIM 보스
+
+
+보스 = GET_COUNTRY_BOSS(CFLAG:MASTER:소속)
+
+
+
+PRINTFORML %조사처리(ANAME(MASTER),"가")% 일을 하고 있으면, 부하가 손님을 고했다……
+PRINTFORMW 「네!   안녕하세요!   맑고 올바른 샤메이마루입니다!」
+PRINTFORMW 「신문은 어떻습니까?   지금이라면 이득인 할인 캠페인중이에요!」
+PRINTFORML 통하라고 전하는 것보다 먼저, %조사처리(ANAME(대상),"는")% 방에 들어가 있었다
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 부하를 내리게 해 손님용의 의자에 %조사처리(ANAME(대상),"를")% 앉게 한다
+PRINTFORMW 「주위 사람을 없게 함 해 버립니까?   조심성이 없네요, 내가 해의를 안고 있으면 어떻게 할 생각입니다?」
+PRINTFORML 과연 여기까지 당당히 요인 암살에 이르는 녀석도 필요할 리 없다
+PRINTFORMW 거기에, 만일의 경우는 자신 혼자서 귀찮은 일을 치울 정도의 팔은 있을 생각이다……
+PRINTFORMW 그렇게 돌려주면, %조사처리(ANAME(대상),"는")% 힐쭉 웃었다
+PRINTFORMW 「후응, 그 나름대로 생각이 도는 편일까요, 일부러 발길을 옮긴 것은 쓸데없지 않았을까」
+PRINTFORMW 그녀의 분위기가 바뀌었다. 이쪽이 순수한 것일 것이다. 특별히 신경쓸 것도 없고, 이야기를 재촉한다
+PRINTFORMW 「%ANAME(MASTER)%. 우수한 무장이라고 하구나?」
+PRINTFORML 우수한가 어떤가는 차치하고, 그 정도의 여러 가지에 뒤질 생각은 없었다
+PRINTFORMW 「이런 시대니까, 그러한 인재를 얻기 위해서(때문에)라면, 나는 수고짬을 아낄 생각은 없어요」
+PRINTFORMW 「물론, 공짜로라고는 말하지 않는다. 그렇구나, 얼마인가의 준비금, 거기에, 여자는 어때?   영웅색을 좋아한다고도 말하기도 하고」
+PRINTFORML 입 끝으로부터 혀를 언뜻 방문하게 하는 %조사처리(ANAME(대상),"는")%, 쾌활한 신문기자로서의 인상과는 정반대인, 요염한 분위기를 감기고 있었다
+IF IS_MALE(MASTER)
+	PRINTFORMW 여자라는 것은, 즉 그녀일 것이다
+ELSE
+	PRINTFORMW 여자라는 것은, 즉 그녀인 것일까
+	PRINTFORMW 그녀는 어디에서 냄새 맡아냈는지, %ANAME(MASTER)%의 신체에게도 조사가 붙어 있는 것 같다
+ENDIF
+PRINTFORML ……그렇다 치더라도, 무슨 밀담일까하고 생각하면, 아무래도 자신을 빼내기에 온 것 같다
+PRINTFORML 놀라는 것 같은 것은 아니다. 환상향은 혼미를 지극히 있다. 살아남으려면, 우수한 인재는 필수다
+PRINTFORMW 이쪽이라고 해도, 살아 남아 가기 위해는, 조금이라도 강력한 세력의 비호를 요구하는 것이 유리한 계책이다
+PRINTFORMW ……이지만, 이 이야기를 받으면, 지금의 주군의 방면과의 인간 관계는, 틀림없이 뒤틀려 버릴 것이다
+PRINTFORML 자, 그럼, 어떻게 하지……
+CALL SINGLE_DRAWLINE
+PRINTFORML %ANAME(대상)%의 영지수:{GET_OWN_CITY(CFLAG:대상:소속)} %ANAME(보스)%의 영지수:{GET_OWN_CITY(CFLAG:MASTER:소속)}
+PRINTFORML 
+CALL ASK_YN("이야기를 받는다", "거절한다")
+IF RESULT == 1
+	PRINTFORMW 「……아라, 그렇게?   그것은 유감」
+	PRINTFORML %조사처리(ANAME(보스),"를")% 배반할 수는 없다……
+	PRINTFORMW 그렇게 대답하자, %조사처리(ANAME(대상),"는")% 의외로 시원스럽게 당겨 보였다
+	PRINTFORMW 「그렇습니까, 그렇다면 어쩔 수 없네요!   문 들. 신문은 좋은 신문입니다만, 필요하게 되지 않는 (분)편에게 강압할 것도 없을 것입니다」
+	PRINTFORMW 「그럼 나는 이것으로!   ……다음을 만날 때, 적끼리로 되어 있지 않은 것을 빌고 있어요?」
+	PRINTFORMW 겁없는 미소를 띄워, %조사처리(ANAME(대상),"는")% 바람과 같이 떠나 갔다……
+	;플래그
+	KDVAR:대상:아야_신문권유 = 1
+ELSE
+	PRINTFORMW 「……후후, 그렇게 말해 준다고 생각하고 있었어요」
+	PRINTFORMW 「지금부터, 아무쪼록 잘 부탁드립니다」
+	PRINTFORMW 내며진 손을 잡는다. 부드럽고, 따뜻한 손이었다
+	LOCAL:0 = MIN((ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치) * 200, 50000)
+	CALL COLOR_PRINTW(@"준비금으로 해서 돈{LOCAL:0}를 받았습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_핑크)
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(보스),"와")%의 외교 관계가, 매우 뒤틀렸습니다", 칼라_경고)
+	MONEY += LOCAL:0
+	TALENT:대상:합의 = 1
+	TALENT:대상:쵸로인 = 1
+	CFLAG:대상:안면 = 1
+	CFLAG:대상:호감도 = MAX(CFLAG:대상:호감도, 800)
+	CFLAG:대상:종속도 = MAX(CFLAG:대상:종속도, 600)
+	CFLAG:대상:의존도 = MAX(CFLAG:대상:의존도, 200)
+	CALL CHANGE_RELATION_O_TO_O(보스, 대상, -500, 500)
+	CALL CHANGE_RELATION_O_TO_O(보스, MASTER, -500, 500)
+	CALL CHANGE_COUNTRY(MASTER, CFLAG:대상:소속, 1)
+	PRINTFORMW 「그러면, 약속의 『여자』지만……」
+	PRINTFORMW 감기는 의복을, %조사처리(ANAME(대상),"는")% 벗어 던져 간다
+	PRINTFORMW 「후후, 텐구의 네야기술, 한껏 맛보게 해 준다……」
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 힘을 빼, %ANAME(대상)%에 몸을 맡겼다……
+	;텐구의 네야기술
+	ABL:대상:성지식 = MAX(ABL:대상:성지식, 4)
+	ABL:대상:욕망 = MAX(ABL:대상:욕망, 3)
+	ABL:대상:성기술 = MAX(ABL:대상:성기술, 3)
+	ABL:대상:봉사 = MAX(ABL:대상:봉사, 2)
+	ABL:대상:성교 = MAX(ABL:대상:성교, 2)
+	ABL:대상:정애 = MAX(ABL:대상:정애, 1)
+	TALENT:대상:쾌감에솔직 = 1
+	;전원의 조교참가플래그를 클리어
+	CVARSET CFLAG, 6, 0
+	CFLAG:대상:조교참가플래그 = 1
+	CFLAG:대상:조교중돌아가지않는다 = 1
+	CFLAG:대상:강제우호화 = 1
+	BASE:대상:체력 = MAXBASE:대상:체력
+	BASE:대상:기력 = MAXBASE:대상:기력
+	;강제 역조교플래그를 온
+	FLAG:턴엔드조교 = 1
+	;그 이후의 데일리 이벤트 발생을 잡는다
+	DAILY_CANCEL = 1
+	;플래그
+	KDVAR:대상:아야_신문권유 = 2
+ENDIF
+
+RETURN 1

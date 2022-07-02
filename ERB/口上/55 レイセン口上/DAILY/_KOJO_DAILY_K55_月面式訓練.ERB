@@ -1,0 +1,52 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K55_MOON_STYLE_TRAINING_RATE(대상)
+#DIM 대상
+RETURN 75
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K55_MOON_STYLE_TRAINING_DECISION(대상)
+#DIM 대상
+#DIM 요리히메
+요리히메 = NAME_TO_CHARA("요리히메")
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0) && CHECK_KOJO_DAILY_HAPPEN(요리히메, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K55_MOON_STYLE_TRAINING_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K55_MOON_STYLE_TRAINING(대상)
+#DIM 대상
+#DIM 요리히메
+#DIM 상승경험치 = GETNUM(EXP, "무투경험치"), GETNUM(EXP, "지략경험치"), GETNUM(EXP, "방위경험치")
+
+요리히메 = NAME_TO_CHARA("요리히메")
+
+PRINTFORMW %조사처리(ANAME(대상),"가")% %ANAME(요리히메)%에 훈련을 붙여져 있다……
+PRINTFORMW 「왜 그러는 것입니까%ANAME(대상)%!   느슨해지고 있어요!」
+PRINTFORMW 「히, 히네, 용서해 주세요～!」
+PRINTFORMW 많이 하드한 훈련한 것같다
+PRINTFORMW 몸으로는 되고 있는 것 같고, 방치할까……
+
+CALL PRINT_ADD_EXP(대상, EXPNAME:(상승경험치:(RAND:VARSIZE("상승경험치"))), RAND:5 + 1, 1)
+CALL TRAIN_AUTO_ABLUP(대상)
+
+RETURN 1
+

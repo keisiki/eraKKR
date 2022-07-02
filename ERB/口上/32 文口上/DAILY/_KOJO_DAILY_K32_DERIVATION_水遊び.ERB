@@ -1,0 +1,84 @@
+﻿;---------------------
+;대응하는 데일리의 DISABLE를 돌려준다. 설정하지 않는 경우, 이벤트는 발생하지 않는다.
+;---------------------
+@KOJO_DAILY_K32_DERIVATION_MIZUASOBI_DISABLE(대상)
+#DIM 대상
+RETURN KOJO_DAILY_GET_DISABLE_CONFIG(대상, "MIZUASOBI")
+
+;---------------------
+;발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K32_DERIVATION_MIZUASOBI_DECISION(대상)
+#DIM 대상
+
+;대상의 데일리 「물장난」로 놀지 않은, 또는 이벤트 종료가 끝난 상태라면 안 돼
+SIF KDVAR:대상:아야_물장난 != 1
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;본체
+;---------------------
+@KOJO_DAILY_K32_DERIVATION_MIZUASOBI(대상)
+#DIM 대상
+
+PRINTFORML %조사처리(ANAME(MASTER),"가")% 드러눕고 있으면, 방의 문이 노크 되었다
+PRINTFORMW 들어 온 것은 %조사처리(ANAME(대상),"였")%다
+PRINTFORMW 「아-……%ANAME(MASTER)%, 상태는 어떻습니까?」
+PRINTFORMW 「그, 미안합니다, 내가 무리 말해 권한 탓으로 감기는」
+PRINTFORML
+CALL ASK_YN("대단히 기특하구나", @"%ANAME(대상)%태우고 있고는 아니다")
+SELECTCASE RESULT
+	CASE 0
+		CFLAG:대상:호감도 += 100
+		PRINTFORML %조사처리(ANAME(대상),"으로")%서는 대단히 기특한 태도가 아닌가
+		PRINTFORMW 그렇게 말해 조롱하면, %조사처리(ANAME(대상),"는")% 입을 비쭉 내몄다
+		PRINTFORMW 「무례한. 나에게도 미안하다고 생각하는 기분 정도 있어요」
+		PRINTFORMW 「뭐, 농담을 칠 수 있을 뿐(만큼)의 건강은 있다는 것입니까」
+		PRINTFORMW 「그것보다, 배는 비어있지 않습니까?   죽을 만들어 와 주었어요. 영양 중시인 것으로, 맛은 보증합니다만」
+	CASE 1
+		PRINTFORMW 「그렇게 말씀해 주시니(자), 고맙겠습니다」
+		PRINTFORML 입으로는 그러하는 %조사처리(ANAME(대상),"였")%지만, 그 표정은 어딘가 흐렸다
+		PRINTFORMW 「저, 배는 비어있지 않습니까?   죽을 만들어 왔습니다. 영양 중시인 것으로, 맛은 보증합니다만」
+ENDSELECT
+PRINTFORML
+CALL ASK_YN("고맙게 받는다", "배는 고파지지 않았다")
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORML 고맙다. 막 배가 고프고 있던 곳이었다
+		PRINTFORML %ANAME(대상)%에 남은 받아, 죽을 입에 옮겼다
+		PRINTFORMW 「어떨까요……?」
+		PRINTFORML
+		CALL ASK_YN("능숙함", "곤란함")
+		SELECTCASE RESULT
+			CASE 0
+				PRINTFORML 미는 보증하지 않는다고 말했지만, 정직, 맛있다
+				PRINTFORML 그렇게 전하면, %ANAME(대상)%의 표정은 대단히 밝아졌다
+				PRINTFORMW 「후후, 그렇겠죠 그렇겠죠, 이 내가 만들었으니까요」
+				PRINTFORMW 「자자, 먹는 것은 먹었기 때문에, 천천히 자 영기를 길러 주세요」
+				PRINTFORML %ANAME(대상)%에 무리하게에 재워 붙여졌다……
+				CALL COLOR_PRINTW("죽의 덕분에, 감기가 완치했습니다", 칼라_주의)
+				CALL COLOR_PRINTW("쿨 타임이 0이 되었습니다", 칼라_주의)
+				CFLAG:대상:호감도 += 300
+				COOLTIME:MASTER:0 = 0
+			CASE 1
+				PRINTFORML 만들어 받고 무엇이지만, 정직, 곤란함
+				PRINTFORML 그렇게 전하면, %조사처리(ANAME(대상),"는")% 얼굴을 새빨갛게 했다
+				PRINTFORMW 「무무무……!   인이 모처럼 걱정해 만들어 주었다는데, 뭐라는 말투입니까!」
+				PRINTFORMW 「봐 주세요, 절대로 %조사처리(ANAME(MASTER),"를")% 신음소리를 내게 하는 죽을 만들어 와 주니까요!」
+				PRINTFORML 일까하고 화내면서, %조사처리(ANAME(대상),"는")% 방을 나갔다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 요리의 특훈을 한 것 같습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%ANAME(대상)%의 요리가 5성장했습니다", 칼라_주의)
+				CFLAG:대상:호감도 -= 300
+				ABL:대상:요리 += 5
+		ENDSELECT
+	CASE 1
+		PRINTFORMW 「무, 그렇습니까……」
+		PRINTFORMW 「그것은 어쩔 수 없네요. 그럼, 천천히 자 영기를 길러 주세요」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 방을 뒤로 했다……
+ENDSELECT
+KDVAR:대상:아야_물장난 = 2
+
+RETURN 1

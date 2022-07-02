@@ -1,0 +1,277 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K73_TRAIN_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K73_TRAIN_DECISION(대상)
+#DIM 대상
+
+SIF !IS_SLAVE(대상)
+	RETURN 0
+
+SIF CFLAG:대상:종속도 >= 5000
+	RETURN 0
+
+SIF !ITEM:애널바이브 && !ITEM:바이브　&& !ITEM:밧줄
+	RETURN 0
+
+SIF ABL:MASTER:성기술 < 3
+	RETURN 0
+
+SIF KDVAR:대상:이치린_조교
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K73_TRAIN_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K73_TRAIN(대상)
+#DIM 대상
+#DIM 선택지
+
+KDVAR:대상:이치린_조교 = 1
+
+PRINTFORMW 「앗……」
+PRINTFORML 거점에서 순찰을 하고 있는 한중간, %조사처리(ANAME(대상),"와")% 엇갈렸다
+PRINTFORMW 이지만, %PRONOUN(대상)%는 눈을 숙여 그대로 통과하려고 했다
+PRINTFORMW %ANAME(대상)%에는 충성을 맹세하게 했을 텐데, %PRONOUN(대상)%는 최근를 잊고 걸치고 있는 것 같다
+PRINTFORML 이 근처에서 하나, 스스로의 입장을 다시 가르쳐 주어야 할 것일까……?
+PRINTFORML
+
+CALL ASK_YN("조교한다", "이번에 좋은가")
+
+IF RESULT == 1
+	PRINTFORMW 굳이 지금이 아니어도 좋을 것이다. 바쁜 것이다
+	PRINTFORMW 방치하기로 했다……
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「, 조, 조금」
+PRINTFORML 스쳐 지나가자 마자, %PRONOUN(대상)%의 엉덩이를 비비어 준다
+PRINTFORMW 항의하는 것 같은 표정을 띄우고 이쪽을 향한 %ANAME(대상)%의 손을 거머쥐어, 자기 방으로 데리고 들어갔다
+PRINTFORMW 「뭐, 뭐야……내가 뭔가 나쁜 일 했다는 거야?」
+PRINTFORML 건방진 말을 하는 %조사처리(ANAME(대상),"이지만")%, 그 눈도 어조도 떨고 있다
+PRINTFORMW %ANAME(MASTER)%에 거역해서는 안 된다는 일은, 그 신체가 확실히 기억하고 있을 것이다
+PRINTFORML 그런데, 우선은……
+PRINTL
+CALL ASK_MULTI("애무한다", "속옷을 보내라", "봉사해라")
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「앗, , 그만두고……」
+		PRINTFORMW 도망칠 수 없게 벽에 쫓아 버리면, 승복을 걸어, 속옷중으로 손을 쑤신다
+		PRINTFORMW 「아, 싫다, 안 돼, 악, 아앗……」
+		PRINTFORML %ANAME(MASTER)%에 예의범절을 가르쳐진 육체는, 갈라진 곳을 어루만져 주는 것만으로 간단하게 흠뻑 젖는다
+		PRINTFORMW 가볍게 풀린 곳에서 안쪽에 손가락을 쑤셔, 약한 곳을 꾸짖어 주면, %조사처리(ANAME(대상),"는")% 이미 도중 중단이 되어 있다
+		PRINTFORMW 「, 쿠우, ……쿠……～♥」
+		PRINTFORML 소리를 지르지 않으려고, %PRONOUN(대상)%는 옷의 옷자락을 씹고 있지만, 쓸데없는 노력이라는 것이었다
+		PRINTFORMW 비구니면서 여자로서 완성된 이 육체의 약점이 어디에 있을까 등, 전망이기 때문에
+		PRINTFORMW 「악, 하앗, 아, 거기, 거기 안 돼, 나거기♥  아, 히아, 아……♥」
+		PRINTFORML 입구 가까이의 얕은 곳을 클리토리스와 동시에 괴롭혀 주면, %조사처리(ANAME(대상),"는")% 견딜 수 없다고 하도록(듯이) 무릎이나 허리도 긁는 붙게 해 암컷의 표정을 띄우기 시작한다
+		PRINTFORMW 얼마인가 온순함을 보인 포상에, 가게해 한다고 하자……
+		PRINTFORMW 「아, ～～～♥」
+		PRINTFORML 꾸물거려 와 지금까지의 상냥한 애무와는 달라 강하게 자극해 주면, 불의의 쾌락에 %PRONOUN(대상)%는 소리도 없게 절정 했다
+		PRINTFORMW 활처럼 젖혀진 키와 비부로부터 분출한 추잡한 조수가, %조사처리(ANAME(대상),"가")% 기억한 쾌락을 이야기하고 있다
+		PRINTFORMW 절정의 여운으로 탈진해, 그 자리에 쓰러지고 걸친 %ANAME(대상)%의 허리를 부축했다……
+		CALL FUCK(대상, "Ｃ, Ｖ, 욕망")
+	CASE 1
+		PRINTFORMW 「하……?   무슨 바보 같은 것을 말해……」
+		PRINTFORMW 속옷을, 보내라
+		PRINTFORMW 「자, 장난치지마, 누가 그런……」
+		PRINTFORMW 속옷을, 보내라
+		PRINTFORMW 「……읏」
+		PRINTFORML 말대답은 허락하지 않는다. 어느 쪽이 위의 입장인 것인가, 깨닫게 해 줄 필요가 있다
+		PRINTFORMW 강한 어조로 반복하면, %조사처리(ANAME(대상),"는")% 작게 중얼거린다
+		PRINTFORMW 「알았어요……건네주면 좋겠지요」
+		PRINTFORMW 대단히 시건방짐인 대답이지만, 이 단계에서는 이런 것일 것이다
+		PRINTFORML 법의중에 손을 쑤시는 %PRONOUN(대상)%의 모습을, 한껏 시간 해 준다
+		PRINTFORMW 「이봐요……이것으로 좋겠지요?」
+		PRINTFORMW 「다음은 무엇을 시킬 생각이야……」
+		PRINTFORMW 그녀가 몸에 대고 있던 것은, 비구니에게는 어울리지 않은, 이른바 「어른」인것 같은 속옷이었다
+		PRINTFORMW 아직 따뜻한 것은, 그녀의 체온이 남아 있다
+		PRINTFORMW 다음은 무엇을 하는지 묻는 %PRONOUN(대상)%의 표정에는, 도착의 색이 떠올라 있다……
+		CALL FUCK(대상, "노출, 욕망")
+	CASE 2
+		PRINTFORMW 「지……, 진심인 것, 이런 낮부터……」
+		PRINTFORML 하나의 물건을 노출시켜, 빨라고 명하면, %조사처리(ANAME(대상),"는")% 당황한 것 같은 소리를 질렀다
+		PRINTFORML 이지만, 낮인 것으로 %조사처리(ANAME(대상),"를")% 조교하는 것을, 도대체 무슨 관계가 있다고 할 것이다
+		PRINTFORMW 그렇지 않으면, 자신에게 반항할 생각인가?
+		PRINTFORMW 물으면, %조사처리(ANAME(대상),"는")% 우려하도록(듯이) 얼굴을 숙였다
+		PRINTFORMW 「알았다, 알았어요……」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)% 앞으로 무릎 꿇는다
+		PRINTFORMW 딱딱하고 부푼 곳하늘을 가리키는 물건을 바라보는 눈에는, 희미하면서 여자로서의 본성을 물을 수 있다
+		PRINTFORMW 「……응후……응우」
+		PRINTFORML 그녀의 입안은 뜨겁고, 타액으로 미끌거리고 있다
+		PRINTFORML 혀는 끈적 육봉에 휘감겨, 정액을 조르고 있는 것 같다
+		PRINTFORMW 노리고 있는 것이 아니라고 하면, 암컷의 본능이 그렇게 시키고 있을 것이다……
+		PRINTFORMW 「쥬룻……, 응쿠, 응」
+		PRINTFORMW 「구풋……쥬부, 배행,」
+		PRINTFORML 특별히 명하지 않고도, %조사처리(ANAME(대상),"는")% 깊숙히 %ANAME(MASTER)%의 것을 물고 있다
+		PRINTFORMW 아무리 건방진 태도를 취하고 있든지, 예의 범절의 성과라는 것은 나타나는 것이다……
+		PRINTFORMW 「구풋……푸핫, 아, 아아……」
+		PRINTFORML 헌신적인 태도에는 포상이 필요할 것이다
+		PRINTFORML %ANAME(대상)%의 입술로부터 물건을 뽑아 내, 그 얼굴에 흰 선물을 털어 놓아 준다
+		PRINTFORMW 그녀는 기다리도록(듯이) 얼굴을 내며, 눈감고 입을 열어 그것을 받아 들여 갔다
+		PRINTFORML ……물론, 이런 정액 투성이의 얼굴에서는 밖을 걸을 수 없을 것이다
+		PRINTFORMW 적어도 들키기 어렵게해 주려고, 끈적끈적 부착하는 정액을, 한껏 얼굴에 발라 준다
+		PRINTFORMW 그 사이, %PRONOUN(대상)%는 얌전하게 여겨지는 대로 되어 있어 오슬오슬 몸을 진동시킬 뿐이었다……
+		CALL FUCK(대상, "Ｍ, 욕망, 봉사, 성기술, 정애, 펠라티오", "키스상실", GET_SPERM_ID("불명"), @"%ANAME(MASTER)%의 페니스", "", "", "조교")
+ENDSELECT
+PRINTL
+PRINTFORMW %조사처리(ANAME(대상),"는")% 약간 온순한 표정을 띄우고는 있지만, 예의 범절이라는 것은 철저히 해 행해지지 않으면 안 된다
+PRINTFORML 그런데, 다음은 어떻게 할까……?
+PRINTL
+
+CALL ASK_MULTI_JUDGE("밧줄로 묶으며 보내게 한다", ITEM:밧줄, "바이브를 넣으며 보내게 한다", ITEM:바이브, "애널바이브를 넣으며 보내게 한다", ITEM:애널바이브)
+
+선택지 = RESULT
+SELECTCASE 선택지
+	CASE 0
+		PRINTFORMW 「네……알았습, 니다」
+		PRINTFORMW 밧줄로 묶어 주는 것으로 하자……
+		PRINTFORMW 옷을 벗겨져, 그렇게 명하면, %조사처리(ANAME(대상),"는")% 주저하면서도 수긍했다
+		PRINTFORMW 「, 쿠, 아……귤나무……」
+		PRINTFORMW 쾌락을 위해서(때문에)는 아니고, 예의 범절을 위해서(때문에)다. 조금 강하게 묶어 둔다
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 얼굴을 비뚤어지게 하지만, 그 이상으로 피부나 비부에의 먹혀듦에 의한 쾌락이, 그 표정을 녹여지고 있다
+		PRINTFORMW --그대로 법의를 입어, 오늘은 하루 그대로 보내라
+	CASE 1
+		PRINTFORMW 「네……알았습, 니다」
+		PRINTFORML 멋진 장난감을 주기 때문에, 오늘은 하루 그것을 대며 보내라……
+		PRINTFORMW 명하면, %조사처리(ANAME(대상),"는")% 주저하면서도 수긍했다
+		PRINTFORMW 「……」
+		PRINTFORMW 벽에 손을 붙게 해 엉덩이를 향하게 한다
+		PRINTFORMW 법의를 걸어 나타난 비부는, 기대에 흠칫흠칫 수축해, 군침을 흘려 보내고 있다
+		PRINTFORML --도저히 비구니라고는 생각되지 않는 하반신이다?
+		PRINTFORML 조롱하도록(듯이) 말하면, %ANAME(대상)%네나 아니를 하도록(듯이) 고개를 젓는다
+		PRINTFORMW 이지만, 그 허리는 기대하도록(듯이) 구불거리고 있다……
+		PRINTFORMW 「아……핫, 아, 아앗, 들어가, 아앗……」
+		PRINTFORMW 그대로 푸욱푸욱 바이브를 쑤셔 넣어 준다
+		PRINTFORMW 녹은 소리를 질러 무릎을 가볍고 곽 붙게 하면서, %조사처리(ANAME(대상),"는")% 되는 대로 되어 있다
+		PRINTFORMW --석화 죄여 준 것이니까, 절대로 떨어뜨리는 것이 아니다
+	CASE 2
+		PRINTFORMW 「네……알았습, 니다」
+		PRINTFORML 멋진 장난감을 주기 때문에, 오늘은 하루 그것을 대며 보내라……
+		PRINTFORMW 명하면, %조사처리(ANAME(대상),"는")% 주저하면서도 수긍했다
+		PRINTFORMW 「……」
+		PRINTFORMW 벽에 손을 붙게 해 엉덩이를 향하게 한다
+		PRINTFORMW 법의를 걸어 나타난 엉덩이 구멍은, 마치 성기같이 기대에 흠칫흠칫 수축하고 있다
+		PRINTFORML --이런 곳이 좋다는, 굉장한 변태다?
+		PRINTFORML 조롱하도록(듯이) 말하면, %ANAME(대상)%네나 아니를 하도록(듯이) 고개를 젓는다
+		PRINTFORMW 이지만, 그 허리는 기대하도록(듯이) 구불거리고 있다……
+		PRINTFORMW 「아……핫, 아, 아앗, 들어가, 아앗……」
+		PRINTFORMW 그대로 푸욱푸욱 배덕의 구멍에 바이브를 쑤셔 넣어 준다
+		PRINTFORMW 녹은 소리를 질러 무릎을 가볍고 곽 붙게 하면서, %조사처리(ANAME(대상),"는")% 되는 대로 되어 있다
+		PRINTFORMW --석화 죄여 준 것이니까, 절대로 떨어뜨리는 것이 아니다
+ENDSELECT
+
+PRINTFORMW 「네……알았던……♥」
+PRINTFORMW 강하게 명하면, %조사처리(ANAME(대상),"는")% 열중한 것 같은 소리로 대답을 했다
+PRINTFORMW 원래, 나날 수행을 쌓고 있는 몸이다. 이런 고행과 같은 요소가 있는 조교를 본질적으로 좋아할 것이다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 그대로, 휘청휘청한 발걸음으로 방을 뒤로 했다……
+
+TALENT:대상:선을넘지않음 = 0
+
+FOR LOCAL, 0, 3
+	PRINTL ·
+NEXT
+
+FOR LOCAL, 0, 5
+	SELECTCASE 선택지
+		CASE 0
+			CALL FUCK(대상, "Ｃ, 욕망, 긴박, 고통쾌락, 마조")
+		CASE 1
+			CALL FUCK(대상, "Ｖ, 욕망", "처녀상실", GET_SPERM_ID("불명"), "", "바이브", "", "조교")
+		CASE 2
+			CALL FUCK(대상, "Ａ, 욕망", "Ａ처녀상실", GET_SPERM_ID("불명"), "", "애널바이브", "", "조교")
+	ENDSELECT
+NEXT
+
+FOR LOCAL, 0, 3
+	PRINTL ·
+NEXT
+
+PRINTFORML 밤이 되어, 다시 %조사처리(ANAME(대상),"를")% 자기 방에 불러들였다
+PRINTFORML %PRONOUN(대상)%의 뺨은 감기라도 걸린 것처럼 홍 밀려들어, 숨도 난폭하다. 동료에게는 걱정된 것일 것이다
+PRINTFORMW 물론, 감기 따위는 아닌 것이지만……
+PRINTFORMW 「……♥」
+PRINTFORMW 우선은 옷을 벗어라. 명하면, %조사처리(ANAME(대상),"는")% 아무것도 말하지 않고 따랐다. 뭔가 말하는 기력도 없을 것이다
+SELECTCASE 선택지
+	CASE 0
+		PRINTFORML 공공연하게 된 피부에는, 밧줄이 딱, 딱할만큼 먹혀들고 있다
+		PRINTFORML 그리고 그녀의 비밀의 틈은, 그 쾌락에 녹진녹진 끝 없게 밀을 흘러넘치게 하고 있었다
+		PRINTFORMW 가랑이밧줄의 근처 등, 그 수분의 탓으로 질척하고 색이 변할 정도다……
+		PRINTFORMW 매듭을 풀어 주면, 그 피부에는 밧줄이 먹혀든 뒤가 붉게 남아 있었다
+		PRINTFORMW 풍만한 육체, 흰 피부와의 콘트라스트가 뭐라고도 아름답고, 추잡하다……
+	CASE 1
+		PRINTFORML 그 비밀의 틈은 바이브를 제대로 물어, 주어지는 쾌락에 끝 없게 밀을 흘러넘치게 하고 있었다
+		PRINTFORML 허벅지로부터 복사뼈에 걸쳐, 번들번들한 밀의 자취가 남아 있을 정도다
+		PRINTFORMW 농후한 암컷이 향기가 난다. 이것은 대낮%PRONOUN(대상)%를 만난 사람도 눈치챈 것일 것이다
+		PRINTFORMW 뽑아 내 주면, 고기구멍은 그것과의 이별을 아까워하도록(듯이) 끝까지 달라붙어 왔다……
+	CASE 2
+		PRINTFORML 풍만한 엉덩이살의 사이에 파묻힌 애널바이브는, %ANAME(대상)%의 항문을 하루종일 한껏 예의범절을 가르치고 있던 것 같다
+		PRINTFORML 그 증거로, %ANAME(대상)%의 하반신은 보고 있을 수 없을만큼 흠뻑흠뻑이다
+		PRINTFORMW 특유의, 농후한 여자가 향기가 난다. 대낮%PRONOUN(대상)%를 만난 사람도 반드시 눈치챈 것일 것이다
+		PRINTFORMW 뽑아 내 주면, 엉덩이구멍은 그것과의 이별을 아까워하도록(듯이), 탁 소리를 냈다……
+ENDSELECT
+PRINTFORMW 「{RAND(10, 15)}회 정도로부터……기억하고 있지 않습니다, 기분 좋아서……기억이 애매해, 여기에 어떻게 왔을지도……모릅니다」
+PRINTFORMW 몇회 갔는지 물으면, 정신나간 것 같은 얼굴로 %조사처리(ANAME(대상),"는")% 대답한다
+PRINTFORMW 서 있는 것도 겨우일 것이다―-이라고 할까, %PRONOUN(대상)%와 같은 정신 수행을 쌓은 것은 아니면, 벌써 주저앉고 있었을 것이다
+PRINTFORMW 혹은, %ANAME(MASTER)%의 전에서의 실수는 용서되지 않는다는 것을 생각해 냈는가……
+PRINTFORML 어쨌든, 예의 범절은 마지막 단계까지 와 있다. 뒤는……
+PRINTFORML
+CALL ASK_MULTI("한껏, 조교해 줄 뿐이다")
+PRINTL
+PRINTFORMW 「네……받아 주세요, %ANAME(대상)%의 몸을, 좋아하게 사용해 주세요……♥」
+PRINTFORMW 자신의 입장을 생각해 냈을 것이다. 귀여워해 준다고 전하면, %조사처리(ANAME(대상),"는")% 기특한 말로 %조사처리(ANAME(MASTER),"를")% 받아들였다
+PRINTFORMW 그 온순함에 대답하여 준다고 하자……
+
+CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 깊게 복종을 맹세했습니다", 칼라_주의)
+
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+
+CFLAG:대상:종속도 += 1500
+CFLAG:대상:의존도 += 1000
+TALENT:대상:쵸로인 = 1
+TALENT:대상:꿋꿋함 = 0
+TALENT:대상:보수적 = 0
+TALENT:대상:선을넘지않음 = 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:조교중돌아가지않는다 = 1
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 1
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+
+
+RETURN 1
+

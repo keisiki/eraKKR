@@ -1,0 +1,139 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K35_SABORI_RATE(대상)
+#DIM 대상
+RETURN 50 + (KDVAR:대상:코마치_낮잠 > 0) * 350
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K35_SABORI_DECISION(대상)
+#DIM 대상
+#DIM 시키에이키
+시키에이키 = NAME_TO_CHARA("시키에이키")
+
+;MASTER가 시키에이키라면 이상한 것이 되기 때문에 안 돼
+SIF MASTER == NAME_TO_CHARA("시키에이키")
+	RETURN 0
+
+;끝나고 있으면 발생하지 않는다
+SIF KDVAR:대상:코마치_낮잠 == -1
+	RETURN 0
+
+;농땡이마왕이 회복되고 있으면 안 돼
+SIF !TALENT:대상:농땡이마왕
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(시키에이키, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K35_SABORI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K35_SABORI(대상)
+#DIM 대상
+#DIM 시키에이키
+시키에이키 = NAME_TO_CHARA("시키에이키")
+
+SELECTCASE KDVAR:대상:코마치_낮잠
+	CASE 0
+		PRINTFORMW 「옷, %조사처리(ANAME(MASTER),"가")% 아닌가」
+		PRINTFORML 어느 날, 뒷마당을 산책하고 있으면, %조사처리(ANAME(대상),"가")% 보였다
+		PRINTFORMW 이 시간대는 그녀는 순찰의 당번이었을 것이지만……?
+		PRINTFORMW 「아니 이봐요, 오늘은 따끈따끈으로 하고 있어 기분이 좋을 것이다?」
+		PRINTFORMW 「이런 날에 일한다니 잘못되어 있다. 여기는 휴식해, 영기를 길러야 한다」
+		PRINTFORML ……요점은 게으름 피워 낮잠을 자자고 하는 일인것 같다
+		PRINTFORMW 왜 그러는 것일까 하고 생각하고 있으면, %조사처리(ANAME(대상),"는")% 손짓했다
+		PRINTFORMW 「%ANAME(MASTER)%도. 너무 일하는 것은 좋지 않아?   값이 올바른 휴식의 방법이라는 것을 지도 해 주어」
+		PRINTFORMW 「아니, 공범자를 얻어야지라든가 그런 일 생각하지 않기 때문에, 진짜로」
+		PRINTFORMW 그러하는 %조사처리(ANAME(대상),"는")%, 지면에 누노를 깔아, 낮잠잘 생각 만만이다
+		PRINTFORML 자, 그럼, 어떻게 하지……
+		PRINTFORML
+		CALL ASK_MULTI("유혹에 넘어간다", "그만둔다", "시키에이키에 보고다")
+		SELECTCASE RESULT
+			CASE 0
+				PRINTFORMW 「옷, 이야기를 알 수 있네요」
+				PRINTFORMW 「이봐요, 와, 함께 낮잠자지 않겠는가」
+				PRINTFORML %조사처리(ANAME(대상),"와")% 함께 낮잠잤다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"가")%＜농땡이마왕＞가 되었습니다", 칼라_경고)
+				CALL COLOR_PRINTW(@"게으름 피워 솜씨가 무디어진 %조사처리(ANAME(MASTER),"와")% %ANAME(대상)%의 무투가 3내렸습니다", 칼라_경고)
+				TALENT:MASTER:농땡이마왕 = 1
+				ABL:MASTER:무투 = MIN_DECREASE(ABL:MASTER:무투, 3, 1)
+				ABL:대상:무투 = MIN_DECREASE(ABL:대상:무투, 3, 1)
+				CFLAG:대상:호감도 += 50
+				KDVAR:대상:코마치_낮잠 = 1
+			CASE 1
+				PRINTFORMW 「무……그런가?」
+				PRINTFORMW 「라면 어쩔 수 없다. 여기는 값의 비밀 스팟이니까, 누구에게도 말하지 않는 도이와 주어라?」
+				PRINTFORMW 말할 만큼 말해, %조사처리(ANAME(대상),"는")% 그스카잠 시작했다……
+				KDVAR:대상:코마치_낮잠 = -1
+			CASE 2
+				PRINTFORMW 「……그것은 안 된다고……!」
+				PRINTFORMW 「무엇이 안 된다고 합니다?」
+				PRINTFORMW 「아사계님!!?   언제부터 오신 것입니다!!!!?」
+				PRINTFORMW 「아주 일부 시종이에요. 『옷, %조사처리(ANAME(MASTER),"가")% 아닌가』의 내려감으로부터」
+				PRINTFORMW 「전부가 아닙니까!   위미안합니다설교는 용서해 주세요!」
+				PRINTFORMW 「조용히 하세요!   오늘이라는 오늘은 뉘우침 해 받으니까요!」
+				PRINTFORMW 그 후, %조사처리(ANAME(대상),"는")% %ANAME(시키에이키)%에 걸쭉과 짜진 것 같다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")%＜농땡이마왕＞이 아니게 되었습니다", 칼라_주의)
+				TALENT:대상:농땡이마왕 = 0
+				KDVAR:대상:코마치_낮잠 = -1
+		ENDSELECT
+	CASEELSE
+		PRINTFORMW 「옷, %ANAME(MASTER)%」
+		PRINTFORMW 「또 낮잠잘까?」
+		PRINTFORML
+		CALL ASK_YN("유혹에 넘어간다", "그만둔다")
+		SELECTCASE RESULT
+			CASE 0
+				IF KDVAR:대상:코마치_낮잠 * 10 < RAND:100
+					PRINTFORMW 「그렇게 오지 않으면 말야」
+					PRINTFORMW 「자자, 와, 함께 자지 않겠는가♪」
+					PRINTFORMW %조사처리(ANAME(대상),"와")% 낮잠자 영기를 길렀다……
+					CALL COLOR_PRINTW(@"게으름 피워 솜씨가 무디어진 %조사처리(ANAME(MASTER),"와")% %ANAME(대상)%의 무투가 3내렸습니다", 칼라_경고)
+					TALENT:MASTER:농땡이마왕 = 1
+					ABL:MASTER:무투 = MIN_DECREASE(ABL:MASTER:무투, 3, 1)
+					ABL:대상:무투 = MIN_DECREASE(ABL:대상:무투, 3, 1)
+					CFLAG:대상:호감도 += 50
+					KDVAR:대상:코마치_낮잠 ++
+				ELSE
+					PRINTFORMW 「뭐가 『유혹에 넘어간다』입니까. 두 명 모여 한심스럽다」
+					PRINTFORMW ……문득, 뒤로부터 말을 걸려졌다
+					PRINTFORMW 주뼛주뼛 되돌아 본다……%ANAME(시키에이키)%다!
+					PRINTFORMW 「  사계님!   언제부터 오신 것입니다!?」
+					PRINTFORMW 「조용히 하세요!   두 명 모여 게으름 피운다고는 언어 도단입니다!   그 느슨해진 정신을 다시 철저하게 쳐 주니까요!」
+					PRINTFORMW 두 명 모여, %ANAME(시키에이키)%에 한껏 짜졌다……
+					LOCAL = 3 * KDVAR:대상:코마치_낮잠 + KDVAR:대상:코마치_낮잠
+					CALL COLOR_PRINTW(@"%ANAME(시키에이키)%의 설교로, 두 명 무투가 {LOCAL} 상승했습니다", 칼라_주의)
+					CALL COLOR_PRINTW(@"두 명은＜농땡이마왕＞이 아니게 되었습니다", 칼라_주의)
+					TALENT:MASTER:농땡이마왕 = 0
+					TALENT:대상:농땡이마왕 = 0
+					ABL:MASTER:무투 += LOCAL
+					ABL:대상:무투 += LOCAL
+					CFLAG:대상:호감도 += 50
+					KDVAR:대상:코마치_낮잠 = -1
+				ENDIF
+			CASE 1
+				PRINTFORMW 「이런, 그런가?」
+				PRINTFORMW 「그렇다면 어쩔 수 없다. 할 수 있어 혼자서 잔다는 거야」
+				PRINTFORMW 말하면서, %조사처리(ANAME(대상),"는")% 그스카와 자기 시작했다……
+				KDVAR:대상:코마치_낮잠 = -1
+		ENDSELECT
+ENDSELECT
+
+RETURN 1

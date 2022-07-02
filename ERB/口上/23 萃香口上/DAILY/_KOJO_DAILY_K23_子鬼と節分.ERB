@@ -1,0 +1,177 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K23_SETSUBUN_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K23_SETSUBUN_DECISION(대상)
+#DIM 대상
+
+;플레이어 캐릭터가 유카리인가 유우기나 카센이라면 발생하지 않는다
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("유카리"), NAME_TO_CHARA("유우기"), NAME_TO_CHARA("카센"))
+	RETURN 0
+	
+;주인공과 동일 세력으로 포로가 아니다
+SIF !(CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0))
+	RETURN 0
+	
+;12턴에 1회 발동한다
+RETURN (DAY % 12 == 0)
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K23_SETSUBUN_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K23_SETSUBUN(대상)
+#DIM 대상
+#DIMS 대답문자열 = "왼쪽", "오른쪽", "상", "하"
+#DIM 대답
+#DIM 공갈료
+공갈료 = MIN(MONEY / 5, RAND(1000, 3000))
+
+SIF !CFLAG:대상:안면
+	CFLAG:대상:안면 = 1
+PRINTFORMW 통로를 걷고 있으면, 멀리서 %조사처리(ANAME(대상),"가")% 타박타박 왔다
+PRINTFORMW 「～～!   내쫓지 않으면 먹어 버리겠어～!   아, 네. 이것 콩이군요」
+IF KDVAR:대상:스이카_절분 == 0
+	PRINTFORMW …그러고 보니 오늘은 절분이었는가. 라고 할까, 오니인데 자신으로부터 콩을 건네주어 가는 것인가…
+	PRINTFORML 「에에～, 오늘은 공공연하게 오니를 어필 할 수 있으니까요―」
+	PRINTFORMW 「자자, 내쫓지 않으면 머리로부터 통째로 먹기다～!」
+	PRINTFORMW 아무래도 가는 앞으로에 콩을 건네주어서는 「오니는 밖」시키고 있는 것 같다
+	PRINTFORML 뭐계절 행사이고, 와 콩을 손에 들지만 문득 눈치챈다
+	PRINTFORMW 자주(잘) 보면 %ANAME(대상)%의 신체의 여기저기에 푸른 멍이나 물집과 같은 것이 되어있다…
+	PRINTFORMW 「아아, 이것?   오니는 일단 초대두에 약하기 때문에, 맞으면 조금 아파」
+	PRINTFORMW 「뭐, 술 마셔 자면 낫고, 별로 신경쓰지 않아도 괜찮아. 자 와-있고!」
+ELSE
+	PRINTFORMW ……그러고 보니 벌써 절분이었는가. 변함 없이 자신으로부터 콩을 건네주어 가는 것인가…
+	PRINTFORML 「후후～응, 오늘은 공공연하게 오니를 어필 할 수 있는 날이니까―」
+	PRINTFORMW 「자자, 내쫓지 않으면 머리로부터 통째로 먹기다～!」
+	PRINTFORMW 아무래도 이번도 가는 앞으로에 콩을 건네주어서는 「오니는 밖」시키고 있는 것 같다
+	PRINTFORMW 그리고 또, %ANAME(대상)%의 신체의 여기저기에 푸른 멍이나 물집과 같은 것이 되어있다…
+	PRINTFORMW 「아-, 이 정도 신경쓰고 이루지 않지는. 별로 별일 아니기 때문에. 자 와-있고!」
+ENDIF
+PRINTFORML 라고 말하고 있다
+PRINTFORMW 자, 그럼, 어떻게 하지……
+PRINTFORML
+CALL ASK_MULTI("콩을 던진다", "전력으로 절분에 도전한다", "신체를 돌본다")
+SELECTCASE RESULT
+	;콩을 던진다
+	CASE 0
+		PRINTFORMW 뭐, 바로 그 본인이 던져지고 싶어하고 있고, 여기는 분명하게 오니의 역할을 진당 시켜 주자
+		PRINTFORMW 오니는-밖으로!   복은-안으로!
+		PRINTFORMW 「우햐-!   있고 있어, 해산이다―, 아하하핫!」
+		PRINTFORML %조사처리(ANAME(대상),"는")%, 웃으면서 떠나 갔다
+		PRINTFORMW %조사처리(ANAME(MASTER),"가")% 분명하게 콩을 던져 주었던 것이 기뻤던 것 같다
+		PRINTFORMW …다음날, %조사처리(ANAME(대상),"가")% 절분의 답례에 술을 가져와 주었다
+		CALL COLOR_PRINTW("일본술을 받았다", 칼라_주의)
+		PRINTFORML
+		ITEM:일본술 += 1
+		CFLAG:대상:호감도 += 100
+	;전력으로 절분에 도전한다
+	CASE 1
+		PRINTFORMW 절분이라고 하면 오니에 있어 중요한 이벤트다. 대충 해 그 일에 종사하는 것은 무례할 것이다
+		PRINTFORML 어차피라면 그 정도중에서 화려하게 해준다!
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 주위의 사람들을 모아, 여럿이서 %ANAME(대상)%에 탄막과 같이 콩을 내던진다!
+		PRINTFORML 「하하핫!   재미있는, 그렇게 오지 않으면 말야!   라면 나도 진심으로 가자!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 거대화 해 덤벼 들어 왔다!
+		CALL COLOR_PRINTW("지금, 전무후무의 절분이 시작된다……", 칼라_주의)
+		PRINTFORML
+		CALL COLOR_PRINTL(@"RAID 배틀 발생! 거대 %조사처리(ANAME(대상),"를")% 쓰러트려라!!", 칼라_경고)
+		PRINTFORMW
+		;4회, 올바른 선택지를 선택한다
+		FOR LOCAL, 0, 4
+			;대답을 내 둔다
+			대답 = RAND:4
+			CALL COLOR_PRINTL(@"　%대답문자열:대답%  에 피해 콩을 던져라!", 칼라_주의)
+			FOR LOCAL:1, 0, VARSIZE("대답문자열")
+				PRINTFORML [{LOCAL:1}] %대답문자열:(LOCAL:1)%
+			NEXT
+			TINPUT 1800, -1, 1
+			;실패하면 강제 종료
+			SIF RESULT != 대답
+				BREAK
+			SIF LOCAL != 3
+				PRINTFORML 「하네요!   아직도 가!」
+		NEXT
+
+		;실패한 패턴
+		IF LOCAL != 4
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 거대화 한 %ANAME(대상)%의 공격을 피하려고 했다!
+			PRINTFORML 
+			PRINTFORMW 
+			PRINTFORMW 그러나, 공격은 보기좋게 %ANAME(MASTER)%에 작렬해, 대두 공격 부대는 와해 했다……
+			PRINTFORML
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%들은 %ANAME(대상)%에 패배했다. 복은 도망쳐 갔다……", 칼라_경고)
+			PRINTFORML
+			PRINTFORMW 「후하하하-!   꽤였지만, 오니 퇴치에는 조금 부족했지요」
+			PRINTFORMW 「그러면, 적당하게 복 같은 것을 받아 간다」
+			CALL COLOR_PRINTW(@"금 {공갈료}를 빼앗겼습니다", 칼라_주의)
+			MONEY -= 공갈료
+			CFLAG:대상:호감도 += 150
+			IF TALENT:대상:연모
+				PRINTFORMW 「아, 그렇다. 아직 받는 것을 잊었었던 것이 있었군」
+				PRINTFORML %조사처리(ANAME(대상),"는")% 그렇게 말하면 발길을 돌려, 뻗어있는 %ANAME(MASTER)%의 앞으로 돌아가
+				PRINTFORMW 「츗………후헤헤-. 좋은 물건, 받았어♥」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 입술을 빼앗아 갔다……
+			ENDIF
+		;성공
+		ELSE
+			PRINTFORMW 「악!」
+			PRINTFORML 충실한 공격（콩）가 공을 세워, 마침내 거대 %조사처리(ANAME(대상),"를")% 타도했다!
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 순식간에 원래의 로리오니사이즈에 돌아와 갔다
+			PRINTFORML 「후후……오래간만이었다, 이렇게 뜨거운 절분은…이제 후회는 없다……」
+			PRINTFORMW 「안녕히…다……%ANAME(MASTER)%…」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 바람이 되었다
+			PRINTFORML 남겨진 장소에는 술이 남아 있었다
+			PRINTFORMW %ANAME(MASTER)%들은 남겨진 복을, 각각의 품에 거두는 일로 했다……
+			CALL COLOR_PRINTW("증류주를 3개 손에 넣었다", 칼라_주의)
+			ITEM:증류주 += 3
+			CFLAG:대상:호감도 += 200
+		ENDIF
+		PRINTFORML
+	;신체를 돌본다
+	CASE 2
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 푸른 멍투성이의 팔을 잡아, 아픔이 누그러져 주도록, 살그머니 손을 대었다
+		PRINTFORMW 얼마나 본인이 바라고 있다고는 해도, 겉모습 어린 소녀에게 채찍 치는 것 같은 흉내는 마음이 상한다…
+		IF TALENT:대상:연모 || TALENT:대상:복종
+			PRINTFORMW 「에, 엣!?   정말, 괜찮다는데……」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 콩장작보다 자신의 신체를 돌봐지는 것을 당황하고 있었지만
+			PRINTFORMW 「……그렇지만, 고마워요. 너의 그러한 곳은……비교적 좋아해…♥」
+			PRINTFORMW 그 행동이, 순수하게 %조사처리(ANAME(대상),"를")% 생각한 일이라는 일도 이해하고 있었다
+			PRINTFORML 「그러면 아침…, 조금만 더, 이대로…손을 대어 줘……」
+			PRINTFORMW 잠깐의 사이, %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 애정에 몸을 맡겼다
+			PRINTFORMW 당초의 목적과는 달랐지만, %조사처리(ANAME(대상),"는")% 복을 손에 넣어진 것 같다……
+			CFLAG:대상:호감도 += 150
+		ELSE
+			PRINTFORMW 「에, 에에?   이니까 괜찮다는데……」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 콩장작보다 자신의 신체를 돌봐지는 것을 당황하고 있다
+			PRINTFORMW 「…완전히, 그런 야와에 생각되었어?   조금 쇼크구나」
+			PRINTFORML 그 행동이, 순수하게 %조사처리(ANAME(대상),"를")% 생각한 일이라고는 알고 있는 것 같지만
+			PRINTFORMW 오니로서의, 강자로서의 프라이드적으로, 조금 복잡한 심경인 것 같다
+			PRINTFORMW 「…조금 흥을 깎을 수 있었군요. 뭐, 좋지만 말야…이번은 분명하게 해 늦어라―」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 돌아갔지만, 그 뺨은 약간, 주홍에 물들어 있는 것처럼 보였다……
+			CFLAG:대상:호감도 += 50
+		ENDIF
+		PRINTFORML
+ENDSELECT
+KDVAR:대상:스이카_절분 = 1
+
+
+RETURN 1

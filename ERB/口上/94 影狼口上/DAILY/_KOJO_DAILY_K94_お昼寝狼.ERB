@@ -1,0 +1,124 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_OHIRUNE_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_OHIRUNE_DECISION(대상)
+#DIM 대상
+
+;주인공은 페니스가 있는 것
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_OHIRUNE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K94_KAGEROU_OHIRUNE(대상)
+#DIM 대상
+
+IF KDVAR:대상:카게로_낮잠이리 == 0
+	PRINTFORMW 어느 날, 궁전을 걷고 있으면 낮잠중의 %조사처리(ANAME(대상),"가")% 보였다
+	PRINTFORMW 일이 노출되는 창가에서 기분 좋은 것같이 자고 있다
+	PRINTFORMW 평상시와 다른 틈투성이의 그 모습이 드물고 무심코 초롱초롱 응시해 버린다
+	PRINTFORMW 「응읏…」
+	PRINTFORMW 작게 한숨을 흘려 몸을 비틀게 했다
+	PRINTFORMW 귀가 쫑긋쫑긋 동 있고다
+	PRINTFORMW 마치 작은 동물과 같은 행동이 매우 사랑스럽다
+	PRINTFORMW 어떻게 하지?
+	CALL ASK_YN("떠난다", "바라본다")
+	IF RESULT == 0
+		PRINTFORMW 방해 해선 안 된다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 한 번 더 그녀의 잠자는 얼굴을 응시한 후, 윗도리를 걸어 주어 살그머니 떠났다
+	ELSEIF RESULT == 1
+		PRINTFORMW 좀처럼 볼 수 없는 그 모습을, 좀 더 바라봐 가기로 했다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 살그머니 그녀의 근처에 앉아, 특등석으로 그 잠자는 얼굴을 바라보게 해 받았다
+		PRINTFORMW 「…응우…스으」
+		PRINTFORMW 또 하나, 작은 한숨을 흘렸다
+		PRINTFORMW 이 이상 없고 행복하게 자고 있다
+		PRINTFORMW 이리인데 이렇게 틈투성이인 것은 어떠한 것일까하고 생각했지만
+		PRINTFORMW 그녀가 안심할 수 있어 증거라고 생각하면 사랑스러웠다
+		PRINTFORMW 또 쫑긋쫑긋 귀가 움직였다
+		PRINTFORMW 어떤 꿈을 꾸고 있을까?
+		PRINTFORMW 문득 기쁜듯이 입가가 올라, 특과 한 방울군침이 늘어졌다
+		PRINTFORMW 아무래도, 보고 있는 꿈의 내용은 알았다
+		PRINTFORMW 그녀답다고 할까 뭐랄까, %조사처리(ANAME(MASTER),"는")% 무심코 작게 웃었다
+		PRINTFORMW 한동안 그녀의 표정 풍부한 잠자는 얼굴을 즐겁게 해 받은 후, 윗도리를 걸어 주어 살그머니 떠났다
+	ENDIF
+	PRINTFORMW 
+	PRINTFORMW 일이 끝나 방으로 돌아가면 조금 전의 윗도리가 놓여져 있었다
+	PRINTFORMW 아무래도 그녀가 돌려준 것 같다
+	PRINTFORMW 살짝, 희미하게 그녀가 향기가 난 것 같았다
+	CFLAG:대상:호감도 += 150
+	KDVAR:대상:카게로_낮잠이리 = 1
+ELSE
+	PRINTFORMW 궁전을 걷고 있으면 또 낮잠중의 %조사처리(ANAME(대상),"가")% 보였다
+	PRINTFORMW 이전 보였을 때와 같은 장소다
+	PRINTFORMW 마음에 드는 장소인 것일까?
+	PRINTFORMW 확실히 여기는 후끈후끈 하고 있어 기분이 좋을 것 같다
+	PRINTFORMW 「응～…?%ANAME(MASTER)%?」
+	PRINTFORMW 남편 일으켜 버린 것 같다
+	PRINTFORMW 그녀는 졸린 듯이 눈을 비비면서 %ANAME(MASTER)%의 얼굴을 봐 왔다
+	PRINTFORMW 「으, 으음, 이것은, 그…」
+	PRINTFORMW 그녀는 부끄러운 듯이 머뭇머뭇 하고 있다
+	PRINTFORMW 어떻게 하지?
+	CALL ASK_MULTI("자게 한다" ,"함께 잔다" ,"조롱한다")
+	IF RESULT == 2
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 무심코 그녀를 조롱했다
+		PRINTFORMW 너무나 틈투성이로 랑녀에는 안보였어요, 라고
+		PRINTFORMW 하면 그녀는 귀를 핑 세워, 얼굴을 새빨갛게 해 %조사처리(ANAME(MASTER),"를")% 후끈후끈과 때려 왔다
+		PRINTFORMW 그 행동도 또 사랑스럽고, %조사처리(ANAME(MASTER),"는")% 또 웃어 버린다
+		PRINTFORMW 한동안 그녀와 평화로운 주고받음을 한 후, 점심 밥을 한턱 내 기분전환해 받았다
+	ELSEIF RESULT == 0
+		PRINTFORMW 방해를 해 나빴다고 말해 %조사처리(ANAME(MASTER),"는")% 그 자리를 뒤로 했다
+		PRINTFORMW 「앗, 으음…누구에게도 말하지 않아?」
+		PRINTFORMW 그녀는 마치 못된 장난이 발각된 아이같이 부끄러운 듯이 물어 온다
+		PRINTFORMW 자연과 미소가 흘러넘친 %조사처리(ANAME(MASTER),"는")% 말하지 않는다고 약속했다
+		PRINTFORMW 「그런가…고, 고마워요…후아앗…」
+		PRINTFORMW 그녀는 안심했는지같이 크게 하품을 하면 다시 누웠다
+		PRINTFORMW 그 잠자는 얼굴을 한 바탕 바라본 후, %조사처리(ANAME(MASTER),"는")% 그 자리를 뒤로 했다
+	ELSEIF RESULT == 1
+		PRINTFORMW 그러고 보니 자신도 꽤 졸렸다
+		PRINTFORMW 꼭 좋기 때문에 함께 여기서 자도 괜찮을까 묻는다
+		PRINTFORMW 「엣? 에, 에에, 좋지만…」
+		PRINTFORMW 그녀는 놀람 한 모습으로 대답한다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 짐을 두어 드러눕는다
+		PRINTFORMW , 확실히 여기는 잘 때의 기분이 매우 좋다
+		PRINTFORMW 「좋지요? 마음에 드는 장소야아…」
+		PRINTFORMW 근처에서 누운 그녀가 어쩐지 기쁜듯이 이야기한다
+		PRINTFORMW 벌써 또 졸려지고 있는 것 같아 꾸벅꾸벅으로 하고 있다
+		PRINTFORMW 「후아아…」
+		PRINTFORMW %조사처리(ANAME(대상),"가")% 크게 하품을 했다
+		PRINTFORMW 거기에 이끌려%ANAME(MASTER)%도 하나, 하품을 해 버린다
+		PRINTFORMW 「응-…」
+		PRINTFORMW 행복한 잠자는 얼굴의 그녀를 바라보면서, %ANAME(MASTER)%도 잠에 떨어졌다
+		PRINTFORMW 
+		PRINTFORMW 약 1시간정도의 낮잠의 뒤, 눈을 떴다
+		PRINTFORMW 벌써 그녀는 있지 않고, 희미하게 그녀의 잔향만이 남아 있었다
+	ENDIF
+	CFLAG:대상:호감도 += 200
+ENDIF
+
+
+RETURN 1
+

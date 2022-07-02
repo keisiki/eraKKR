@@ -1,0 +1,82 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K58_CAPTURE_WEB_RATE(대상)
+#DIM 대상
+RETURN 35
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K58_CAPTURE_WEB_DECISION(대상)
+#DIM 대상
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF ABL:대상:욕망 < 랭크역치:랭크_그외:랭크_D
+	RETURN 0
+
+SIF IS_SLAVE(대상)
+	RETURN 0
+
+SIF ABL:대상:주도도Ｕ + ABL:대상:주도도Ｎ < 400
+	RETURN 0
+
+SIF KDVAR:대상:야마메_캡처웹
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K58_CAPTURE_WEB_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K58_CAPTURE_WEB(대상)
+#DIM 대상
+
+PRINTFORML 심야……
+PRINTFORML 자고 있었던 %조사처리(ANAME(MASTER),"이지만")%, 누군가의 기색을 짐작 해 눈을 떴다
+PRINTFORMW ……가, 꼼짝 못하다!
+PRINTFORML 아무래도 밧줄이나 뭔가로 속박되고 있는 것 같다
+PRINTFORML 도적인가 뭔가의 침입을 허락한 것은과 주위에 시선을 향한다
+PRINTFORMW ……%조사처리(ANAME(대상),"가")% 미소를 띄워, 이쪽을 응시하고 있었다
+PRINTFORMW 「안녕, %ANAME(MASTER)%」
+PRINTFORMW 이것은 어떻게 말하는 것이라고 설명을 요구하는 %ANAME(MASTER)%에, %조사처리(ANAME(대상),"는")% 돌연 입맞춤해 왔다
+PRINTFORMW 「응후우, 응무……후……푸하아」
+PRINTFORMW 「아니, 어떻게 말하는 것도 이런 일도, 피부 외로워졌기 때문에」
+PRINTFORMW 「조금 신체를 빌려 주었으면 좋구나, 랄까」
+PRINTFORMW 「아, 그 실이지만, 끊어지지 않는다고 생각해 받아도 좋아. 여하튼 나의 특제니까」
+PRINTFORML 말하면서, %조사처리(ANAME(대상),"는")% 스스로의 의복을 벗어, 태어날 때부터의 모습이 된다
+PRINTFORML 흰 피부에 %STR_BODY("가슴", 대상)%, 잘록한 허리가 눈부시다
+PRINTFORMW 게다가 %ANAME(MASTER)%의 옷을 풀어헤치게 해 페니스를 노출시킨다
+PRINTFORMW 「%조사처리(ANAME(MASTER),"는")% 가만히 하고 있으면 좋아. 어느 쪽으로 하든 동작 잡히지 않을 것이고」
+PRINTFORMW 「충분히, 기분 좋게 해 줄테니까……♥」
+PRINTFORML %조사처리(ANAME(대상),"는")% 요염한 표정을 띄워, %ANAME(MASTER)%의 신체를 어루만진다
+PRINTFORMW 가슴판에 입맞춤할 수 있어 하반신이 반응해 버린다
+PRINTFORMW 「후후, 그것으로 좋아, 그래서」
+PRINTFORMW 「자, 아침까지 기분 좋아지자?」
+PRINTFORML 본격적으로 맛이 없다고 생각하기 시작한 %조사처리(ANAME(MASTER),"이지만")%, 튼튼한 실로 속박되어 동작 하나 잡히지 않았다
+PRINTFORMW 저항 할 수 없는 %ANAME(MASTER)%에, %조사처리(ANAME(대상),"가")% 덮어씌워 온다
+PRINTFORMW 그대로 아침까지, %PRONOUN(대상)%에 한껏 짜졌다……
+CALL FUCK(MASTER, "Ｃ, Ａ, Ｍ, 키스, 욕망, 사정, 봉사, 성교, Ｖ삽입, 긴박, 마조", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "강간")
+CALL FUCK(대상, "Ｃ, Ｂ, Ｖ, Ａ, Ｍ, 키스, 펠라티오, 욕망, 봉사, 성교, 정애, 성기술, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER), "", "강간")
+CALL ADD_COOLTIME(MASTER, 1)
+CFLAG:대상:지배도 += 500
+ABL:대상:주도도Ｕ += 50
+KDVAR:대상:야마메_캡처웹 = 1
+
+RETURN 1

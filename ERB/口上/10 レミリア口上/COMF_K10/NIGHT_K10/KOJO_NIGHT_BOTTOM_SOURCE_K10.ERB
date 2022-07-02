@@ -1,0 +1,859 @@
+﻿;─────────────────────────────────────── 
+;●침실_접수_실행 전_소스 참조  CALL MOAN_K10(레밀리아_대상)
+;─────────────────────────────────────── 
+@MOAN_K10(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIM 레밀리아_이번부위치
+#DIM 레밀리아_최대부위치
+#DIM 레밀리아_표시플래그
+#DIMS 레밀리아_이번부위
+#DIMS 레밀리아_최대부위
+#DIMS 레밀리아_이번부위칭
+#DIMS 레밀리아_최대부위칭
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+;초기화
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아_이번부위치 = 0
+레밀리아_최대부위치 = 0
+레밀리아_표시플래그 = 0
+레밀리아_이번부위 = ""
+레밀리아_최대부위 = ""
+레밀리아_이번부위칭 = ""
+레밀리아_최대부위칭 = ""
+
+;─────────────────────────────────────── 
+;○레밀리아의 쾌락 상태를 체크
+;─────────────────────────────────────── 
+;▼SOURCE
+;  전문의 경우 SOURCE·후문이라면 CUP·값은 최대 부위치와의 비교용인 것으로 PALAM로 보존
+;  최저 1없으면 자극으로 간주하지 않는 PALAM에는 쾌Ｐ가 없다
+IF SOURCE:레밀리아:쾌Ｖ >= 1 && SOURCE:레밀리아:쾌Ｖ >= SOURCE:레밀리아:쾌Ｐ && SOURCE:레밀리아:쾌Ｖ >= SOURCE:레밀리아:쾌Ｃ && SOURCE:레밀리아:쾌Ｖ >= SOURCE:레밀리아:쾌Ａ && SOURCE:레밀리아:쾌Ｖ >= SOURCE:레밀리아:쾌Ｂ
+	레밀리아_이번부위치 = PALAM:레밀리아:쾌Ｖ
+	레밀리아_이번부위 '= "Ｖ"
+	레밀리아_이번부위칭 '= CALL_DIRTY_K10("Ｖ")
+ELSEIF SOURCE:레밀리아:쾌Ａ >= 1 && SOURCE:레밀리아:쾌Ａ >= SOURCE:레밀리아:쾌Ｐ && SOURCE:레밀리아:쾌Ａ >= SOURCE:레밀리아:쾌Ｃ && SOURCE:레밀리아:쾌Ａ >= SOURCE:레밀리아:쾌Ｖ && SOURCE:레밀리아:쾌Ａ >= SOURCE:레밀리아:쾌Ｂ
+	레밀리아_이번부위치 = PALAM:레밀리아:쾌Ａ
+	레밀리아_이번부위 '= "Ａ"
+	레밀리아_이번부위칭 '= CALL_DIRTY_K10("Ａ")
+ELSEIF SOURCE:레밀리아:쾌Ｐ >= 1 && SOURCE:레밀리아:쾌Ｐ >= SOURCE:레밀리아:쾌Ｖ && SOURCE:레밀리아:쾌Ｐ >= SOURCE:레밀리아:쾌Ａ && SOURCE:레밀리아:쾌Ｐ >= SOURCE:레밀리아:쾌Ｃ && SOURCE:레밀리아:쾌Ｐ >= SOURCE:레밀리아:쾌Ｂ
+	레밀리아_이번부위치 = PALAM:레밀리아:쾌Ｃ
+	레밀리아_이번부위 '= "Ｐ"
+	레밀리아_이번부위칭 '= CALL_DIRTY_K10("Ｐ")
+ELSEIF SOURCE:레밀리아:쾌Ｃ >= 1 && SOURCE:레밀리아:쾌Ｃ >= SOURCE:레밀리아:쾌Ｐ && SOURCE:레밀리아:쾌Ｃ >= SOURCE:레밀리아:쾌Ｖ && SOURCE:레밀리아:쾌Ｃ >= SOURCE:레밀리아:쾌Ａ && SOURCE:레밀리아:쾌Ｃ >= SOURCE:레밀리아:쾌Ｂ
+	IF HAS_PENIS(레밀리아)
+		레밀리아_이번부위치 = PALAM:레밀리아:쾌Ｃ
+		레밀리아_이번부위 '= "Ｐ"
+		레밀리아_이번부위칭 '= CALL_DIRTY_K10("Ｐ")
+	ELSE
+		레밀리아_이번부위치 = PALAM:레밀리아:쾌Ｃ
+		레밀리아_이번부위 '= "Ｃ"
+		레밀리아_이번부위칭 '= CALL_DIRTY_K10("Ｃ")
+	ENDIF
+ELSEIF SOURCE:레밀리아:쾌Ｂ >= 1 && SOURCE:레밀리아:쾌Ｂ >= SOURCE:레밀리아:쾌Ｐ && SOURCE:레밀리아:쾌Ｂ >= SOURCE:레밀리아:쾌Ｃ && SOURCE:레밀리아:쾌Ｂ >= SOURCE:레밀리아:쾌Ｖ && SOURCE:레밀리아:쾌Ｂ >= SOURCE:레밀리아:쾌Ａ
+	레밀리아_이번부위치 = PALAM:레밀리아:쾌Ｂ
+	레밀리아_이번부위 '= "Ｂ"
+	레밀리아_이번부위칭 '= CALL_DIRTY_K10("Ｂ")
+ELSE
+	레밀리아_이번부위치 = 0
+	레밀리아_이번부위 '= ""
+	레밀리아_이번부위칭 '= ""
+ENDIF
+
+;▼PALAM
+;  PALAM는 절정까지의 축적＆절정에 의해 침착한다（LIMIT9999）
+;  최저 10없으면 자극으로 간주하지 않는 PALAM에는 쾌Ｐ가 없다
+IF PALAM:레밀리아:쾌Ｖ >= 10 && PALAM:레밀리아:쾌Ｖ >= PALAM:레밀리아:쾌Ｃ && PALAM:레밀리아:쾌Ｖ >= PALAM:레밀리아:쾌Ａ && PALAM:레밀리아:쾌Ｖ >= PALAM:레밀리아:쾌Ｂ
+	레밀리아_최대부위치 = PALAM:레밀리아:쾌Ｖ
+	레밀리아_최대부위 '= "Ｖ"
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｖ")
+ELSEIF PALAM:레밀리아:쾌Ａ >= 10 && PALAM:레밀리아:쾌Ａ >= PALAM:레밀리아:쾌Ｃ && PALAM:레밀리아:쾌Ａ >= PALAM:레밀리아:쾌Ｖ && PALAM:레밀리아:쾌Ａ >= PALAM:레밀리아:쾌Ｂ
+	레밀리아_최대부위치 = PALAM:레밀리아:쾌Ａ
+	레밀리아_최대부위 '= "Ａ"
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ａ")
+ELSEIF PALAM:레밀리아:쾌Ｃ >= 10 && PALAM:레밀리아:쾌Ｃ >= PALAM:레밀리아:쾌Ｖ && PALAM:레밀리아:쾌Ｃ >= PALAM:레밀리아:쾌Ａ && PALAM:레밀리아:쾌Ｃ >= PALAM:레밀리아:쾌Ｂ
+	IF HAS_PENIS(레밀리아)
+		레밀리아_최대부위치 = PALAM:레밀리아:쾌Ｃ
+		레밀리아_최대부위 '= "Ｐ"
+		레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｐ")
+	ELSE
+		레밀리아_최대부위치 = PALAM:레밀리아:쾌Ｃ
+		레밀리아_최대부위 '= "Ｃ"
+		레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｃ")
+	ENDIF
+ELSEIF PALAM:레밀리아:쾌Ｂ >= 10 && PALAM:레밀리아:쾌Ｂ >= PALAM:레밀리아:쾌Ｃ && PALAM:레밀리아:쾌Ｂ >= PALAM:레밀리아:쾌Ｖ && PALAM:레밀리아:쾌Ｂ >= PALAM:레밀리아:쾌Ａ
+	레밀리아_최대부위치 = PALAM:레밀리아:쾌Ｂ
+	레밀리아_최대부위 '= "Ｂ"
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｂ")
+ELSE
+	레밀리아_최대부위치 = 0
+	레밀리아_최대부위 '= ""
+	레밀리아_최대부위칭 '= ""
+ENDIF
+
+;─────────────────────────────────────── 
+;○대사 1_레밀리아의 실신 피로
+;─────────────────────────────────────── 
+;주도권이 없다
+IF !IS_INITIATIVE(레밀리아)
+	;체력
+	IF BASE:레밀리아:체력 <= (MAXBASE:레밀리아:체력 / 3)
+		PRINT 「
+		PRINTDATA
+			DATAFORM ……응응우
+			DATAFORM 지치게 되었어
+			DATAFORM 는, 후
+			DATAFORM 응, 힘이 들어가지 않아요
+			DATAFORM 내 쪽이 먼저 체력이 없어져 버렸어?   놀랐어요
+			DATAFORM ―……하후, 우
+			DATAFORM 응……지쳤어요
+			DATAFORM 하아하아……조금 지친 것 같다
+		ENDDATA
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+		PRINTDATA
+			DATAFORM 조금 쉬어요
+			DATAFORM 쉬고 싶어요
+			DATAFORM 하아하아
+			DATAFORM 는, 응우
+			DATAFORM 휴식 합시다
+			DATAFORM 
+			DATAFORM 응, 쉽시다
+			DATAFORM 응. 하아, 후
+		ENDDATA
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+	;기력
+	ELSEIF BASE:레밀리아:기력 <= (MAXBASE:레밀리아:기력 / 3)
+		PRINT 「
+		PRINTDATA
+			DATAFORM 너무 조금 외쳤을까……전
+			DATAFORM 둥실둥실, 해요
+			DATAFORM 이것 뭐……손가락끝까지 사원은
+			DATAFORM 아……우
+			DATAFORM 너무 산 것 같다아……돌아올 수 없어요
+			DATAFORM 깊은……의, 기분이 좋은 것이 당기지 않아요
+		ENDDATA
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+		PRINTDATA
+			DATAFORM 는, 후아
+			DATAFORM 쉰다아
+			DATAFORM 점점, 자주(잘) 원으로부터―-, 쿠우
+			DATAFORM ……아?   는
+			DATAFORM 아
+		ENDDATA
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;○대사 2_소스에 관해서
+;  각서:해소는 회화만·감응은 음담 책방만
+;─────────────────────────────────────── 
+레밀리아_표시플래그 = 0
+;피스트·이라마·문신·목조르기·배빵·채찍 따위의 강고통（아픔에강함）
+IF SOURCE:레밀리아:고통 >= 100
+	레밀리아_표시플래그 += 1
+	IF 레밀리아_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 레밀리아_표시플래그 > 3
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 듣는다……우
+		DATAFORM 아!   아―-, 아
+		DATAFORM 히!   구……개
+		DATAFORM 먹는다……응
+		DATAFORM 있고……우아!   아, 아
+	ENDDATA
+;밧줄이나 스팽킹 따위의 고통
+ELSEIF SOURCE:레밀리아:고통 >= 10
+	레밀리아_표시플래그 += 1
+	IF 레밀리아_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 레밀리아_표시플래그 > 3
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 있고, 있었다. 뭐, 이제(이미/벌써/더는/정말)……응
+		DATAFORM 아얏, 아픈거야
+		DATAFORM 아무리 내가 튼튼해도, 읏. 아픈 것은, 통……우
+		DATAFORM 아파요
+		DATAFORM 개, 우
+	ENDDATA
+ENDIF
+
+IF SOURCE:레밀리아:공포 >= 10 || SOURCE:레밀리아:불안 >= 10
+	레밀리아_표시플래그 += 1
+	IF 레밀리아_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 레밀리아_표시플래그 > 3
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 나, 그만두고……무, 무엇
+		DATAFORM ……야
+		DATAFORM 내가 우려해도 피가 맛있어질 것은 아닐 것입니다
+		DATAFORM 무서워하게 하자 끊어……무섭고, 없지만, 한도는 있어
+	ENDDATA
+ENDIF
+
+IF SOURCE:레밀리아:반감 >= 10
+	레밀리아_표시플래그 += 1
+	IF 레밀리아_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 레밀리아_표시플래그 > 3
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 아니!   이제(이미/벌써/더는/정말)
+		DATAFORM 그만두어
+		DATAFORM 어째서?   이런
+		DATAFORM 일부러야?   아니
+	ENDDATA
+ENDIF
+
+;애정계는 함락시만으로, 고통이 너무 높지 않는 경우나 마조만
+IF CHECK_K10("함락", 레밀리아_대상)
+	IF SOURCE:레밀리아:고통 < 80 || GETBIT(TALENT:레밀리아:음란계, 소질_음란_마조)
+		IF SOURCE:레밀리아:환락 >= 10 || SOURCE:레밀리아:애정 >= 10 || SOURCE:레밀리아:우월 >= 10 || SOURCE:레밀리아:접촉 >= 10 || SOURCE:레밀리아:봉사 >= 10 || SOURCE:레밀리아:환희 >= 10 
+			레밀리아_표시플래그 += 1
+			IF 레밀리아_표시플래그 == 1
+				PRINTFORM 「
+			ELSEIF 레밀리아_표시플래그 > 3
+				PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+				PRINTFORM 「
+			ELSE
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			ENDIF
+			PRINTDATA
+				DATAFORM 를 좋아해요
+				DATAFORM 츗?   좋아
+				DATAFORM 좋아?   응
+				DATAFORM 비어 해?   를 좋아해요
+				DATAFORM 안겨
+				DATAFORM 해
+			ENDDATA
+		ENDIF
+	ENDIF
+ENDIF
+
+IF SOURCE:레밀리아:노출 >= 10 || SOURCE:레밀리아:일탈 >= 10
+	;그다지 아픔이 없으면 체력 기력이 있으면 부끄러워한다
+	IF SOURCE:레밀리아:고통 < 80 && CHECK_K10("활력")
+		레밀리아_표시플래그 += 1
+		IF 레밀리아_표시플래그 == 1
+			PRINTFORM 「
+		ELSEIF 레밀리아_표시플래그 > 3
+			PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 너무 봐서는 안 돼요
+			DATAFORM 보고, 보지 마
+			DATAFORM 응. 봐서는 안 돼
+			DATAFORM 저기요, 부, 부끄러운거야
+			DATAFORM 는……부끄러운거야
+			DATAFORM 나, 보지 마
+		ENDDATA
+	ENDIF
+ENDIF
+
+IF SOURCE:레밀리아:촉수 >= 10
+	레밀리아_표시플래그 += 1
+	IF 레밀리아_표시플래그 == 1
+		PRINTFORM 「
+	ELSEIF 레밀리아_표시플래그 > 3
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 다, 안 됏. 저급 음마는
+		DATAFORM 촉수는 이나……프라이드가 다쳐요
+		DATAFORM 그만두어란 말야. 저급 음마는 싫어요
+		DATAFORM 촉수는 %SPLIT_R("그만두어 :안 돼애")%
+		DATAFORM %SPLIT_R("그만두어 :사례해 :안 돼애")%. 촉수%SPLIT_R("그만두어 :용서해 :안 돼애")%
+		DATAFORM 저급 음마%SPLIT_R("에 느끼게 되어져 버리다는 :에 기분 좋게 여겨져 버리는 것 아니:가능하게 되는 것 아니:하지만 기분이 좋은 것 아니")%
+	ENDDATA
+ENDIF
+
+;레밀리아측의 봉사
+IF SOURCE:레밀리아:불결 >= 10
+	;그다지 아픔이 없고 체력 기력이 있으면
+	IF SOURCE:레밀리아:고통 < 80 && CHECK_K10("활력")
+		레밀리아_표시플래그 += 1
+		IF 레밀리아_표시플래그 == 1
+			PRINTFORM 「
+		ELSEIF 레밀리아_표시플래그 > 3
+			PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 
+			DATAFORM ……우쿠
+			DATAFORM 응……우
+			DATAFORM %CALLNAME_K9(레밀리아_대상)%를 맑게 해요. 읏
+		ENDDATA
+	ENDIF
+ENDIF
+
+IF 레밀리아_표시플래그
+	PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;○대사 3_레밀리아가 느끼는 상태에 관해서
+;─────────────────────────────────────── 
+;허덕임은 정직 그만큼 변함없지만 다소 차별화한다
+;（2 캐릭터 이상 줄서 허덕였을 때 완전 일치하면 슈르인 것로）
+;레밀리아는 견디고 소리 「응」계 소·솔직한 허덕여 「아」계 다·신음소리 「우」계 다（～☆）
+;호흡계 「후」계 보의 이미지로
+PRINTFORM 「
+;▼～1500  아……응……
+IF 레밀리아_최대부위치 < 1500 || 레밀리아_이번부위치 == 0
+	PRINTFORM %SPLIT_R("아:만난다::―:―:아:만난다::―:―:뭐 해")%
+	;촉음을 적은 눈에
+	PRINTFORM %SPLIT_R(",:. :……:,:. :……:,:. :……:……. :읏,:읏. :읏……:……. :……꺄.")%
+	PRINTFORM %SPLIT_R("아::후아")%
+	PRINTFORM %SPLIT_R("아:::, :::")%
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+	PRINTFORM %SPLIT_R("아:만난다::::아:만난다::―:응우-")%
+	PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+;▼1500～5000  아, 우, 아?   응……, 응
+ELSEIF 레밀리아_최대부위치 >= 1500 && 레밀리아_최대부위치 < 5000
+	PRINTFORM %SPLIT_R("아:만난다::―:―:아:만난다::―:응우-")%
+	;모두 같은 밸런스로
+	PRINTFORM %SPLIT_R(",:. :……:……. :읏,:읏. :읏……:…….")%
+	PRINTFORM %SPLIT_R("아::후아")%
+	PRINTFORM %SPLIT_R("아:::, :::")%
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+	IF RAND:10 == 0
+		PRINTFORM %CALLNAME_K10(레밀리아_대상, "")%
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	ENDIF
+
+	PRINTFORM %SPLIT_R("아:만난다::―:―:아:만난다::―:응우-")%
+	;중계·쉼표를 제외한다
+	PRINTFORM %SPLIT_R(",:……:읏,:읏……")%
+	PRINTFORM %SPLIT_R("아::후아")%
+	PRINTFORM %SPLIT_R("아:::, :::")%
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+	PRINTFORM %SPLIT_R("아:만난다::―:―:아:만난다::―:응우-")%
+	PRINTFORM %SPLIT_R(",:. :……:읏,:읏. :읏……:……. :…….")%
+	PRINTFORM %SPLIT_R("아::후아")%
+	;중계·쉼표를 제외한다
+	PRINTFORM %SPLIT_R(",:……:읏,:읏……")%
+	PRINTFORM %SPLIT_R("아::::꺄::")%
+	PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+;▼5000～9000  아?   안 돼  도, 이제(이미/벌써/더는/정말). 는 응?
+ELSEIF 레밀리아_최대부위치 >= 5000 && 레밀리아_최대부위치 < 9000
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 만난다
+		DATAFORM 아
+		DATAFORM 열린다
+		DATAFORM 아
+		DATAFORM 우우
+		DATAFORM 아
+		DATAFORM 만난다
+		DATAFORM 
+		DATAFORM 아는
+		DATAFORM 
+		DATAFORM 아
+		DATAFORM 
+		DATAFORM 꺄, 아
+		DATAFORM 아
+		DATAFORM ～. 우
+		DATAFORM 
+		DATAFORM 
+		DATAFORM , 하
+		DATAFORM 응우우
+		DATAFORM %CALLNAME_K10(레밀리아_대상, "")%, 후아
+	ENDDATA
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	PRINTDATA
+		DATAFORM 아
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 열린다
+		DATAFORM , 아우
+		DATAFORM 좋다
+		DATAFORM 아
+		DATAFORM 만난다
+		DATAFORM 
+		DATAFORM 우대신
+		DATAFORM 
+		DATAFORM 우대신아
+		DATAFORM 영향을 준다아
+		DATAFORM 도, 온다
+		DATAFORM 삶그렇게
+		DATAFORM 
+		DATAFORM 기분, 좋아서
+		DATAFORM 
+		DATAFORM 이제(이미/벌써/더는/정말), 아우우
+		DATAFORM 느낀다아
+		DATAFORM 좋다
+	ENDDATA
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	PRINTDATA
+		DATAFORM 히아
+		DATAFORM 응 만난다
+		DATAFORM 는 아
+		DATAFORM 아
+		DATAFORM 아
+		DATAFORM 저려 버린다아
+		DATAFORM 아
+		DATAFORM 아는 아 응
+		DATAFORM 우대신 아
+		DATAFORM 아는 아
+		DATAFORM 아아
+		DATAFORM 아
+		DATAFORM 도―-아
+		DATAFORM 와 버린다아아
+		DATAFORM , 우아아
+		DATAFORM 기분이 좋다
+		DATAFORM 멋져어
+		DATAFORM 나
+		DATAFORM 있으면 만난다
+		DATAFORM 좋은 있고
+	ENDDATA
+	PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+;▼9000～  영향을 주는 우우 우우?   와 섬우우?
+;  생각보다는 곧 매턴 이 상태가 되므로 기력 체력 부족해 완급을
+ELSE
+	;▽이번 부위칭이나 최대 부위칭을 취할 수 없기에 부위 표현을 애매하게 한다
+	IF 레밀리아_이번부위칭 == "" || 레밀리아_최대부위칭 == ""
+		;기력 체력이 있다, 또는 주도권이 있다
+		IF CHECK_K10("활력")
+			PRINTDATA
+				DATAFORM 온다아
+				DATAFORM 와 버린다아
+				DATAFORM 아
+				DATAFORM 와 버린다아
+				DATAFORM 금 먹는다
+				DATAFORM 날아가 버린다
+				DATAFORM 와 버리는 것
+				DATAFORM 금 먹는 우우
+				DATAFORM 도, 안 돼?   거기
+				DATAFORM 거기
+				DATAFORM 갖고 싶었던 것
+			ENDDATA
+			PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			PRINTDATA
+				DATAFORM 아
+				DATAFORM 도, 우우
+				DATAFORM 이제(이미/벌써/더는/정말) 야
+				DATAFORM 와 버린다아
+				DATAFORM 나
+				DATAFORM 굉장하다아
+				DATAFORM 그거어
+				DATAFORM 이런
+				DATAFORM 기분이 좋은
+			ENDDATA
+			PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			PRINTDATA
+				DATAFORM 와 버린다아
+				DATAFORM 와 버리는 것
+				DATAFORM 지릿지릿 하는 것
+				DATAFORM 이상해져 버린다아
+				DATAFORM 미쳐 버린다아
+				DATAFORM 아
+				DATAFORM 금 먹는다
+				DATAFORM 굉장하다아
+			ENDDATA
+		;기력 체력이 없는가 개주도권이 없다
+		ELSE
+			PRINTDATA
+				DATAFORM 히 좋다
+				DATAFORM 와 버린다아
+				DATAFORM 아, 아아, 아
+				DATAFORM 도, 우우우
+				DATAFORM 금 먹는, 히아아
+				DATAFORM 죽어버린다
+				DATAFORM 있고, 쿠우우우
+				DATAFORM 숨이
+				DATAFORM 상냥하게 해
+				DATAFORM 거기도 왕
+			ENDDATA
+			PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			PRINTDATA
+				DATAFORM 아
+				DATAFORM 도
+				DATAFORM 이제(이미/벌써/더는/정말) 야
+				DATAFORM 와 버린다아
+				DATAFORM 나
+				DATAFORM 굉장하다아
+				DATAFORM 그거어
+				DATAFORM 이런
+				DATAFORM 기분이 좋은
+			ENDDATA
+			PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			PRINTDATA
+				DATAFORM 있고″, 아
+				DATAFORM 지릿지릿 하는 것
+				DATAFORM 안 돼애
+				DATAFORM 사례해
+				DATAFORM 망가진다아
+				DATAFORM 아
+				DATAFORM 금 먹는다
+				DATAFORM 이제(이미/벌써/더는/정말) 싫어
+			ENDDATA
+		ENDIF
+		PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+	;▽이번 부위칭과 최대 부위칭을 잡히고 있다
+	ELSE
+		;·1번 기분이 좋은 곳에 손대었을 경우
+		IF 레밀리아_이번부위 == 레밀리아_최대부위
+			;기력 체력이 있다, 또는 주도권이 있다
+			IF CHECK_K10("활력")
+				PRINTDATA
+					DATAFORM 온다아
+					DATAFORM 말하면 아
+					DATAFORM 아
+					DATAFORM 와 버린다아
+					DATAFORM 금 먹는다
+					DATAFORM 날아가 버린다
+					DATAFORM 와 버리는 것
+					DATAFORM 금 먹는 우우
+					DATAFORM 도, 안 돼?   거기
+					DATAFORM 좋은
+					DATAFORM 거기
+					DATAFORM 갖고 싶었던 것
+				ENDDATA
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			;기력 체력이 없는가 개주도권이 없다
+			ELSE
+				PRINTDATA
+					DATAFORM 히 좋다
+					DATAFORM 와 버린다아
+					DATAFORM 아, 아아, 아
+					DATAFORM 도
+					DATAFORM 금 먹는, 히아아
+					DATAFORM 죽어버린다
+					DATAFORM 있고, 쿠우우우
+					DATAFORM 숨이
+					DATAFORM 손대중 해
+					DATAFORM 거기이제(이미/벌써/더는/정말) 안 돼애
+				ENDDATA
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			ENDIF
+
+			IF 레밀리아_최대부위 == "Ｖ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%부딪친다아
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%이제(이미/벌써/더는/정말), 우우
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%좋은
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%와 버린다아
+					DATAFORM %CALL_DIRTY_K10("Ｖ")%가
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%나
+					DATAFORM %CALL_DIRTY_K10("Ｖ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM %CALL_DIRTY_K10("Ｖ")%굉장하다아
+					DATAFORM 거기? 　%CALL_DIRTY_K10("Ｖ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K10("Ｖ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K10("Ｖ", "")%
+					DATAFORM 부딪치는? 　%CALL_DIRTY_K10("Ｖ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ｖ")%?   날아가 버린다
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%꾸불꾸불해 버린다아
+					DATAFORM %CALL_DIRTY_K10("Ｖ", "")%질투나 버린다아
+				ENDDATA
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+			ELSEIF 레밀리아_최대부위 == "Ａ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K10("Ａ", "")%좋다
+					DATAFORM 도, 나? 　%CALL_DIRTY_K10("Ａ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ａ", "")%야
+					DATAFORM 와 버린다? 　%CALL_DIRTY_K10("Ａ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ａ")%가
+					DATAFORM %CALL_DIRTY_K10("Ａ", "")%나
+					DATAFORM %CALL_DIRTY_K10("Ａ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM %CALL_DIRTY_K10("Ａ")%굉장하다아
+					DATAFORM 거기? 　%CALL_DIRTY_K10("Ａ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K10("Ａ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K10("Ａ", "")%
+					DATAFORM 부딪치는? 　%CALL_DIRTY_K10("Ａ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ａ")%?   날아가 버린다
+					DATAFORM %CALL_DIRTY_K10("Ａ", "")%꾸불꾸불해 버린다아
+					DATAFORM %CALL_DIRTY_K10("Ａ", "")%질투나 버린다아
+				ENDDATA
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+			ELSEIF 레밀리아_최대부위 == "Ｃ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K10("Ｃ", "")%좋다
+					DATAFORM 도, 나? 　%CALL_DIRTY_K10("Ｃ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ｃ")%이제(이미/벌써/더는/정말), 우우
+					DATAFORM %CALL_DIRTY_K10("Ｃ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ｃ")%가
+					DATAFORM %CALL_DIRTY_K10("Ｃ", "")%나
+					DATAFORM %CALL_DIRTY_K10("Ｃ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM 거기? 　%CALL_DIRTY_K10("Ｃ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K10("Ｃ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K10("Ｃ", "")%
+					DATAFORM 무너진다? 　%CALL_DIRTY_K10("Ｃ", "")%
+				ENDDATA
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+			ELSEIF 레밀리아_최대부위 == "Ｂ"
+				PRINTDATA
+					DATAFORM %CALL_DIRTY_K10("Ｂ", "")%아
+					DATAFORM 이제 되다? 　%CALL_DIRTY_K10("Ｂ", "")%
+					DATAFORM %CALL_DIRTY_K10("Ｂ", "")%이제(이미/벌써/더는/정말) 야
+					DATAFORM 와 버린다아
+					DATAFORM %CALL_DIRTY_K10("Ｂ")%가
+					DATAFORM %CALL_DIRTY_K10("Ｂ", "")%나
+					DATAFORM %CALL_DIRTY_K10("Ｂ")%는 이제(이미/벌써/더는/정말)
+					DATAFORM %CALL_DIRTY_K10("Ｂ", "")%굉장하다아
+					DATAFORM 거기? 　%CALL_DIRTY_K10("Ｂ", "")%
+					DATAFORM 이런? 　%CALL_DIRTY_K10("Ｂ")%
+					DATAFORM 기분이 좋은? 　%CALL_DIRTY_K10("Ｂ", "")%
+					DATAFORM 무너진다? 　%CALL_DIRTY_K10("Ｂ", "")%
+				ENDDATA
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+			ENDIF
+
+			;기력 체력이 있다, 또는 주도권이 있다
+			IF CHECK_K10("활력")
+				PRINTDATA
+					DATAFORM 와 버린다아
+					DATAFORM 와 버리는 것
+					DATAFORM 지릿지릿 하는 것
+					DATAFORM 이상해져 버린다아
+					DATAFORM 미쳐 버린다아
+					DATAFORM 아
+					DATAFORM 금 먹는다
+					DATAFORM 굉장하다아
+				ENDDATA
+			;기력 체력이 없는가 개주도권이 없다
+			ELSE
+				PRINTDATA
+					DATAFORM 있고″, 아
+					DATAFORM 지릿지릿 하는 것
+					DATAFORM 안 돼애
+					DATAFORM 느슨하게 해
+					DATAFORM 망가진다아
+					DATAFORM 아
+					DATAFORM 금 먹는다
+					DATAFORM 이제(이미/벌써/더는/정말) 싫어
+				ENDDATA
+			ENDIF
+
+			;─────────────────────────────────────── 
+			;이따금 상대가 애무에 사용하고 있는 부위에 언급하지만 여기는 그다지 범용적이지 않다
+			;（커맨드 번호로 판단하므로 COMF 변화에 대응 할 수 없다）
+			;─────────────────────────────────────── 
+			IF RAND:10 == 0
+				;1대 1 성교계
+				IF ( IS_MTAR(레밀리아) && ((SELECTCOM >= 30 && SELECTCOM <= 36)||(SELECTCOM >= 40 && SELECTCOM <= 46)) ) || ( IS_EQUIP_TARGET(레밀리아, 30, 31, 32, 33, 34, 35, 36) || IS_EQUIP_TARGET(레밀리아, 40, 41, 42, 43, 44, 45, 46) )
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+					;레밀리아_대상이 주인공으로 함락완료
+					IF CHECK_K10("함락", 레밀리아_대상)
+						;주인공에게 장대 있어
+						IF HAS_PENIS(MASTER)
+							PRINTDATA
+								DATAFORM %CALL_DIRTY_K10("Ｐ", "")%굉장하다아
+								DATAFORM %CALL_DIRTY_K10("Ｐ", "")%좋다
+								DATAFORM 를 좋아하는 사람
+								DATAFORM 내 %BREAK_K10("중", 레밀리아_대상)%%CALL_DIRTY_K10("Ｖ", "")%
+								DATAFORM 구멍이 되어 있다아
+								DATAFORM 씨뿌리기 해
+								DATAFORM %CALLNAME_K10(레밀리아_대상)%의 %CALL_DIRTY_K10("Ｐ", "")%를 좋아해요
+							ENDDATA
+						ELSE
+							PRINTDATA
+								DATAFORM 굵은 것
+								DATAFORM 기쁘다아
+								DATAFORM 연결되고 있다아 %BREAK_K10("중", 레밀리아_대상)%%조사처리(CALLNAME_K10(레밀리아_대상),"와")%
+								DATAFORM %CALLNAME_K10(레밀리아_대상, "")%
+							ENDDATA
+						ENDIF
+					;레밀리아에 주도권이 없다
+					ELSEIF !IS_INITIATIVE(레밀리아)
+						PRINTFORM %SPLIT_R("안 돼:아니:야아")%
+					ENDIF
+				ENDIF
+
+				;손가락 애무
+				IF (IS_MTAR(레밀리아) && GROUPMATCH(SELECTCOM, 0, 1, 3, 4, 10)) || IS_EQUIP_TARGET(레밀리아, 0, 1, 3, 4, 10)
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+					;레밀리아_대상이 주인공으로 함락완료
+					IF CHECK_K10("함락", 레밀리아_대상)
+						PRINTDATA
+							DATAFORM 손가락
+							DATAFORM 손가락이 %BREAK_K10("중", 레밀리아_대상)%기쁜거야
+							DATAFORM %CALLNAME_K10(레밀리아_대상, "")%, 손가락 좋은 것
+						ENDDATA
+					;레밀리아에 주도권이 없다
+					ELSE
+						PRINTFORM %SPLIT_R("아……손가락이 :손가락이")%
+					ENDIF
+				ENDIF
+
+				;혀애무
+				IF (IS_MTAR(레밀리아) && GROUPMATCH(SELECTCOM, 2, 8, 9, 11)) || IS_EQUIP_TARGET(레밀리아, 2, 8, 9, 11)
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+					;레밀리아_대상이 주인공으로 함락완료
+					IF CHECK_K10("함락", 레밀리아_대상)
+						PRINTDATA
+							DATAFORM 혀
+							DATAFORM 했다?   미끈미끈은
+							DATAFORM %CALLNAME_K10(레밀리아_대상, "")%, 입술 굉장해에
+						ENDDATA
+					;레밀리아에 주도권이 없다
+					ELSE
+						PRINTFORM %SPLIT_R("혀가:혀")%
+					ENDIF
+				ENDIF
+
+				;함락로 완구 애무（이따금）
+				IF (IS_MTAR(레밀리아) && GROUPMATCH(SELECTCOM, 60, 61, 62, 63, 64, 65, 66)) || IS_EQUIP_TARGET(레밀리아, 60, 61, 62, 63, 64, 65, 66)
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+					;레밀리아_대상이 주인공으로 함락완료
+					IF CHECK_K10("함락", 레밀리아_대상)
+						PRINTDATA
+							DATAFORM 완구는
+							DATAFORM 장난감 안 돼애. %조사처리(CALLNAME_K10(레밀리아_대상),"가")% 좋은데
+							DATAFORM 아니?   완구 아니
+						ENDDATA
+					;레밀리아에 주도권이 없다
+					ELSE
+						PRINTDATA
+							DATAFORM 완구는
+							DATAFORM 장난감 안 돼애
+							DATAFORM 아니!   완구 아니
+						ENDDATA
+					ENDIF
+				ENDIF
+			ENDIF
+			PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+		;·1번 기분이 좋은 곳에 손대지 않았던 경우
+		ELSE
+			;최대 부위치와 이번 부위치에 7000이상차이가 있다면 초조해 해지고 있다고 느낀다
+			IF 레밀리아_최대부위치 - 레밀리아_이번부위치 >= 7000
+				;기력 체력이 있어 주도권이 없게 함락이 있으면 조르기
+				IF ( BASE:레밀리아:기력 <= (MAXBASE:레밀리아:기력 / 3) && BASE:레밀리아:체력 > (MAXBASE:레밀리아:체력 / 3) ) && CHECK_K10("함락", 레밀리아_대상) && !IS_INITIATIVE(레밀리아)
+					PRINTDATA
+						DATAFORM 아……초조하게 하지 말라고아
+						DATAFORM 응……심술쟁이 하지 말아줘어
+						DATAFORM 심술쟁이, 바보. 아앗. 응우
+						DATAFORM 나, 응우. 가게 해
+						DATAFORM 아니, %레밀리아_이번부위칭%가 아니고……부탁
+						DATAFORM 거기는……. 부탁
+						DATAFORM %레밀리아_이번부위칭%가 아닌 것
+					ENDDATA
+				;기력 체력이나 주도권이 있을까 함락이 없다
+				ELSE
+					PRINTDATA
+						DATAFORM ……하아, 응
+						DATAFORM 도……편하게, 산등성이가 만나
+						DATAFORM 산등성이가 있고
+						DATAFORM 편하게……해
+						DATAFORM 하, 아아……괴로운, 의
+						DATAFORM 후~, 하앗……근심 해, 우우
+					ENDDATA
+				ENDIF
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+				;기력 체력이 있으면
+				IF BASE:레밀리아:기력 > (MAXBASE:레밀리아:기력 / 3) && BASE:레밀리아:체력 > (MAXBASE:레밀리아:체력 / 3) && CHECK_K10("함락", 레밀리아_대상)
+					PRINTFORM %SPLIT_R("괴로운 것 :가고 싶은 것 이제(이미/벌써/더는/정말) 해 :미쳐 버린다:이상해져 버린다:부탁")%
+				;체력이나 함락이 없으면 
+				ELSE
+					PRINTFORM %SPLIT_R("망가져, :용서해 :이상하게 되는, :원, 이")%
+				ENDIF
+				PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+
+			;최대 부위치와 이번 부위치가 3000 미만의 차이라면 저쪽도 여기도 기분이 좋다
+			ELSE
+				;기력 체력이 있으면
+				IF BASE:레밀리아:기력 > (MAXBASE:레밀리아:기력 / 3) && BASE:레밀리아:체력 > (MAXBASE:레밀리아:체력 / 3) && CHECK_K10("함락", 레밀리아_대상)
+					PRINTFORM %SPLIT_R("굉장한 것 :머리 이상하게 된다:이런 건은 가는, :이상해진다:이제(이미/벌써/더는/정말) 안 돼요 :미쳐 버린다아")%
+				;체력이나 함락이 없으면 
+				ELSE
+					PRINTFORM %SPLIT_R("머리 이상하게 된다:이런 건은:용서해 :이상해진다:더는 안 돼:미쳐 버린다아")%
+				ENDIF
+				PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+				IF 레밀리아_이번부위 == "Ｐ"
+					PRINTFORM %CALL_DIRTY_K10("Ｐ")%
+				ELSEIF 레밀리아_이번부위 == "Ｖ"
+					PRINTFORM %CALL_DIRTY_K10("Ｖ")%
+				ELSEIF 레밀리아_이번부위 == "Ａ"
+					PRINTFORM %CALL_DIRTY_K10("Ａ")%
+				ELSEIF 레밀리아_이번부위 == "Ｂ"
+					PRINTFORM %CALL_DIRTY_K10("Ｂ")%
+				ELSEIF 레밀리아_이번부위 == "Ｃ"
+					PRINTFORM %CALL_DIRTY_K10("Ｃ")%
+				ENDIF
+
+				;최대 부위도 자극되고 있으면 주장
+				IF 레밀리아_최대부위 == "Ｐ" && SOURCE:레밀리아:쾌Ｃ >= 10
+					PRINTFORM 도%CALL_DIRTY_K10("Ｐ")%
+					PRINTFORM %SPLIT_R("도, 아이참, :기, 기분이 좋은 것 :도?   간다:도 안 돼:나온다:나와 버린다아")%
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+				ELSEIF 레밀리아_최대부위 == "Ｖ" && SOURCE:레밀리아:쾌Ｖ >= 10
+					PRINTFORM 도%CALL_DIRTY_K10("Ｖ")%
+					PRINTFORM %SPLIT_R("도, 아이참, :기, 기분이 좋은 것 :도?   간다:도 안 돼애")%
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+				ELSEIF 레밀리아_최대부위 == "Ａ" && SOURCE:레밀리아:쾌Ａ >= 10
+					PRINTFORM 도%CALL_DIRTY_K10("Ａ")%
+					PRINTFORM %SPLIT_R("도 :도 굉장한 것 :뜨, 뜨거운 것 :도?   와 버린다:기, 기분이 좋다")%
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+				ELSEIF 레밀리아_최대부위 == "Ｂ" && SOURCE:레밀리아:쾌Ｂ >= 10
+					PRINTFORM 도%CALL_DIRTY_K10("Ｂ")%
+					PRINTFORM %SPLIT_R("도!   좋은 것 :도, 굉장한 것 :도 좋은 것 :도?   아, 아:도")%
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+				ELSEIF 레밀리아_최대부위 == "Ｃ" && SOURCE:레밀리아:쾌Ｃ >= 10
+					PRINTFORM 도%CALL_DIRTY_K10("Ｃ")%
+					PRINTFORM %SPLIT_R("도, 이제(이미/벌써/더는/정말):아이참, 갈 것 같은 :도, 좋은 것 :아이참")%
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+				ENDIF
+
+				;기력 체력이 있다, 또는 주도권이 있다
+				IF CHECK_K10("활력")
+					PRINTFORM %SPLIT_R("와 버린다:지릿지릿 하는 것 :이상해져 버린다:질투나 버린다:미쳐 버린다:아:금 먹는다:부서져 버리는:머리와")%
+				;체력이나 함락이 없으면 
+				ELSE
+					PRINTFORM %SPLIT_R("도와 :이제(이미/벌써/더는/정말), 인내해 :망가진다:이상하게, :아:금 먹는″")%
+				ENDIF
+
+				PRINTFORML %BREAK_K10("말", 레밀리아_대상)%」
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;◆돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

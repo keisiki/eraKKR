@@ -1,0 +1,224 @@
+﻿;절규 지속적으로 강렬한 고통을 수반하는 것  87 피스트 88Ａ피스트 94목목조르기97배빵
+@KOJO_K10_SHOUT(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;목조르기
+IF SELECTCOM == 94 || IS_EQUIP_TARGET(레밀리아, 94)
+	;재갈 때
+	IF SELECTCOM == 86 || IS_EQUIP_TARGET(레밀리아, 86)
+		PRINTDATA
+			DATAFORM 「, 즈……!   , 우!」
+			DATAFORM 「무, 붓……!   ～!」
+			DATAFORM 「후구……엣……!   ……!   ……읏」
+			DATAFORM 「후……응부웃……응!   ……응……읏!」
+		ENDDATA
+	;재갈이 아닐 때
+	ELSE
+		;이번 이 커맨드로 레밀리아에 주도권이 있으면 조르는 대사. 요구해 왔을 때의 위화감 저감
+		IF IS_INITIATIVE(레밀리아) && SELECTCOM == 94
+			IF CHECK_K10("함락")
+				PRINTFORML 「목을 졸라 줄래?   ……별로 지금은, 사후의 세계에 가고 싶을 것이 아니야」
+				PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%에 그렇게 되어 보고 싶다고 생각한거야」
+			ELSE
+				PRINTFORML 「목을 졸라 줄래?   별로 사후의 세계에 가고 싶을 것이 아니야」
+				PRINTFORML 「그렇게 되어 보고 싶은 기분인 것이야」
+			ENDIF
+		ENDIF
+		PRINTDATA
+			DATAFORM 「아……쿳!   ……하긋, 쿠훗」
+			DATAFORM 「우!   ……, 우……!   ……」
+			DATAFORM 「구……엣……!   ……!   과부……읏」
+			DATAFORM 「우쿠웃……응!   과부……!   」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;배빵
+IF SELECTCOM == 97 || IS_EQUIP_TARGET(레밀리아, 97)
+	;재갈 때
+	IF SELECTCOM == 86 || IS_EQUIP_TARGET(레밀리아, 86)
+		PRINTDATAL
+			DATAFORM 「!   ～……!   ……!」
+			DATAFORM 「!   …………부!!   두……」
+			DATAFORM 「응붓!   , 우붓!   ～……붓!」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM 「게엣!   , 아가!   ……」
+			DATAFORM 「!   ……앗……!!   벗긴다……」
+			DATAFORM 「앗, 게핫!   는, 갓!   ……!」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;팔
+IF SELECTCOM == 87 || SELECTCOM == 88
+	;재갈 때
+	IF SELECTCOM == 86 || IS_EQUIP_TARGET(레밀리아, 86)
+		IF CHECK_K10("함락")
+			PRINTDATAL
+				DATAFORM 「?   ～!   ……!」
+				DATAFORM 「!   !   ,?」
+				DATAFORM 「?   ,!   ～!   !」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「응부웃!   ～……!   ……!」
+				DATAFORM 「!   …………부!!   두……」
+				DATAFORM 「응붓!   , 우붓!   ～……붓!」
+			ENDDATA
+		ENDIF
+	ELSE
+		;이번 이 커맨드로 레밀리아에 주도권이 있으면 조르는 대사. 요구해 왔을 때의 위화감 저감
+		IF IS_INITIATIVE(레밀리아) && SELECTCOM == 94
+			IF CHECK_K10("함락")
+				PRINTDATA
+					DATAFORM 「%CALLNAME_K10(레밀리아_대상)%의 팔을 갖고 싶은거야?」
+					DATAFORM 「아, 아구웃……키, 개, 아?」
+					DATAFORM 「%CALLNAME_K10(레밀리아_대상)%의 팔?   아, 힘들어요」
+					DATAFORM 「망가져 버릴 것 같다……!   아―-?   굉장햇」
+				ENDDATA
+			ELSE
+				PRINTDATA
+					DATAFORM 「좀 더. 하, 하지구. 팔 마다 넣으, 세요……아―-」
+					DATAFORM 「우, 아아앗. 그, 그렇게, 좀 더 깊고……앗」
+					DATAFORM 「키, , 아, 뼈가……여, 연다앗!   아는 아아앗」
+					DATAFORM 「아―-!   ……마, 망가질 것 같다. 굉장해, 노. 아앗!」
+				ENDDATA
+			ENDIF
+		ELSE
+			IF CHECK_K10("함락")
+				PRINTDATA
+					DATAFORM 「팔 안 돼앳!   굵은?」
+					DATAFORM 「나무개, 잇!   느슨해져 버린닷!   아!」
+					DATAFORM 「%CALLNAME_K10(레밀리아_대상)%의 팔?   아아앗!   힘들어요」
+					DATAFORM 「망가져 버릴 것 같다……!   아―-?   굉장햇」
+				ENDDATA
+			ELSE
+				PRINTDATA
+					DATAFORM 「하, 퍽. 팔 마다, 뭐라는……아―-」
+					DATAFORM 「우, 아아앗!   깊다앗!   ……앗」
+					DATAFORM 「키, , 아, 뼈가……여, 연다앗!   아는 아아앗」
+					DATAFORM 「아―-!   ……마, 망가질 것 같다!   아아앗!」
+				ENDDATA
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;그 외
+PRINT 「
+;재갈 때
+IF SELECTCOM == 86 || IS_EQUIP_TARGET(레밀리아, 86)
+	PRINTDATA
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 가
+		DATAFORM 등에,
+		DATAFORM 
+		DATAFORM , 응기
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 
+		DATAFORM , 구
+		DATAFORM 
+	ENDDATA
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+	PRINTDATA
+		DATAFORM ″～! 　
+		DATAFORM 응″--! 　
+		DATAFORM ―-! 　
+		DATAFORM , 후! 　
+		DATAFORM 어! 　
+		DATAFORM , 부! 　
+		DATAFORM 괴롭다 좋다! 　
+		DATAFORM ～! 　
+		DATAFORM ―-! 　
+		DATAFORM ,―-! 　
+		DATAFORM ″―-! 　
+		DATAFORM , 먹는다～! 　
+	ENDDATA
+	PRINTDATA
+		DATAFORM ″
+		DATAFORM 괴롭다″
+		DATAFORM 
+		DATAFORM , 우
+		DATAFORM 
+		DATAFORM , 부
+		DATAFORM 응있고
+		DATAFORM 
+		DATAFORM 
+		DATAFORM , 구
+		DATAFORM ″
+		DATAFORM , 우구
+	ENDDATA
+	PRINTFORM %BREAK_K10("말", 레밀리아_대상)%
+
+ELSE
+	PRINTDATA
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 는이
+		DATAFORM 과부, 우
+		DATAFORM 나
+		DATAFORM 는, 기
+		DATAFORM ″-
+		DATAFORM 
+		DATAFORM 
+		DATAFORM 아″
+		DATAFORM 아가
+		DATAFORM 
+	ENDDATA
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+	PRINTDATA
+		DATAFORM 아″아 아―-! 　
+		DATAFORM 우우―-! 　
+		DATAFORM 아아―-! 　
+		DATAFORM , 우쿠웃! 　
+		DATAFORM 나, 네네～! 　
+		DATAFORM ～! 　
+		DATAFORM ～! 　
+		DATAFORM 벗기는 우우～! 　
+		DATAFORM 우우―-! 　
+		DATAFORM ″,～! 　
+		DATAFORM , 아―-! 　
+		DATAFORM 아″～! 　
+	ENDDATA
+	PRINTDATA
+		DATAFORM ″
+		DATAFORM 응″
+		DATAFORM 가
+		DATAFORM , 구
+		DATAFORM 나
+		DATAFORM 는, 기
+		DATAFORM 히
+		DATAFORM 벗긴다
+		DATAFORM 
+		DATAFORM , 구
+		DATAFORM 
+		DATAFORM , 아
+	ENDDATA
+	PRINTFORM %BREAK_K10("말", 레밀리아_대상)%
+
+ENDIF
+PRINTL 」
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

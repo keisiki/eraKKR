@@ -1,0 +1,96 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K71_FEEL_LONELY_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K71_FEEL_LONELY_DECISION(대상)
+#DIM 대상
+
+
+SIF KDVAR:대상:나즈린_인연해
+	RETURN 0
+
+SIF IS_SLAVE(대상)
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF CFLAG:대상:호감도 < 1000
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K71_FEEL_LONELY_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K71_FEEL_LONELY(대상)
+#DIM 대상
+
+PRINTFORMW 「야아 %ANAME(MASTER)%. 실례한다」
+PRINTFORML 자려고 이불에 들어간 곳, %조사처리(ANAME(대상),"가")% 기어들어 왔다
+PRINTFORMW 놀라는 %조사처리(ANAME(MASTER),"를")%, %조사처리(ANAME(대상),"는")% 달라붙도록(듯이)해 멈춘다
+PRINTFORML 「그렇게 놀라지 않아도 괜찮지 않은가, 조금 곁잠 해 주었으면 하는 것뿐이야」
+PRINTFORMW 「나도, 피부 외롭게 느끼는 것 정도 있다. ……%조사처리(ANAME(MASTER),"라")%면 좋을까라고 생각했을 뿐」
+PRINTFORML 말하면서 %조사처리(ANAME(대상),"는")%, 스스로의 잠옷을 열기 시작한다
+PRINTFORML %ANAME(MASTER)%의 의복중에, 손을 기어들게 해 간다
+IF IS_MALE(MASTER)
+	PRINTFORMW %PRONOUN(대상)%가 작은 손의 온기를, 가슴판으로 느낀다……
+	PRINTFORMW 「의외로 단련하고 있구나, 너」
+	PRINTFORMW 「……아아, 안 되는, 조금 긴장했는지?」
+ELSE
+	PRINTFORMW %PRONOUN(대상)%는 작은 손으로 %ANAME(MASTER)%의 가슴을 어루만져 왔다……
+	PRINTFORMW 「너에게 접하고 있으면, 뭔가 안심하지 마」
+	PRINTFORMW 「후후……아아, 놀래켜 버렸는지?」
+ENDIF
+PRINTFORMW 「이런 덮치는 건 같은 흉내는, 실은 했던 적이 없어서 말야」
+PRINTFORMW 「도망치지 않아 주면, 기쁘지만」
+PRINTFORML %ANAME(대상)%의 소리는 아주 조금 들뜨고 있는 것 같다……
+PRINTFORML 
+CALL ASK_YN("손을 댄다", "내지 않는다")
+
+IF RESULT == 0
+	PRINTFORMW 「아……」
+	PRINTFORML 반 공공연하게 된 %ANAME(대상)%의 신체에 손을 뻗으면, %PRONOUN(대상)%는 몸을 굳어지게 한다
+	PRINTFORML 딱딱해질 필요는 없다고, 살그머니 입맞춤한다
+	PRINTFORMW 어깨의 힘을 뺀 %조사처리(ANAME(대상),"를")%, 상냥하게 껴안았다……
+	CALL FUCK(대상, "욕망, 성기술, 봉사, 정애, 성교, Ｃ, Ｖ, Ｂ, Ｖ성교, 키스", "키스상실, 처녀상실, 질내사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER), "", "화간")
+	CALL FUCK(MASTER, "욕망, 성기술, 성교, Ｃ, 사정, 키스", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "화간")
+ELSE
+	PRINTFORML 「상냥한 것인지, 그렇지 않으면에 축 늘어차고인가……」
+	PRINTFORMW 「뭐, 너가 그러한 녀석이라는 것은 알고 있던 거야, 후후」
+	PRINTFORMW 신체를 서로 요구하는 것은, 좀 더 서로를 깊게 알고 나서여야 한다
+	PRINTFORMW %PRONOUN(대상)%의 체온을 느끼면서도, 손은 내지 않고 하룻밤을 보냈다……
+ENDIF
+
+IF !TALENT:대상:합의
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_주의)
+	TALENT:대상:합의 = 1
+ENDIF
+
+TALENT:대상:쵸로인 = 1
+
+KDVAR:대상:나즈린_인연해 = 1
+
+RETURN 1
+

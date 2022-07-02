@@ -1,0 +1,96 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K122_SHOPPING_RATE(대상)
+#DIM 대상
+RETURN 20
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K122_SHOPPING_DECISION(대상)
+#DIM 대상
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && !TALENT:대상:복종
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K122_SHOPPING_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K122_SHOPPING(대상)
+#DIM 대상
+
+PRINTDATA
+	DATAFORM 저녁식사의 재료를 구매에
+	DATAFORM 야식용의 경단을 구매에
+	DATAFORM 맛좋은 술을 요구해
+	DATAFORM 새로운 병서를 구입해에
+ENDDATA
+PRINTFORML 성 주변 마을에 간 곳, 같은 쇼핑중이었던 %조사처리(ANAME(대상),"와")% 조우했다
+IF TALENT:대상:정실
+	SELECTCASE RAND:5
+	CASE 1
+		PRINTFORMW 「저녁밥의 재료를 사러 온 것, %ANAME(MASTER)%도 함께 어때?」
+	CASE 2
+		PRINTFORMW 「%ANAME(MASTER)%의 쇼핑을 뒤따라 가도 괜찮을까♥」
+	CASE 3
+		PRINTFORMW 「쇼핑이 끝나면 전통다과점에서 차 한 잔 합시다♥」
+	CASE 4
+		PRINTFORMW 「오늘은 함께 저녁밥을 만들자♥」
+	CASEELSE
+		PRINTFORMW 「아♥ %ANAME(MASTER)%도 쇼핑에 와 있었어♥」
+	ENDSELECT
+	PRINTFORMDW %조사처리(ANAME(대상),"와")% 함께 쇼핑을 즐겼습니다
+	;정실 또한 호감도 100만 이상이라면 큰폭으로 호감도가 오른다
+	IF CFLAG:대상:호감도 >= 1000000
+		LOCAL:1 = MIN((CFLAG:대상:호감도 / 300), 10000)
+	ELSE
+		LOCAL:1 = 500
+	ENDIF
+ELSEIF TALENT:대상:연인 && TALENT:대상:연모
+	SELECTCASE RAND:2
+	CASE 1
+		PRINTFORMW 「모처럼이고 함께 쇼핑합시다♥」
+	CASEELSE
+		PRINTFORMW 「안녕하세요♥」
+	ENDSELECT
+	PRINTFORMDW %조사처리(ANAME(대상),"와")% 함께 쇼핑을 즐겼습니다
+	LOCAL:1 = 200
+ELSEIF TALENT:대상:연모 || TALENT:대상:친구
+	SELECTCASE RAND:2
+	CASE 1
+		PRINTFORMW 「아♥ %조사처리(ANAME(MASTER),"가")% 아니다♥」
+	CASEELSE
+		PRINTFORMW 「이런 곳에서 만난다니 우연히군요♥」
+	ENDSELECT
+	PRINTFORMDW %조사처리(ANAME(대상),"와")% 잠시의 사이 환담 했습니다
+	LOCAL:1 = 100
+ELSEIF CFLAG:대상:호감도 >= 500
+	PRINTFORMW 「아라, 당신도 쇼핑?」
+	PRINTFORMDW %조사처리(ANAME(대상),"와")% 그 나름대로 회화했습니다
+	LOCAL:1 = 50
+ELSE
+	PRINTFORMW 「아라, 우연이군요」
+	PRINTFORMDW %조사처리(ANAME(대상),"와")% 가볍게 회화했습니다
+	LOCAL:1 = 5
+ENDIF
+PRINTFORML 
+CALL COLOR_PRINTW(@"%NAME_FORMAL(대상)%의 호감도가 {LOCAL:1} 올랐습니다", 칼라_주의)
+;안밖 상승하므로 유용한가
+CFLAG:대상:호감도 += LOCAL:1
+
+
+RETURN 1
+

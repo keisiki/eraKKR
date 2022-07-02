@@ -1,0 +1,161 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K34_COMPETE_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K34_COMPETE_DECISION(대상)
+#DIM 대상
+
+;마스터에 페니스가 없으면 나오지 않는다
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+;끝내면 나오지 않는다
+SIF KDVAR:대상:유카_에도의화
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K34_COMPETE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K34_COMPETE(대상)
+#DIM 대상
+#DIM 판정치
+
+PRINTFORMW 「후응, 당신이 %ANAME(MASTER)%?   시케얼굴 하고 있는 거네」
+PRINTFORML %ANAME(MASTER)%의 거점이, 갑자기 나타난 여자에게 공격받았다
+PRINTFORML 끊은 혼자서 도전해 온 그 여자는, 위병을 잇달아 베어 넘겨, 드디어 %ANAME(MASTER)%아래에까지 겨우 도착했다
+PRINTFORMW 그 행동거지를 보는 것만으로, 상당한 사용자라고 말하는 것을 알 수 있다……
+PRINTFORMW 「솜씨가 뛰어난다고 듣고 있던 것이지만……기대에 못미칠구나」
+PRINTFORM 「나는
+CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+PRINTFORMW . 뭐, 당신과 같은 것에 기억해 받는 가치도 느끼지 않지만」
+PRINTFORML %NAME_FORMAL(대상)%……환상향에서도 손꼽히는 강자다
+PRINTFORMW 이지만, 이런 폭력적인 수단에까지 나와, 도대체 무슨 용무라고 할 것이다
+PRINTFORMW 「별로 굉장한 일이 아니에요. 나는 나보다 강한 녀석이 있다는 것이 허락할 수 없는거야」
+PRINTFORMW 「그러니까, 그 가능성이 있는 녀석이 있으면, 잡아 돌고 있다는 것뿐의 일이야」
+PRINTFORMW 「……뭐, 당신은 그 걱정도 없는 것 같지만 말야」
+PRINTFORML ……즉, 무사 수행이라는 것인가
+PRINTFORMW 「어때?   나와 싸워 봐?   뭐, 결과는 보이고 있지만」
+PRINTFORM 「그런데도 당신을 이길 수 있었다면,
+CALL COLOR_PRINT(@"무엇을 해도 돼요", 칼라_주의, )
+PRINTFORMW 」
+PRINTFORM 「그 대신해, 내가 이기면……하구나,
+CALL COLOR_PRINT(@"가진 돈 모든 것을 받아요", 칼라_주의, )
+PRINTFORMW 」
+PRINTFORMW 「별로 돈 같은거 필요없지만, 대체로의 녀석은 돈을 빼앗기면 분한 것 같은 얼굴을 하는거네요♪」
+PRINTFORML 여유를 감돌게 하는 %ANAME(대상)%의 강함은, 바닥이 몰랐다
+PRINTFORML 그렇게 항상 이길 수 있는 상대도 아닐 것이지만, 어떻게 하지……
+PRINTFORML 
+CALL ASK_YN("받아 선다", "돌아가 받는다")
+
+IF RESULT == 1
+	PRINTFORMW 상대가 상대다. 너무 불리하다. 돌아가 받기로 했다
+	PRINTFORMW 「후응……싸우는 전부터 도망치기 시작하는 것. 정말로 기대에 못미치었던 것 같구나」
+	PRINTFORMW 「뭐, 그런 일이라면 상대 하는 가치도 없어요. 방해 했군요」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+	KDVAR:대상:유카_에도의화 = 1
+ELSE
+	PRINTFORMW 「흥. 결과는 보이고 있어요」
+	PRINTFORMW 대상을 거느려, 거점의 안뜰에 나왔다……
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML ·
+	;유우기와 무투가 동일하면 50%. 이후 1우수할 때 마다 5％.
+	판정치 = (ABL:MASTER:무투 + 10 - ABL:대상:무투) * 5
+	IF RAND:100 > 판정치
+		PRINTFORMW 「모습없네요」
+		PRINTFORML ……역시, %조사처리(ANAME(대상),"는")% 강했다
+		PRINTFORMW 하지만 설마, 주먹 하나조차 맞힐 수 없다고는……
+		PRINTFORMW 「하아. 시시한 것. 싫증시킨 벌로서 돈은 받아 두어요」
+		PRINTFORMW 「생명을 빼앗기지 않는 것뿐, 고맙다고 생각하는거네」
+		CALL COLOR_PRINTW(@"소지금을 모두 빼앗겼습니다", 칼라_경고)
+		PRINTFORMW 「그러면, 나는 이것으로. 이제 만나는 일은 없겠지만」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+		MONEY = 0
+		KDVAR:대상:유카_에도의화 = 1
+	ELSE
+		PRINTFORMW 「거짓말이지요……이 내가……!」
+		PRINTFORML 어떻게든 된……빠듯이였지만
+		PRINTFORML %ANAME(대상)%의 주먹은 예상 이상이었다. 일발에서도 온전히 받고 있으면 당하고 있었을 것이다
+		PRINTFORMW ……저런 원패턴인 주먹을, 온전히 받는 녀석이 있는가 하는 이야기이지만
+		PRINTFORMW 「흥……약속은 약속이예요. 마음대로 하면 좋다」
+		PRINTFORMW 발뺌할 수 있을까하고 생각했지만, 의외로 의리가 있는 편인것 같다
+		PRINTFORMW 자, 그럼, 어떻게 하지……
+		PRINTL
+		CALL ASK_MULTI_JUDGE("부하로 한다", GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상, "투옥한다", GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상, "처형", GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상,  "가진 돈을 빼앗는다", 1, "범한다", 1)
+		SELECTCASE RESULT
+			CASE 0
+				PRINTFORMW 「……하아?   부하?   나를?」
+				PRINTFORMW 「……핫. 겨우, 기르는 개에 목 피리 씹어 잘게 뜯어지지 않게 조심하는거네」
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 부하가 되었습니다", 칼라_주의)
+				CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+				CFLAG:대상:호감도 += 500
+				KDVAR:대상:유카_에도의화 = 1
+			CASE 1
+				PRINTFORMW 「흥……뭐, 그렇겠지요. 그토록 날뛰면」
+				PRINTFORMW 「마음대로 하면 좋아요」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 병사들에게 연행되어 갔다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 포로로 했습니다", 칼라_주의)
+				CALL CAPTURE(대상, CFLAG:MASTER:소속)
+				KDVAR:대상:유카_에도의화 = 1
+			CASE 2
+				PRINTFORMW 「……읏!」
+				PRINTFORMW 「……흥, 나도 운이 다했을까. 마, 마음대로 하면 좋아요」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 병사들에게 연행되어 갔다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 처형했습니다", 칼라_주의)
+				PRINTL
+				CALL EXECUTION(대상)
+				PRINTL
+				CALL CHANGE_COUNTRY(대상, 0, 1, 1)
+				CFLAG:대상:소속 = 0
+				CFLAG:대상:특수상태 = 특수상태_사망
+				KDVAR:대상:유카_에도의화 = 1
+			CASE 3
+				PRINTFORMW 「돈이, 군요. 흥, 당신도 나와 닮은 것 같은 생각이라는 것」
+				PRINTFORMW 「이봐요, 가져 가면 좋아요」
+				CALL COLOR_PRINTW(@"금 100000을 얻었습니다", 칼라_주의)
+				MONEY += 100000
+				PRINTFORMW 「그러면, 나는 이것으로. 다음은 전장에서 만납시다」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+				KDVAR:대상:유카_에도의화 = 1
+			CASE 4
+				PRINTFORMW 「낫……조금, 기다리세요……!」
+				PRINTFORMW 날뛰는 %조사처리(ANAME(대상),"를")% 눌러 그 옷을 벗겨내 갔다……
+				PRINTFORML
+				CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+				PRINTFORML 
+				PRINTFORMW 「아……아아, 아가, 아앗……♥」
+				PRINTFORMW 천한 신음소리를 주어 열린 황새 걸음으로부터 백탁을 흘려 보낼 뿐이 된 %조사처리(ANAME(대상),"를")%, 거점의 밖에 내쫓았다……
+				KDVAR:대상:유카_에도의화 = 2
+		ENDSELECT
+	ENDIF
+ENDIF
+
+CALL COLOR_PRINTW(@"%ANAME(대상)%의 안면을 얻었습니다", 칼라_주의)
+CFLAG:대상:안면 = 1
+
+
+
+RETURN 1
+

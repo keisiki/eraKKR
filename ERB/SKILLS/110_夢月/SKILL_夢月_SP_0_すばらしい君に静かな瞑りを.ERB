@@ -1,0 +1,91 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_110_SP_0_EXIST
+RETURN 1
+
+@SKILL_110_SP_0_NAME
+RESULTS = 훌륭한 너에게 정일까 뜯는 를
+
+;레벨은 1-5까지
+@SKILL_110_SP_0_LEVEL
+RETURN 5
+
+;대상 선택
+@SKILL_110_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+SIF BATTLE_COMMANDER_NUM:대상측 == 0
+	RETURN 0
+RETURN 1
+
+;발동 판정
+@SKILL_110_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_110_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+LOCAL:1 = BATTLE_무투:발동측:발동번호 + BATTLE_방위:발동측:발동번호 + BATTLE_지략:발동측:발동번호 + BATTLE_정치:발동측:발동번호
+PRINTFORML %ANAME(발동자)%는 훌륭한 것에 잠을 준다……
+FOR LOCAL, 0, BATTLE_COMMANDER_NUM:대상측
+	LOCAL:2 = BATTLE_무투:대상측:LOCAL + BATTLE_방위:대상측:LOCAL + BATTLE_지략:대상측:LOCAL + BATTLE_정치:대상측:LOCAL
+	IF LOCAL:1 < LOCAL:2
+		PRINTFORML %ANAME(BATTLE_COMMANDER:대상측:LOCAL)%는 전투 불능으로 되었다!
+		CALL BATTLE_KNOCKOUT(대상측, LOCAL)
+	ENDIF
+NEXT
+
+RETURN 1
+
+;
+@SKILL_110_SP_0_EXPLANATION
+RESULTS = 능력4종으로 자신을 웃도는 사람을 전투 불능으로 한다.
+
+@SKILL_110_SP_0_CANT_TELL
+
+
+
+
+@SKILL_110_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 100

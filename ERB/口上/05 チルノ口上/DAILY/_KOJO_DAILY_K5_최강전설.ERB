@@ -1,0 +1,124 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K5_SAIKYOU_LEGEND_RATE(대상)
+#DIM 대상
+RETURN 60
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K5_SAIKYOU_LEGEND_DECISION(대상)
+#DIM 대상
+
+;주인공은 대요정, 레티 이외
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("대요정"), NAME_TO_CHARA("레티"))
+	RETURN 0
+
+;5능력의 합계가 250이상 필요
+SIF ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치 + ABL:MASTER:가창 + ABL:MASTER:요리 < 250
+	RETURN 0
+
+;일회뿐
+SIF KDVAR:대상:치르노_최강전설
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K5_SAIKYOU_LEGEND_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K5_SAIKYOU_LEGEND(대상)
+#DIM 대상
+#DIMS 대답문자열 = "왼쪽", "오른쪽", "상", "하"
+#DIM 업능력
+#DIM 대답
+
+;오르는 능력을 내 둔다
+SELECTCASE RAND:100
+	CASE IS < 40
+		업능력 = GETNUM(ABL, "무투")
+	CASE IS < 60
+		업능력 = GETNUM(ABL, "지략")
+	CASE IS < 80
+		업능력 = GETNUM(ABL, "정치")
+	CASE IS < 90
+		업능력 = GETNUM(ABL, "요리")
+	CASEELSE
+		업능력 = GETNUM(ABL, "가창")
+ENDSELECT
+
+PRINTFORMW 「우아아아앗, 거기 거기! %ANAME(MASTER)%!」
+PRINTFORMW 거점의 순찰을 하고 있던 도중, 갑자기 %조사처리(ANAME(대상),"가")% 덤벼들어 왔다.
+PRINTFORMW 「좀 강하다고 우쭐거리고!」
+PRINTFORMW 「이 몸이 더 강하니까! 승부다!」
+PRINTFORMW ……누군인지는 모르겠지만, %ANAME(대상)%에게 이상한 곳에서 불을 붙인 것 같다.
+PRINTFORML 완전히 할 마음인 것 같은데……
+PRINTL
+CALL ASK_YN("교제한다", "교제할 것 같냐")
+IF RESULT == 1
+	PRINTFORMW 「엥? 승부 안 하는 거야?」
+	PRINTFORMW 「……앗! 이 몸의 힘이 두려워서 그러는 거구나!」
+	PRINTFORMW 「역시 이 몸이 최강이야! 후후-응!」
+	PRINTFORMW 우쭐거리는 %ANAME(대상)%에게 대충 맞장구를 쳐주면서, 자리를 떠났다……
+	KDVAR:대상:치르노_최강전설 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 그 자부심은 위험하다. 바로 잡아 주지 않으면 안 된다.
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 승부를 받아들였다……
+PRINTFORMW 「그렇게 나와야지! 간닷!」
+PRINTFORML %조사처리(ANAME(대상),"는")% 아이시클 폴을 발사해왔다!
+
+;4회, 올바른 선택지를 선택한다
+FOR LOCAL, 0, 4
+	;대답을 내 둔다
+	대답 = RAND:4
+	CALL COLOR_PRINTL(@"%대답문자열:대답%에 피해라!", 칼라_경고)
+	FOR LOCAL:1, 0, VARSIZE("대답문자열")
+		PRINTFORML [{LOCAL:1}] %대답문자열:(LOCAL:1)%
+	NEXT
+	TINPUT 2000, -1, 1
+	;실패하면 강제 종료
+	SIF RESULT != 대답
+		BREAK
+	SIF LOCAL != 3
+		PRINTFORML 「그 정도는 피해야지! 좀 더 간닷 간닷!」
+NEXT
+
+;실패한 패턴
+IF LOCAL != 4
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% 회피하려고 시도했다!
+	PRINTFORMW 그러나, 탄막은 보기 좋게 %ANAME(MASTER)%에게 명중했다!
+	PRINTFORMW 「해냈다―! 이 몸이 이겼다!」
+	PRINTFORMW 「역시 이 몸이 최강이야!」
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")% 다쳐 버렸습니다", 칼라_경고)
+	CALL ADD_COOLTIME(MASTER, 3)
+ELSE
+	;성공
+	PRINTFORML 탄막을 훌륭히 회피했다!
+	PRINTFORMW 「뭇……! 꽤 하잖아……!」
+	PRINTFORMW 「후읏! 방금 건 진심이 아니었어! 크-- 자랑할 것 없다구!」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 도망쳐 갔다……
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"는")% 그 후, 몰래 특훈한 것 같습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 %ABLNAME:업능력%가 5 상승했습니다", 칼라_주의)
+	ABL:대상:업능력 += 5
+ENDIF
+
+KDVAR:대상:치르노_최강전설 = 1
+RETURN 1

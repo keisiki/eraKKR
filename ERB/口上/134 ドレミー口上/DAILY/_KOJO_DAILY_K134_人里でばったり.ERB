@@ -1,0 +1,97 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_HITOZATO_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_HITOZATO_DECISION(대상)
+#DIM 대상
+;도레미와 소속이 같음, 도레미가 포로가 아니고, 안면이 있어,3%
+SIF  !TALENT:대상:연모
+	RETURN 0
+;일회뿐
+SIF KDVAR:대상:도레미_마을
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_HITOZATO_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_HITOZATO(대상)
+#DIM 대상
+#DIM 경험치
+;인덴트도 하는 김에 수정
+
+PRINTFORMW
+PRINTFORMW 일이 일단락 해, %조사처리(ANAME(MASTER),"는")% 순찰이라는 명목으로 성 주변 마을을 산책하고 있다
+PRINTFORML 주위를 바라보면, 활기가 있는 가게가 나란히 서는 큰 길에 여러가지 관리 직공이 매우 소란스럽게 일하고 있다……
+PRINTFORMW 그런 생활음을 (듣)묻고 있으면…
+CALL ASK_YN("시를 읊고 싶어진다", "돌아가 연습을 하고 싶어진다")
+IF RESULT == 1
+	SELECTCASE RAND:100
+	CASE IS < 40
+		경험치 = GET_EXP(GETNUM(ABL, "무투"))
+	CASE IS < 70
+		경험치 = GET_EXP(GETNUM(ABL, "방위"))
+	CASE IS < 90
+		경험치 = GET_EXP(GETNUM(ABL, "지략"))
+	CASEELSE
+		경험치 = GET_EXP(GETNUM(ABL, "정치"))
+	ENDSELECT
+	PRINTFORML 혼자서 자신의 싸우는 방법을 다시 보면서 무기를 휘둘렀다……
+	CALL PRINT_ADD_EXP(MASTER, EXPNAME:경험치, RAND:5 + 1, 1)
+	PRINTFORML 그들을 지키기 위해서도 강해지지 않으면……
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 돌아가 훈련에 힘썼다
+ELSE
+	PRINTFORML 『난세 3월…채운아래』 
+	PRINTFORMW 『모모카를 등에 미주를 끊어, 서쪽…수가 아주 많음을 인솔해 전진에 임한다…』
+	PRINTFORMW 『………』
+	PRINTFORMW 나로서도 조금 센스 있은 시에 미소개개, 한 변의 평온을 느끼는 %ANAME(MASTER)%
+	PRINTFORML
+	PRINTFORML 
+	PRINTFORMW 「하하앙, 상당히 고상한 일을 말씀하셔지고 있지만…어울리지 않아요?」
+	PRINTFORMW 『!?』
+	PRINTFORML 깨달으면 곧 근처에서 %조사처리(ANAME(대상),"가")% 간들거리면서 걷고 있었다
+	PRINTFORMW 「그런 장난감 대나무 총을 먹은 얼굴을 된다고는…거참 놀라게 할 생각은 없었던 것입니다만…」
+	PRINTFORMW 언제부터 옆에 있었는지라고 묻는 %ANAME(MASTER)%
+	PRINTFORML 「당신이 취향도 아닌 시를 짓기 시작하는 조금 전으로부터군요」
+	PRINTFORMW 「꼭, 용무로 와 있어서요…뒷모습을 보기 시작했으므로 붙어 와 있던 것이에요」
+	PRINTFORML 조금 전의 자신의 시야의 좁음을 비난하고 싶은 기분으로 가슴이 가득했다
+	PRINTFORMW 하필이면 볼 수 있던 상대가 %조사처리(ANAME(대상),"였")%기 때문인가 부끄러움으로 말없이 몸부림쳤다……
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML 「그렇다 치더라도…당신, 미주를 끊는다니 할 수 없을 것입니다?」
+	PRINTFORML 「네아무튼 공격 어디가득해 자만함의 강한 시입니다」
+	PRINTFORMW 히죽히죽 웃으면서 얼굴을 들여다 봐 오는 %ANAME(대상)%
+	PRINTFORML 「…그건 그렇고, 저기에 좋은 전통다과점이 있으므로 함께 어떻습니까?」
+	PRINTFORMW 그렇게 말해 %조사처리(ANAME(대상),"가")% 가리킬 방향에는 번성하고 있는 가게가 보인다……
+	PRINTFORML 「멋진 시인?」
+	PRINTFORML 『～～～!』
+	PRINTFORMW 그 뒤도 한동안%ANAME(대상)%에 조롱당했다……
+	PRINTFORMW
+	CALL COLOR_PRINT(@"호감도가 200올랐다", 칼라_주의)
+	PRINTFORMW
+	CFLAG:대상:호감도 += 500
+	KDVAR:대상:도레미_마을 = 1
+ENDIF
+
+RETURN 1

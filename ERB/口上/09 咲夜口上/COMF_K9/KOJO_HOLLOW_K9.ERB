@@ -1,0 +1,60 @@
+﻿;속공허
+@KOJO_K9_HOLLOW(사쿠야_대상)
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+PRINT 「
+PRINTDATA
+	DATAFORM ―,
+	DATAFORM 아
+	DATAFORM ……후아
+	DATAFORM 응……우
+	DATAFORM ,
+	DATAFORM ……응
+	DATAFORM ……하, 아
+	DATAFORM 아―,
+	DATAFORM 만난다
+ENDDATA
+
+PRINTDATA
+	DATAFORM ―
+	DATAFORM 아―……아
+	DATAFORM 
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 응
+	DATAFORM 
+	DATAFORM 아―
+	DATAFORM 만난다
+ENDDATA
+PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+PRINTDATA
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 구
+	DATAFORM 는
+	DATAFORM 
+	DATAFORM 응
+ENDDATA
+
+PRINTDATA
+	DATAFORM , 응우
+	DATAFORM 
+	DATAFORM 
+	DATAFORM ……
+ENDDATA
+PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+PRINTL 」
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

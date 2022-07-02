@@ -1,0 +1,111 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K9_MEMORIES_RATE(대상)
+#DIM 대상
+RETURN 100
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K9_MEMORIES_DECISION(대상)
+#DIM 대상
+
+;연인은 아니면 돌아온다
+SIF !IS_LOVER(대상)
+	RETURN 0
+
+;추억이 보존되어 있지 않으면 돌아온다
+SIF !사쿠야_고백성공기
+	RETURN 0
+
+;12기 이상 경과
+SIF DAY >= 사쿠야_고백성공기 + 12
+	RETURN 0
+
+;일회뿐
+SIF KDVAR:대상:사쿠야_무겁고이야기
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K9_MEMORIES_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K9_MEMORIES(대상)
+#DIM 대상
+#DIM 사쿠야_대상
+사쿠야_대상 = MASTER
+
+
+SETCOLOR 사쿠야_구상칼라
+
+PRINTFORMDW 거점의 순찰을 하고 있을 때에 %조사처리(ANAME(대상),"로")%부터 조금 이야기하고 싶다고 권해졌다
+PRINTL 
+
+IF GET_PLACENAME(사쿠야_고백성공장소) != ""
+	PRINTFORM 「기억하고 있을까? 　{사쿠야_고백성공기}기에 %GET_PLACENAME(사쿠야_고백성공장소)%로
+ELSE
+	PRINTFORM 「기억하고 있을까? 　{사쿠야_고백성공기}기에 이 근처에서
+ENDIF
+
+IF 사쿠야_고백성공한캐릭터 == 대상
+	PRINTFORML 내가 %CALLNAME_K9(사쿠야_대상)%에 고백했을 때의 일……」
+	PRINTFORML 「나, 무슨 말을 했는지는 이제 잘 기억하지 않은 것이지만, 당신의 말만은 잘 기억하고 있어요」
+	IF GET_PLACENAME(사쿠야_고백성공장소) == "성 주변 마을"
+		PRINTFORML 「저런 왕래가 많은 곳으로 무심코. 말하고 나서 부끄러워져」
+		PRINTFORML 「그런데, %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 응해 주어……기뻤어요. 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "성 주변 마을(숙소)"
+		PRINTFORML 「단 둘의 숙소에서, 지금 밖에 말할 수 없다고 생각해……응해 받을 수 있어, 기뻤어요. 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "온천"
+		PRINTFORML 「지금 생각하면, 온천요양의 한중간에 고백 같은거 그을리고 있었을까」
+		PRINTFORML 「그런데%조사처리(CALLNAME_K9(사쿠야_대상),"는")% 응해 주어……기뻤어요. 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "강변"
+		PRINTFORML 「담근 다리는 차가운데, 몸이 뜨거워서」
+		PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 응해 준 순간, 수면이 반짝반짝 해 보였어요. 기뻤던 것, 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "삼림"
+		PRINTFORML 「초록의 냄새에 휩싸여져 온화한데, 두근두근 해……」
+		PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 응해 줘. ……기뻤어요. 매우」
+	ELSE
+		PRINTFORML 「기뻤어. 매우」
+	ENDIF
+ELSE
+	PRINTFORML %조사처리(CALLNAME_K9(사쿠야_대상),"가")% 나에게 고백해 준 날의 일……」
+	PRINTFORML 「나, 무슨 말을 했는지는 이제 잘 기억하지 않은 것이지만, 당신의 말만은 잘 기억하고 있어요」
+	IF GET_PLACENAME(사쿠야_고백성공장소) == "성 주변 마을"
+		PRINTFORML 「저런 왕래가 많은 곳으로……부끄러워서. 기뻤어요. 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "성 주변 마을(숙소)"
+		PRINTFORML 「단 둘의 숙소에서, 매달아……나, 기뻐서 울어 버렸어요. 기뻤어요. 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "온천"
+		PRINTFORML 「온천요양의 한중간에 고백은, 길게 계속될 것 같은 관계라고 생각했어요. 기뻤어요. 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "강변"
+		PRINTFORML 「담근 다리는 차가운데, 몸이 뜨거워서. 수면이 반짝반짝 해 보였어요. 기뻤던 것, 매우」
+	ELSEIF GET_PLACENAME(사쿠야_고백성공장소) == "삼림"
+		PRINTFORML 「초록의 냄새에 휩싸일 수 있어, 온화한 기분이었는데. 두근두근 해……기뻤어요. 매우」
+	ELSE
+		PRINTFORML 「기뻤어. 매우」
+	ENDIF
+ENDIF
+WAIT
+RESETCOLOR
+
+CFLAG:대상:호감도 = CFLAG:대상:호감도 + 100
+CFLAG:대상:의존도 = CFLAG:대상:의존도 + 100
+CFLAG:대상:종속도 = CFLAG:대상:종속도 + 100
+KDVAR:대상:사쿠야_무겁고이야기 = 1
+
+RETURN 1

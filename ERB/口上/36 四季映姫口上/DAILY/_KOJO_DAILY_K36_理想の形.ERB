@@ -1,0 +1,130 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K36_YOUR_IDEAL_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K36_YOUR_IDEAL_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:시키에이키_이상의형태
+	RETURN 0
+
+SIF ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:방위 + ABL:MASTER:정치 < 280
+	RETURN 0
+
+SIF GET_OWN_CITY(CFLAG:MASTER:소속) < 8
+	RETURN 0
+
+SIF MASTER == NAME_TO_CHARA("코마치")
+	RETURN 0
+
+SIF !IS_LOVER(대상) && !IS_SLAVE(대상)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K36_YOUR_IDEAL_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K36_YOUR_IDEAL(대상)
+#DIM 대상
+
+
+KDVAR:대상:시키에이키_이상의형태 = 1
+
+PRINTFORMW 자기 방에서 일을 하고 있었던 %ANAME(MASTER)% 앞으로, %조사처리(ANAME(대상),"가")% 방문해 왔다
+PRINTFORMW 「%ANAME(MASTER)%. 하나, 들려주세요」
+PRINTFORMW 「당신은 이 환상향에서도 상당한 인재입니다. 그리고 우리는 힘을 발휘하고 있다. 시골을 정리하는 날도 가까울 것입니다」
+PRINTFORMW 「그리고……저 너머에, 당신은 무엇을 보고 있습니까?」
+PRINTFORML 「당신의 이상을, 묻게 해 받읍시다」
+PRINTFORML 
+CALL ASK_MULTI("평화", "력", "금", "쾌락")
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「과연」
+		PRINTFORMW 「그것은, 지금과 같이 서로 같이 싸우는 상태를 탈각했다고 해, 반드시 실현되는 것이 아닙니다」
+		PRINTFORMW 「물리적으로 싸우지 않았다고 해도, 사람들의 마음이 편하다라고는 한정하지 않기 때문에」
+		PRINTFORMW 「어려운 길이 되겠지만……나는 마음에 들었어요」
+		PRINTFORMW 「에에. 나도 %ANAME(MASTER)%의 이상을 위해서(때문에), 진력합시다」
+		PRINTFORMW 아무래도, %ANAME(대상)%에 마음에 든 것 같다……
+		CFLAG:대상:호감도 += 300
+	CASE 1
+		PRINTFORMW 「과연」
+		PRINTFORMW 「패를 주창하고 싶다고……그것도 또, 이상의 하나지요」
+		PRINTFORMW 「염라로서는 양손을 들어 긍정하기 어려운 대답이었지만……거짓말하지 않는 성실함은 평가합시다」
+		PRINTFORMW 「들려주어, 정말로 고마워요」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 떠났다……
+	CASE 2
+		PRINTFORMW 「과연」
+		PRINTFORMW 「좋은 대답이라고 생각해요……조금 즉물적입니다만」
+		PRINTFORMW 「응?   왜 그러는 것입니다, 묘한 얼굴을 해」
+		PRINTFORMW 「아아, 금 돈벌이 그 자체를 악이라고는 생각하지 않아요, 우리 피안의 사람은」
+		PRINTFORMW 「는 아니면, 어째서 삼도의 이동삯 따위라는 제도가 있을까요?」
+		PRINTFORMW 「돈은, 돈을 버는 것 그것이 선행이 되는 것 같은 구조가 되어 있는 거예요」
+		PRINTFORMW 「그러한 (뜻)이유이기 때문에, 열심히 버는 것입니다. 그것이 당신의, 선행에도 연결됩시다」
+		PRINTFORMW 아무래도, %ANAME(대상)%에 마음에 든 것 같다……
+		CFLAG:대상:호감도 += 300
+	CASE 3
+		IF IS_LOVER(대상)
+			PRINTFORMW 「……하아-」
+			PRINTFORMW 「당신이라는 사람은……자신에게 너무 정직하지 않습니까」
+			PRINTFORMW 「좋습니까?   쾌락은 확실히 나쁜 일이 아닙니다만, 무슨 일도 너무 추구하면 퇴폐를 부릅니다」
+			PRINTFORMW 「퇴폐에 몰린 사람이 사후 가는 곳이라고 하면, 말하지 않아도 알까요?」
+			PRINTFORMW 「%ANAME(MASTER)%에 그러한 말로를 더듬게 할 수는 없습니다. 한동안 금욕이니까요」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 탱탱 하면서 떠나 갔다……
+			CFLAG:대상:호감도 -= 300
+			SIF TALENT:대상:합의
+				CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 잃었습니다", 칼라_주의)
+			TALENT:대상:합의 = 0
+		ELSEIF IS_SLAVE(대상)
+			PRINTFORMW 「……후후, 그렇게 왔습니까」
+			PRINTFORML 쾌락이다……그렇게 대답하자, %조사처리(ANAME(대상),"는")% 미소를 띄웠다
+			PRINTFORMW 「에에, 에에, 그렇겠지요, 나와 같은 땅딸보의, 까다로운 염라조차 타락 시켜버릴 것 같은인인거야」
+			PRINTFORMW 「주위의 사람을 연루로 하면서, 스스로 퇴폐에 돌진해 가는……그러한 사람이에요, 당신은」
+			PRINTFORMW 「그 방면의 마지막에 기다리는 것은 파멸입니다. 미움을 산 것에 살해당하는지, 어디선가 들 축 늘어차고 죽을까……」
+			PRINTFORMW 「어쨌든, 가는 것은 지옥 이외에 없겠지요」
+			PRINTFORML %ANAME(대상)%의 미소는, 점점 요염한 것으로 바뀌어간다
+			PRINTFORML 염라로서의 표정으로부터, 여자의 표정으로 바뀌어간다
+			PRINTFORMW 「우려……라고 네 없겠지요, 그런 앞의 일보다, 점막을 접촉하게 하는 기분 좋음을 갖고 싶을 것입니다?」
+			PRINTFORMW 「알아요, 그렇지만 나도, 그러한 식으로 되었기 때문에, 다름아닌 당신에, 말야」
+			PRINTFORML 말하면서, %조사처리(ANAME(대상),"는")% 의복을 벗어 던져 간다
+			PRINTFORML 출생한 채로의 모습이 되면서, 기대고 걸려 왔다……
+			PRINTFORMW 「자, 둘이서 함께 이상을 추구할까요, 당신의 신체가 썩을 때까지」
+			PRINTFORMW 「거절은 하지 않을 것입니다?   거절하려는 것이라면……지옥에 떨어뜨려 주어요」
+			PRINTFORML 물론, 거절하자는 것도 없다
+			PRINTFORML %조사처리(ANAME(대상),"와")% 충분히 즐겼다……
+			IF HAS_PENIS(MASTER)
+				CALL FUCK(MASTER, "Ｃ, 사정, 욕망, Ｖ삽입", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "화간")
+				CALL FUCK(대상, "Ｖ, Ｃ, Ｂ, Ｍ, 봉사, 성교, 욕망, 성기술, 정애, Ｖ성교, 키스, 펠라티오", "키스상실, 질내사정, 처녀상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER), "", "화간")
+			ELSE
+				CALL FUCK(MASTER, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, 레즈, 키스", "키스상실", 0, @"%ANAME(대상)%의 입술", "", "", "화간")
+				CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, 레즈, 키스", "키스상실", 0, @"%ANAME(MASTER)%의 입술", "", "", "화간")
+			ENDIF
+		ENDIF
+ENDSELECT
+
+RETURN 1
+
+

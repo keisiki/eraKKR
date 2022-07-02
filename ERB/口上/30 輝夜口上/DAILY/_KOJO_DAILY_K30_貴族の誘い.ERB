@@ -1,0 +1,333 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K30_INVITATION_FROM_KAGUYA_RATE(대상)
+#DIM 대상
+RETURN 25
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K30_INVITATION_FROM_KAGUYA_DECISION(대상)
+#DIM 대상
+#DIM 에이린
+#DIM 테위
+#DIM 레이센
+에이린 = NAME_TO_CHARA("에이린")
+레이센 = NAME_TO_CHARA("레이센")
+테위 = NAME_TO_CHARA("테위")
+
+SIF !ALLSAMES(CFLAG:대상:소속, CFLAG:에이린:소속, CFLAG:테위:소속, CFLAG:레이센:소속) || !IS_COUNTRY(CFLAG:대상:소속)
+	RETURN 0
+
+SIF MASTER == NAME_TO_CHARA("모코우")
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치 + ABL:MASTER:방위 < 250
+	RETURN 0
+
+SIF GET_COUNTRY_BOSS(CFLAG:MASTER:소속) == MASTER
+	RETURN 0
+
+SIF KDVAR:대상:카구야_귀족의권유
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 0) && CHECK_KOJO_DAILY_HAPPEN(에이린, -1, 0) && CHECK_KOJO_DAILY_HAPPEN(테위, -1, 0) && CHECK_KOJO_DAILY_HAPPEN(레이센, -1, 0)
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K30_INVITATION_FROM_KAGUYA_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;------------------------------------
+;데일리 이벤트 본체
+;창의 연구
+;발생 판정에 실패했을 경우（이벤트가 발생하지 않는 경우）는 마이너스 1을 돌려주는 것
+;-----------------------------------
+@KOJO_DAILY_K30_INVITATION_FROM_KAGUYA(대상)
+#DIM 대상
+#DIM 에이린
+#DIM 테위
+#DIM 레이센
+#DIM 보스
+에이린 = NAME_TO_CHARA("에이린")
+레이센 = NAME_TO_CHARA("레이센")
+테위 = NAME_TO_CHARA("테위")
+보스 = GET_COUNTRY_BOSS(CFLAG:MASTER:소속)
+
+CALL COLORPRINT(NAME_FORMAL(대상), 칼라_주의)
+PRINTFORMW 의 거점에서 행해지는 연회의, 초대장이 보내져 왔다
+PRINTFORMW %조사처리(ANAME(대상),"라")%고 하면, 달의 궁전에 관계하는 인물로, 영원정의 공주인 인물이다
+PRINTFORML ……그런 유력자가, 자신과 같은 단순한 사관을 불러 어떻게 할 생각일 것이다……
+PRINTFORML 의문에 지나지 않지만, 유력자에게 얼굴을 팔아 두는 것도 나쁘지는 않을 것이다……
+PRINTFORML
+CALL ASK_YN("출석한다", "그만둔다")
+
+IF RESULT == 1
+	PRINTFORML ……네등 주형의 놀이에 교제할 것도 없을 것이다
+	PRINTFORMW 그렇게 생각한 %조사처리(ANAME(MASTER),"는")%, 결석에 말을 붙여 대답을 냈다……
+	KDVAR:대상:카구야_귀족의권유 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 모처럼의 기회다. 가 본다고 하자……
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML 영원정이라는 것은 대나무숲의 안쪽 깊고, 이야기에 듣는 것보다도 외진 곳에 있었다
+PRINTFORMW ……그리고, 연회의 준비 따위 무엇하나되어 있지 않았다
+PRINTFORMW 「처음 뵙겠습니다, 당신이 %ANAME(MASTER)%군요. ……내가 누군가는, 알고 있을까요?」
+PRINTFORM 처음 보는 상대이지만, 그 뛰어난 아름다움으로 밝혀진다. 그녀야말로
+CALL COLORPRINT(NAME_FORMAL(대상), 칼라_주의)
+PRINTFORMW 일 것이다……
+PRINTFORMW 「우선은 와 주어 고마워요. 그렇지만 물론, 일개의 사관을 연회에는 부르거나 하지 않아요, 일부러」
+PRINTFORMW 「당신도 그것은 이해하고 있던 것이지요?   ……설마, 정말로 연회에 섞이려고 하고 있던 것이 아니네요?」
+PRINTFORMW 과연, 초대장 자체가 방편이었다는 일인가
+PRINTFORMW %PRONOUN(대상)%에 해의가 있는지 없는지로, 여기로부터 어떻게 움직일지가 바뀌지만……
+PRINTFORMW 「걱정하지 않고, 오늘은 당신에, 매우 멋진 이야기를 준비했어. ……%ANAME(에이린)%」
+PRINTFORMW 「네」
+PRINTFORMW 불려%PRONOUN(대상)%의 뒤에 앞두고 있던 은발의 여성이 나아간다
+PRINTFORMW 「%ANAME(MASTER)%님. 당신은 우수한 무장이라고, 전해 듣고 있습니다」
+PRINTFORMW 「공주는 총명한 (분)편입니다. 그러한 인재의 필요성을 이해하고 있어, 또 수중에 두기 위해서(때문에), 수단을 가리지 않는」
+PRINTFORMW 밀담의 장소 따위 버는 이상, 평화로운 이야기는 아니라고 생각하고 있었지만……
+PRINTFORMW 즉%조사처리(ANAME(대상),"는")%, 지금의 주인을 배반해, 자신 조림이라고 말하고 있다
+PRINTFORMW 제안인 것 같지만, 상황으로부터 생각하면, 선택지는 적은 것처럼 생각된다……
+PRINTFORMW 「%ANAME(에이린)%. 그러한 것 이야기라고 말해 두었을 것이지만?」
+PRINTFORMW 「미안해요, 별로, 위협할 생각은 없는거야?   지금부터 일해 받는 사람을, 하찮게는 취급하지 않아요」
+PRINTFORMW 「지금 있는 곳보다, 훨씬 좋은 대우로 맞이해 준다. 돈, 그리고……그렇구나, 색은 어떨까?」
+PRINTFORM 「
+CALL COLORPRINT(NAME_FORMAL(테위), 칼라_주의)
+PRINTFORM 、
+CALL COLORPRINT(NAME_FORMAL(레이센), 칼라_주의)
+PRINTFORM 、
+CALL COLORPRINT(NAME_FORMAL(에이린), 칼라_주의)
+PRINTFORMW . 좋아하는 것을 선택해도 좋아요. 주어요」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 깨끗이, 터무니 없는 것을 말해버렸다
+PRINTFORMW %PRONOUN(대상)%의 뒤로 줄선, 세 명의 여성. 그 중 한사람을 정부로 해 주자고 한다……
+IF IS_FEMALE(MASTER)
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 어디에서 냄새 맡아냈는지, %ANAME(MASTER)%의 신체에게도 조사가 붙어 있는 것 같다
+ENDIF
+PRINTFORMW ……그렇다 치더라도, 뭔가 있다고 생각하고 있었지만, 설마 빼내기를 걸칠 수 있다고는
+PRINTFORMW 놀라울 정도은 아니다. 환상향은 혼미의 시대에 있다. 그러한 수단에 나오는 세력이 있어도 이상하지는 않다
+PRINTFORMW 이쪽이라고 해도, 살아남기 위해서는, 조금이라도 강력한 세력에 도착해 두는 것이 유리한 계책이다
+PRINTFORMW 한편, 이 이야기를 받으면, 지금의 주군의 방면과의 관계는, 틀림없이 뒤틀릴 것이다
+PRINTFORMW 그런데, 어떻게 할까……
+CALL SINGLE_DRAWLINE
+PRINTFORML %ANAME(대상)%의 영지수:{GET_OWN_CITY(CFLAG:대상:소속)} %ANAME(보스)%의 영지수:{GET_OWN_CITY(CFLAG:MASTER:소속)}
+PRINTFORML 
+CALL ASK_YN("이야기에 오른다", "그만둔다")
+
+IF RESULT == 1
+	PRINTFORMW 「아라……그래」
+	PRINTFORMW 「굉장한 담력이군요, 적진 한가운데로, 이 이야기를 거절하다니」
+	PRINTFORMW 「뭐, 별로 해의는 없지만 말야. 그런 일이라면 단념해요」
+	PRINTFORMW 칼부림 사태는 각오 위였지만, %조사처리(ANAME(대상),"는")% 의외로 시원스럽게 단념해 보였다
+	PRINTFORMW 「여기서 죽이면, 손에 들어 오지 않는 것. 수긍하지 않으면, %조사처리(ANAME(보스),"를")% 꺾어눌러 빼앗으면 좋은 것뿐. 달라?」
+	PRINTFORMW 「아무튼 그러한 (뜻)이유이니까, 다음을 만날 때는 용서하지 않아요……쿠쿳」
+	PRINTFORMW 그 후, %조사처리(ANAME(MASTER),"는")% 무사하게 거점까지 돌아왔다……
+	KDVAR:대상:카구야_귀족의권유 = 2
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「그렇게 말해 준다고 생각하고 있었어요」
+PRINTFORMW 「후후, 아무쪼록 부탁해요?」
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 수긍해 돌려주었다……
+LOCAL:0 = MIN((ABL:MASTER:무투 + ABL:MASTER:지략 + ABL:MASTER:정치 + ABL:MASTER:방위) * 200, 50000)
+MONEY += LOCAL:0
+CALL CHANGE_RELATION_O_TO_O(보스, 대상, -500, 500)
+CALL CHANGE_RELATION_O_TO_O(보스, MASTER, -500, 500)
+CALL CHANGE_COUNTRY(MASTER, CFLAG:대상:소속, 1)
+CALL COLOR_PRINTW(@"준비금으로 해서 돈{LOCAL:0}를 받았습니다", 칼라_주의)
+CALL COLOR_PRINTW(@"%조사처리(ANAME(보스),"와")%의 외교 관계가, 매우 뒤틀렸습니다", 칼라_경고)
+PRINTFORMW 「……그래서, 약속의 『색』쪽이지만」
+PRINTFORMW 「누구로 하는 거야?   받아 주세요 자유롭게」
+PRINTFORML
+CALL ASK_MULTI(ANAME(테위), ANAME(레이센), ANAME(에이린), ANAME(대상))
+LOCAL:0 = RESULT
+SELECTCASE LOCAL
+	CASE 0
+		LOCAL = 테위
+	CASE 1
+		LOCAL = 레이센
+	CASE 2
+		LOCAL = 에이린
+	CASE 3
+		LOCAL = 대상
+ENDSELECT
+
+SELECTCASE LOCAL
+	CASE 테위, 레이센, 에이린
+		PRINTFORMW 「후응……%조사처리(ANAME(LOCAL),"가")% 기호?」
+		PRINTFORMW 「뭐, 당신의 취미에 흥미는 없지만. 알았어요, 오늘부터 %조사처리(ANAME(LOCAL),"는")% 당신의 것이야」
+		PRINTFORMW 「구워먹든 삶아먹든, 마음대로 해 주세요. 당신이 여자를 어떻게 취급할까에 흥미는 없으니까」
+		PRINTFORMW 그 뒤로 싫증인 표정을 띄운 %ANAME(대상)%대신에, %조사처리(ANAME(LOCAL),"가")% 한 걸음 앞에 나아간다……
+		SELECTCASE LOCAL
+			CASE 테위
+				PRINTFORMW 「아무튼 잘 부탁드립니다. 그렇다 치더라도 나를 선택한다고는―. 너 혹시 로리콘이라는 녀석?」
+				PRINTFORMW 「별로 좋지만. 우리들이 공주님의 명령이다, 너의 것이 되어 주는, 한동안은」
+			CASE 레이센
+				PRINTFORMW 「나……말입니까, 스승으로도 테위도 아니고……하아」
+				PRINTFORMW 「으음,……그, 힘껏 노력하도록 하겠습니다. 잘 부탁드립니다」
+			CASE 에이린
+				PRINTFORMW 「공주도 장난이 지나요……하구나, 끝나지 않는 일생의, 그저 일순간의 사소한 실수라고라도 생각해 두기로 해요」
+				PRINTFORMW 「살아 있는 동안은 당신의 것이 되어 주기 때문에, 적어도 지루함은 시키지 않아 줘군요」
+		ENDSELECT
+		CALL COLOR_PRINTW(@"%ANAME(LOCAL)%의 합의를 얻었습니다", 칼라_핑크)
+		TALENT:LOCAL:합의 = 1
+		TALENT:LOCAL:쵸로인 = 1
+	CASE 대상
+		PRINTFORMW 「……헤에, 나?」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 희미하게로 한 미소를 띄워, 가만히 이쪽을 응시해 왔다
+		IF IS_LOVER(대상)
+			PRINTFORMW 「별로 이런 기회가 아니어도, 당신이라면 별로 좋은 것이지만」
+			PRINTFORMW 「뭐, 그것이 원하신다면 좋아요」
+			PRINTFORMW 「그렇지만, 상냥하게 해?」
+			CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_핑크)
+			CFLAG:대상:호감도 += 500
+			TALENT:LOCAL:합의 = 1
+			TALENT:LOCAL:쵸로인 = 1
+		ELSEIF IS_SLAVE(대상)
+			PRINTFORMW 「별로 이런 기회가 아니어도, 당신이라면 언제라도 좋은데」
+			PRINTFORMW 「그렇지 않으면, 그 만큼 나를 바라 주시고 있다는 일일까?」
+			PRINTFORMW 「뭐든지 좋아요. 나는 당신의 것인걸」
+			PRINTFORMW 「아무쪼록 나째를 사용해 주십시오, 주인님……♥」
+			PRINTFORMW 기대하도록(듯이) 기대고 걸리는 %조사처리(ANAME(대상),"를")% 껴안았다……
+			CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_핑크)
+			CFLAG:대상:의존도 += 500
+			TALENT:대상:합의 = 1
+			TALENT:LOCAL:쵸로인 = 1
+			TALENT:LOCAL:프라이드높음 = 0
+			TALENT:LOCAL:고고함 = 0
+			TALENT:LOCAL:정조관념 = 0
+		ELSE
+			PRINTFORML
+			PRINTFORMW ……그리고, 갑자기 강렬한 손바닥을 먹여 왔다
+			PRINTFORML
+			PRINTFORMW 「귀족들이, 나아가서는 제까지가 빠짐없이 요구한 이 나를?」
+			PRINTFORMW 「이 %조사처리(NAME_FORMAL(대상),"를")%, 당신과 같은게?   이렇게 간단하게, 손에 넣을 수 있으면?」
+			PRINTFORMW 「대단히, 바보로 된 거네. 완전히, 정말로, 웃을 수 없는 농담이예요」
+			PRINTFORMW 「나는 우수한 사람은 좋아해요?   에서도, 그것을 이유로 잘난체하는 것 같은 어리석은 자는, 무능보다 상당히 싫다」
+			PRINTFORMW 「……뭐, 나의 매력에 포로가 되는 것은 어쩔 수 없는 것이군요. 그 점에 면해, 지금 것은 불문으로 해 준다」
+			PRINTFORMW 「그렇지만, 매우 불쾌했어요. 지금의 실언으로 잃은 신용을 되찾을 수 있도록, 겨우 노력하세요, 천한 돼지」
+			PRINTFORMW 그것 뿐, %조사처리(ANAME(대상),"는")% 아무것도 말하지 않았다
+			IF ((IS_LOVER(테위) || IS_SLAVE(테위)) && (IS_LOVER(레이센) || IS_SLAVE(레이센)) && (IS_LOVER(에이린) || IS_SLAVE(에이린)))
+				PRINTFORML
+				PRINTFORMW ……그런 %조사처리(ANAME(대상),"를")%, %ANAME(에이린)%들이 둘러싸, 마루에 억누른다
+				PRINTFORMW 돌연의 일에, %조사처리(ANAME(대상),"는")% 동요하고 있는 것 같다
+				PRINTFORMW 「%ANAME(에이린)%, 어떤 생각!?」
+				PRINTFORMW 「미안해요카구야, 그렇지만 당신도 그의 좋은 점을 알아야 하는 것」
+				PRINTFORMW 「미안합니다 공주님……」
+				PRINTFORMW 「야, 어떻게든 말할까 공주님, 단념해 받아들이는 편이 좋은 것이 아니야?」
+				PRINTFORML 그녀들의 반응에, %조사처리(ANAME(대상),"는")% 부하의 배신을 깨달은 것 같았다
+				PRINTFORML 구속으로부터 피하려고날뛴다가, 세 명에게 이길 수 있을 리도 없다
+				PRINTFORMW 동작을 봉쇄된 %ANAME(대상)%에, %조사처리(ANAME(MASTER),"는")% 천천히 다가간다
+				PRINTFORMW 「오지마!   당신, 도대체 누구에게 향해……」
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 분노가 깃들인 눈으로 이쪽을 보고 있다. 뭐, 그렇게도 될 것이다
+				PRINTFORML 자, 그럼, 어떻게 하지…
+				PRINTFORML
+				CALL ASK_MULTI_JUDGE("범한다", HAS_PENIS(MASTER), "투옥한다", 1, "처형", GET_COUNTRY_BOSS(대상) != 대상)
+				SELECTCASE RESULT
+					CASE 0
+						PRINTFORMW 「이……적당히, 하세요……힛」
+						PRINTFORMW 더욱 더 저항하려고 하는 %조사처리(ANAME(대상),"였")%지만, 옷 너머로도 아는 만큼 발기한 %ANAME(MASTER)%의 페니스를 보고, 작은 비명을 지른다
+						PRINTFORMW 이 후의 전개를 헤아렸을 것이다, 그 눈동자에는 공포의 색이 떠올라 있다
+						PRINTFORMW 「그만두어……싫어, 부탁해요, 저기」
+						PRINTFORMW 방금전까지의 위엄은 어디 갔는지, %조사처리(ANAME(대상),"는")% 무력한 소녀로서 무서워해, 용서를빈다라고 있다
+						PRINTFORMW 「자, 어서, %ANAME(MASTER)%. 이 아이도, %ANAME(MASTER)%의 좋은 점을 알면 반드시 바뀔 수 있다고 생각해요」
+						PRINTFORMW 「우리로 해 주도록(듯이), 공주님의 일도 사랑해 드려 주세요?」
+						PRINTFORMW %ANAME(MASTER)%의 정부들은 개의치 않고, %ANAME(대상)%의 옷을 풀어헤쳐, 가랑이를 열게 한다
+						PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 다가가, 천천히 덮어씌웠다……
+						PRINTFORMW 「거짓말, 거짓말이야 이런 건, 아니, 그만두어, 싫어어어엇……!」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「싫어, 그런, 아, 더러움이, 아, 아아아아앗……!」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「우앗, 핫♥  아, 누, 누가, , 아앗!」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「다르닷, 그런, 느껴 무엇인가♥  , 그만두고……!」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「부탁해요, 이제(이미/벌써/더는/정말) 사정하지 말고……아앗……♥」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「힛, 하앗♥  아, 쿠앗, 아아♥  응응응♥」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「오, 소원 합니다……넣어 주세요……읏, 나의 보지에, 자지 주세욧……!」
+						PRINTFORML 
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						PRINTFORMW 「우앗♥  아, 응아앗♥  아, 기분, 기분이 좋은, 기분이 좋은♥」
+						PRINTFORML 
+						PRINTFORML 
+						PRINTFORML 
+						FOR LOCAL, 0, 3
+							CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						NEXT
+						PRINTFORML 
+						PRINTFORML 
+						PRINTFORML 
+						PRINTFORMW 수시간 후, %조사처리(ANAME(대상),"는")% 마루에 팽개칠 수 있던 것처럼 구르고 있었다
+						PRINTFORMW 호사스러운 기모노는 체액으로 질척질척이 되어, 흑발에도 백탁이 달라붙어 있다
+						PRINTFORMW 사타구니로부터는\@TALENT:대상:처녀 ? 피와 # \@애액과 정액이 섞인 액체와 역류 하고 있다
+						PRINTFORMW 모든 존엄을 벗겨내져 구멍이라는 구멍을 범해져, %조사처리(ANAME(대상),"는")% 지금은 유린될 뿐(만큼)의 암컷에 떨어지고 있다
+						PRINTFORMW 공허한 그 눈동자에는, 방금전까지 자신이 사용하고 있던 옥좌에 앉은 %조사처리(ANAME(MASTER),"와")%
+						PRINTFORMW %ANAME(MASTER)%에 봉사해, 얽혀, 황홀한 표정을 띄우는 한 때의 부하들이 비쳐 있다
+						PRINTFORMW 자신이 이것도 저것도 잃은 것을, %조사처리(ANAME(대상),"는")% 재차 깨닫는다
+						PRINTFORMW 그리고, 휘청휘청 일어나, %ANAME(MASTER)%에 간원 한다……
+						PRINTFORMW 「%ANAME(MASTER)%님……내가 잘못되어 있었습니다, 부디 나도, %ANAME(MASTER)%님의 것으로 해 주세욧……♥」
+						PRINTFORMW %조사처리(ANAME(대상),"는")% 다리를 벌려 앉은 %ANAME(MASTER)% 앞으로 무릎 꿇으면, 충성이 증거로 삼아, 애액 투성이의 것을 스스로 빨기 시작한다
+						PRINTFORMW %조사처리(ANAME(MASTER),"는")% 힐쭉 웃어, %ANAME(대상)%도 다른 정부같이 귀여워해 주기로 했다……
+						CALL FUCK(대상, "욕망, 성기술, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, Ａ확장, 성교, 자위, 정애, 노출, 배설, 사정, 고통쾌락, 긴박, 마조, 키스, 펠라티오, Ｖ성교, Ａ성교", "키스상실, 처녀상실, Ａ처녀상실, CFLAG 감소, 질내사정, 장내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER))
+						CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 길들였습니다", 칼라_주의)
+						CFLAG:대상:호감도 += 1000
+						CFLAG:대상:의존도 += 500
+						CFLAG:대상:종속도 += 1500
+						TALENT:대상:복종 = 1
+						TALENT:대상:합의 = 1
+						TALENT:대상:고고함 = 0
+						TALENT:대상:프라이드높음 = 0
+						TALENT:대상:프라이드낮음 = 1
+						TALENT:대상:정조관념 = 0
+						TALENT:대상:남성혐오 = 0
+						TALENT:대상:쵸로인 = 1
+					CASE 1
+						PRINTFORMW 뭐, 차분히 길들여 주면 좋을 것이다
+						PRINTFORMW %ANAME(에이린)%들에게 명해 %조사처리(ANAME(대상),"를")% 투옥시켰다……
+						CALL CAPTURE(대상, CFLAG:MASTER:소속)
+					CASE 2
+						PRINTFORMW 쿠데타는 성공이다
+						PRINTFORMW 이미 %조사처리(ANAME(대상),"는")% 필요없다
+						PRINTFORMW 부하에게 명해 처형시키기로 했다……
+						CALL EXECUTION(대상)
+						CALL CHANGE_COUNTRY(대상, 0, 1, 1)
+				ENDSELECT
+			ELSE
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% 촉구받는 대로 퇴출 했다……
+				CALL COLOR_PRINTW(@"%ANAME(대상)%의 반감을 샀습니다", 칼라_경고)
+				CFLAG:대상:호감도 = -500
+				CFLAG:대상:의존도 = -500
+				CFLAG:대상:종속도 = -500
+				TALENT:대상:고고함 = 1
+				TALENT:대상:프라이드높음 = 1
+				TALENT:대상:억압 = 1
+				TALENT:대상:선을넘지않음 = 1
+				TALENT:대상:꿋꿋함 = 1
+				TALENT:대상:반항적 = 1
+			ENDIF
+		ENDIF
+		KDVAR:대상:카구야_귀족의권유 = 1
+ENDSELECT
+
+KDVAR:대상:카구야_귀족의권유 = 1
+RETURN 1

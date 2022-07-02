@@ -1,0 +1,64 @@
+﻿;속공허
+@KOJO_K10_HOLLOW(레밀리아_대상)
+#DIM 레밀리아_대상
+#DIM 레밀리아
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+
+PRINT 「
+
+PRINTDATA
+	DATAFORM ―,
+	DATAFORM 아
+	DATAFORM ……후아
+	DATAFORM ……우
+	DATAFORM ,
+	DATAFORM ……아
+	DATAFORM ……하, 아
+	DATAFORM 아―,
+	DATAFORM 만난다
+ENDDATA
+
+PRINTDATA
+	DATAFORM ―
+	DATAFORM 아―……아
+	DATAFORM 
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 응
+	DATAFORM 
+	DATAFORM 아―
+	DATAFORM 만난다
+ENDDATA
+
+PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+PRINTDATA
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 
+	DATAFORM 는
+	DATAFORM 
+	DATAFORM 응
+ENDDATA
+
+PRINTDATA
+	DATAFORM , 응우
+	DATAFORM 
+	DATAFORM 
+	DATAFORM ……
+ENDDATA
+
+PRINTFORM %BREAK_K10("말", 레밀리아_대상)%
+
+PRINTL 」
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

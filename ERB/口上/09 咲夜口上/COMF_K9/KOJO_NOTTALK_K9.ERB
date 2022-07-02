@@ -1,0 +1,248 @@
+﻿;소리가 나오지 않는다
+@KOJO_K9_CANNOT_TALK(사쿠야_대상)
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;재갈（시험적으로 꽤 세세하게 단락지어 보았다. 랜덤성은 오르지만 시행 회수가 부족하기 때문에 묘한 소리가 될 가능성도）
+IF SELECTCOM == 86 || IS_EQUIP_TARGET(사쿠야, 86)
+	PRINT 「
+	PRINTFORM %SPLIT_R(":응::응 ::푸")%
+	PRINTFORM %SPLIT_R("::응::::::푸")%
+	PRINTFORM %SPLIT_R("-:::::::::오")%
+	PRINTFORM %SPLIT_R(":::::::::::::::응구")%
+	PRINTFORM %SPLIT_R("-::읏")%
+	PRINTFORM %SPLIT_R(". ::,::……")%
+	PRINTFORM %SPLIT_R(":응::응 ::푸")%
+	PRINTFORM %SPLIT_R("::응::::::푸")%
+	PRINTFORM %SPLIT_R("-:::::::::오")%
+	PRINTFORM %SPLIT_R(". :. :. :. ::, 아:, :, :, ::아하……")%
+	PRINTFORM %SPLIT_R(":::::::::::::::응구")%
+	PRINTFORM %SPLIT_R("-::읏")%
+	PRINTFORM %SPLIT_R(". ::,::……")%
+	PRINTFORM %SPLIT_R(":응::응 ::푸")%
+	PRINTFORM %SPLIT_R("::응::::::푸")%
+	PRINTFORM %SPLIT_R("-:::::::::오")%
+	PRINTFORM %SPLIT_R(":::::::::::::::응구")%
+	PRINTFORM %SPLIT_R("-::읏")%
+	PRINTFORM %SPLIT_R("……::::::::")%
+	PRINTL 」
+	RETURN 0
+ENDIF
+
+;버드 키스（PLAYER에서도 TARGET에서도）
+IF SELECTCOM == 340 || IS_EQUIP(사쿠야, 340)
+CFLAG:250 = 3;처음으로 키스를 한 플래그※패치 변경 부분
+	PRINT 「
+	;함락 하고 있을까 주도권이 있을 때
+	IF CHECK_K10("함락", 사쿠야_대상) || IS_INITIATIVE(사쿠야)
+		PRINTDATA
+			DATAFORM 츗……응
+			DATAFORM 응. 츗?   츗
+			DATAFORM ……읏……후
+			DATAFORM 응구……응
+			DATAFORM 츄……?   응
+			DATAFORM 츄……?   , 아
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+	;함락 하고 있지 않아서 주도권도 없을 때
+	ELSE
+		PRINTDATA
+			DATAFORM ……우?   ……
+			DATAFORM 응……야
+			DATAFORM ……?   응
+			DATAFORM 응!   ……우
+			DATAFORM 응?   응……응
+			DATAFORM ……?   응
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+	ENDIF
+	PRINTL 」
+	RETURN 0
+ENDIF
+
+;소프트 키스（PLAYER에서도 TARGET에서도）
+IF SELECTCOM == 341 || IS_EQUIP(사쿠야, 341)
+CFLAG:250 = 3;처음으로 키스를 한 플래그※패치 변경 부분
+	PRINT 「
+	;함락 하고 있을까 주도권이 있을 때
+	IF CHECK_K10("함락", 사쿠야_대상) || IS_INITIATIVE(사쿠야)
+		PRINTDATA
+			DATAFORM 츗?   응구
+			DATAFORM 짜는……츗?   응
+			DATAFORM 응……?   츗
+			DATAFORM 짜는, 응?   짠다
+			DATAFORM 응, 응. 츗
+			DATAFORM 응
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+		PRINTDATA
+			DATAFORM 짠다……후
+			DATAFORM 
+			DATAFORM . 좋아……?   응구
+			DATAFORM 응……후
+			DATAFORM 응구
+			DATAFORM 츄
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+	;함락 하고 있지 않아서 주도권도 없을 때
+	ELSE
+		PRINTDATA
+			DATAFORM ……우……
+			DATAFORM ……우
+			DATAFORM 벗기는, 응
+			DATAFORM 응……응쿠
+			DATAFORM 구……우, 응
+			DATAFORM 응구……
+		ENDDATA
+		PRINTDATA
+			DATAFORM . 싫어요. 후
+			DATAFORM , 크후
+			DATAFORM ……아쿠
+			DATAFORM 응……
+			DATAFORM . 후아
+			DATAFORM 응
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+	ENDIF
+	PRINTL 」
+	RETURN 0
+ENDIF
+
+;키스（침실）딥키스（PLAYER에서도 TARGET에서도）
+IF SELECTCOM == 20 || SELECTCOM == 342 || IS_EQUIP(사쿠야, 20, 342)
+CFLAG:250 = 3;처음으로 키스를 한 플래그※패치 변경 부분
+	;함락 하고 있을까 주도권이 있을 때
+	IF CHECK_K10("함락", 사쿠야_대상) || IS_INITIATIVE(사쿠야)
+		PRINT 「
+		PRINTDATA
+			DATAFORM 츗. 응쿠
+			DATAFORM 
+			DATAFORM 구,
+			DATAFORM 짠다. 하무, 응
+			DATAFORM 응
+			DATAFORM 응
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+		PRINTDATA
+			DATAFORM 짠다. 후
+			DATAFORM 
+			DATAFORM , 응쿠
+			DATAFORM 
+			DATAFORM 아
+			DATAFORM 츄
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+		PRINTDATA
+			DATAFORM 츗……응쿠
+			DATAFORM , 츄
+			DATAFORM 구, 후아. 
+			DATAFORM 짠다……하무, 응
+			DATAFORM 응
+		ENDDATA
+		PRINTDATA
+			DATAFORM 짠다. 후
+			DATAFORM 
+			DATAFORM 후~
+			DATAFORM 
+			DATAFORM 응. 푸, 후아
+			DATAFORM 츄. 하후
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+		PRINTL 」
+
+	;함락 하고 있지 않아서 주도권도 없을 때
+	ELSE
+		PRINT 「
+		PRINTDATA
+			DATAFORM ……우……
+			DATAFORM ……우
+			DATAFORM ,
+			DATAFORM ……응구
+			DATAFORM 구……우, 응
+			DATAFORM 응구……
+		ENDDATA
+		PRINTDATA
+			DATAFORM . 싫어요. 후
+			DATAFORM , 크후
+			DATAFORM ……응쿠
+			DATAFORM 응……
+			DATAFORM . 후아
+			DATAFORM 응
+		ENDDATA
+		PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+		PRINTL 」
+	ENDIF
+	RETURN 0
+ENDIF
+
+;그 외
+;PLAYER 2=쿤닐링구스 8=애널핥기 9=유두빨기 11=페라 20=키스 104=다리 빨고 107=귀두 페라 330=일상구 봉사
+;TARGET 90=이라마 101=안면승마 102=Ａ안면승마 105=Ｗ안면승마 132=입안방뇨 210=촉수펠라
+PRINT 「
+PRINTDATA
+	DATAFORM 응, 응쿠
+	DATAFORM ……쥬
+	DATAFORM , 쥬웃
+	DATAFORM 짠다
+	DATAFORM 응
+	DATAFORM 
+	DATAFORM 
+ENDDATA
+PRINTDATA
+	DATAFORM , 아므, 후
+	DATAFORM , 후,
+	DATAFORM ……응, 무, 후구
+	DATAFORM ……후구우. 후
+	DATAFORM . 응. 푸
+	DATAFORM . 푸후아
+	DATAFORM . , 후
+ENDDATA
+PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+PRINTDATA
+	DATAFORM 는, 하
+	DATAFORM !   응
+	DATAFORM !   응
+	DATAFORM 는!   후~
+	DATAFORM 응은
+	DATAFORM 하, 후
+	DATAFORM 후~
+ENDDATA
+PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+PRINTDATA
+	DATAFORM 응구
+	DATAFORM 
+	DATAFORM 구식, 응우
+	DATAFORM 응 먹는, 쥬
+	DATAFORM 응……므아
+	DATAFORM 
+	DATAFORM 
+ENDDATA
+PRINTDATA
+	DATAFORM . 응후우
+	DATAFORM 
+	DATAFORM 
+	DATAFORM ……오, 후
+	DATAFORM ……응. 
+	DATAFORM ……응푸, 쥬
+ENDDATA
+PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+
+PRINTL 」
+RETURN 0
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

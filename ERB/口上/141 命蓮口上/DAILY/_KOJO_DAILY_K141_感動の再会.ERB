@@ -1,0 +1,270 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K141_NTR_HIS_SISTER_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K141_NTR_HIS_SISTER_DECISION(대상)
+#DIM 대상
+#DIM 뱌쿠렌
+#DIM 피임
+뱌쿠렌 = NAME_TO_CHARA("뱌쿠렌")
+
+SIF IS_LOVER(대상) || IS_SLAVE(대상)
+	RETURN 0
+
+SIF !IS_SLAVE(뱌쿠렌)
+	RETURN 0
+
+SIF TALENT:뱌쿠렌:처녀 || TALENT:뱌쿠렌:키스미경험
+	RETURN 0
+
+SIF ABL:뱌쿠렌:욕망 < 랭크역치:랭크_그외:랭크_C
+	RETURN 0
+
+SIF !HAS_PENIS(대상) || !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF CFLAG:대상:포로처 != CFLAG:MASTER:소속
+	RETURN 0
+
+SIF KDVAR:대상:묘우렌_사전교섭
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 1) && CHECK_KOJO_DAILY_HAPPEN(뱌쿠렌, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K141_NTR_HIS_SISTER_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K141_NTR_HIS_SISTER(대상)
+#DIM 대상
+#DIM 뱌쿠렌
+#DIM 피임
+뱌쿠렌 = NAME_TO_CHARA("뱌쿠렌")
+
+
+KDVAR:대상:묘우렌_사전교섭 = 1
+;수색원의 발생을 잡는다（이야기로서 이상한 기분이 들므로）
+KDVAR:대상:묘우렌_수색원 = 2
+
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 옥중의 %조사처리(ANAME(대상),"를")% 방문했다……
+PRINTFORMW 「……무슨 용무다, 나를 웃으러 왔는지?」
+PRINTFORMW 「이런 곳에 가둔 것 뿐으로, 나를 굴한경 당한다고 생각하는구나」
+PRINTFORMW 「말해 두지만, 나는, 너 같은 것……에」
+PRINTFORML 지껄여대는 도중에, %조사처리(ANAME(대상),"는")% 말을 잃었다
+PRINTFORMW %ANAME(MASTER)%의 근처에 서는 여성……%ANAME(뱌쿠렌)%를 눈치챘을 것이다
+PRINTFORMW 「누나!   그런 곳에서 도대체 무엇을……」
+PRINTFORMW 「%ANAME(대상)%. 이 (분)편의 말하는 것을는, 따라서 두는 것이 좋아요」
+PRINTFORMW 「무슨 말을 하고 있다, 그런 일, 할 수 있을 이유가 없을 것이다!?」
+PRINTFORML %ANAME(뱌쿠렌)%의 말투는 %PRONOUN(대상)%에 있어 과연 쇼크였던 것 같다
+PRINTFORMW 번득 승려에게 있을 수 없는 살의가 가득찬 눈으로 이쪽을 응시해 온다
+PRINTFORMW 「너!   누나에게 무엇을 했다!?」
+PRINTFORML 무엇을 했다……라고 해도, 함락 시킨 것 뿐이다
+PRINTFORML 모처럼이니까 증거를 보여 주려고, %조사처리(ANAME(MASTER),"는")% %ANAME(뱌쿠렌)%에 신호하도록(듯이) 턱을 뜬다
+PRINTFORML 그것만으로 %ANAME(뱌쿠렌)%는 %ANAME(MASTER)%의 의도를 헤아려, 스스로 스커트를 걷어올린다
+PRINTFORMW 그 안에서는, 아무것도 몸에 대지 않고, 노출이 된 젖은 비부가 노출이 되어 있다……
+PRINTFORMW 「알아? 　%ANAME(대상)%, 이렇게 되기 때문에, 이 분에게 반항해서는 안 되는거야」
+PRINTFORMW 「나오지 않는다……와♥  나같이♥  떨어뜨려져 버리기 때문에♥」
+PRINTFORML 말하는 %ANAME(뱌쿠렌)%의 비부에 손가락을 기게 해 만지작만지작 만지작거려 준다
+PRINTFORMW 그것만으로 %PRONOUN(뱌쿠렌)%는 무릎을 여차저차 진동시켜 비밀의 틈으로부터 암컷즙을 흘러넘치게 하고 있다
+PRINTFORMW 「누……누나, 눈을 떠라!」
+PRINTFORMW 「눈을 뜨는 것은 그쪽이야, %ANAME(대상)%. 당신도 이 (분)편에 따른다……아하아♥」
+PRINTFORML 노출의 클리토리스를 가볍게 타 주면, 그것만으로 등을 뒤로 젖혀 좋아한다
+PRINTFORMW 원래는 고명한 비구니였지만, 지금은 단순한 암컷이다……
+PRINTFORMW 「너, 너……!」
+PRINTFORMW 격노한다는 모습으로, %조사처리(ANAME(대상),"는")% 이쪽을 노려보고 있다
+PRINTFORML 반항적인 태도다. 그러면, 감동의 재회를 좀 더 북돋워 줄까……
+PRINTFORML 
+CALL ASK_MULTI(@"%ANAME(뱌쿠렌)%를 %ANAME(대상)%에 부추긴다", @"%ANAME(뱌쿠렌)%를 범한다", "아무것도 하지 않고 돌아간다")
+
+SELECTCASE RESULT
+	CASE 2
+		PRINTFORMW 뭐, 오늘은 %ANAME(뱌쿠렌)%를 보이러 온 것 뿐이다
+		PRINTFORMW 그대로 돌아가기로 했다……
+	CASE 0
+		PRINTFORMW 모처럼의 재회인 것이니까, 「즐겁게 해」하지 않겠는가
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 감옥의 문을 열면, %ANAME(뱌쿠렌)%를 안에 넣는다
+		PRINTFORMW 「아학……%ANAME(대상)%……읏♥」
+		PRINTFORMW 「춋……그만두고 그만두어 줘누나, 눈을 떠라!」
+		PRINTFORML %ANAME(뱌쿠렌)%는 감옥에 들어가든지, 의복을 벗어 던져, 그 풍만한 육체를 쬐었다
+		PRINTFORMW 한층 더%ANAME(대상)%의 의복을 벗겨내면, 노출시킨 일물을 입에 넣어, 기쁘게 해 간다
+		PRINTFORMW %조사처리(ANAME(MASTER),"가")% 한껏 가르쳐 주었던 대로의 행동이다
+		PRINTFORML %조사처리(ANAME(대상),"는")% 몸을 비꼼 피하려고 하지만, 양손을 형벌 도구로 경고할 수 있었던 상태로 %ANAME(뱌쿠렌)%로부터 도망칠 수 있을 리도 없다
+		PRINTFORMW 물어지는 대로 되어, %ANAME(MASTER)%교육의 %ANAME(뱌쿠렌)%의 기술에 의해 물건을 서게 해 있다……
+		CALL ASK_YN("생으로 시킨다", "고무를 처넣는다")
+		피임 = RESULT
+		IF 피임 == 0
+			PRINTFORML 모처럼이다, %ANAME(대상)%에 선물을 주자
+			PRINTFORMW 사랑하는 누나가 아이를 낳아 준다고 되면, %PRONOUN(대상)%도 눈물을 흘리고 기뻐할 것임에 틀림없다
+			PRINTFORMW 「자, %ANAME(대상)%, 그분 있고의, 나의 안에 쳐박아……」
+			PRINTFORMW 「충분히 털어 놓아, 나를 임신하게 해……♥」
+		ELSE
+			PRINTFORML ……다만, 녀석의 아이를 임신하게 해 줄 생각은 없다
+			PRINTFORMW 우리의 밖으로부터 한 마디 걸어, %ANAME(뱌쿠렌)%에 고무를 던지고 건네준다
+			PRINTFORMW %ANAME(뱌쿠렌)%는 곧 의도를 이해한 것 같아, %ANAME(대상)%의 페니스에 그것을 씌웠다
+			PRINTFORMW 「미안해요%ANAME(대상)%, 나의 자궁（여기）는 그 (분)편에게 바쳐 버렸기 때문에……」
+			PRINTFORMW 「그렇지만, 분명하게 섹스는 할 수 있기에, 안심해, 즐깁시다?」
+		ENDIF
+		PRINTFORMW 「그만두어라, 그만두어 줘, 누나……」
+		PRINTFORMW 「그만두지 않는, 아핫……아하앗♥」
+		PRINTFORML 완전히 무기력이 된 %ANAME(대상)%에 걸쳐, %ANAME(뱌쿠렌)%는 허리를 떨어뜨렸다
+		PRINTFORML 츄 응!   와 소리를 내, %PRONOUN(대상)%의 것은 진짜의 누나의 질로 쑤셔 넣어졌다
+		PRINTFORMW %ANAME(뱌쿠렌)%는 견딜 수 없다는 것 같은 달콤한 소리를 질러 곧바로 격렬하게 허리를 거절해 세우기 시작한다……
+		PRINTFORMW 「아하앗♥  경, 아핫, %ANAME(대상)%의 자지 좋은, 남동생의 자지 좋다의♥」
+		PRINTFORMW 「그만두어라……우아, 아, 아아앗……」
+		PRINTFORML %ANAME(뱌쿠렌)%는 창녀 압도하는 허리사용으로, %ANAME(대상)%의 것에 쾌락을 주어 간다
+		PRINTFORML 경험이 부족할 것이다 승려전이, 그런 기교에 견딜 수 있을 리도 없다
+		PRINTFORML 그저 그만두라는 말과 신음소리를 흘리면서, 고개를 저어 현상을 부정할 뿐이다
+		PRINTFORMW 물론, 발정한 암컷이 된 %ANAME(뱌쿠렌)%가, 그런 간원으로 그만둘 리도 없다……
+		PRINTFORMW 「아학, 아, 아읏♥  ……저것」
+		PRINTFORML 문득, %ANAME(뱌쿠렌)%의 움직임이 멈추었다. 의아스러운 표정을 띄우고 있다
+		PRINTFORMW 대조적으로, %ANAME(대상)%의 신체는 움찔움찔 경련하고 있었다. 회음의 근처가 수축하고 있다. 사정한 것이다
+		PRINTFORMW 「%ANAME(대상)%도 참, 벌써 사정해 버렸어?   빠른거네」
+		PRINTFORMW 「우웃……미안한, 누나……미안하다……」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 힘 없고, 미안하면 반복할 뿐이다
+		PRINTFORMW 다만, 윤리관을 잃은 지금의 %ANAME(대상)%에, 그 말을 올바르게 이해할 수 없다……
+		IF 피임
+			PRINTFORMW 「이제(이미/벌써/더는/정말), 질내사정 정도 신경쓰지 않아도 괜찮은데. 분명하게 고무도 붙인 것이고」
+		ELSE
+			PRINTFORMW 「별로 신경쓰지 않아도 괜찮은데. 언젠가는 어차피 사정것이고」
+		ENDIF
+		PRINTFORMW 「그런 일보다, 계속되어, 합시다♥」
+		PRINTFORMW 「계속은……우아, 아아앗!?   그만두어 줘누나, 이제(이미/벌써/더는/정말) ……」
+		PRINTFORMW 「괜찮아♥  아직도 사정 다투겠죠, 젊기 때문에♥」
+		PRINTFORML %ANAME(MASTER)%에 의해 가르쳐진 %ANAME(뱌쿠렌)%가, 한 번이나 두 번의 사정으로 만족할 리도 없었다
+		PRINTFORML %ANAME(뱌쿠렌)%는 %PRONOUN(대상)% 위로부터 물러날려고도 하지 않고, 그대로 허리를 구불거리게 하기 시작한다
+		PRINTFORML 대하는 %조사처리(ANAME(대상),"는")%, 삐걱삐걱 전신을 뛰게 해 쾌락에 희롱해지고 있다
+		PRINTFORMW ……나쁘지 않은 구경거리다
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 잠깐, 누이와 동생의 열렬한 교미를 바라보고 있었다……
+		PRINTFORML
+		PRINTFORML
+		FOR LOCAL, 0, 5
+			CALL FUCK(대상, "Ｃ, 사정, 성교, 고통쾌락, Ｖ삽입, 키스", "동정상실, 키스상실", 0, @"%ANAME(뱌쿠렌)%의 입술", "", @"%ANAME(뱌쿠렌)%의 질", "조교")
+			CALL FUCK(뱌쿠렌, "Ｃ, Ｂ, Ｖ, 성교, 봉사, 성기술, 정애, Ｖ성교, 키스, 펠라티오", @"\@ 피임 == 0 ? 질내사정,  # \@ 키스상실, 처녀상실", 피임 == 0 ? GET_ID(대상) # 0, @"%ANAME(대상)%의 페니스", ANAME(대상), "", "조교")
+		NEXT
+		PRINTFORML
+		PRINTFORML 
+		PRINTFORMW 한동안 해, 간신히 %조사처리(ANAME(대상),"는")% 해방되었다
+		PRINTFORMW 체력의 한계까지 짜내져 말라 비틀어진 것처럼 되어 있다……
+		PRINTFORMW 「……알았다……충성을 맹세한다, 맹세하기 때문에……이제(이미/벌써/더는/정말) 용서해, 주세요……」
+		PRINTFORMW 힘 없게 중얼거린 것을 보고, %조사처리(ANAME(대상),"를")% 감옥에서 내 주었다……
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 충성을 맹세했습니다", 칼라_주의)
+		CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+		TALENT:대상:복종 = 1
+		TALENT:대상:쵸로인 = 1
+		TALENT:대상:겁쟁이 = 1
+		TALENT:대상:꿋꿋함 = 0
+		CFLAG:대상:종속도 += 1500
+		CFLAG:대상:의존도 += 300
+	CASE 1
+		PRINTFORMW 감동의 재회다. 누나가 어떠한 행위에 종사하고 있었는지, 보여 주는 것도 나쁘지 않을 것이다……
+		PRINTFORMW 그렇게 생각한 %조사처리(ANAME(MASTER),"는")%, %ANAME(뱌쿠렌)%에 짧게 말을 건다
+		PRINTFORMW 「네……♥」
+		PRINTFORMW %ANAME(뱌쿠렌)%는 의도를 헤아린 것 같아, 곧바로 그 자리에서 옷을 벗어 던져, 풍부한 육체를 쬔다
+		PRINTFORMW 휘어진 유방을 아래로부터 떠올리도록(듯이) 가볍게 애무해 주면, 그것만으로 %ANAME(뱌쿠렌)%는 달콤한 한숨을 흘린다……
+		PRINTFORMW 「어이……어이!   너!   무엇을 하고 있다!   그만두어라!」
+		PRINTFORML 아우성치는 %조사처리(ANAME(대상),"를")% 무시해, %ANAME(뱌쿠렌)%에 눈으로 신호를 준다
+		PRINTFORMW 「그럼, 실례하는……훗, 응무, 츄루, 츄우……♥」
+		PRINTFORML %ANAME(뱌쿠렌)%는 이쪽에 입맞춤해, 농후한 입 맞춤을 하면서, 한층 더%ANAME(MASTER)%의 일물을 손에 익숙해진 손놀림으로 노출시킨다
+		PRINTFORMW 흰 손가락을 걸어, 천천히 잡아당겨, 발기시켜 간다……
+		PRINTFORMW 「아아……부탁입니다, %ANAME(MASTER)%님, 은혜를……♥」
+		PRINTFORML 그러던 중 인내 할 수 없게 되었는지, %ANAME(뱌쿠렌)%가가 간원 하므로, 수긍해 준다
+		PRINTFORMW %ANAME(뱌쿠렌)%는 %ANAME(MASTER)%의 자비에 감사하면서, %ANAME(MASTER)% 앞으로 무릎 꿇어, 그것을 빨아, 빨기 시작한다
+		PRINTFORMW 「응쥿, 쥬루, 훅, 응우, 읏, 쥬푸웃♥」
+		PRINTFORMW %ANAME(MASTER)%에 의해 가르쳐진, %ANAME(MASTER)%기호의 기술이다
+		PRINTFORMW 타액을 한껏 얽히게 되어지면서 페니스빨아 개구님은, 일찍이 고명한 비구니 「(이었)였다」라고는 생각되지 않을 만큼의 것이다……
+		PRINTFORMW 「누나……그만두어 줘!   그런 일을 할 필요는 없다!   눈을 떠라!」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 쇠창살을 비뚤어지게 할듯이 꽉 쥐면서, 필사적으로 아우성치고 있다
+		PRINTFORMW %ANAME(뱌쿠렌)% %PRONOUN(대상)%를 시시한 것 같은 눈으로 보면, 내뱉었다
+		PRINTFORMW 「무엇을 착각 하고 있어 %ANAME(대상)%……눈을 떠?」
+		PRINTFORMW 「나는, 눈을 뜬거야……이 (분)편의 덕분에, 여자로서 사는 것이 자신의 규정이었다 라고, 간신히 눈치챌 수 있던거야?」
+		PRINTFORML 꽤 재미있는 말을 한다
+		PRINTFORML 그 대답은 마음에 들었지만, 자신으로부터 졸라 두어 멋대로 입봉사를 중단한 것은 받을 수 없다
+		PRINTFORMW 벌을 주지 않으면 되지 않으리라고, %조사처리(ANAME(MASTER),"는")% %ANAME(뱌쿠렌)%를쓰러트린다……
+		PRINTFORMW 「아학♥  , 미안합니다 %ANAME(MASTER)%님, 내가 잘못되어 있었습니다」
+		PRINTFORMW 「부디 불할 수 있고노예의 이 나에게, 벌을 주십시오……♥」
+		PRINTFORMW 뒤로부터, 음부에게 일물을 꽉 누른다
+		PRINTFORMW 입으로 봉사 할 수 없다고 한다면, 질로 봉사시켜 줄 때까지다
+		PRINTFORMW %ANAME(MASTER)%의 의도를 헤아렸는지, %ANAME(뱌쿠렌)%는 스스로 그 포동포동한 엉덩이를 구불거리게 해, 스스로 비밀의 틈을 나누어 열도록(듯이)해 성교를 조른다
+		PRINTFORMW 거기까지 말한다면 주자……
+		PRINTFORMW 「아……읏는, 아하아아아아아아아앗!」
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 마음껏 허리를 내밀어, %ANAME(뱌쿠렌)%의 질내에 일격으로 근본까지 삽입한다
+		PRINTFORMW 그것만으로 %ANAME(뱌쿠렌)%는 절정 한 것 같아, 등을 뒤로 젖혀, 비부로부터 암컷즙을 분출한다
+		PRINTFORMW 「아앗, 변명……히잇♥  아는!」
+		PRINTFORML 성과가 나쁜 노예다. 벌로서 엉덩이에 손바닥을 주입하면서, 삽입질을 개시한다
+		PRINTFORMW !   !   와 기분의 좋은 소리를 내면서, 누나가 유린되고 있는 것을, %조사처리(ANAME(대상),"는")% 입술을 끊어질 것 같을 정도 악물어 다만 응시하고 있다
+		PRINTFORMW 「아하앗♥  좋은♥  자지♥  자지 기분이 좋은 것♥」
+		PRINTFORML 남동생의 심정을 아는지 모르는지, %ANAME(뱌쿠렌)%는 추잡한 암컷으로서의 말을 늘어놓는다
+		PRINTFORMW %ANAME(MASTER)%의 움직임에 맞추도록(듯이) 허리를 구불거리게 할 수 있는 모양은, 암캐라든가 암퇘지라든가 불리는 종류의 것이었다
+		PRINTFORMW 「아하앗♥  사정해 주십시오, 나의, %ANAME(뱌쿠렌)% 안에 주인님의 종을 주세욧♥」
+		PRINTFORML 이윽고 %조사처리(ANAME(MASTER),"가")% 한계에 가까워져, 스트로크를 재촉하면, 잘 할 수 있던 노예인 %ANAME(뱌쿠렌)%는 곧바로 그것을 깨달아 질내사정을 조른다
+		PRINTFORMW 거기까지 말한다면 주려고, %조사처리(ANAME(MASTER),"는")% %PRONOUN(뱌쿠렌)%의 엉덩이에 허리를 내던져, 자궁에 요도구멍을 딱 밀착시키도록(듯이)해 사정했다
+		PRINTFORMW 「아하아아아아아아앗♥」
+		PRINTFORML 뜨거운 타네를 흘러 들어가지는 감각에, %ANAME(뱌쿠렌)%는 한층 높은 소리를 질러 절정 했다
+		PRINTFORML 그녀의 소리가 석조의 감옥 안에 반향한다
+		PRINTFORMW 질의 조임은 상당한 것으로, 마치 %ANAME(MASTER)%의 정액을 모두 짜내려고 하는것같이 연동 한다
+		PRINTFORML ……나쁘지 않은 사용감이었다
+		PRINTFORMW 이지만, 이것으로 끝은 아니다
+		PRINTFORML 이것은 %조사처리(ANAME(MASTER),"가")% 만족하기 위해서 가고 있는 것은 아니다
+		PRINTFORML 어디까지나, %ANAME(뱌쿠렌)%의 야비한 모습을 %ANAME(대상)%에 과시하기 위한 행위다
+		PRINTFORMW 라면, 좀 더 보여 주지 않으면 되지 않든지?
+		PRINTFORMW 질내사정의 여운에 잠긴 %ANAME(뱌쿠렌)%의 엉덩이에 다시 손바닥을 쳐박아, 깨달을 수 있는 것을 한다
+		PRINTFORMW 그렇게, 절정 한지 얼마 안된%PRONOUN(뱌쿠렌)%에, 다시 허리를 쳐박기 시작한다
+		PRINTFORMW 「히!?   는 히, 오, 히잇♥  아에, 히예어♥」
+		PRINTFORML 간지 얼마 안된 민감한 질이 유린되어 %ANAME(뱌쿠렌)%는 조금 전과는 다른 천한 교성을 질러 번민 미친다
+		PRINTFORMW 이러하지 않으면와 웃으면서, %조사처리(ANAME(MASTER),"는")% 격렬하게 허리를 쳐박는다
+		PRINTFORMW 그 뒤도, %ANAME(뱌쿠렌)%가 정신을 잃을 때까지, 한껏%PRONOUN(뱌쿠렌)%를 사용해 주었다……
+		PRINTFORML
+		PRINTFORML
+		FOR LOCAL, 0, 5
+			CALL FUCK(MASTER, "Ｃ, 사정, 성교, 고통쾌락, Ｖ삽입, 키스", "동정상실, 키스상실", 0, @"%ANAME(뱌쿠렌)%의 입술", "", @"%ANAME(뱌쿠렌)%의 질", "조교")
+			CALL FUCK(뱌쿠렌, "Ｃ, Ｂ, Ｖ, Ｍ, 마조, 고통쾌락, 성교, 봉사, 성기술, 정애, Ｖ성교, 키스, 펠라티오", @"\@ 피임 == 0 ? 질내사정,  # \@ 키스상실, 처녀상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER), "", "조교")
+		NEXT
+		PRINTFORML
+		PRINTFORML 
+		PRINTFORMW 「하힛, 네히, 히이……♥」
+		PRINTFORML %조사처리(ANAME(MASTER),"가")% 한 바탕 만족하는 무렵에는, %ANAME(뱌쿠렌)%는 완전히 의식을 잃고 있었다
+		PRINTFORML 행복한 아헤얼굴을 쬐면서, 석조의 마루에 달라 붙어 있다
+		PRINTFORMW 비밀의 틈으로부터는, %ANAME(MASTER)%의 종이 보글보글 소리를 내고 흘러넘치고 있다……
+		PRINTFORML 일의 사이, %조사처리(ANAME(대상),"는")% 한마디도 발하지 않았다
+		PRINTFORMW 그런 %PRONOUN(대상)%에, 좋은 것이 볼 수 있었을 것이라고 말을 건다
+		PRINTFORMW 「……죽여준다」
+		PRINTFORMW 「너!   잘도……절대로 죽여준다!   어디까지 도망쳐도, 땅의 끝까지 뒤쫓아, 숨통을 끊어 줄거니까!」
+		PRINTFORML 도저히 승려라고는 생각되지 않는 것 같은 말을 늘어놓아, %조사처리(ANAME(대상),"는")% 마구 아우성친다
+		PRINTFORML 아무래도 마음에 드시지 않았던 것 같다
+		PRINTFORMW 휴우~하며 어깨를 움츠리면서, %조사처리(ANAME(MASTER),"는")% %ANAME(뱌쿠렌)%를 메어 감옥을 뒤로 했다……
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 반감을 샀습니다", 칼라_주의)
+		CFLAG:대상:호감도 -= 1500
+		CFLAG:대상:종속도 -= 1500
+		CFLAG:대상:의존도 -= 1500
+		TALENT:대상:반항적 = 1
+		TALENT:대상:억압 = 1
+		TALENT:대상:프라이드높음 = 1
+		TALENT:대상:헌신적 = 0
+ENDSELECT
+
+
+RETURN 1
+
+
+

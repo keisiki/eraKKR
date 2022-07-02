@@ -1,0 +1,97 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K109_EXCUSE_RATE(대상)
+#DIM 대상
+RETURN 40
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K109_EXCUSE_DECISION(대상)
+#DIM 대상
+#DIM 앨리스
+
+앨리스 = NAME_TO_CHARA("앨리스")
+
+SIF !TALENT:대상:합의 || !TALENT:앨리스:합의
+	RETURN 0
+
+SIF KDVAR:대상:신키_달라
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(앨리스, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K109_EXCUSE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K109_EXCUSE(대상)
+#DIM 대상
+#DIM 앨리스
+앨리스 = NAME_TO_CHARA("앨리스")
+
+KDVAR:대상:신키_달라 = 1
+
+PRINTFORMW 「%ANAME(MASTER)%, 조금 괜찮을까?」
+PRINTFORML 자기 방에서 업무중, %조사처리(ANAME(대상),"가")% 방을 방문해 왔다
+PRINTFORMW 「업무 중, 미안하지만, 뭔가 쑤셔 버려……」
+PRINTFORMW 「그래서이, 지만, 괜찮다면 함께……어떨까?」
+PRINTFORML 보면, %ANAME(대상)%의 뺨은 희미하게 주홍에 물들고 있다
+PRINTFORMW 입술은 요염하다……
+
+CALL ASK_YN("껴안는다", "사양해 둔다")
+
+IF RESULT == 1
+	PRINTFORML 오늘은 피곤함
+	PRINTFORML 사양하기로 했다……
+	RETURN 1
+ENDIF
+
+PRINTFORML 이것저것 말하는 것도 촌스러울 것이다
+PRINTFORML %조사처리(ANAME(대상),"를")% 껴안아, 침대에 쓰러트렸다……
+PRINTFORMW 「%ANAME(MASTER)%?   조금 이야기가……아」
+PRINTFORML ……%ANAME(앨리스)%가 들어 왔다
+PRINTFORML 침대 위에서 얽히는 두 명, 흐트러진 %ANAME(대상)%의 의복
+PRINTFORML 총명한 %PRONOUN(앨리스)%이니까, 모든 것을 헤아렸겠지……
+PRINTFORMW 「아, 앨리스짱, 다른거야, 이것은 그, 에으음」
+PRINTFORMW 당황하는 %조사처리(ANAME(대상),"를")% 뒷전으로, %ANAME(앨리스)%는 한숨을 하나 붙었다
+
+IF ABL:앨리스:욕망 < 랭크역치:랭크_그외:랭크_C
+	PRINTFORMW 「낮부터 그런 일을 하는 것은 어떨까라고 생각해요, "신키님"」
+	PRINTFORMW 「뭐……마음대로 하면 좋다고 생각하지만」
+	PRINTFORMW 떠나는 %ANAME(앨리스)%의 이쪽을 보는 눈은, 서늘한 것이었다……
+	CFLAG:앨리스:호감도 -= 500
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「%조사처리(ANAME(MASTER),"는")% 정말, 낮부터 그런 일을……」
+PRINTFORMW 「……봐 버린 것은 어쩔 수 없고, 나도 혼합해 줄래?」
+PRINTFORML 그렇게 말해, %ANAME(앨리스)%는 응석부리도록(듯이) 다가서 온다
+PRINTFORMW 차린 밥상 먹지 않는 피부,. 두 사람 모두 상대 하기로 했다……
+
+IF HAS_PENIS(MASTER)
+	CALL FUCK(MASTER, "욕망, Ｃ, 사정, Ｖ삽입", "동정상실", GET_SPERM_ID("불명"), "", "", @"%ANAME(대상)%의 질")
+	CALL FUCK(대상, "욕망, Ｖ, 봉사, 성기술, 정애, Ｖ성교", "질내사정, 처녀상실", GET_ID(MASTER), "", ANAME(MASTER), "", "난교")
+	CALL FUCK(앨리스, "욕망, Ｖ, 봉사, 성기술, 정애, Ｖ성교", "질내사정, 처녀상실", GET_ID(MASTER), "", ANAME(MASTER), "", "난교")
+ELSE
+	CALL FUCK(MASTER, "욕망, 봉사, 성기술, Ｃ, Ｂ, Ｍ, 펠라티오, 레즈", "키스상실", 0, @"%ANAME(대상)%의 \@RAND:2 ?입술#음부\@", "", "", "난교")
+	CALL FUCK(대상, "욕망, 봉사, 성기술, Ｃ, Ｂ, Ｍ, 펠라티오, 레즈", "키스상실", 0, @"%ANAME(MASTER)%의 \@RAND:2 ?입술#음부\@", "", "", "난교")
+	CALL FUCK(앨리스, "욕망, 봉사, 성기술, Ｃ, Ｂ, Ｍ, 펠라티오, 레즈", "키스상실", 0, @"%ANAME(MASTER)%의 \@RAND:2 ?입술#음부\@", "", "", "난교")
+ENDIF
+
+RETURN 1
+

@@ -1,0 +1,104 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K29_GAIRAI_GANGBANG_RATE(대상)
+#DIM 대상
+RETURN 300
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K29_GAIRAI_GANGBANG_DECISION(대상)
+#DIM 대상
+#DIM 외래인
+외래인 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_외래인)
+
+SIF 외래인 == -1 || CFLAG:대상:포로처 != 외래인 || CFLAG:대상:소속 == 외래인
+	RETURN 0
+
+SIF KDVAR:대상:에이린_굿바이지성
+	RETURN 0
+
+SIF GETBIT(TALENT:대상:특수세력함락계, 특수세력_외래인)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K29_GAIRAI_GANGBANG_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K29_GAIRAI_GANGBANG(대상)
+#DIM 대상
+#DIM 외래인
+
+외래인 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_외래인)
+
+PRINTFORMW 「이, 놓으세요……!」
+PRINTFORML 무기질인 방에서, 구속 의자에 앉아진 %조사처리(ANAME(대상),"가")%, 피하려고 발버둥치고 있는
+PRINTFORMW 거대한 헤드 세트가 덮여, 그녀의 머리와 얼굴을 푹 가리고 있었다
+PRINTFORML ……고래보다 사람이 동경해, 손에 넣으려고 한 기적, 불로 불사
+PRINTFORML 지상보다 아득하게 진행된 과학기술을 가지는 달 중(안)에서, 그것을 대표할 정도의 예지
+PRINTFORMW 그것들을 체현 하는 "실험 대상"을 손에 넣은 외래 사람들이, 연구하지 않고 둘 리가 없었다
+PRINTFORML 그들은 모니터를 경유해, 별실로부터 %ANAME(대상)%의 모습을 바라보고 있다
+PRINTFORML 그들에게 있어, 달의 두뇌라고도 불릴 정도의 지혜는 꼭 갖고 싶은 것이다
+PRINTFORML 불로 불사도, 연구 대상으로 해 실로 흥미롭다
+PRINTFORML 이지만, %ANAME(대상)%의 반항적인 태도는, 연구를 진행시키는데는 큰 장해가 된다
+PRINTFORMW ……이기 때문에 그들은, %PRONOUN(대상)%로부터의 지식의 추출과 자아의 개서를 결정한 것이었다
+PRINTFORML 연구 리더의 명령으로, 장치가 기동된다
+PRINTFORMW 와 동시에, %ANAME(대상)%의 모습이 바뀐다
+PRINTFORMW 「아……아아아아아아!?」
+PRINTFORML 강렬한 빛이, 장착된 바이저로부터 흘러든다
+PRINTFORML 와 동시에, 후두부에 따끔한 감촉이 달린다. 바늘인가 뭔가가 비집고 들어간 것이다
+PRINTFORML 바늘로부터 흘러드는 전기적 자극에, 머릿속이 으득으득 고쳐 쓸 수 있어 간다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 전신을 경련시키지만, 구속 의자가 경고한다……
+PRINTFORMW 「힛……좋아앗」
+PRINTFORML 당신이 사라져 가는 것을 또렷이 느낀다. 그것을 지각하는 능력조차도 빼앗겨 간다
+PRINTFORMW 대신에, 근거도 없는, 하지만 강렬한 행복감이 %조사처리(ANAME(대상),"를")% 채워 간다……
+PRINTFORMW 「악, 앗앗앗, 아……♥」
+PRINTFORML 질척질척 귀의 안쪽으로부터 소리가 들린다. 뇌의 물리적 구조를 농락해지고 있다
+PRINTFORMW 그들이 필요한 것은 지혜이며, 불로 불사이며, 「%NAME_FORMAL(대상)%」그 자체는 어떻든지 좋은 것이다……
+PRINTFORML
+PRINTFORML
+PRINTFORML
+PRINTFORMW 「헤, 히, 에는」
+PRINTFORML ……이윽고, 작업은 종료했다
+PRINTFORML 헤드 세트가 떼어져 %PRONOUN(대상)%의 얼굴이 공공연하게 된다
+PRINTFORMW 속이 비어 있는 눈동자로, 입 끝으로부터 군침을 흘려 보내는 모양은, 매우%조사처리(ANAME(대상),"라")%고는 생각되지 않는 것이다……
+PRINTFORML 구속이 떼어져 몸이 자유롭게 되지만, %조사처리(ANAME(대상),"는")% 도망치려고 하지 않았다
+PRINTFORML 「%NAME_FORMAL(대상)%」대신에 주어진 것은, 외래인을 위한 실험동물로서의 자아다
+PRINTFORMW 실험동물이 도망치려고 한다 따위, 있을 리도 없는 이야기였다
+PRINTFORMW 유일한 문이 열려%PRONOUN(대상)%같이 속이 비어 있는 눈동자를 한전라의 남자들이 수명, 비집고 들어가 온다
+PRINTFORMW 「이것보다 교배 실험을 시작하는, 서브젝트 30212는 탈의 해, 서브젝트 25489-25498으로 성교하도록(듯이)」라고, 스피커로부터 남성의 소리가 흐른다
+PRINTFORML 서브젝트 30212, 그것이 %ANAME(대상)%의 새로운 이름이다
+PRINTFORML 불로 불사자는 임신하는지, 했다고 해서, 그 아이는 불로 불사를 계승하는지……그것이 그들의 연구테마였다
+PRINTFORML 그것을 알기 위해서만, %조사처리(ANAME(대상),"를")% 무서운 윤간극에 던져 넣자고 한다
+PRINTFORML 충실한 실험동물인 곳의 %조사처리(ANAME(대상),"는")%, (듣)묻는 대로 옷을 벗어, 그들의 앞에 가랑이를 연다
+PRINTFORMW 그렇게, 속이 비어 있는 눈동자의 실험동물은, 그저 요구되는 대로, 무기질인 성교를 시작했다……
+PRINTFORML 
+CALL COLOR_PRINTL(@"%조사처리(ANAME(대상),"가")% 실험동물이 되었다", 칼라_주의)
+TRYCALLFORM %SP_COUNTRY_NAME_ENG:특수세력_외래인%_FALLEN_LEAVE_MARK(대상)
+PRINTFORML 
+
+FOR LOCAL, 0, 3
+	CALL FUCK_GANGBANG_SP(대상, GET_SPERM_ID("「실험동물」"), "실험동물의 페니스", "「실험동물」", 외래인)
+NEXT
+
+KDVAR:대상:에이린_굿바이지성 = 1
+SETBIT TALENT:대상:특수세력함락계, 특수세력_외래인
+CALL CHANGE_COUNTRY(대상, 외래인, 1)
+
+RETURN 1

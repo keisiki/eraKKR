@@ -1,0 +1,3 @@
+﻿#DIM CONST 코이시_간식도둑 = 0
+#DIM CONST 코이시_줄놀이 = 1
+#DIM CONST 코이시_줄놀아_놀이중 = 2

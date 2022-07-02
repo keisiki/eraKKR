@@ -1,0 +1,92 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_77_SP_1_EXIST
+RETURN 1
+
+@SKILL_77_SP_1_NAME
+RESULTS = 대일 여래의 빛
+
+;레벨은 1-5까지
+@SKILL_77_SP_1_LEVEL
+RETURN 3
+
+;대상 선택
+@SKILL_77_SP_1_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+SIF BATTLE_COMMANDER_NUM:대상측 == 0
+	RETURN 0
+RETURN 1
+
+;발동 판정
+@SKILL_77_SP_1_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_77_SP_1_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML 여래의 후광이 사악한 존재를 봉한다!
+FOR LOCAL, 0, BATTLE_COMMANDER_NUM:발동측
+	IF HAS_TAG(BATTLE_COMMANDER:발동측:LOCAL, 태그_인외) && LOCAL != 발동번호
+		PRINTFORML %ANAME(BATTLE_COMMANDER:발동측:LOCAL)%는 스킬·소질을 봉쇄되었다!
+		BATTLE_SKILL_SEALED:발동측:LOCAL = 1
+	ENDIF
+NEXT
+FOR LOCAL, 0, BATTLE_COMMANDER_NUM:대상측
+	IF HAS_TAG(BATTLE_COMMANDER:대상측:LOCAL, 태그_인외)
+		PRINTFORML %ANAME(BATTLE_COMMANDER:대상측:LOCAL)%는 스킬·소질을 봉쇄되었다!
+		BATTLE_SKILL_SEALED:대상측:LOCAL = 1
+	ENDIF
+NEXT
+RETURN 1
+
+;
+@SKILL_77_SP_1_EXPLANATION
+RESULTS = 자신 이외의 인외 전원에게 「봉마」의 효과.
+
+
+
+
+@SKILL_77_SP_1_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 150

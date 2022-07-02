@@ -1,0 +1,159 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K143_PREGNATE_ME_RATE(대상)
+#DIM 대상
+RETURN 500
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K143_PREGNATE_ME_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:네무노_자만들기
+	RETURN 0
+
+SIF IS_LOVER(대상) || IS_SLAVE(대상) || IS_SLAVED_BY(대상)
+	RETURN 0
+
+SIF TALENT:대상:합의
+	RETURN 0
+
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF ABL:MASTER:무투 + ABL:MASTER:방위 + ABL:MASTER:지략 + ABL:MASTER:정치 < 250
+	RETURN 0
+
+SIF TALENT:대상:임신
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K143_PREGNATE_ME_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K143_PREGNATE_ME(대상)
+#DIM 대상
+
+TALENT:대상:합의 = 1
+TALENT:대상:쵸로인 = 1
+
+IF IS_MALE(MASTER)
+	PRINTFORMW 「%ANAME(MASTER)%. 집이 등 밀까?」
+	PRINTFORML 목욕탕에 들어가 있으면, 돌연 %조사처리(ANAME(대상),"가")% 들어 왔다
+	PRINTFORML 그 일 자체에도 놀라게 해졌지만, 무엇보다 %PRONOUN(대상)%가 한가닥의 실 휘감지 않은 모습이라는 것을 놀라게 해진다
+	PRINTFORMW 당황해 눈을 떼면, %조사처리(ANAME(대상),"는")% 팔 수 있는 해 기분인 소리를 지른다
+	PRINTFORMW 「응, %조사처리(ANAME(MASTER),"는")% 집을 봐 흥분하는지?   그것은 기쁘구나. 거기에 안성맞춤」
+	PRINTFORML 무슨 말을 하고 있는지 곤혹하고 있으면, 등에 부드러운 감촉을 기억했다
+	PRINTFORML 아무래도 %조사처리(ANAME(대상),"가")% 뒤새와 다가붙고 있는 것 같다. 라는 것은 이것은, 그녀의 가슴이다
+	PRINTFORMW 등으로 닿는 것만으로, 부드러움과 탄력이 전해져 온다……
+	PRINTFORMW 「여자로 태어난 이상에는, 좋은 남자아이 종을 받아, 낳고 싶다고 생각하는 것이다」
+	PRINTFORMW 「하물며 야마우바라는 것은 산생활이니까, 산의 생활에 견딜 수 있을 정도로 강한 아이를 낳지 않으면 안 된다」
+	PRINTFORMW 「그렇지만 뭐, 좀처럼 사람의 통하지 않는 산속에서, 그런 남자에게 접하는 것 같은거 좀처럼」
+	PRINTFORMW 「그러니까야말로 야마우바라는 것은, 내림인 남자를 보기 시작하면, 바로 집에 불러 『환대』하는 것이다」
+	PRINTFORML 즉%조사처리(ANAME(대상),"는")%, 자신과 「그런 일」을 바라고 있는 것 같다
+	PRINTFORMW 하지만, %조사처리(ANAME(대상),"와")%는 그다지 친하지도 않고, 뭐든지 자신인 것일까……
+	PRINTFORMW 「그렇다면 뭐, %조사처리(ANAME(MASTER),"는")% 실력도 있고, 종을 받는 상대로서는?」
+	PRINTFORMW 「또, 친한 친하지 않고 우리 야마우바는 것을 생각하지 않는다. 우수한가, 그렇지 않은가다」
+	PRINTFORMW 「거기에……이렇게 (해) 말하는 것도 아닐 것이다?」
+	PRINTFORMW %조사처리(ANAME(대상),"가")% 전에 손을 뻗어 온다. %ANAME(MASTER)%의 것은, 벌써 딱딱해지기 시작하고 있다
+	PRINTFORMW 「?   아무도 손해는 하지 않는 이야기, 너는 기분이 좋고, 집도 기분이 좋고, 강한 아이가 생긴다」
+	PRINTFORMW 「확실히 『그러한 약』도 마셔 와, 지금이라면 백발 백중」
+	PRINTFORMW 「사람 돕기를 한다고 생각해……♥」
+	PRINTFORML 말하면서 %조사처리(ANAME(대상),"는")%, %ANAME(MASTER)%의 것을 손바닥으로 싸, 천천히 다뤄 온다
+	PRINTFORMW 평소의 %PRONOUN(대상)%와는 달라, 요염한 어조로, 귓전으로 속삭여 온다
+	PRINTFORML 견뎌야할 것인가 아닌가……
+ELSE
+	PRINTFORMW 「%ANAME(MASTER)%. 집이 등 밀까?」
+	PRINTFORML 목욕탕에 들어가 있으면, 돌연 %조사처리(ANAME(대상),"가")% 들어 왔다
+	PRINTFORML 그 일 자체에도 놀라게 해졌지만, 무엇보다 %PRONOUN(대상)%가 신체를 일절 숨기지 않고 과시하도록(듯이) 쬐고 있는 것을 놀라게 해진다
+	PRINTFORMW 당황해 눈을 떼면, %조사처리(ANAME(대상),"는")% 팔 수 있는 해 기분인 소리를 지른다
+	PRINTFORMW 「응, %조사처리(ANAME(MASTER),"는")% 집을 봐 흥분하는지?   소문 나오고 (들)물었던 대로다」
+	PRINTFORML 무슨 말을 하고 있는지 곤혹하고 있으면, 등에 부드러운 감촉을 기억했다
+	PRINTFORML 아무래도 %조사처리(ANAME(대상),"가")% 뒤새와 다가붙고 있는 것 같다. 라는 것은 이것은, 그녀의 가슴이다
+	PRINTFORMW 등으로 닿는 것만으로, 부드러움과 탄력이 전해져 온다……
+	PRINTFORMW 「여자로 태어난 이상에는, 좋은 남자아이 종을 받아, 낳고 싶다고 생각하는 것이다」
+	PRINTFORMW 「하물며 야마우바라는 것은 산생활이니까, 산의 생활에 견딜 수 있을 정도로 강한 아이를 낳지 않으면 안 된다」
+	PRINTFORMW 「그렇지만 뭐, 좀처럼 사람의 통하지 않는 산속에서, 그런 남자에게 접하는 것 같은거 좀처럼」
+	PRINTFORMW 「그러니까야말로 야마우바라는 것은, 내림인 남자를 보기 시작하면, 바로 집에 불러 『환대』하는 것이다」
+	PRINTFORML 즉%조사처리(ANAME(대상),"는")%, 자신과 「그런 일」을 바라고 있는 것 같다
+	PRINTFORMW 하지만, %조사처리(ANAME(대상),"와")%는 그다지 친하지도 않고, 무엇보다도 자신은 여자다. 뭐든지 자신인 것일까……
+	PRINTFORMW 「그렇다면 뭐, %조사처리(ANAME(MASTER),"는")% 실력도 있고, 종을 받는 상대로 해로서는?」
+	PRINTFORMW 「또, 친한 친하지 않고 우리 야마우바는 것을 생각하지 않는다. 우수한가, 그렇지 않은가다」
+	PRINTFORMW 「성별도 그렇게. %조사처리(ANAME(MASTER),"는")% 자식을 토할 수 있다. 아무것도 문제는 없다베」
+	PRINTFORMW 「거기에……이렇게 (해) 말하는 것도 아닐 것이다?」
+	PRINTFORMW %조사처리(ANAME(대상),"가")% 전에 손을 뻗어 온다. %ANAME(MASTER)%의 것은, 벌써 딱딱해지기 시작하고 있다
+	PRINTFORMW 「?   아무도 손해는 하지 않는 이야기, 너는 기분이 좋고, 집도 기분이 좋고, 강한 아이가 생긴다」
+	PRINTFORMW 「확실히 『그러한 약』도 마셔 와, 지금이라면 백발 백중」
+	PRINTFORMW 「사람 돕기를 한다고 생각해……♥」
+	PRINTFORML 말하면서 %조사처리(ANAME(대상),"는")%, %ANAME(MASTER)%의 것을 손바닥으로 싸, 천천히 다뤄 온다
+	PRINTFORMW 평소의 %PRONOUN(대상)%와는 달라, 요염한 어조로, 귓전으로 속삭여 온다
+	PRINTFORML 견뎌야할 것인가 아닌가……
+ENDIF
+
+CALL ASK_YN("바라는 대로 한다", "냉정하게 되어라!")
+
+IF RESULT == 1
+	PRINTFORMW 아니아니, 변변히 서로를 모르는데 그런 일은 좋지 않다
+	PRINTFORMW 유혹을 뿌리쳐 일어서면, %PRONOUN(대상)%는 유감스러운 얼굴을 띄웠다
+	PRINTFORMW 「응응?   차린 밥상 먹지 않는은, 은 모르는 것인지? 　%ANAME(MASTER)%」
+	PRINTFORMW 「유감이지만……뭐 좋다베, 따로 서두르는 이야기에서도 없음」
+	PRINTFORMW 「그럴 기분이 들면, 언제라도 우리 방에 와 주어도 좋으니까……♥」
+	PRINTFORMW 이 장소에 머무르고 있으면, 또%ANAME(대상)%에 충당되어 버릴 것 같다
+	PRINTFORMW 수를 뒤집어 써 머리를 식히면, %조사처리(ANAME(MASTER),"는")% 목욕탕을 뒤로 했다……
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 강압할 수 있었습니다", 칼라_주의)
+	KDVAR:대상:네무노_자만들기 = 1
+	RETURN 1
+ENDIF
+
+IF IS_MALE(MASTER)
+	PRINTFORML 거기까지 되어, 소홀히 하는 남자가 있을까 보냐
+ELSE
+	PRINTFORML 거기까지 되어, 소홀히 하는 일 같은거 할 수 없다
+ENDIF
+PRINTFORMW 되돌아 보면, %조사처리(ANAME(대상),"를")%쓰러트린다
+PRINTFORMW 「아핫……♥  그렇게 자주, 그것으로 좋다베」
+PRINTFORMW 「둘이서 기분 좋아져……집을 임신하게 해 주는거야……♥」
+PRINTFORMW 거기까지 말한다면, 바래 대로 해 주자
+PRINTFORMW %ANAME(대상)%의 몸을 껴안았다……
+
+CFLAG:대상:호감도 += 300
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:조교중돌아가지않는다 = 1
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 1
+TRAIN_PLACE = 목욕탕
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+
+KDVAR:대상:네무노_자만들기 = 2
+
+CALL ADD_EVENTTRAIN_CALLEE("KOJO_DAILY_K143_PREGNATE_ME")
+RETURN 1
+
+@EVENTTRAIN_KOJO_DAILY_K143_PREGNATE_ME
+LOCAL = NAME_TO_CHARA("네무노")
+;배란유발제
+TCVAR:LOCAL:65 = 1

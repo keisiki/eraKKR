@@ -1,0 +1,891 @@
+﻿;─────────────────────────────────────── 
+;●「만나러간다」의 개시시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_START_A1_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;사쿠야 구상의 사용 가부 설정과 초기화
+SIF CFLAG:사쿠야:400 == 0
+	CALL KOJO_ASK_RESET_K9
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+IF CFLAG:사쿠야:200 == 0
+
+	;만나러간다 구상 첫회 호출 플래그 온
+	CFLAG:사쿠야:200 = 1
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		PRINTFORML 「아……우-……」
+		PRINTFORMDL %ANAME(사쿠야)%는 흐트러진 복장으로 인형과 같이 손발을 내던지고 있다
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상 첫대면
+	;  안면이 없고 홍마관멤버나 아는 사람 캐릭터가 아닌 경우
+	;───────────────────────────────────── 
+	IF !CHECK_K9("안면")
+		;일행력
+		IF CFLAG:사쿠야:소속 == CFLAG:(사쿠야_대상):소속
+			;주인공이 사쿠야의 군주
+			IF 사쿠야_대상 == GET_COUNTRY_BOSS(CFLAG:사쿠야:소속)
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%. 왕림 주셔서 감사합니다」
+				PRINTFORML 「나는 홍마관에서 고용인을 맡고 있었습니다, %NAME_FORMAL(사쿠야)%라고 합니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「향후는 %CALLNAME_K9(사쿠야_대상)%의 신세를 집니다」
+				PRINTFORML 「신변의 주선은 부디 맡겨 주세요」
+				PRINTFORML 「차의 진함도 과자의 달콤함도 %CALLNAME_K9(사쿠야_대상)%의 기호 대로에 합니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야가 주인공의 군주
+			ELSEIF 사쿠야 == GET_COUNTRY_BOSS(CFLAG:사쿠야_대상:소속)
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%군요. 나에게 사관 해 준 것이지요?」
+				PRINTFORML 「이야기는 듣고 있어요. 나는 레밀리아 아가씨를 시중드는 홍마관의 메이드장……」
+				PRINTFORML 「(이었)였던 것이지만. 사정이 바뀌어, 지금은 여기가 있는 글자를 맡고 있어」
+				PRINTFORML 「%NAME_FORMAL(사쿠야)%야. 아무쪼록 부탁해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「걸어 줘. 오늘은 대접해요. 지금부터 많이 일해 받는 것」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;모두 사관으로 군주는 레밀리아
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == NAME_TO_CHARA("레밀리아") 
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%군요. 기다리고 있던거야」
+				PRINTFORML 「아가씨로 고용해진 것이지요?   이야기는 듣고 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「나는 홍마관의 메이드장을 맡고 있는, %NAME_FORMAL(사쿠야)%. 잘 부탁해」
+				PRINTFORML 「걸어 줘. 지금부터 많이 일해 받는걸. 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;모두 사관
+			ELSE
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%군요. 이야기는 듣고 있어요」
+				PRINTFORML 「나는 %NAME_FORMAL(사쿠야)%. 아무쪼록 부탁해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「걸어. 정확히 휴식 시간이고 좋았으면 이야기 합시다」
+				PRINTFORML 「같은 주인에 근무하는 동료인걸. 환영해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+			ENDIF
+
+		;위세력
+		ELSE
+			;주인공이 군주 또한 사쿠야가 군주
+			IF GET_COUNTRY_BOSS(CFLAG:사쿠야_대상:소속) ==  사쿠야_대상 && GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == 사쿠야
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「아라. %CALLNAME_K9(사쿠야_대상)%. 신세를 져요」
+				PRINTFORML 「재차 인사하는 편이 좋을까. 나는 홍마관의 메이드장을 맡고 있었던 %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「지금은 고용하는 측이지만, %CALLNAME_K9(사쿠야_대상)%도 그런 것이지요?」
+				PRINTFORML 「아무쪼록 부탁해요, 선배. 상담할 수 있으면 기뻐요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「걸어 줘. 그 답례라는 것이 아니지만, 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;주인공이 군주 또한 사쿠야의 군주는 레밀리아
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야_대상:소속) == 사쿠야_대상 && GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == NAME_TO_CHARA("레밀리아")
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「아라. %CALLNAME_K9(사쿠야_대상)%」
+				PRINTFORML 「말씀드려 늦었습니다. 나는 홍마관의 고용인, %NAME_FORMAL(사쿠야)%라고 합니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「아가씨가 신세를 지는 (분)편은, 내가 신세를 지는 (분)편입니다」
+				PRINTFORML 「부디 잘 부탁드립니다」
+				PRINTFORML 「걸어 주세요. 기다리게 하지는 않습니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야가 군주
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == 사쿠야
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「당신은……어떤 분이었을까?」
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%?   그렇게. 일부러 인사에 와 준 거네」
+				PRINTFORML 「말씀드려 늦었지만, 나는 레밀리아 아가씨를 시중드는 홍마관의 메이드장……이었던 것이지만」
+				PRINTFORML 「사정이 바뀌어 지금은 여기가 있는 글자를 맡고 있는, %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「아무쪼록 부탁해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「걸어 줘. 모처럼 와 준 것이니까, 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야의 군주는 레밀리아
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == NAME_TO_CHARA("레밀리아")
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「당신은……어떤 분이었을까?」
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%?   그렇게. 아가씨가 신세를 지고 있는 거네」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「말씀드려 늦었지만, 나는 홍마관의 메이드장을 맡고 있는 %NAME_FORMAL(사쿠야)%」
+				PRINTFORML 「잘 부탁해. 아무쪼록, 모처럼 와 준 것인걸. 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;그 이외
+			ELSE
+				PRINTFORML 「자. 열려 있어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+				PRINTL 
+				PRINTFORML 「당신은……어떤 분이었을까?」
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%?   그렇게. 잘 부탁해」
+				PRINTFORML 「말씀드려 늦었지만, 나는 %NAME_FORMAL(사쿠야)%. 레밀리아 아가씨를 시중드는 홍마관의 메이드장……」
+				PRINTFORML 「(이었)였던 것이지만. 사정이 바뀌어, 지금은 여기서 고용해 받고 있는 몸이야」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「걸어 줘. 모처럼 와 준 것이고, 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			ENDIF
+		ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상 첫대면은 아니다
+	;  안면이 있는 또는 홍마관멤버나 아는 사람 캐릭터의 경우
+	;───────────────────────────────────── 
+	ELSE
+		;일행력
+		IF CFLAG:사쿠야:소속 == CFLAG:(사쿠야_대상):소속
+			;데일리에 의한 만남
+			IF KDVAR:사쿠야:사쿠야_주의주인은
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%. 기다리고 있었습니다」
+				PRINTFORML 「조속히, 뭔가 명령입니까?   기대는 배반하지 않습니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「……잡담입니까?   아니요 의외여. 에에, 알았습니다」
+				PRINTFORML 「걸어 주세요. 곧바로 차를 준비 합니다」
+				PRINTFORML 「재차 인사를. 나는 홍마관의 메이드장, %NAME_FORMAL(사쿠야)%라고 합니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;데일리에 의한 만남
+			ELSEIF KDVAR:사쿠야:사쿠야_주의손님은
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %CALLNAME_K9(사쿠야_대상)%. 약속대로 와 준 거네」
+				PRINTFORML 「물론 기분이 바뀌었다고 말할 생각은 없어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「그렇지만 의외이구나. 낮에 방문해 와 주다니」
+				PRINTFORML 「아니오, 기쁜거야?   재차, 나는 홍마관의 메이드장을 맡고 있는 %NAME_FORMAL(사쿠야)%. 잘 부탁해」
+				PRINTFORML 「걸어 줘. 힘껏 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;주인공이 사쿠야의 군주
+			ELSEIF 사쿠야_대상 == GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) 
+				;경어 대상
+				IF CHECK_K9("경어")
+					PRINTFORML 「자. 열려 있어요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+					PRINTL 
+					PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"였")%습니까. 실례 했습니다」
+					PRINTFORML 「불러 주시자마자 묻는데도. 오셔 주셔서 감사합니다」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「향후도 신변의 주선은 부디 맡겨 주십시오」
+					PRINTFORML 「차의 진함도 과자의 달콤함도 %CALLNAME_K9(사쿠야_대상)%의 기호 대로에 합니다」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				;경어 대상은 아니었다
+				ELSE
+					PRINTFORML 「자. 열려 있어요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+					PRINTL 
+					PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%. 왕림 주셔서 감사합니다」
+					PRINTFORML 「재차, %NAME_FORMAL(사쿠야)%입니다. 향후는 %CALLNAME_K9(사쿠야_대상)%의 신세를 집니다」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「태도를 고쳤습니다. 접은 자국은 필요하므로……아무쪼록 예의 범절 주십시오」
+					PRINTFORML 「차의 진함도 과자의 달콤함도 %CALLNAME_K9(사쿠야_대상)%의 기호 대로에 합니다」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				ENDIF
+
+			;사쿠야가 주인공의 군주
+			ELSEIF 사쿠야 == GET_COUNTRY_BOSS(CFLAG:사쿠야_대상:소속) 
+				;경어 대상
+				IF CHECK_K9("경어")
+					PRINTFORML 「자. 열려 있어요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+					PRINTL 
+					PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%. 지금부터는 나에게 사관 해 주는 것이군요」
+					PRINTFORML 「입장이 바뀌어 기묘한 느낌입니다만……」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「물론, 매우 기쁩니다. 어떤 분에게 협력하실 수 있는 것보다도 의지가 됩니다」
+					PRINTFORML 「앞으로도, 아무쪼록 부탁드립니다」
+					PRINTFORML 「아무쪼록, 걸어 주세요. 적어도 이것까지 대로에 대접해 시켜 주십시오」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				;경어 대상은 아니다
+				ELSE
+					PRINTFORML 「자. 열려 있어요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+					PRINTL 
+					PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%. 지금부터는 나에게 사관 해 주는 거네」
+					PRINTFORML 「이제 와서 인사도 없지만, 재차 아무쪼록 부탁해요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「걸어 줘. 오늘은 대접해요. 지금부터 많이 일해 받는 것」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				ENDIF
+
+			;모두 사관
+			ELSE
+				;경어 대상（사쿠야가 노예의 경우나 주인공이 레밀리아나 프랑이나 파츄리의 경우）
+				IF CHECK_K9("경어")
+					PRINTFORML 「자. 열려 있어요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+					PRINTL 
+					PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%. 실례 했습니다. 왕림 주셔서 감사합니다」
+					PRINTFORML 「앞으로도, 아무쪼록 부탁드립니다」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「감사합니다. 어떤 분이가 와 주시는 것보다도 의지가 됩니다」
+					PRINTFORML 「걸어 주세요. 차의 준비를 합니다」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				;연인
+				ELSEIF IS_LOVER(사쿠야)
+					PRINTFORMW 「자. 열려 있어요」
+					PRINTL 
+					PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?   당신이라고는 생각하지 않았어요」
+					PRINTFORML 「그래, 기쁘네요. 누가 와 주는 것보다도 의지가 되어요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「지금부터 쭉 잘 부탁해. 후훗. 이제 놓치지 않아요?」
+					PRINTFORML 「걸어 줘. 함께 일해 받는걸. 힘껏 대접해요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				;군주는 레밀리아
+				ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == NAME_TO_CHARA("레밀리아") 
+					;홍마관거주자나 기존（파체·프랑은 경어 대상으로 판별）
+					IF ANAME(사쿠야_대상) == "소악마" || ANAME(사쿠야_대상) == "메이링" || ANAME(사쿠야_대상) == "레이무" || ANAME(사쿠야_대상) == "마리사" || ANAME(사쿠야_대상) == "린노스케"
+						PRINTFORMW 「자. 열려 있어요」
+						PRINTL 
+						PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+						PRINTFORML 「아가씨로부터 이야기는 듣고 있었지만, 당신이라고는 생각하지 않았어요」
+						CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+						PRINTL 
+						PRINTFORML 「그래, 기쁘네요. 누가 와 주는 것보다도 의지가 되어요」
+						PRINTFORML 「걸어 줘. 힘껏 대접해요」
+						CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+					;홍마관거주자 이외
+					ELSE
+						PRINTFORML 「자. 열려 있어요」
+						CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+						PRINTL 
+						PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%군요. 기다리고 있던거야」
+						PRINTFORML 「아가씨로 고용해진 것이지요?   이야기는 듣고 있어요」
+						CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+						PRINTL 
+						PRINTFORML 「나는 홍마관의 메이드장을 맡고 있는, %NAME_FORMAL(사쿠야)%. 잘 부탁해」
+						PRINTFORML 「걸어 줘. 대접해요」
+						CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+					ENDIF
+				;그 이외
+				ELSE
+					PRINTFORMW 「자. 열려 있어요」
+					PRINTL 
+					PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?   신세를 져요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+					PRINTL 
+					PRINTFORML 「이렇게 (해) 천천히 만나는 것은 처음일까. 재차, 나는 %NAME_FORMAL(사쿠야)%. 잘 부탁해」
+					PRINTFORML 「걸어 줘. 대접해요」
+					CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+				ENDIF
+			ENDIF
+
+		;위세력으로 동맹 이상의 관계
+		ELSEIF CHECK_COUNTRY_RELATION_F(CFLAG:사쿠야_대상:소속, CFLAG:사쿠야:소속) >= 2
+			;사쿠야가 노예
+			IF IS_SLAVE(사쿠야)
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. ……%CALLNAME_K9(사쿠야_대상)%?」
+				PRINTFORML 「놀랐습니다. 물론 매우 기쁩니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「어떤 분에게 협력하실 수 있는 것보다도 의지가 됩니다」
+				PRINTFORML 「앞으로도, 아무쪼록 부탁드립니다」
+				PRINTFORML 「걸어 주세요. 기다리게 하지는 않습니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;주인공이 군주
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야_대상:소속) == 사쿠야_대상
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+				PRINTFORML 「지난 번에는 신세를 집니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「재차, %NAME_FORMAL(사쿠야)%라고 합니다. 잘 부탁드립니다」
+				PRINTFORML 「걸어 편히 쉬어 주십시오」
+				PRINTFORML 「나로 괜찮으시면 상대를 맡도록 해 받습니다」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야가 연인
+			ELSEIF IS_LOVER(사쿠야)
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+				PRINTFORML 「당신이라고는 생각하지 않았어요. 그래, 기쁘네요. 누가 와 주는 것보다도 의지가 되어요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「……차라리 치러 와 주지 않을까?」
+				PRINTFORML 「후훗. 지금부터 쭉 잘 부탁해. 놓치지 않아요?」
+				PRINTFORML 「걸어 줘. 힘껏 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야가 군주
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == 사쿠야
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?   그렇게, 도와 받아요」
+				PRINTFORML 「재차, 나는 레밀리아 아가씨를 시중드는 홍마관의 메이드장……이었던 것이지만」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「사정이 바뀌어, 지금은 여기가 있는 글자를 맡고 있는 %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「아무쪼록 부탁해요」
+				PRINTFORML 「걸어 줘. 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야의 군주는 레밀리아
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == NAME_TO_CHARA("레밀리아")
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+				PRINTFORML 「그래, 아가씨가 신세를 지는 것 같구나」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「말씀드려 늦었지만, 나는 홍마관의 메이드장을 맡고 있는, %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「잘 부탁해」
+				PRINTFORML 「걸어 줘. 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;그 이외
+			ELSE
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+				PRINTFORML 「신세를 져요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「말씀드려 늦었지만, 나는 %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「잘 부탁해」
+				PRINTFORML 「걸어 줘. 대접해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+			ENDIF
+
+		;위세력으로 적대 관계
+		ELSE
+			;사쿠야의 군주가 레밀리아
+			IF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == NAME_TO_CHARA("레밀리아")
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+				PRINTFORML 「적대하고 있을 생각이었던 것이지만, 기분탓이었을까」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「재차, 나는 홍마관의 메이드장을 맡고 있는, %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「아가씨의 적은 나의 적인 것이지만, 동맹의 상담이라도 하러 왔을까요?」
+				PRINTFORML 「앉아도 괜찮아요. 차에 복수초를 넣는 것은 대답을 (듣)묻고 나서로 해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;사쿠야가 군주
+			ELSEIF GET_COUNTRY_BOSS(CFLAG:사쿠야:소속) == 사쿠야
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?   적대하고 있다고 생각하고 있었지만, 기분탓이었을까」
+				PRINTFORML 「재차, 나는 레밀리아 아가씨를 시중드는 홍마관의 메이드장……이었던 것이지만」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「사정이 바뀌어, 지금은 여기가 있는 글자를 맡고 있는 %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「앉아도 괜찮아요. 오늘은 동맹의 상담이라도 하러 왔을까요?」
+				PRINTFORML 「차에 복수초를 넣는 것은 대답을 (듣)묻고 나서로 해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			;그 이외
+			ELSE
+				PRINTFORMW 「자. 열려 있어요」
+				PRINTL 
+				PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"야")%?」
+				PRINTFORML 「적대하고 있다고 생각하고 있었지만, 기분탓이었을까」
+				CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+				PRINTL 
+				PRINTFORML 「재차, 나는 %NAME_FORMAL(사쿠야)%야」
+				PRINTFORML 「앉아도 괜찮아요. 오늘은 동맹의 상담이라도 하러 왔을까요?」
+				PRINTFORML 「차에 복수초를 넣는 것은 대답을 (듣)묻고 나서로 해요」
+				CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+
+			ENDIF
+		ENDIF
+	ENDIF
+
+;─────────────────────────────────────── 
+;○2회째 이후
+;─────────────────────────────────────── 
+ELSE
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		PRINTFORML 「아……우-……」
+		PRINTFORMDL %ANAME(사쿠야)%는 흐트러진 복장으로 인형과 같이 손발을 내던지고 있다
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	IF CHECK_K9("함락", 사쿠야_대상)
+		;경어
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「어서 오십시오, %CALLNAME_K9(사쿠야_대상)%」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 수고 하셨습니다」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%……오셔 주셔서 감사합니다」
+				DATAFORM 「아무쪼록 이쪽으로. 오늘은 천천히 할 수 있을 것 같습니까?」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「기다리게 하지는 않습니다. 드셔 주세요」
+				DATAFORM 「입맛에 맞으면 좋습니다만. 아무쪼록, 소 올라 주십시오」
+				DATAFORM 「차에 합시다. 언제라도 준비는 되어 있습니다」
+				DATAFORM 「차의 준비는 끝마쳐 있기에, 아무쪼록 드셔 주세요」
+			ENDDATA
+
+		;경어는 아니다
+		ELSE
+			PRINTDATAL
+				DATAFORM 「어서 오세요, %CALLNAME_K9(사쿠야_대상)%」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 수고 하셨습니다」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%……와 준 거네. 안심했어요」
+				DATAFORM 「앉아. 오늘은 천천히 할 수 있는 거야?」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「배가 고파지고 있으면 집어 봐. 기호로 되어지고 있으면 좋지만」
+				DATAFORM 「차 한 잔 할까요. 배는 고파지지 않아?」
+				DATAFORM 「아무쪼록, 앉아. 천천히 해 가」
+				DATAFORM 「새로운 레시피를 시험해 보았어. 입맛에 맞으면 좋지만」
+			ENDDATA
+
+		ENDIF
+
+	;호감도가 적당히 높을 때
+	ELSEIF CFLAG:사쿠야:호감도 >= 500
+		;경어
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「아라, %CALLNAME_K9(사쿠야_대상)%. 어서오세요」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 와 주신 것이군요」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%……받아 주세요, 걸어 주세요」
+				DATAFORM 「안녕하세요. 아무쪼록 이쪽으로. 천천히 편히 쉬어 주십시오」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「기다리게 하지는 않습니다. 드셔 주세요」
+				DATAFORM 「기다리고 있었습니다. 아무쪼록 소 올라 주세요」
+				DATAFORM 「아라, 벌써 이런 시간이었던가요. 차에 할까요」
+				DATAFORM 「지금 차의 준비를 합니다」
+			ENDDATA
+
+		;경어는 아니다
+		ELSE
+			PRINTDATA
+				DATAFORM 「아라, %CALLNAME_K9(사쿠야_대상)%。
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 와 준 거네.
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%……
+				DATAFORM 「안녕하세요, %CALLNAME_K9(사쿠야_대상)%。
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 조금 기다려. 홍차를 끓여요」
+				DATAFORM 차 한 잔 합시다. 배는 고파지고 있을까」
+				DATAFORM 아, 이제 좋은 시간인걸. 차 한 잔 합시다」
+				DATAFORM 홍차를 끓여요. 걸어 기다리고 있어 줄까」
+			ENDDATA
+
+		ENDIF
+
+	;호감도가 낮을 때
+	ELSE
+		;경어
+		IF CHECK_K9("경어")
+			PRINTDATAL
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%?」
+				DATAFORM 「아라. 일부러 감사합니다. 뭔가 용건일입니까?」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「걸어 주십시오. 홍차를 끓입니다」
+				DATAFORM 「그러고 보니 차를 갖고 싶어졌습니까. 지금 끓입니다」
+			ENDDATA
+
+		;경어는 아니다
+		ELSE
+			PRINTDATAL
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%?」
+				DATAFORM 「아라. 어서오세요. 뭔가 용건일까?」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「특히 용무라는 것은 아닌거네. 좋아요, 맛있는 홍차를 끓여 준다」
+				DATAFORM 「그러고 보니 차를 갖고 싶어진 거네?   앉아」
+			ENDDATA
+
+		ENDIF
+
+	ENDIF
+
+	;함락완료
+	IF CHECK_K9("함락", 사쿠야_대상)
+		PRINTFORMDL %ANAME(사쿠야)%가 일어서 테이블에 흰 리넨의 크로스를 넓히면
+		PRINTFORMDL 홍차에 설탕이나 밀크, 플레이트에 나이프와 포크와 잼의 접시,
+		PRINTFORMDL %CAKE_K9(MARK:사쿠야:기성사실)%와 스콘과 샌드위치가 줄선 케이크 스탠드가 홀연히나타났다……
+
+	;연인이나 노예는 아니지만 호감도가 높다
+	ELSEIF CFLAG:사쿠야:호감도 >= 500
+		PRINTFORMDL %ANAME(사쿠야)%는 움찔한 것 뿐으로 일어선 것처럼은 안보였지만
+		PRINTFORMDL 끓인지 얼마 안 되는 홍차와 %CAKE_K9(MARK:사쿠야:기성사실)%가 눈앞에 홀연히나타났다……
+
+	;그 이외
+	ELSE
+		PRINTFORMDL %ANAME(사쿠야)%는 %CAKE_K9(MARK:사쿠야:기성사실)%를 내 와, 홍차를 끓이기 시작했다……
+
+	ENDIF
+ENDIF
+
+WAIT
+RESETCOLOR
+RETURN 0
+
+;─────────────────────────────────────── 
+;●「만나러간다」첫회용의 묘사 통계
+;  만남 시츄가 많기 때문에 공통 묘사를 집계한 것 뿐
+;  CALL KOJO_DESCRIPTION_CHARA_K9("용모")
+;  CALL KOJO_DESCRIPTION_CHARA_K9("능력")
+;  CALL KOJO_DESCRIPTION_CHARA_K9("직업")
+;─────────────────────────────────────── 
+@KOJO_DESCRIPTION_CHARA_K9(표시텍스트)
+#DIMS 표시텍스트
+#DIM 사쿠야
+#DIM 사쿠야_대상
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+IF 표시텍스트 == "용모"
+	PRINTFORMDL 푸른 프렌치 메이드복을 입어 화이트블림을 머리에 장식해
+	PRINTFORMDW 은발 보브의 양사이드를 세가닥 땋기로 해 초록의 리본으로 묶은 여자다
+
+ELSEIF 표시텍스트 == "능력"
+	PRINTFORMDL 이쪽을 응시하는 %PRONOUN(사쿠야)%의 트리눈 십상인 푸른 눈동자가, 일순간 붉게 빛난 것처럼 외관
+	PRINTFORMDW 직후, 김을 세우는 홍차와 %CAKE_K9(MARK:사쿠야:기성사실)%가 홀연히테이블에 나타났다
+
+ELSEIF 표시텍스트 == "직업"
+	PRINTFORMDL %ANAME(사쿠야)%는 미소를 띄워, 퍼프 sleeve로부터 성장하는 호리호리한 흰 팔로 %조사처리(ANAME(사쿠야_대상),"를")% 테이블로 불렀다
+
+ENDIF
+
+RETURN
+
+;─────────────────────────────────────── 
+;●「만나러간다」의 종료시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_END_A1_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+#DIMS 사쿠야기분
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야기분 '= TOSTR_EMOTION(사쿠야)
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+PRINTL 
+
+;─────────────────────────────────────── 
+;행동불능
+;─────────────────────────────────────── 
+;이탈이 끝난 상태
+IF TCVAR:사쿠야:53 > 1
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+IF TALENT:사쿠야:공허
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 %조사처리(ANAME(사쿠야_대상),"가")% 떠나려고 하고 있는 일을 알아차리지 않는 것 같다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;취기 한계 이탈 판정시는 CALL KOJO_EVENT(LOCAL:0, 32)
+IF TCVAR:사쿠야:53 == 1
+	PRINTFORML 「응하아……이제(이미/벌써/더는/정말) 앙돼……기분이 좋아요?」
+	PRINTFORMDL %ANAME(사쿠야)%는 곤드레만드레가 되어 홍안을 히쭉거리게 하면서 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:사쿠야:52 || BASE:사쿠야:기력 <= 300
+	PRINTFORML 「응우……?   아……」
+	PRINTFORMDL %ANAME(사쿠야)%입는 충분한 손발을 가끔 실룩거리게 해, 황홀과 미소짓고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:사쿠야:51
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 완전히 지쳐 버린 얼굴로 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;불쾌함
+SELECTCASE 사쿠야기분
+	CASE "원한", "분노", "분개"
+		IF PALAM:사쿠야:로주 <= PALAM:사쿠야:로외
+			PRINTFORML 「미안해요……돌아%POLITE_K9("갈게요", "가겠습니다")%」
+		ELSE
+			PRINTFORML 「이제(이미/벌써/더는/정말)!   돌아%POLITE_K9("갈거야", "가겠습니다")%」
+		ENDIF
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	CASE "암울", "슬픔", "우울"
+		IF PALAM:사쿠야:액주 <= PALAM:사쿠야:액외
+			PRINTFORML 「미안해요……수고%POLITE_K9("했어요", "하셨습니다")%」
+		ELSE
+			PRINTFORML 「……수고%POLITE_K9("했어", "하셨습니다")%」
+		ENDIF
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	CASE  "광기", "공포", "겁냄"
+		IF PALAM:사쿠야:포주 <= PALAM:사쿠야:포외
+			PRINTFORML 「미안해요……실례%POLITE_K9("해요", "합니다")%」
+		ELSE
+			PRINTFORML 「……실례%POLITE_K9("할게", "합니다")%」
+		ENDIF
+		WAIT
+		RESETCOLOR
+		RETURN 0
+ENDSELECT
+
+;기성 사실 획득 후에 한 번만 표시
+;Ｈ했다
+IF CFLAG:사쿠야:200 < 4 && TALENT:합의
+	CFLAG:사쿠야:200 = 4
+	PRINTFORML 「아직 피부가 들러붙고 있는 것 같다……」
+	PRINTFORML 「그다지 여기를 보지 말아 %POLITE_K9("줄래?", "주시겠습니까")%」
+	PRINTFORML 「조금 전부터, 묘하게 지내기가 불편해서 침착하지 않%POLITE_K9("아", "습니다")%」
+	PRINTFORML 「나, 부끄러운%POLITE_K9("걸까", "것일까요")%?」
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+;함락완료
+ELSEIF CFLAG:200 < 3 && TALENT:연인
+	CFLAG:사쿠야:200 = 3
+	PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"는")% 굉장%POLITE_K9("하네", "하군요")%. 떨어지고 싶지 않다니 말의 의미, 처음으로 알았%POLITE_K9("어", "습니다")%」
+	PRINTFORML 「연인이 되어도, %조사처리(CALLNAME_K9(사쿠야_대상),"는")% %CALLNAME_K9(사쿠야_대상)%%POLITE_K9("……이지?", "……이지요?")%」
+	PRINTFORML 「……아무것도 %POLITE_K9("아니야", "아닙니다")%. 조금 확인하고 싶어진 %POLITE_K9("것", "것입니다")%」
+	PRINTFORML 「모처럼 여문 생각%POLITE_K9("이니까", "이기 때문에")%, 부수어 버리고 싶지 않은 것%POLITE_K9("이군요", "이라고 생각한 것입니다")%」
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+;키스 했다
+ELSEIF CFLAG:사쿠야:200 < 2 && CFLAG:250 > 1 && !TALENT:키스미경험
+	CFLAG:사쿠야:200 = 2
+	PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"는")%, 이런 느낌%POLITE_K9("인 거네", "이군요")%. 후훗」
+	PRINTFORML 「왠지 낯간지%POLITE_K9("러워", "럽군요")%……」
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+ENDIF
+
+;쓰러트리기나 권유로Ｈ가 발생했다
+IF FLAG:우후후플래그
+	IF IS_SLAVE(사쿠야) || ( CHECK_K9("경어") && IS_LOVER(사쿠야) )
+		PRINTDATAL
+			DATAFORM 「또 언제라도 오셔 주세요. 잘 자십시오」
+			DATALIST
+				DATAFORM 「후훗. 조금의 사이인데, 작별하는 것이 외롭다는……」
+				DATAFORM 「응석부리면, 보기 흉하다고 미움받아 버리는군요」
+				DATAFORM 「잘 자십시오, %CALLNAME_K9(사쿠야_대상)%」
+			ENDLIST
+			DATAFORM 「아라. 벌써 이런 시간……조금 멈추어도 좋을까요?   후후……잘 자십시오」
+			DATAFORM 「오늘 밤도 %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 멋졌습니다. 잘 자십시오」
+			DATAFORM 「감사합니다. 잘 자십시오」
+			DATALIST
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%. 내일의 아침 식사는 평소보다 호화롭게 되어 버릴 것 같습니다」
+				DATAFORM 「천천히 자, 배의 상태를 정돈해 주세요」
+			ENDLIST
+			DATAFORM 「잘 자십시오. %CALLNAME_K9(사쿠야_대상)%」
+		ENDDATA
+
+	ELSEIF IS_LOVER(사쿠야)
+		PRINTDATAL
+			DATAFORM 「또 언제라도 와. 잘 자요」
+			DATALIST
+				DATAFORM 「후훗. 조금의 사이인데, 작별하는 것이 외롭다는……」
+				DATAFORM 「응석 반죽하거나 해서는, 보기 흉하다고 미움받아 버리네요」
+				DATAFORM 「잘 자요, %CALLNAME_K9(사쿠야_대상)%」
+			ENDLIST
+			DATALIST
+				DATAFORM 「아라. 벌써 이런 시간. 조금 멈추어 버려도 괜찮아?」
+				DATAFORM 「어떨까. 후훗. 멈추었는지도 몰라요」
+				DATAFORM 「잘 자요」
+				DATAFORM 「……누구에게도 발견되지 않으면 좋네요?   목덜미의, 난봉꾼의 표」
+			ENDLIST
+			DATAFORM 「오늘 밤도 멋졌어요. 잘 자요」
+			DATAFORM 「좋은 시간을 보낼 수 있었어요. 고마워요. 잘 자요」
+			DATALIST
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%. 내일의 아침 식사는 평소보다 호화롭게 되어 버릴 것 같다」
+				DATAFORM 「천천히 자, 배의 상태를 정돈해」
+			ENDLIST
+			DATAFORM 「잘 자요. %CALLNAME_K9(사쿠야_대상)%」
+		ENDDATA
+
+	ELSEIF CHECK_K9("경어")
+		PRINTDATAL
+			DATAFORM 「또 언제라도 불러 주세요. 잘 자십시오」
+			DATAFORM 「감사합니다. 그럼, 잘 자십시오」
+			DATAFORM 「아라. 벌써 이런 시간……잘 자십시오」
+			DATAFORM 「오늘 밤도 %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 멋졌습니다. 잘 자십시오」
+			DATAFORM 「감사합니다. 잘 자십시오」
+			DATAFORM 「잘 자십시오. %CALLNAME_K9(사쿠야_대상)%」
+		ENDDATA
+
+	ELSEIF CFLAG:사쿠야:호감도 >= 800
+		PRINTDATAL
+			DATAFORM 「후훗. 돌아가는 것이 외롭다니」
+			DATAFORM 「즐거웠어요. 천천히 쉬어 줘」
+			DATAFORM 「아라. 벌써 이런 시간인 거네. ……조금 멈추어 버릴까?」
+			DATALIST
+				DATAFORM 「당신은 굉장하네요」
+				DATAFORM 「떨어지고 싶지 않다니 말의 의미, 처음으로 알았어요」
+				DATAFORM 「후훗. 곤란하게 해 버렸을까?   ……잘 자요」
+			ENDLIST
+			DATAFORM 「좋은 시간을 보낼 수 있었어요. %CALLNAME_K9(사쿠야_대상)%의 덕분이군요」
+			DATAFORM 「잘 자요. %CALLNAME_K9(사쿠야_대상)%」
+		ENDDATA
+
+	ELSE
+		PRINTDATAL
+			DATAFORM 「그러면, 잘 자요」
+			DATAFORM 「아라. 그래?   안녕」
+			DATAFORM 「후우, 졸려요」
+		ENDDATA
+
+	ENDIF
+
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+;Ｈ발생하지 않았다
+ELSE
+
+	IF IS_SLAVE(사쿠야) || ( CHECK_K9("경어") && IS_LOVER(사쿠야) )
+		PRINTDATAL
+			DATAFORM 「또 언제라도 오셔 주세요」
+			DATAFORM 「아라. 이제(이미/벌써/더는/정말) 돌아오는 길입니까?   아니요 조심해」
+			DATAFORM 「걱정해 주셔, 감사합니다」
+			DATAFORM 「또 언제라도 오셔 주세요. 기다리고 있습니다」
+		ENDDATA
+
+	ELSEIF IS_LOVER(사쿠야)
+		PRINTDATAL
+			DATAFORM 「또 언제라도 와」
+			DATAFORM 「아라. 벌써 돌아가 버리는 거야?」
+			DATAFORM 「좋은 시간을 보낼 수 있었어요. 고마워요」
+			DATAFORM 「또 언제라도 와. %CALLNAME_K9(사쿠야_대상)%」
+		ENDDATA
+
+	ELSEIF CHECK_K9("경어")
+		PRINTDATAL
+			DATAFORM 「이 근처에는 못된 장난의 지나는 쥐가 내리기 때문에, 조심해」
+			DATAFORM 「그럼 또. 용건일이 있으면 불러주세요」
+			DATAFORM 「수고 하셨습니다. %CALLNAME_K9(사쿠야_대상)%」
+			DATAFORM 「명령은 없습니까. 슬슬 나이프가 마를 것 같습니다」
+			DATAFORM 「지금, 방을 청소해 왔습니다. 편히 쉬어 주세요」
+		ENDDATA
+
+	ELSEIF CFLAG:사쿠야:호감도 >= 500
+		PRINTDATAL
+			DATAFORM 「조심해. 이 근처에는 못된 장난의 지나는 쥐가 너무 많아요」
+			DATAFORM 「즐거웠어요」
+			DATAFORM 「아라. 벌써 돌아가 버리는 거야?」
+			DATAFORM 「즐거웠어요. 당신 같은 사람도 드무네요」
+			DATAFORM 「슬슬 청소를 하지 않으면」
+			DATAFORM 「이제(이미/벌써/더는/정말). 완전히 청소가 막혔지 않아. ……농담이야. 즐거웠어요」
+		ENDDATA
+
+	ELSE
+		PRINTDATAL
+			DATAFORM 「그래?   는, 조심해」
+			DATAFORM 「또 와 줘」
+			DATAFORM 「아라. 그래?   안녕」
+			DATAFORM 「의외로 즐거웠어요. 숨돌리기도 필요하구나」
+			DATAFORM 「안 되는, 완전히 청소가 막혀 버렸어요」
+		ENDDATA
+
+	ENDIF
+
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+ENDIF
+
+;─────────────────────────────────────── 
+;●종료
+;─────────────────────────────────────── 
+RESETCOLOR
+RETURN 0
+

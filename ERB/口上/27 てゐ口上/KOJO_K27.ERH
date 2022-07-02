@@ -1,0 +1,3 @@
+﻿#DIM CONST 테위_럭키 = 0
+#DIM CONST 테위_유실물 = 1
+#DIM CONST 테위_위기 = 2

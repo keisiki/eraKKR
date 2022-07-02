@@ -1,0 +1,416 @@
+﻿;-------------------------------------------------
+;공통 부분
+;-------------------------------------------------
+
+;=================================================
+;●구상의 존재 판정
+;=================================================
+@KOJO_EXIST_K92
+
+;=================================================
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_K92
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_K92
+
+;=================================================
+;●커맨드 실행전(이 캐릭터가 타겟측 때)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_TARGET_K92
+RETURN 0
+
+;=================================================
+;●커맨드 실행전(이 캐릭터가 플레이어측 때)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_PLAYER 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_PLAYER_K92
+RETURN 0
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_K92
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_K92
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_K92
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;첫절정은 재사용할 수 있을 것 같은 것으로 여기에 작성
+;-------------------------------------------------
+;-------------------------------------------------
+;처음Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	IF CFLAG:220 == 0
+		CFLAG:220 = 1
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	IF CFLAG:221 == 0
+		CFLAG:221 = 1
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	IF CFLAG:222 == 0
+		CFLAG:222 = 1
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	IF CFLAG:223 == 0
+		CFLAG:223 = 1
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	IF CFLAG:224 == 0
+		CFLAG:224 = 1
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;=================================================
+;●단체 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기로부터 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람하지 않게 주의해 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_K92
+;단체 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+IF TALENT:붕괴 || GETBIT(TALENT:음란계, 소질_음란_암캐) || GETBIT(TALENT:음란계, 소질_음란_정액변소) || GETBIT(TALENT:음란계, 소질_음란_모판) || GETBIT(TALENT:음란계, 소질_음란_약물중독) || GETBIT(TALENT:TARGET:데일리계, 소질_데일리_약팔이의성노예) || GETBIT(TALENT:TARGET:데일리계, 소질_데일리_귀족의포로) || IS_FALLEN_TO_SP_COUNTRY(TARGET)
+	
+ELSE
+	PRINTFORML 
+	PRINTFORML 
+	
+	;요리 능력으로 분기
+	IF ABL:61 >= 100
+		PRINTFORMW 
+		IF CFLAG:300 == 0
+			PRINTFORML 「어서오세요! 아, %ANAME(MASTER)%씨!」
+		ELSEIF CFLAG:300 == 1
+			PRINTFORML 「어서오세요! 아, %ANAME(MASTER)%!」
+		ELSEIF CFLAG:300 == 2
+			PRINTFORML 「어서오세요! 아, 당신!」
+		ENDIF
+		PRINTFORML %조사처리(ANAME(MASTER),"가")% 평소의 카운터에 앉으면, %조사처리(ANAME(TARGET),"가")% 컵을 내민다
+		PRINTFORML 「자자, 우선은 한 잔 받아 주세요. 맛있는 물이에요」
+		PRINTFORML 「그러면 주문은 무엇으로 하십니까? 네, 튀김 정식이군요. 노력해 만들어 버려요」
+		PRINTFORMW 
+		PRINTFORML 전쟁 후, %조사처리(ANAME(TARGET),"는")% 요리 솜씨를 살려 간단한 요리점을 열었다
+		PRINTFORML 호수의 요정이나 악마의 관을 중심으로 평판을 불러, 적당히 번성하고 있는 것 같다
+		PRINTFORMW 
+		PRINTFORML 「공주짱, 계산 부탁」 「네, 다녀 왔습니다」
+		PRINTFORML 「여주인, (멸치쳉씨? 씌)? 쐴 주먹밥이라고 하고 꼬집고 우동을 부탁한다」 「네. 잠시만 기다려 주십시오」
+		PRINTFORML 「공주 젖가슴도 키라고」 「싫습니다（-응! ）」
+		PRINTFORML 상당히 손님이 많다. 자주(잘) 보면 자리도 꽤 메워지고 있다
+		PRINTFORML 시각은 서 2개. 아직 혼잡한 시간도 아닌 것 같지만…
+		PRINTFORMW 
+		PRINTFORML 「오래 기다리셨습니다. 튀김 정식입니다. 편하게 계세요」
+		PRINTFORMW 
+		PRINTFORML 「응…그러고 보니 최근 손님이 증가했어요」
+		PRINTFORML 「그래! 반드시 내가 솜씨가 는 것이에요. 맛있어진 것입니다!」
+		PRINTFORML 확실히 %ANAME(TARGET)%의 요리는 맛있어. 쓴웃음 지어 %조사처리(ANAME(MASTER),"는")% 튀김에 젓가락을 늘렸다
+		PRINTFORMW 
+		;PRINTFORML   꺼칠꺼칠…  부스럭
+		;PRINTFORML 요리를 즐겨 귀로에 도착하는 %ANAME(MASTER)%의 다리에 뭔가가 걸렸다
+		;PRINTFORML 야? 텐구의 신문인가?
+		;PRINTFORMW 
+		;PRINTFORML 「호수의 일품 요리점에서는 여주인의 국물로 요리하고 있다는 소문을 확인할 수 있도록 우리는…」
+		;PRINTFORMW 
+		;PRINTFORML %조사처리(ANAME(MASTER),"는")% 신문을 말아 버렸다
+		PRINTFORML ………………
+		PRINTFORML …………
+		PRINTFORML ……
+		PRINTFORMW 
+		IF TALENT:정실
+			PRINTFORML 「지쳤다～…이제(이미/벌써/더는/정말) 안 됩니다 움직일 수 없습니다」
+			PRINTFORML 폭풍우와 같은 시간을 극복해, 커튼을 내린 순간%조사처리(ANAME(TARGET),"는")% 카운터에 주저앉았다
+			PRINTFORML …아휴. 재빠르게 정리를 끝마쳐, %조사처리(ANAME(TARGET),"를")% 안아 방에 옮긴다
+			PRINTFORML 「감사합니다. 그러한 상냥한 곳, 정말 좋아해요～」
+			PRINTFORMW 
+			PRINTFORML %조사처리(ANAME(TARGET),"를")% 이불에 내려 멀어지려고 하면
+			PRINTFORML 「아무것도 하지 않고 말해 버립니까…?」
+			PRINTFORMW 
+			PRINTFORML 만지작만지작  만지작만지작
+			PRINTFORML 「적당히～효과가 있다～」
+			PRINTFORML 만지작만지작  만지작만지작
+			PRINTFORML 「변함 없이 능숙하네요. 안마가게 하고 있던 것입니까?」
+			PRINTFORML 만지작만지작  만지작만지작  스윽스윽
+			PRINTFORMW 「라고! 성희롱은 안 됩니다! （해! ）」
+			PRINTFORML 
+			PRINTFORML 「마사지 위 좋지 않습니까아. 다음에 나부터도 해 줄테니까. 에헤헤에」
+			PRINTFORML %조사처리(ANAME(TARGET),"는")% 야무지지 못하게 얼굴을 느슨해지게 하면서 %ANAME(MASTER)%에 말을 건다
+			PRINTFORML 「그렇다 치더라도 오늘은, 손님 가득이었지요」
+			PRINTFORML 정말로 많았다. 마치 전쟁인 것 같았다
+			PRINTFORMW 「전쟁입니까아. 그러한 전쟁이라면, 나는 대환영이에요」
+			PRINTFORML 「모두가 나의 요리를 맛있다고 먹어 줘」
+			PRINTFORML 「내가 고마워요 말하면 웃는 얼굴로 또 온다 라고 해 줘」
+			PRINTFORML 「정말 좋아하는 사람에게 가득 상냥하게 해 줄 수 있다」
+			PRINTFORML 「사람을 상처 입히는 전쟁보다 두～와 좋아해요」
+			PRINTFORMW 
+			PRINTFORML 만지작만지작  만지작만지작
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 몸을 일으켜, %조사처리(ANAME(MASTER),"를")% 정면에서 응시해 이야기한다
+			IF CFLAG:300 == 0
+				PRINTFORML 「%ANAME(MASTER)%씨」
+			ELSEIF CFLAG:300 == 1
+				PRINTFORML 「%ANAME(MASTER)%」
+			ELSEIF CFLAG:300 == 2
+				PRINTFORML 「당신」
+			ENDIF
+			PRINTFORMW 「감사합니다. 전쟁을 끝내 줘」
+			PRINTFORMW 「감사합니다. 나의 꿈을 실현해 줘」
+			PRINTFORMW 「감사합니다. 나를 선택해 줘」
+			PRINTFORMW 
+			PRINTFORML 「에헤헤. 겨우 말할 수 있었습니다」
+			PRINTFORML 「앞으로도 나를 두～와 행복하게 해 주세요?」
+			PRINTFORMW 
+			PRINTFORMW 「사랑하고 있습니다…」
+			PRINTFORML 
+			PRINTFORML 
+			PRINTFORML 
+			PRINTFORMW   END 1　　　　　행복한 인어공주
+			PRINTFORML 
+		ELSE
+			CFLAG:301 = 1
+		ENDIF
+			
+	ELSEIF ABL:61 >= 80
+		PRINTFORMW 
+		PRINTFORML 「와아! 꽃이 가득이에요!」
+		PRINTFORML 「이봐요 이봐요 봐 주세요. 쭉 저 편까지 꽃밭입니다!」
+		PRINTFORML %조사처리(ANAME(TARGET),"는")% 근처응개 돌아다닌다
+		PRINTFORMW 
+		PRINTFORML 전쟁 후, %조사처리(ANAME(TARGET),"는")% 요리의 공부를 시작했다
+		PRINTFORML 언젠가 자신의 가게를 가지는 것이 꿈인것 같다
+		PRINTFORML 「요리는 원래 좋아했고, 병사의 여러분 들에게 만들고 있는 동안에 솜씨도 올라 버렸습니다」
+		PRINTFORML %조사처리(ANAME(TARGET),"는")% 그렇게 말해, 쑥스러운 듯이 부끄러워했다
+		PRINTFORMW 
+		PRINTFORML 오늘은 숨돌리기와 성과 발표를 겸해, 피크닉에 온 것이지만…
+		PRINTFORML 「굉장해! 6개잎의 클로버-! 4개잎의 1.5배의 이익입니다!」
+		PRINTFORML 즐거운 듯이 까불며 떠드는 %조사처리(ANAME(TARGET),"를")% 바라보면서, %조사처리(ANAME(MASTER),"는")% 짐으로부터 깔개를 꺼냈다
+		PRINTFORML 맛있을 것 같은 냄새가 코를 간질인다. 도시락의 성과도 좋은 것 같다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 기대에 가슴을 부풀리면서 %조사처리(ANAME(TARGET),"를")% 불렀다
+		PRINTFORML 
+		CFLAG:301 = 1
+	ELSE
+		PRINTFORMW 
+		PRINTFORMW   간  간  간
+		PRINTFORML 「안녕하세요! 이제(이미/벌써/더는/정말) 햇님도 오르고 있어요!」
+		PRINTFORML 얼굴을 찡그려%조사처리(ANAME(MASTER),"가")% 눈을 뜨면, 들여다 보고 있는 %조사처리(ANAME(TARGET),"와")% 시선이 마주쳤다
+		PRINTFORML 「잠꾸러기군요. 아침 밥 되어있기에 빨리 와 주세요」
+		PRINTFORMW 
+		PRINTFORML 전쟁 후, %조사처리(ANAME(TARGET),"는")% 요리의 공부를 시작했다
+		PRINTFORML 언젠가 자신의 가게를 가지는 것이 꿈인것 같다
+		PRINTFORML 요리의 수행, 으로 칭해 %ANAME(MASTER)%에 가끔 손수 만든 요리를 가져온다
+		PRINTFORMW 
+		PRINTFORML 「오늘은 자신작이에요. 요정씨로부터 누카를 조금 나누어 받은 것입니다!」
+		PRINTFORML %ANAME(TARGET)%의 요리는 나날 능숙해지고 있다. %조사처리(ANAME(MASTER),"는")% 열중해 젓가락을 진행시켰다
+		PRINTFORML 「에헤헤. 마음에 들어 받을 수 있던 것 같네요. 자자, 자꾸자꾸 먹어 주세요」
+		PRINTFORMW 반드시 %ANAME(TARGET)%의 꿈은 실현될 것이다. %조사처리(ANAME(MASTER),"는")% 한 그릇 더를 받으면서 그렇게 생각했다
+		PRINTFORML 
+		CFLAG:301 = 1
+	ENDIF
+
+	IF CFLAG:301 == 0
+	
+	ELSEIF TALENT:정실
+		PRINTFORML ………………
+		PRINTFORML …………
+		PRINTFORML ……
+		PRINTFORMW 
+		PRINTFORML 「이 싸움은 다양한 일이 있었어요」
+		PRINTFORML 술잔을 부추기면서 %조사처리(ANAME(TARGET),"는")% 매우 기분이 좋게 웃었다
+		PRINTFORML 「설마 우리가 환상향을 통일해 버리다는…하극상 같은게 아니에요」
+		PRINTFORML 하…와 술 냄새나는 숨을 내쉬어 유쾌한 것 같게 계속한다
+		PRINTFORMW 
+		PRINTFORML 「거·기·에…후훗」
+		PRINTFORML 슬쩍%조사처리(ANAME(MASTER),"를")% 봐 미소
+		PRINTFORMW 
+		PRINTFORML 「생애의 반려까지 찾아내 버렸습니다아」
+		PRINTFORML 쓰러져 오는 %조사처리(ANAME(TARGET),"를")% 술잔을 감싸면서 받아 들인다
+		PRINTFORMW 
+		IF CFLAG:300 == 0
+			PRINTFORML 「에헤헤에. %ANAME(MASTER)%씨의 무릎 베개～」
+		ELSEIF CFLAG:300 == 1
+			PRINTFORML 「에헤헤에. %ANAME(MASTER)%의 무릎 베개～」
+		ELSEIF CFLAG:300 == 2
+			PRINTFORML 「에헤헤에. 당신의 무릎 베개～」
+		ENDIF
+		PRINTFORML 뺨을 비비는 %ANAME(TARGET)%의 머리를 어루만지면서, %조사처리(ANAME(MASTER),"는")% 승리의 술을 즐겼다
+		PRINTFORMW 
+		PRINTFORMW 무릎 위에서 데굴 굴러 %ANAME(MASTER)%의 얼굴을 보는 %조사처리(ANAME(TARGET),"는")%
+		PRINTFORMW 만면의 웃는 얼굴로
+		PRINTFORML 
+		PRINTFORMW 「훨씬 똑같아요. 서방님…」
+		PRINTFORML 
+		PRINTFORMW 
+		PRINTFORML 
+		PRINTFORMW   END 2　　　　공주와 결혼
+		
+	ELSEIF TALENT:연모 || TALENT:연인
+		PRINTFORML ………………
+		PRINTFORML …………
+		PRINTFORML ……
+		PRINTFORMW 
+		PRINTFORML 「앗, 구예요! 뒤룩뒤룩!」
+		PRINTFORML 「고양이짱 고양이짱. 와,～응」
+		PRINTFORML 「멋진 기모노…좋구나. 갖고 싶다（등）」
+		PRINTFORMW 
+		PRINTFORML 오늘은 %ANAME(TARGET)%에 이끌려 마을에…
+		PRINTFORML 언제에도 늘어나 흥분하고 있는 %ANAME(TARGET)%에 질질 끌어지도록(듯이) 대로를 걷는다
+		PRINTFORMW 
+		PRINTFORML 「상당히 즐거운 듯 같다…는 당연하지 않습니까. 둘이서 외출 같은거 오래간만이에요」
+		PRINTFORML 그러고 보니 전후 처리에 얽매여, 최근에는 여섯에 %조사처리(ANAME(TARGET),"와")% 만날 수 없었다
+		PRINTFORML %조사처리(ANAME(TARGET),"가")% 데리고 나가지 않으면, 오늘도 서류와 격투하고 있었을 것이다
+		PRINTFORMW 
+		PRINTFORML 「바쁜 것은 압니다만, 가끔씩은 기분 전환도 하지 않으면 넘어져 버려요」
+		PRINTFORML 손가락을 내밀어 「째」라고 꾸중듣는다. 작은 아이를 상대로 하고 있는 것 같은 행동에 %조사처리(ANAME(MASTER),"는")% 무심코 분출했다
+		PRINTFORML 「앗앗, 무엇으로 웃습니까아. 이제(이미/벌써/더는/정말)!」
+		PRINTFORML 탱탱 화내는 %조사처리(ANAME(TARGET),"를")% 달래면서, %조사처리(ANAME(MASTER),"는")% 오래간만의 휴일을 즐겼다
+		PRINTFORMW 
+		PRINTFORML 
+		PRINTFORMW   END 3　　　　공주와 연인
+		
+	ELSE
+		PRINTFORML ………………
+		PRINTFORML …………
+		PRINTFORML ……
+		PRINTFORMW 
+		PRINTFORML 「앗, 오래간만입니다!」
+		PRINTFORML %ANAME(MASTER)%의 모습이 보이면 %조사처리(ANAME(TARGET),"는")% 휙휙 접근해 온다
+		PRINTFORML 「깨끗한 돌, 가득 주운 것이에요. 보여 주네요」
+		PRINTFORMW 
+		PRINTFORML %ANAME(TARGET)%의 손안으로 대소 다양한 돌이 반짝반짝 빛나고 있다
+		PRINTFORML 「이것은 호수의 바닥에 걸리고 있던 것이에요. 이것은 요정이 떨어뜨려 가, 이것은…」
+		PRINTFORML 자랑스럽게 돌을 소개하는 %조사처리(ANAME(TARGET),"와")% 흥미 깊은듯이 수긍하는 %ANAME(MASTER)%
+		PRINTFORML 부드러운 햇살 중(안)에서, %조사처리(ANAME(MASTER),"는")% 바뀐 친구와의 회화에 꽃을 피웠다
+		PRINTFORMW 
+		PRINTFORML 
+		PRINTFORMW   END 4　　　　공주와 친구
+		
+	ENDIF
+	PRINTFORML 
+ENDIF
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+IF CFLAG:301 == 1
+	CFLAG:301 = 0
+ENDIF
+	RETURN 1
+
+@KOJO_DEAD_ENDING_K92
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「……베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+IF TALENT:정실
+	PRINTFORMW 
+	PRINTFORML   좍좍  좍좍
+	PRINTFORMW 「어째서! 어째서!」
+	PRINTFORMW 「함께 있어 준다 라고 했는데!」
+	PRINTFORMW 「약속했는데…어째서……!」
+	PRINTFORML   좍좍  좍좍
+	PRINTFORMW 「………」
+	PRINTFORMW 「…거짓말쟁이.」
+	PRINTFORMW 「거짓말 해 거짓말 해 거짓말쟁이!」
+	PRINTFORML   좍좍  좍좍
+	PRINTFORMW 「우웃…우……」
+	PRINTFORMW 「우아아아아아아아아아아아앗!」
+	PRINTFORML   좍좍  좍좍
+	PRINTFORMW 
+	PRINTFORML 
+	PRINTFORMW   END 5　　　　　마지않는 비
+ENDIF
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 1

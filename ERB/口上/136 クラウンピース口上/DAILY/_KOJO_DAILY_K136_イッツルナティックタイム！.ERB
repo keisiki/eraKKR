@@ -1,0 +1,133 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K136_IT_LUNATIC_TIME_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K136_IT_LUNATIC_TIME_DECISION(대상)
+#DIM 대상
+
+;주인공이 순호나 헤카티아는 안 돼
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("순호"), NAME_TO_CHARA("헤카티아"))
+	RETURN 0
+	
+;호감도가 1000이상
+SIF MAX(CFLAG:대상:호감도) < 1000
+	RETURN 0
+
+;주인공이 페니스를 가지고 있지 않으면 안 돼	
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+;ARG:0이 구상 데일리 이벤트를 실시할 수 있을까의 간이 체크 함수
+;ARG:10 MASTER와 별세력인 1 MASTER와 동일 세력이다  -1어디라도 좋다
+;ARG:20 포로가 아닌 1 포로인 -1어디라도 좋다
+;ARG:30 안면이 없는 1 안면이 있는 -1어디라도 좋다
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K136_IT_LUNATIC_TIME_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K136_IT_LUNATIC_TIME(대상)
+#DIM 대상
+
+SIF !CFLAG:대상:안면
+	CFLAG:대상:안면 = 1
+	
+IF KDVAR:대상:클라운피스_루나틱 == 0
+	PRINTFORML 밤이 깊어졌을 무렵. 슬슬 잘까하고 생각한 %ANAME(MASTER)%의 방에 콩콩, 라고 노크가 영향을 준다
+	PRINTFORMW 이런 시간에 누구일거라고 나와 보면, %조사처리(ANAME(대상),"가")% 빙그레한 웃는 얼굴로 서 있었다
+	PRINTFORML 「에헤헤. %ANAME(MASTER)%, 조금 괜찮아?」
+	PRINTFORML 이런 시간에 어떻게 했는지, 라고 (들)물으려고 하기 전에, %조사처리(ANAME(대상),"가")% 횃불의 불길을 %ANAME(MASTER)%에 향하여 왔다
+	PRINTFORML 「자, %ANAME(MASTER)%. 아무것도 말하지 않고, 이 불길을 봐!」
+	PRINTFORMW 그 횃불의 빛은, 단순한 불길과는 다른 요염한 마력이 머물고 있는 것 같아, 무심코 매료되어질 것 같게 된다……
+ELSE
+	PRINTFORML 밤이 깊어졌을 무렵. 슬슬 잘까하고 생각한 %ANAME(MASTER)%의 방에 콩콩, 라고 노크가 영향을 준다
+	PRINTFORMW 이런 시간에 누구일거라고 나와 보면, 또%조사처리(ANAME(대상),"가")% 방문해 온 것 같다
+	PRINTFORML 전회의 격렬한 행위를 잊을 수 없는 것인지, 머뭇머뭇 접맞추는 허벅지에는 애액이 타, 한숨도 음란함
+	PRINTFORML 「에헤헤. %ANAME(MASTER)%, 그……전같이…시라고?」
+	PRINTFORML 그렇게 말하자, %조사처리(ANAME(대상),"는")% 횃불의 불길을 %ANAME(MASTER)%에 향하여 왔다
+	PRINTFORML 「자, %ANAME(MASTER)%. 아무것도 말하지 않고, 이 불길을 봐……♥」
+	PRINTFORMW 그 횃불의 빛은, 단순한 불길과는 다른 요염한 마력이 머물고 있는 것 같아, 무심코 매료되어질 것 같게 된다……
+ENDIF
+PRINTL
+CALL ASK_YN("불꽃을 응시한다", "눈을 뗀다")
+
+IF RESULT == 0
+	PRINTFORML (듣)묻는 대로, 그 요염하게도 아름다운 빛을 발하는 불길에 매료된다…
+	CALL COLOR_PRINTW(@"피큐!!", 칼라_주의)
+	PRINTFORMW 다음의 순간, %ANAME(MASTER)%의 마음을 광기 같아 보인 충동이 덮친다
+	IF KDVAR:대상:클라운피스_루나틱 == 0
+		PRINTFORML 「아하핫!   장난 성공-!   이런 손에 걸리도록(듯이)는 지옥에서 해 나갈 수 없는거야―♪」
+		PRINTFORML 「…읏, 에?」
+		PRINTFORMW 정욕이라는 이름의 광기에 지배된 %조사처리(ANAME(MASTER),"는")%, %조사처리(ANAME(대상),"를")% 억지로 방에 끌어들였다
+		PRINTFORMW 「어, 어?   이런 전개는 예상하지 않았지만…%ANAME(MASTER)%…?」
+		PRINTFORML %ANAME(대상)%의 말은 이미 %ANAME(MASTER)%에는 닿지 않고, 이제 그녀를 한마리 암컷으로 밖에 보지 않았다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 눈앞의 암컷을 범해주기 위해, 그녀를 침대에 쓰러트렸다……
+	ELSE
+		PRINTFORML 「꺗! ……아핫♥  시라고 주는 것이군♥」
+		PRINTFORMW 정욕이라는 이름의 광기에 지배된 %조사처리(ANAME(MASTER),"는")%, %조사처리(ANAME(대상),"를")% 억지로 방에 끌어들였다
+		PRINTFORMW 「아아…오늘도 격렬하게 해, %ANAME(MASTER)%…♥」
+		PRINTFORMW 그녀가 원하는 대로 할 수 있도록, %조사처리(ANAME(MASTER),"는")% 벌을 바라는 요정을 침대에 쓰러트렸다……
+		CFLAG:대상:호감도 += 300
+	ENDIF
+	CVARSET CFLAG, 6, 0
+	;강제 조교 플래그를 온
+	FLAG:턴엔드조교 = 1
+	CVARSET CFLAG, 6, 0
+	CFLAG:대상:조교참가플래그 = 1
+	CFLAG:대상:조교중돌아가지않는다 = 1
+	CFLAG:대상:강제우호화 = 1
+	CFLAG:대상:의존도 += 300
+	ABL:대상:주도도Ｕ -= 300
+	BASE:대상:체력 = MAXBASE:대상:체력
+	BASE:대상:기력 = MAXBASE:대상:기력
+	;그 이후의 데일리 이벤트 발생을 잡는다
+	DAILY_CANCEL = 1
+	;플래그
+	KDVAR:대상:클라운피스_루나틱 = 1
+	KDVAR:대상:클라운피스_루나틱플레이중 = 1
+ELSE
+	IF KDVAR:대상:클라운피스_루나틱 == 0
+		PRINTFORML 마음속까지 비집고 들어가 오는 것 같은 빛의 요염함에 본능적인 위험을 기억해, %조사처리(ANAME(MASTER),"는")% 눈을 떼었다!
+		PRINTFORMW 「아-! 정말! 장난 실패잖아. 쳇」
+		PRINTFORML %ANAME(대상)%에 벌하기 위하여 잡으려고 하는 것도, 그녀는 %ANAME(MASTER)%의 손을 스르륵 빠져 도망치기 시작했다
+		PRINTFORMW 「에에-응이다! 그런 간단하게 잡히지 않는 것 같닷. 바이바이♪」
+		PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 손을 흔들어 돌아갔다…
+		PRINTFORMW 완전히. 지옥의 요정이라고는 해도, 장난 좋아하는 본분은 변함없는 것 같다……
+	ELSE
+		PRINTFORML 「봐…봐 주지 않는거야…?」
+		PRINTFORMW 염의 빛으로부터 눈을 떼었던 %조사처리(ANAME(MASTER),"를")%, 그녀는 의외인 것처럼 응시했다
+		PRINTFORML 「…그런가. 전같게는 해 주지 않는다…」
+		PRINTFORMW 그리고, 조금 외로운 듯이 중얼거렸다. 그런 그녀의 모습이 뭔가 사랑스러워져, 상냥하게 껴안았다
+		PRINTFORML 「에?」
+		PRINTFORMW 당황하는 그녀에게 속삭인다. 광기의 힘 같은거 없어도, 너를 기분 좋게 해 준다  와…
+		PRINTFORML 「아♥  …%ANAME(MASTER)%♥  네에에, 기쁘구나♪」
+		PRINTFORMW …그 후, 밤 늦게까지 충분히 서로 사랑해, %조사처리(ANAME(대상),"는")% 만족해 준 것 같다……
+		CALL FUCK(대상, "Ｖ, 봉사, 성교, 욕망, 성기술, Ｖ성교", "질내사정, 처녀상실", GET_ID(MASTER), "", ANAME(MASTER), "", "화간")
+		CALL FUCK(MASTER, "Ｃ, 사정, 욕망, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질", "화간")
+	ENDIF
+ENDIF
+
+
+RETURN 1
+

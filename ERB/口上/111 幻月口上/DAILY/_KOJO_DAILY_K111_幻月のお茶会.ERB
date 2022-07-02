@@ -1,0 +1,308 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K111_TPG_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K111_TPG_DECISION(대상)
+#DIM 무게츠
+#DIM 대상
+무게츠 = NAME_TO_CHARA("무게츠")
+
+;몇 번이나 발생하는 유익한 데일리야
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(무게츠, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K111_TPG_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K111_TPG(대상)
+#DIM 대상
+#DIM 겐게츠
+#DIM 겐게츠_대상
+겐게츠 = NAME_TO_CHARA("겐게츠")
+겐게츠_대상 = MASTER
+	
+;도중에 함수를 종료할 때는
+;RETURN
+;를 사용한다
+;
+;PRINTFORML %ANAME(겐게츠)%
+;PRINTFORMW 
+;RESETCOLOR
+;CALL COLORPRINT %ANAME(대상)%의", 칼라_주의, "W")
+
+IF KDVAR:겐게츠:겐게츠_다회참가 == 0
+	PRINTFORMW 있는 더운 햇볕이 내리쬐는 오후
+	PRINTFORMW 배후로부터 말을 걸려졌다
+	PRINTFORMW 아무래도 날씨가 좋은 날인 것으로 누군가를 차로 이끌고 싶은 것 같다
+	PRINTFORMW 그런데, 어떻게 할까
+;참가하고 있지 않다（거절했다）
+ELSEIF KDVAR:겐게츠:겐게츠_다회참가 == 1
+	PRINTFORMW 또%조사처리(ANAME(대상),"로")%부터 다회의 권유가 왔다
+	PRINTFORMW 자, 그럼, 어떻게 하지
+;참가했다
+ELSE
+	PRINTFORML %조사처리(ANAME(대상),"는")% 전회의 다회를 마음에 드신 것 같아
+	PRINTFORMW 재차, %조사처리(ANAME(겐게츠_대상),"를")% 권하고 싶은 것 같다.
+	PRINTFORMW 자, 그럼, 어떻게 하지
+ENDIF
+
+
+
+CALL ASK_YN("나로 좋다면", "또 이번")
+SELECTCASE RESULT
+	;"나로 좋다면"
+	CASE 0 
+		
+		PRINTFORML 「후훗, 그렇게 오지 않으면!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 기쁜듯이 까불며 떠들고 있다
+		PRINTFORMW 무게츠가 준비해 주고 있는 것 같으니까, 그녀를 기다리게 하지 않게 담소하면서도 빨리 걸었다
+		PRINTFORMW 
+		PRINTFORMW 나무 그늘에 준비된 회장에는 2 인분의 차와 샌드위치 따위 각종 경식, 케이크나 쿠키까지 준비되어 있었다... 무게츠의 모습은 이제 없다
+		PRINTFORML 할 수 있던 여동생이다라고 마음 속에서 중얼거린다. 입에 내면 %조사처리(ANAME(대상),"가")% 기분이 안좋게 될 수도 있다
+		PRINTFORML 즉시 받자...
+		PRINTFORMW 
+		PRINTFORMW %조사처리(ANAME(겐게츠_대상),"와")% %조사처리(ANAME(대상),"는")% 경식을 다 먹어, 차를 훌쩍거리면서 어떤 화제를 이야기할까 생각하고 있다
+		PRINTFORMW 어차피라면, 자신의 모르는 분야에서 회화해 %ANAME(대상)%의 지식을 거두어 들이고 싶다...
+		CALL ASK_MULTI("전술론에 대해", "전략론에 대해", "다음의 연설에 대해", "노래하는 요령에 대해", "요리에 대해")
+		SELECTCASE RESULT
+			;"전술론에 대해"
+			CASE 0
+				;MASTER 보다 겐게츠가 무투가 높다
+				IF ABL:겐게츠:무투 > ABL:겐게츠_대상:무투
+					;겐게츠부터 무투가 낮고, 더 한층 정실·낙인을 가지고 있을 때
+					IF TALENT:겐게츠:정실 || TALENT:겐게츠:낙인
+						
+						PRINTFORMW 「최근, 밖의 세계의 전술을 공부하고 있지만」
+						
+						PRINTFORMW 개인으로 최강과 설명%조사처리(ANAME(대상),"가")% 용병에도 밝으면, 이미 무서운 것 없음일 것이다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 전술의 노하우를 가르쳐 받았다
+						CALL PRINT_ADD_EXP(겐게츠_대상, "무투경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ELSE
+						PRINTFORMW 환상향에서 최강과 설명%ANAME(대상)%의 귀중한 지도다...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 전술의 노하우를 가르쳐 받았다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						CALL PRINT_ADD_EXP(겐게츠_대상, "무투경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ENDIF
+				;MASTER가 겐게츠부터 무투가 높다
+				ELSE
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(겐게츠_대상)%의 전술론을 삼킬 듯이 (듣)묻고 있다
+					PRINTFORMW .........
+					PRINTFORMW ......
+					PRINTFORMW ...
+						CALL PRINT_ADD_EXP(겐게츠, "무투경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠)
+				ENDIF
+			;전략론에 대해
+			CASE 1
+				;MASTER 보다 겐게츠가 방위가 높다
+				IF ABL:겐게츠:방위 > ABL:겐게츠_대상:방위
+					;겐게츠보다 방위가 낮고, 더 한층 정실·낙인을 가지고 있을 때
+					IF TALENT:겐게츠:정실 || TALENT:겐게츠:낙인
+					
+						PRINTFORML 「다만, 닥치는 대로 침략해도 쓸데없게 군사를 손모시켜 버릴 것이라고 생각해」
+						PRINTFORML 「지켜야 할 장소는 지켜, 공격할 때는 공격한다」
+						PRINTFORML 「눈앞의 전장 만이 아니고, 어떻게 전쟁을 끝낼까 생각하는 것도 중요해요」
+						
+						PRINTFORMW 
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 장기적 한편, 다목적으로 사물을 간파할 수 있게 되었다고 느꼈다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 방위의 노하우를 가르쳐 받았다
+						CALL PRINT_ADD_EXP(겐게츠_대상, "방위경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ELSE
+						PRINTFORMW 환상향에서 최강과 설명%ANAME(대상)%의 귀중한 지도다...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 방위의 노하우를 가르쳐 받았다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						CALL PRINT_ADD_EXP(겐게츠_대상, "방위경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ENDIF
+				;MASTER가 겐게츠보다 방위가 높다
+				ELSE
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(겐게츠_대상)%의 전략론을 삼킬 듯이 (듣)묻고 있다
+					PRINTFORMW .........
+					PRINTFORMW ......
+					PRINTFORMW ...
+					CALL PRINT_ADD_EXP(겐게츠, "방위경험치", 5, 1)
+					CALL TRAIN_AUTO_ABLUP(겐게츠)
+				ENDIF
+			;다음의 연설에 대해
+			CASE 2
+				;MASTER 보다 겐게츠가 정치가 높다
+				IF ABL:겐게츠:정치 > ABL:겐게츠_대상:정치
+					;겐게츠보다 정치가 낮고, 더 한층 정실·친애를 가지고 있을 때
+					IF TALENT:겐게츠:정실 || TALENT:겐게츠:친애
+					
+						PRINTFORML 「이기고 있을 때는 좋아요」
+						PRINTFORML 「그렇지만, 반드시 이겨 계속되는 보증은 어디에도 없어요」
+						PRINTFORML 「전투로 졌다고 해도 전쟁에 졌을 것이 아니야」
+						PRINTFORML 「... 안쪽으로부터 붕괴하면 져요」
+						PRINTFORML 「눈에 보이는 적이 상당히 좋아요, 안쪽의 적은 눈에 보이지 않으니까」
+						
+						PRINTFORMW 
+						PRINTFORMW %조사처리(ANAME(대상),"로")%부터 능숙하게 민중의 눈을 속이는 방법을 전수해 받았다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 정치의 노하우를 가르쳐 받았다
+						CALL PRINT_ADD_EXP(겐게츠_대상, "정치경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ELSE
+						PRINTFORMW %조사처리(ANAME(대상),"는")% 정치보다 전장에 있는 (분)편이 많지만, 그런데도 정치경험은 %ANAME(겐게츠_대상)%보다 많다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 정치의 노하우를 가르쳐 받았다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						CALL PRINT_ADD_EXP(겐게츠_대상, "정치경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ENDIF
+				;MASTER가 겐게츠보다 정치가 높다
+				ELSE
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(겐게츠_대상)%의 정치론을 삼킬 듯이 (듣)묻고 있다
+					PRINTFORMW .........
+					PRINTFORMW ......
+					PRINTFORMW ...
+					CALL PRINT_ADD_EXP(겐게츠, "정치경험치", 5, 1)
+					CALL TRAIN_AUTO_ABLUP(겐게츠)
+				ENDIF
+			;노래하는 요령에 대해
+			CASE 3
+				;MASTER 보다 겐게츠가 가창이 높다
+				IF ABL:겐게츠:가창 > ABL:MASTER:가창
+					;겐게츠보다 가창이 낮고, 더 한층 정실·낙인을 가지고 있을 때
+					IF TALENT:겐게츠:정실 || TALENT:겐게츠:낙인
+					
+						PRINTFORML 「노래의 요령?」
+						PRINTFORML 「나는 그렇게 노래하는 것은 자신있지 않지만...」
+						PRINTFORML 「그렇지만, 가끔씩은 좋은 것인지도노래하는 것도」
+						
+						PRINTFORMW 
+						PRINTFORMW %조사처리(ANAME(대상),"로")%부터 소리의 내는 방법을 어드바이스 해 받았다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 가창의 노하우를 가르쳐 받았다
+						CALL PRINT_ADD_EXP(겐게츠_대상, "가창경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ELSE
+						PRINTFORMW %조사처리(ANAME(대상),"는")% 그다지 노래하는 이미지가 없지만, 그 가성은 %ANAME(겐게츠_대상)%보다 아름다웠다...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 가창의 노하우를 가르쳐 받았다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						CALL PRINT_ADD_EXP(겐게츠_대상, "가창경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ENDIF
+				;MASTER가 겐게츠보다 가창이 높다
+				ELSE
+					
+					PRINTFORMW 「아라, %조사처리(ANAME(겐게츠_대상),"는")% 노래할 수 있던 거네!」
+					PRINTFORMW 「조금 노래해 봐요」
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(겐게츠_대상)%의 가창의 요령을 삼킬 듯이 (듣)묻고 있다
+					
+					PRINTFORMW .........
+					PRINTFORMW ......
+					PRINTFORMW ...
+					CALL PRINT_ADD_EXP(겐게츠, "가창경험치", 5, 1)
+					CALL TRAIN_AUTO_ABLUP(겐게츠)
+				ENDIF
+			;요리의 요령
+			CASE 4
+				;MASTER 보다 겐게츠가 요리가 비싸다
+				IF ABL:겐게츠:요리 > ABL:겐게츠_대상:요리
+					;겐게츠보다 요리가 낮고, 더 한층 정실·낙인을 가지고 있을 때
+					IF TALENT:겐게츠:정실 || TALENT:겐게츠:낙인
+					
+						PRINTFORMW 「요리?」
+						PRINTFORMW 「후후후... 최근 요리의 공부를 시작한거야」
+						PRINTFORMW 「무게츠나 요리인은 있지만...」
+						PRINTFORMW 「나의 손요리를 먹었으면 좋은 것, 전장에 가기 전에 말야」
+						PRINTFORMW 
+						PRINTFORMW %조사처리(ANAME(대상),"로")%부터 요리의 레시피나 요령을 가르쳐 받았다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 요리의 노하우를 가르쳐 받았다
+						CALL PRINT_ADD_EXP(겐게츠_대상, "요리경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ELSE
+						
+						PRINTFORML 「요리?」
+						PRINTFORML 「본 대로, 요리라든지는 무게츠가 하고 있어요」
+						PRINTFORML 「그렇지만, 가끔씩은 요리는 해요, 특히 과자라든지를 말야」
+						PRINTFORML 「가르쳐 주셨으면 하는 것일까?」
+						
+						PRINTFORMW 
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %조사처리(ANAME(대상),"로")%부터 요리의 노하우를 가르쳐 받았다
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% %ANAME(대상)%의 이야기를 열심히 (듣)묻고 있다
+						PRINTFORMW .........
+						PRINTFORMW ......
+						PRINTFORMW ...
+						CALL PRINT_ADD_EXP(겐게츠_대상, "요리경험치", 5, 1)
+						CALL TRAIN_AUTO_ABLUP(겐게츠_대상)
+					ENDIF
+				;MASTER가 겐게츠보다 요리가 비싸다
+				ELSE
+					PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(겐게츠_대상)%의 요리의 요령을 삼킬 듯이 (듣)묻고 있다
+					PRINTFORMW .........
+					PRINTFORMW ......
+					PRINTFORMW ...
+					CALL PRINT_ADD_EXP(겐게츠, "요리경험치", 5, 1)
+					CALL TRAIN_AUTO_ABLUP(겐게츠)
+				ENDIF
+		ENDSELECT
+		KDVAR:겐게츠:겐게츠_다회참가 = 2
+	;또 이번
+	CASE 1
+
+		PRINTFORMW 「아라, 그것은 유감」
+
+		PRINTFORMW 그렇게 말하면 또 다른 상대를 찾기로 어디엔가 날아 갔다
+		KDVAR:겐게츠:겐게츠_다회참가 = 1
+	RETURN
+
+ENDSELECT
+
+PRINTFORMW 정신이 들면 벌써 날은 저물어, 케이크나 쿠키도 없어지고 있었다
+PRINTFORMW 서운하지만 오늘의 다회는 연회의 끝으로 했다...
+PRINTFORMW 
+
+
+RETURN 1

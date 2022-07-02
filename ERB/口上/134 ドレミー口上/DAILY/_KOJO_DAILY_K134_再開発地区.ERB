@@ -1,0 +1,429 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_SAIKAIHATU_RATE(대상)
+#DIM 대상
+RETURN 50
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_SAIKAIHATU_DECISION(대상)
+#DIM 대상
+
+;도레미와 안면이 있어, 소속이 동일,5%
+
+;끝나고 있으면 발생하지 않는다
+SIF KDVAR:대상:도레미_재개발 == -1
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_SAIKAIHATU_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_SAIKAIHATU(대상)
+#DIM 대상
+#DIM 필요액
+
+
+SELECTCASE KDVAR:대상:도레미_재개발
+	CASE 0
+		PRINTFORMW 일이 일단락 해, %조사처리(ANAME(MASTER),"는")% 순찰이라는 명목으로 성 주변 마을을 산책하고 있다
+		PRINTFORML 주위를 바라보면, 활기가 있는 가게가 나란히 서는 큰 길에 여러가지 관리 직공이 매우 소란스럽게 일하고 있다
+		PRINTFORMW 한동안 걸어 다니고 있으면, 메모를 취하면서 폐허의 옆을 걷는 %ANAME(대상)%의 모습이 보였다……
+		PRINTFORMW 「응……전의 싸움으로 완전하게 안 되게 되어 버렸군요  이것은 재개발 대상이군요」
+		PRINTFORMW 하는 일도 특히 없었던 %조사처리(ANAME(MASTER),"는")%, %ANAME(대상)%에 말을 걸었다
+		PRINTFORML
+		PRINTFORML 「아라 %ANAME(MASTER)%, 왜 이런 곳에서?」
+		PRINTFORMW 「나?   업무중이야, 성 주변 마을의 재개발 지구 계획의 구상을 가다듬고 있는 곳이군요」
+		PRINTFORMW %ANAME(대상)%의 메모를 들여다 보면, 지금 있는 장소 주변이 재개발 지구의 대상인 것 같다
+		PRINTFORMW 「여기 일대를 어떻게 하지 결정하기 어려워 하고 있는거네요, 음식거리로 할까 주택가로 할까……」
+		PRINTFORMW 아무래도 %조사처리(ANAME(대상),"는")%, 이 부근의 시설을 어떠한 것으로 할까 결정하기 어려워 하고 있는 것 같다……
+		KDVAR:대상:도레미_재개발 = 1
+		PRINTFORML 
+		CALL ASK_MULTI("음식거리는 좋은 것이 아닌 것인지", "주택가를 늘리자", "여기는 창녀거리일 것이다!")
+		SELECTCASE RESULT
+			CASE 0
+				PRINTFORMW 「～응 좋네요, 맛있는 요리는 사람을 건강하게 지내 주니까요, 이것은 사람이어도 요괴여도 똑같습니다」
+				PRINTFORMW 「엣?   나의 주식은 확실히 악몽입니다만……아니 감미는 다른 배입니다  네다른 배인 것으로」
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 후도 %조사처리(ANAME(대상),"와")% 먹어 보고 싶은 요리를 말하면서 시찰을 계속했다……
+				KDVAR:대상:도레미_재개발이벤트 = 0
+			CASE 1
+				PRINTFORMW 「그렇구나……사람이 많이 살 수 있으면 확실히 일꾼도 많아진다  거기에 나개인으로서도 식원도 증가해 더할 나위 없다」
+				PRINTFORMW 「흠흠, 그렇게 생각하면 오락보다 의식주의 확보는 큰 일이기 때문에 적안일까」
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 후도 %조사처리(ANAME(대상),"와")% 새로운 일꾼의 확보에 대해 상담하면서 시찰을 계속했다……
+				KDVAR:대상:도레미_재개발이벤트 = 1
+			CASE 2
+				;연모와 합의를 가지고 있으면 발동(타이밍적으로 주회 플레이로 유지가 아니라고 어려울지도&이 선택지를 선택할 각오)
+				IF TALENT:대상:연모 && TALENT:대상:합의
+					PRINTFORMW 「이런이런, 그것은 즉……」
+					PRINTFORML 그렇게 제안한 %ANAME(MASTER)%에, %조사처리(ANAME(대상),"는")% 미소를 띄웠다
+					PRINTFORMW 「알겠습니다, 그러한 플레이를 좋아했습니다라면 다음까지 준비해 두어요……」
+					PRINTFORMW 「후훗, 기대하고 있어♥」
+					PRINTFORMW %ANAME(MASTER)%들은 시찰을 계속했지만 요염한 여자의 표정이 된 %ANAME(대상)%태우고 있고인가 집중할 수 없었다……
+					KDVAR:대상:도레미_재개발이벤트 = 2
+				ELSE
+					PRINTFORMW 「……하아, 그러한 농담은 그다지 좋아하지 않아요」
+					PRINTFORMW 「나참, 성실하게 생각해 주세요―」
+					PRINTFORMW %ANAME(MASTER)%들은 시찰을 계속했지만 %조사처리(ANAME(대상),"는")% 기분이 안좋은 모습이었다……
+					;강제적으로 음식거리를 선택한 결과가 된다
+					KDVAR:대상:도레미_재개발이벤트 = 0
+				ENDIF
+		ENDSELECT
+	;---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	CASE 1
+	;먼저 이벤트로 필요한 금액을 결정한다
+		필요액 = RAND(DAY *100, DAY * 300)
+	;전의 이벤트로 선택한 선택지에 의해 이벤트가 바뀐다
+		PRINTFORMW 일이 일단락해, %조사처리(ANAME(MASTER),"는")% 성 주변 마을에 방문하고 있다
+		PRINTFORML 그러고 보니 전회, 재개발에 대해 이야기한 장소는 어떻게 되었을 것인가
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 재개발 지구에 향하기로 했다……
+		PRINTFORML ·
+		PRINTFORML ·
+		PRINTFORML ·
+		SELECTCASE KDVAR:대상:도레미_재개발이벤트
+			;음식거리를 선택했을 경우
+			CASE 0
+				PRINTFORML 재개발 지구는 민들로 활기찬 음식거리가 되고 있는 것 같다
+				PRINTFORMW 점의 대부분은 입식 있고의 경식이지만 활기차 있다
+				PRINTFORML 일부의 가게에서는 노역자를 위한 식사제공도 행해지고 있다
+				PRINTFORMW 가끔 핑크머리카락의 신선이나 망령에 의한 대식으로 활기찬다니 소문도 들려 온다
+				PRINTFORMW ……아니 그것은 문제인 생각이 들지만
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% 근처로부터 냄새나는 구수한 요리의 냄새에 끌리고 경식을 취하는 일로 했다
+				PRINTFORML 어느 가게로 할까 걷고 있으면 %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"와")% 만났다
+				PRINTFORML 「지금부터 밥?   라면 나도 함께 해도 좋을까?」
+				PRINTFORMW 「조금 전 일이 일단락 해―  모처럼이고 백성의 여러분과 같은 것을 먹어 가고 싶다고」
+				PRINTFORMW 음식거리를 걷는 두 명은 어느 정도 신경이 쓰인다 가게를 픽업 해 갔다
+				PRINTFORMW 그런데 어디로 할까……?
+				PRINTFORML
+				CALL ASK_MULTI("경단가게", "오뎅가게", "닭꼬치가게")
+					SELECTCASE RESULT
+						CASE 0
+							PRINTFORMW 「경단!   좋아요, 갑시다!」
+							PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 이끌리고 경단가게에 향했다……
+							PRINTFORML ·
+							PRINTFORML ·
+							PRINTFORML ·
+							PRINTFORMW %ANAME(대상)%에 안내되고 도착한 장소에는 경단가게가 2채 줄지어 있었다
+							PRINTFORML 「그러고 보니 여기의 경단가게, 2개로 나누어져 있는거네요」
+							PRINTFORMW 「삼식 경단과 두응이다 경단, 미타라시 당고와 흑임자 경단……모두 먹고 싶지만 4병은 많네요」
+							PRINTFORMW 경단의 과식에 주의한 나머지 고민하는 %ANAME(대상)%、%조사처리(ANAME(MASTER),"는")% 눈앞에서 4종류의 경단을 사 보였다
+							PRINTFORMW %조사처리(ANAME(MASTER),"는")% 1개에 4개 박히고 있다면 %조사처리(ANAME(대상),"와")% 서로 스스로 나누면 전부 조금씩 먹을 수 있을 것이라고 제안했다
+								IF TALENT:대상:연모
+									PRINTFORMW 「그것은……좋네요  그렇게 할까요」
+									PRINTFORML %조사처리(ANAME(대상),"는")% 미소를 띄우고 %ANAME(MASTER)%의 손을 잡아 당겨 자리에 도착했다
+									PRINTFORMW 「이봐요 입 열어, 먹여 주어요  아-응」
+									PRINTFORMW 경단을 먹여 오는 %ANAME(대상)%에 %조사처리(ANAME(MASTER),"는")% 대답하는 것처럼 경단을 가득 넣었다
+									PRINTFORMW 「이봐요, 이제(이미/벌써/더는/정말) 한입」
+									PRINTFORMW 더욱 한입하고 먹여 오는 %ANAME(대상)%, 묘하게 주위의 시선이 신경이 쓰인다……
+									PRINTFORMW 「그래서……그 경단은 내가 받아 버릴까?」
+									PRINTFORMW 경단을 음미하는 %ANAME(MASTER)%의 턱에 손을 대어 얼굴을 접근하는 %ANAME(대상)%
+									PRINTFORMW %조사처리(ANAME(MASTER),"는")% 놀란 기세로 목이라고 끝냈다……
+									PRINTFORMW 「후후농담이야, 농담」
+									PRINTFORMW 그렇게 말해 %조사처리(ANAME(대상),"는")% 남은 경단을 먹고 있다
+								ELSE
+									PRINTFORMW 「……아아, 또 당신은 그렇게 부끄러운 일을 태연하게」
+									PRINTFORMW 「아니오, 좋습니다  다만 조금 주위의 눈이……」
+									PRINTFORML %조사처리(ANAME(대상),"와")% %ANAME(MASTER)%자리에 도착해 경단을 먹기 시작했다
+									PRINTFORMW 「지금의 우리들은……마치 연인같구나」
+									PRINTFORMW 「벼, 별로 기쁘다든가 그러한 것이 아니고―」
+									PRINTFORMW 「아-이제(이미/벌써/더는/정말), 주위의 눈이 신경이 쓰여 맛을 몰라요……」
+									PRINTFORMW 「……그렇지만 맛있네요, %ANAME(MASTER)%」
+									PRINTFORMW %조사처리(ANAME(대상),"는")% 맛있을 것 같게 경단을 가득 넣고 있다
+								ENDIF
+							PRINTFORMW 두 명은 그 뒤도 경단을 즐겼다……
+							CALL COLOR_PRINTW(@"호감도가 200올랐다", 칼라_주의)
+							CFLAG:대상:호감도 += 200
+						CASE 1
+							PRINTFORMW 「꽤 차분한 선택이군요　%ANAME(MASTER)%의 그러한 곳 좋아해요」
+							PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 이끌리고 경단가게에 향했다……
+							PRINTFORML ·
+							PRINTFORML ·
+							PRINTFORML ·
+							PRINTFORML 국물의 향기를 감돌게 하는 포장마차의 원에서는 소란스러운 강인한 남자들이 오뎅을 술안주에 술을 마시고 있다
+							PRINTFORMW 여기는 아무래도 비번의 병사나 노역자들의 휴식의 장소인 것 같다
+							PRINTFORMW 즉시 %조사처리(ANAME(MASTER),"와")% %조사처리(ANAME(대상),"는")% 적당하게 주문했다
+							PRINTFORMW 「……」
+							PRINTFORMW 요리가 오는 것을 기다리고 있으면 %조사처리(ANAME(대상),"가")% 의아스러운 얼굴로 다른 손님을 보고 있었다
+							PRINTFORMW %조사처리(ANAME(MASTER),"는")% 어떻게든 했는지? 라고 물었다
+							PRINTFORML 「저 편의 그, 확실히 오늘은 비번이 아닌데 대낮부터 술을 마시고 있는거네요」
+							PRINTFORMW 「아휴 한심한 부하, 조금 설교하러 갈까」
+							PRINTFORMW 자리를 서려고 하는 %ANAME(대상)%에 %조사처리(ANAME(MASTER),"는")%……
+							PRINTFORML
+							CALL ASK_YN("무시하면 좋다", "설교라면 맡겨라")
+								IF RESULT == 0
+									PRINTFORML 『무시하면 좋다』
+									PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 설득했다
+									PRINTFORML 「……그렇구나, 지금은 "우리의"휴식 시간이니까요」
+									PRINTFORMW 「꾸짖는 것은 뒤로 해, 지금은 두 명의 시간을 만끽해야 하는 것」
+									PRINTFORMW 한동안 한다고 주문한 요리가 닿았다……가
+									PRINTFORML 「……응 곳에서」
+									PRINTFORMW 「어째서 %ANAME(MASTER)%까지 술을 부탁하고 있을까?」
+									PRINTFORMW 맛있을 것 같게 술을 마시는 그들을 보고 있으면 자신도 마시고 싶어졌기 때문이다
+									PRINTFORML 「아아……그렇게 당신은 그렇게」
+									PRINTFORMW 「나에게도 가득 받으니까요」
+									PRINTFORMW %ANAME(MASTER)%보다 먼저 술을 따라 마시는 %ANAME(대상)%
+									PRINTFORML 「……후~～맛있어요, 이렇게 해 일의 사이에 마시는 술은 각별하구나」
+									PRINTFORMW 「하하앙, 나중에 재개발의 서로 협의하는데 술을 마시는……이 배덕감, 최고군요～」
+									PRINTFORMW 혼자서에 약간 하이 페이스로 마시는 %ANAME(대상)%、%조사처리(ANAME(MASTER),"는")% 조금 걱정으로 되어 술을 마시지 않고 맞장구를 쳤다
+									PRINTFORML ·
+									PRINTFORML ·
+									PRINTFORML ·
+									PRINTFORMW 『오, 오늘은 %ANAME(대상)%님의 컨디션이 뛰어나지 않습니까?』
+									PRINTFORMW ……이니까 오늘은 %ANAME(대상)%대리로 왔다
+									PRINTFORMW 『그랬습니까  에서는 %ANAME(MASTER)%님, 이 개발 지도를―-』
+									PRINTFORMW %조사처리(ANAME(MASTER),"는")% 만 하루술에 무너진 %ANAME(대상)%대신에 일을 해내는 처지가 되었다
+									CALL COLOR_PRINTW(@"호감도가 300올랐다", 칼라_주의)
+									CALL ADD_COOLTIME(MASTER, 1)
+									CALL ADD_COOLTIME(대상, 1)
+									CFLAG:대상:호감도 += 300
+								ELSE
+									PRINTFORML 『설교라면 맡겨라』
+									PRINTFORMW 그렇게 말해 %조사처리(ANAME(MASTER),"는")% 일어서 술을 마시는 %ANAME(대상)%의 부하의 슬하로 향했다
+									PRINTFORML 『어!? 　%ANAME(MASTER)%님!?   쵸리슥!』
+									PRINTFORML 『엣?   오렛스인가?   아니오, 오늘도 일 바득바득이예요!』
+									PRINTFORML 『아니아니!   이 정도의 술은 나는 취하지 않아요!』
+									PRINTFORML 『그것보다 %ANAME(MASTER)%님도 마십시다!』
+									PRINTFORML 『좋다-먹는 모습 무릎!   대장, 척척 술 가지고 와!』
+									PRINTFORMW 『아니-(들)물어 주세요%ANAME(MASTER)%님!   나도 그렇다면 일은―-』
+									PRINTFORML ·
+									PRINTFORML ·
+									PRINTFORML ·
+									PRINTFORMW 「정말……무엇을 하고 있을까」
+									PRINTFORML 대낮 당당히 취해 무너진 부하와 %ANAME(MASTER)%에 화내는 것보다도 기가 막혀 버린 %ANAME(대상)%
+									PRINTFORMW 이 후 지독하게 %조사처리(ANAME(대상),"로")%부터 꾸중들었다……
+									CALL COLOR_PRINTW(@"호감도가 50올랐다", 칼라_주의)
+									CFLAG:대상:호감도 += 50
+								ENDIF
+						CASE 2
+							PRINTFORMW 「이런이런, %ANAME(MASTER)%도 그 연기의 냄새에 끌린 것이군요?   후훅」
+							PRINTFORMW %조사처리(ANAME(MASTER),"와")% %ANAME(대상)%에 냄새에 끌리도록(듯이) 닭꼬치가게에 향했다……
+							PRINTFORML ·
+							PRINTFORML ·
+							PRINTFORML ·
+							PRINTFORMW 육의 향기를 감돌게 하는 포장마차에 도착하는 두 명, 하지만 닭꼬치가게 자체의 손님은 의외로 적은 것 같다
+							PRINTFORML 「아직 교역과 목축이 번성하지 않으니까, 다른 가게에 비해 비교적 비싼 것이야」
+							PRINTFORMW 「즉 지금의 성 주변 마을은 닭꼬치가게는 고급점이야, 후훅……」
+							PRINTFORML 그렇게 말해 자리에 앉은 %조사처리(ANAME(대상),"는")% 점주에게 주문을 전하기 시작한다
+							PRINTFORMW 붙임성이 좋은 여주인은 상냥하게 대답이면서도 주문의 물건을 준비하기 시작했다
+							PRINTFORML %ANAME(MASTER)%도 주문한다  상당한 액이 될 것 같다……소극적으로 해 둘까
+							PRINTFORMW 「이런이런……이런?」
+							PRINTFORMW 한동안 하고 나서 %조사처리(ANAME(대상),"가")% 자신의 옷을 만지작거리고 있는……설마
+							PRINTFORML 「안 되겠네요, 아무래도 지갑을 잊어 버린 것 같아」
+							PRINTFORMW 「이것은 곤란하군요, 어떻게 하지요?   응? 　%ANAME(MASTER)%?」
+							PRINTFORMW 분명한 태도로 (들)물어 오는 %ANAME(대상)%, 아무래도 사치해 받고 싶은 것 같지만……
+							PRINTFORML
+							PRINTFORML  지갑안:{MONEY}  닭꼬치대:{필요액}
+							PRINTFORMW ……의외로 싸지 않은, 어떻게 하지 것인가
+							PRINTFORML
+							CALL ASK_MULTI_JUDGE("어쩔 수 없기에 사치해 준다", MONEY >= 필요액, "사치한 것일까 이 바보놈!", 1,"이렇게 되면 신체로 지불할 수밖에 없다", 2)
+								IF RESULT == 0
+									PRINTFORMW %조사처리(ANAME(MASTER),"는")% 몰래 자신의 지갑을 확인한……문제 없구나
+									PRINTFORMW 『어쩔 수 없는, 한턱 낸다』
+									PRINTFORMW %조사처리(ANAME(MASTER),"가")% 그렇게 말하면 %조사처리(ANAME(대상),"는")% 힐쭉 표정을 바꾸었다
+									PRINTFORML 「아니 감사합니다 %ANAME(MASTER)%, 조금 더 하면 무전 취식을 하는 곳이었어요」
+									PRINTFORMW 「감미도 좋습니다만 고기도 정말 좋아하는, 꿈과는 다른 배입니닷」
+									PRINTFORML 꼬리를 흔들고 기뻐하는 %조사처리(ANAME(대상),"를")% 봐 조금 누그러진 %ANAME(MASTER)%
+									PRINTFORMW 그 후 두 명은 닭꼬치를 즐겼다……
+									CALL COLOR_PRINTW(@"{필요액}를 지불했습니다", 칼라_경고)
+									MONEY -= 필요액
+									CALL COLOR_PRINTW(@"호감도가 200올랐다", 칼라_주의)
+									CFLAG:대상:호감도 += 200
+								ELSEIF RESULT == 1
+									PRINTFORML %조사처리(ANAME(MASTER),"는")% 테이블에 놓여진 이쑤시개를 한 개 빼내, %ANAME(대상)%의 옷으로 다트같이 던졌다
+									PRINTFORMW 「하하하, 들켜 버리는군요 과연」
+									PRINTFORML 이쑤시개는 보기좋게 %ANAME(대상)%의 옷의 포켓트에 박히고 있다
+									PRINTFORMW 포켓트는 묘하게 부풀어 오르고 있고 아마 지갑이 들어가 있을 것이다
+									PRINTFORML 「토호호……최근 조금 낭비가 격렬하니까 억제하려고 생각했는데 유감이구나……」
+									PRINTFORMW 「라고는 해도, 속이는 것 같은 일을 해 죄송했습니다」
+									PRINTFORMW 사과해도 한턱 내지 않기 때문에 라고 %조사처리(ANAME(MASTER),"는")%, 재차 이쑤시개를 한 개 헤엄에 취해 다시 다트같이 지었다
+									PRINTFORML 『오래 기다리셨습니다―, --와--와―-입니다』
+									PRINTFORMW 두 명의 눈앞에 놓여져 가는 닭꼬치
+									PRINTFORML
+									PRINTFORML
+									PRINTFORMW 「흠……그러면 여기로부터 어떻게 %ANAME(MASTER)%에 사치해 받을까 생각할까요? 　%ANAME(MASTER)%」
+									PRINTFORMW 그렇게 말해 %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"가")% 가지는 이쑤시개를 움켜 잡아, 그대로 닭꼬치의 하나에게 찔렀다
+									PRINTFORMW 「예를 들어……그렇게, 이렇게 해 아첨해 보거나」
+									PRINTFORMW 이쑤시개로 꼬치로부터 하나만 닭꼬치를 찔러 취해, %ANAME(MASTER)%의 원래로 향했다
+									PRINTFORMW 「이봐요 아-응 해, 먹여 준다」
+									PRINTFORMW %ANAME(MASTER)% 유행하라고 내밀어진 닭꼬치를 가득 넣었다
+									PRINTFORML 「맛있어?   근데?   맛있어?」
+									PRINTFORMW 「어때?   사치해 보고 싶어졌어?   후훅」
+									PRINTFORMW 맛있지만 아직도다 라고 %조사처리(ANAME(MASTER),"는")% 돌려주었다
+									PRINTFORMW 두 명은 이 뒤도 「어떻게 %ANAME(MASTER)%에 사치하게 할까」의 화제를 하면서 닭꼬치를 즐겼다……
+									CALL COLOR_PRINTW(@"호감도가 200올랐다", 칼라_주의)
+									CFLAG:대상:호감도 += 200
+								ELSEIF RESULT == 2
+									PRINTFORMW 이렇게 되면 신체로 지불할 수밖에 없다
+									PRINTFORMW 「……엣?」
+									PRINTFORML ·
+									PRINTFORML ·
+									PRINTFORML ·
+									PRINTFORMW 이후에 두 명은 엉망진창 접시닦이했다……
+									PRINTFORMW 「(틀림없이 앗치의 의미일까하고 생각해 준비해 버렸지 않아)」
+									CALL COLOR_PRINTW(@"호감도가 50올랐다", 칼라_주의)
+									CFLAG:대상:호감도 += 50
+								ENDIF
+					ENDSELECT
+			;주택가를 선택했을 경우
+			CASE 1
+				PRINTFORML 재개발 지구는 민들로 사는 주택가가 되고 있는 것 같다
+				PRINTFORMW 나란히 서는 연립 주택의 옆에서는 아이들이 놀아, 오쿠노이호단에서는 근처이야기를 하는 주부들이 보인다
+				PRINTFORMW 대로를 걷고 있으면, 연립 주택의 한 방으로부터 묘한 신음소리가 들려 왔다
+				PRINTFORML 신경이 쓰여 소리가 하는 연립 주택을 보면, 거기에는 한사람의 노인이 웅크리고 있었다
+				PRINTFORMW %조사처리(ANAME(MASTER),"는")% 서둘러 웅크리고 앉는 노인에게 말을 걸면 노인은 괴로운 듯이 대답을 돌려주었다
+				PRINTFORMW 『아야아아아……지병의 요통이……이래서야 일하러 갈 수 있는 원 있고……』
+				PRINTFORML 더욱 이야기를 듣는 곳의 노인은, 뭐든지 성벽 보수의 미장이들의 리더인 것 같다
+				PRINTFORMW 이지만 요통으로 일하러 갈 수 없는 데다가, 도박으로 진찰료를 슥 늘어뜨려 구궁지인것 같다
+				PRINTFORML 
+				PRINTFORML 『어디의 누군가 모르지만 부탁이 있는……(들)물어 주지 않은가의』
+				PRINTFORML 『오늘은 미장이들에서의 회의에서 말야, 평상시라면 내가 나누고 있지만……이래서야 갈 수 있을 것 같지 않다』
+				PRINTFORMW 『당신이 대신에 회의를 나누어 주지 않는가의……』
+				PRINTFORMW 아무래도 %ANAME(MASTER)%에 회의를 대신에 나오면 좋은 것 같다, 어떻게 하지……
+				PRINTFORML
+				PRINTFORML 지금부터 약을 사는 선택지도 있지만……
+				PRINTFORMW 지갑의 내용:{MONEY}  진찰료:{필요액}
+				PRINTFORML
+				CALL ASK_MULTI_JUDGE("약을 사 주기 때문에 스스로 가라", MONEY >= 필요액, "대신에 회의하러 나와 주자", 1,"스스로 어떻게든 해라", 2)
+					IF RESULT == 0
+						PRINTFORMW 과연 회의하러 나와 줄 수 있을 만큼 한가하지 않아, 약을 사 주자……
+						PRINTFORML ·
+						PRINTFORML ·
+						PRINTFORML ·
+						PRINTFORMW 『아니고마워요, 이것으로 어떻게든 될 것 같지』
+						PRINTFORMW 노인에게 약을 사 주면 점차 노인의 상태는 좋아졌다
+						PRINTFORML 『그러면 갈까의, 애송이들이 나를 기다리고 있기 때문의～』
+						PRINTFORMW 『(거기에 오늘은 회의후에, 미장이 동료와 도박하러 갈 예정이었기 때문에)』
+						PRINTFORMW 결과는 어떻게든 성벽 보수 작업은 순조로운 것 같다……
+						CALL COLOR_PRINTW(@"{필요액}를 지불했습니다", 칼라_경고)
+						MONEY -= 필요액
+						CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 방위가 2 상승했다!", 칼라_주의)
+						ABL:MASTER:방위 += 2
+					ELSEIF RESULT == 1
+						PRINTFORML 지금은 지갑안이 추운, 대신에 회의하러 나온다고 하자
+						PRINTFORML ·
+						PRINTFORML ·
+						PRINTFORML ·
+						PRINTFORML 『동쪽의 문은 어떻게 수선 할까나, 어떻게 해-?』
+						PRINTFORML 『몰라, 어떻게 합니다 한 조-?』
+						PRINTFORML 『서문은 아직 통풍 좋은 그대로다―』
+						PRINTFORMW 『하핫, 이래서야 쥐는 커녕 코끼리도 넣어 버리겠어』
+						PRINTFORML ……꽤 분방한 미장이 밖에 없었으니까인가 %조사처리(ANAME(MASTER),"는")% 나누는데 꽤 지치게 되었다
+						PRINTFORMW 하지만 결과는 어떻게든 성벽 보수 작업은 순조롭다……
+						CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 정치가 2 상승했다!", 칼라_주의)
+						ABL:MASTER:정치 += 2
+						CALL ADD_COOLTIME(MASTER, 1)
+					ELSEIF RESULT == 2
+						PRINTFORML 지금은 그런 여유가 없는, 스스로 어떻게든 해라
+						PRINTFORMW %조사처리(ANAME(MASTER),"는")% 노인의 집을 나왔다……
+					ENDIF
+			;소악마 데일리의 유용, 경험치업이라든지는 없어
+			;어째서 이렇게 된, 어째서 이렇게 되었다(기합으로 길이)
+			CASE 2
+				PRINTFORMW 재개발 지구는 노역자를 위한 창녀거리가 되고 있어 이 날은 %조사처리(ANAME(대상),"로")%부터 불려 가고 방문하고 있다……
+				PRINTFORML 매춘숙(뿐)만이 나란히 서, 옷이라고는 할 수 없는 옷감을 감긴 유녀들이 유객 해
+				PRINTFORMW 노역으로 번 얼마 안 되는 하루 수입을, 모은 하루 수입을 남자들은 다 써 버린다
+				PRINTFORMW 이 창녀거리도 이 성 중(안)에서는 노역자의 울분을 푸는 중요한 장소로서 일하고 있는 것 같다……
+				PRINTFORML 대로를 한사람 걷는 %조사처리(ANAME(MASTER),"는")% 가게의 이름을 하나하나 확인한다  그리고 %조사처리(ANAME(MASTER),"는")% 목적의 가게는 찾아냈다
+				PRINTFORMW 매춘숙 『가이안의 꿈』은 창녀거리에서도 가장 고급점으로 알려져 있어 그 지명도는 타국으로부터 고관 따위가 미행으로 올 정도다
+				PRINTFORMW %조사처리(ANAME(MASTER),"가")% 점전에 서는 접수에 말을 걸면, 접수는 가게의 문을 열어 %조사처리(ANAME(MASTER),"를")% 안내하기 시작했다……
+				PRINTFORML 점안은 어디도 유카리 색의 반짝반짝 한 빛으로 비추어져 묘하게 기분이 침착하는 아로마의 냄새로 채워지고 있다
+				PRINTFORMW 접수와 %ANAME(MASTER)%의 발소리만이 복도에 울리는……매춘숙이라고는 생각되지 않을 정도 조용함
+				PRINTFORML ·
+				PRINTFORML ·
+				PRINTFORML 『이쪽이 됩니다, 그러면 천천히……』
+				PRINTFORMW 점의 최안쪽에 있는 방앞에서 접수는 그렇게 말해 점전으로 돌아와 갔다
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 문을 열고 방에 들어가면, 거기에는 평상복의 %조사처리(ANAME(대상),"가")% 침대에 앉아 기다리고 있었다
+				PRINTFORML 「어서 오십시오 『가이안의 꿈』에, 오늘 %ANAME(MASTER)%님의 상대를 하도록 하겠습니다 %ANAME(대상)%입니다」
+				PRINTFORMW 「후훅, 긴장하지 않아도 괜찮은 것, %ANAME(MASTER)%  , 오늘 밤은……즐깁시다?」
+				PRINTFORML %조사처리(ANAME(대상),"는")% 그렇게 말하면, 이상하게 웃어 보이고　%ANAME(MASTER)%의 수를 잡아 불러들인다
+				PRINTFORMW 방에는 더블 사이즈의 침대와 유리벽의 목욕탕이 있어 복도에 비해 세련된 분위기다
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 즉시 옷을 벗기 시작했다……
+				;개발 전제품까지 들어갈 수 있는 와 과연 간사할지도 모른다
+				SETCOLOR 칼라_핑크
+				PRINTFORML 비치품으로서 이하를 받을 수 있었습니다
+				PRINTFORML 콘돔……3개
+				PRINTFORML 로션……1개
+				PRINTFORML 미약　　　……1개
+				PRINTFORML 절륜환　　……1개
+				PRINTFORML 배란유발제……1개
+				PRINTFORML 도원향　　……1개
+				PRINTFORMW 
+				RESETCOLOR 
+				ITEM:콘돔 += 3
+				ITEM:로션 += 1
+				ITEM:미약 += 1
+				ITEM:절륜환 += 1
+				ITEM:배란유발제 += 1
+				ITEM:도원향 += 1
+				CFLAG:대상:호감도 += 100
+				;전원의 조교참가플래그를 클리어
+				CVARSET CFLAG, 6, 0
+				CFLAG:대상:조교참가플래그 = 1
+				CFLAG:대상:조교중돌아가지않는다 = 1
+				BASE:대상:체력 = MAXBASE:대상:체력
+				BASE:대상:기력 = MAXBASE:대상:기력
+				;턴 엔드 조교를 온
+				FLAG:턴엔드조교 = 1
+				;그 이후의 데일리 이벤트 발생을 잡는다
+				DAILY_CANCEL = 1
+				;플래그
+				KDVAR:대상:도레미_재개발_창관 = 1
+				CALL SINGLE_DRAWLINE
+				PRINTFORML
+				CALL ADD_EVENTTRAIN_CALLEE("KOJO_DAILY_K134_SAIKAIHATU")
+				CALL ADD_EVENTEND_CALLEE("KOJO_DAILY_K134_SAIKAIHATU")
+		ENDSELECT
+		KDVAR:대상:도레미_재개발 = -1
+ENDSELECT
+RETURN 1
+
+
+;창녀거리 선택했을 때의 녀석
+
+@EVENTTRAIN_KOJO_DAILY_K134_SAIKAIHATU
+#DIM 대상
+PRINTFORMW 「너무 볼 수 있으면, 조금 부끄러워요」
+PRINTFORML 그렇게 말해도, 무심코 넋을 잃고 봐 버린다  부끄러운 것 같은 말투이지만, %ANAME(대상)%도 볼 수 있어 나쁜 기분은 하고 있지 않는 것 같다
+PRINTFORMW 그 증거로, 신체를 은폐도 하지 않는다  윗도리나 속옷도, 권하는 것 같은 손놀림으로 술술 벗어 보인다　%ANAME(MASTER)%도 뒤를 쫓도록(듯이) 옷을 벗어 던졌다
+PRINTFORMW 「그렇게 당황하지 않아도 괜찮아요  이봐요 와」
+PRINTFORML %ANAME(대상)%에 이끌리고 목욕탕에 들어가면, %조사처리(ANAME(대상),"는")% 정중하게 %ANAME(MASTER)%의 신체를을 씻어 주었다
+PRINTFORMW 충분한 거품을 신체에 바르면, %조사처리(ANAME(대상),"가")% 팔을 걸어 온다
+PRINTFORMW 거품 투성이가 된 신체를 구불거리게 해, 꽉 눌러서는, 자신의 신체를 스폰지 대신에 해 준다
+PRINTFORMW 「후훗, %ANAME(MASTER)%도 참 숨이 난폭해요」
+PRINTFORMW %ANAME(대상)%의 젖가슴의 부드러움을 즐기면서, 허벅지나 팔뚝의 감촉을 맛본다　%ANAME(MASTER)%의 열정이 붐빈다
+PRINTFORML 샤워로 거품을 예쁘게 흘려 떨어뜨리면, 두 명은 목욕통에 잠긴다. 불끈할 정도의 온도가 아니지만, 흥분해 어질 어질해 온다
+PRINTFORMW 젖은 머리카락을 늘어뜨린 %조사처리(ANAME(대상),"가")%, 요염함  목욕통 중(안)에서 서로의 피부가 서로 닿아, 기대는 한층 더 높아져 간다
+PRINTFORMW 「침대가 좋을까 생각하고 있었지만, 모처럼이니까, 여기에서는 글자째 해 버립시다♥」
+PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 다가붙어, 허리에 손을 뻗었다……
+
+;소악마 데일리처럼 사정량으로 대사 바꾸고 싶었지만 기술적으로 단념
+@EVENTEND_KOJO_DAILY_K134_SAIKAIHATU
+#DIM 대상
+PRINTFORML 뜨겁게 방울져 떨어져, 타액보다 무거운 점액  입술을 채워진 채로, 백탁의 국물이 내뿜는다  정액은, 요도구로부터 띠같이 흘러서는 위에 위로 성장하고 있었다
+PRINTFORMW 기세 맡김의 사정은, 끝 없게 흘러넘쳐 간다　%ANAME(대상)%의 손가락의 틈새로부터도, 정액이 분출하고 있었다
+PRINTFORMW 「아……하아, 하아……굉장한 양……손까지 뜨거워요」
+PRINTFORML 내뿜어, 흐르는 정액은, 순식간에 %조사처리(ANAME(대상),"가")% 손을 대어 간다
+PRINTFORMW 물보라를 피하는 모습도 없고, 정액을 몸에 내던질 수 있을 때마다, 나른한 숨을 내쉬고 있었다
+PRINTFORML %조사처리(ANAME(대상),"는")% 상기 한 얼굴로, 국물 투성이의 페니스를 어루만진다　%ANAME(MASTER)%의 냄새와 김으로 가득 찬 공기를 들이 마셔, 크게 숨을 잇는다
+PRINTFORMW 신체에 달라붙은 정액에, 넋을 잃은 시선을 향하여 있었다
+PRINTFORMW 「시간은 아직도 충분히 있어요  이봐요 사양하지 않고, 함께 즐깁시다」
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORMW %조사처리(ANAME(대상),"가")% 호의를 받아들여, %조사처리(ANAME(MASTER),"는")% 그 후도 봉사를 즐겼다……
+KDVAR:대상:도레미_재개발_창관 = 0
+KDVAR:대상:도레미_재개발_사정량 = 0

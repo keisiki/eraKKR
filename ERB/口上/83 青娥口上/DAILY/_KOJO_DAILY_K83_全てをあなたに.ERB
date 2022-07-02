@@ -1,0 +1,145 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K83_I_GIVE_YOU_EVERYTHING_I_HAVE_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K83_I_GIVE_YOU_EVERYTHING_I_HAVE_DECISION(대상)
+#DIM 대상
+#DIM 요시카
+
+요시카 = NAME_TO_CHARA("요시카")
+
+SIF MASTER == 요시카
+	RETURN 0
+
+SIF !IS_SLAVE(대상)
+	RETURN 0
+
+SIF IS_SLAVE(요시카) || IS_LOVER(요시카) || IS_SLAVED_BY(대상)
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF KDVAR:대상:청아_모두를당신에
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(요시카, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K83_I_GIVE_YOU_EVERYTHING_I_HAVE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K83_I_GIVE_YOU_EVERYTHING_I_HAVE(대상)
+#DIM 대상
+#DIM 요시카
+
+요시카 = NAME_TO_CHARA("요시카")
+
+PRINTFORMW 「%ANAME(MASTER)%님, 조금 좋습니까?」
+PRINTFORML 자기 방에서 일을 하고 있으면, %조사처리(ANAME(대상),"가")% 벽을 빠져나가 방에 들어 오는 곳이었다
+PRINTFORMW 예의범절을 가르쳐 준 보람 있어, 이쪽을 보는 그녀의 눈은 완전히 온순한 것이 되어 있다……
+PRINTFORMW 「말할 필요도 없는 것입니다만, 나는 %ANAME(MASTER)%님의 충실머슴, 영원의 충성을 맹세하는 몸이에요」
+PRINTFORMW 「그러니까, 내가 가지는 모두는, 당신님의 것……몸도, 지식도, 이것도 저것도」
+PRINTFORMW 「그렇게……나의, 강시도, 물론」
+PRINTFORML %조사처리(ANAME(대상),"가")% 문에 향하여 눈짓 하면, %ANAME(요시카)%가 들어 왔다
+IF IS_MALE(MASTER)
+	PRINTFORML 남의 정욕을 돋우는 것 같은, 추잡한 의상에 몸을 감싸며 있다……
+	PRINTFORMW 마음 탓인지, 그 지체도 남자 좋아하는 하는 것이 되어 있는 것 같은 생각이 들지만……?
+ELSE
+	PRINTFORML 여자인 %ANAME(MASTER)%의 정욕조차도 돋우는 것 같은, 추잡한 의상에 몸을 감싸며 있다……
+	PRINTFORMW 마음 탓인지, 그 지체 자체도 추잡한 것이 되어 있는 것 같은 생각이 들지만……?
+ENDIF
+PRINTFORMW 「당신에 시중듭니다 것, 거기에 적당한 모습으로 하지 않습니다와……?」
+PRINTFORMW 「%ANAME(MASTER)%님, 부디 나와 %ANAME(요시카)%, 두 사람 모두 귀여워해 주십시오……」
+PRINTFORML ……결국은 자신이 귀여워하기를 원하기 때문에, %ANAME(요시카)%를 바친다는 일인것 같다
+PRINTFORMW 뭐, 그녀가 마음까지 %ANAME(MASTER)%의 것이 되어 있다는 일을 나타내고는 있을 것이다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 완전히 그럴 생각인것 같고, %ANAME(요시카)%와 대가 되는 것 같은 추잡한 의상에 몸을 감싸며 있다
+PRINTFORML 왜 그러는 것인가……
+PRINTFORML
+CALL ASK_MULTI("귀여워해 준다", "지금 바쁘니까……", "때려 누인다")
+SELECTCASE RESULT
+	CASE 1
+		PRINTFORMW 「아앙……그런……」
+		PRINTFORMW 「애태움 싶으면 그러한 취향이에요?   이제(이미/벌써/더는/정말)……」
+		PRINTFORMW 「필요하면, 언제라도 불러 주십시오, %조사처리(ANAME(대상),"는")% 당신님의 것이므로……」
+		PRINTFORMW 유감스럽지만 지금은 그런 기분은 아니다
+		PRINTFORMW 두 명을 돌려 보냈다……
+	CASE 2
+		PRINTFORMW 「아앗……!」
+		PRINTFORML 누가 언제 그런 일을 부탁했다
+		PRINTFORMW 자신의 것이라고 한다면, 제멋대로인 일을 하지 마……
+		PRINTFORMW 그렇게 주장해, %ANAME(대상)%의 뺨을 때려 누였다
+		PRINTFORMW 「네, 죄송합니다……」
+		PRINTFORMW 「주제넘은 일을 했습니다, 실례하겠습니다……」
+		PRINTFORMW 아픔에 뺨을 누르는 %ANAME(대상)%의 표정은, 어딘가 황홀로 한 것에 생각되었다……
+		CFLAG:대상:종속도 += 300
+	CASE 0
+		PRINTFORMW 거기까지 말한다면, 한껏 즐겁게 해 받자……
+		PRINTFORMW 두 명을 침대에 쓰러트렸다……
+		CALL COLOR_PRINTW(@"%ANAME(요시카)%가 복종을 맹세했습니다", 칼라_주의)
+		CALL COLOR_PRINTW(@"%ANAME(요시카)%의 합의를 얻었습니다", 칼라_주의)
+
+		;전원의 조교참가플래그를 클리어
+		CVARSET CFLAG, 6, 0
+
+		CFLAG:대상:종속도 += 500
+		CFLAG:대상:의존도 += 300
+		TALENT:대상:쵸로인 = 1
+		CFLAG:대상:조교참가플래그 = 1
+		CFLAG:대상:조교중돌아가지않는다 = 1
+		CFLAG:대상:강제우호화 = 1
+		BASE:대상:체력 = MAXBASE:대상:체력
+		BASE:대상:기력 = MAXBASE:대상:기력
+
+		CFLAG:요시카:종속도 = MAX(CFLAG:요시카:종속도, 1500)
+		CFLAG:요시카:의존도 = MAX(CFLAG:요시카:의존도, 300)
+		TALENT:요시카:복종 = 1
+		TALENT:요시카:합의 = 1
+		TALENT:요시카:반항적 = 0
+		TALENT:요시카:쵸로인 = 1
+		TALENT:요시카:젖기어려움 = 0
+		TALENT:요시카:보수적 = 0
+		TALENT:요시카:자제심 = 0
+		CFLAG:요시카:조교참가플래그 = 1
+		CFLAG:요시카:조교중돌아가지않는다 = 1
+		CFLAG:요시카:강제우호화 = 1
+		BASE:요시카:체력 = MAXBASE:요시카:체력
+		BASE:요시카:기력 = MAXBASE:요시카:기력
+		TALENT:요시카:Ｃ둔감 = 0
+		TALENT:요시카:Ｂ둔감 = 0
+		TALENT:요시카:Ｖ둔감 = 0
+		TALENT:요시카:Ａ둔감 = 0
+		TALENT:요시카:Ｃ민감 = 1
+		TALENT:요시카:Ｂ민감 = 1
+		TALENT:요시카:Ｖ민감 = 1
+		TALENT:요시카:Ａ민감 = 1
+		CALL SET_BUSTSIZE(요시카, 1)
+		TALENT:요시카:예쁜엉덩이 = 1
+		TALENT:요시카:각선미 = 1
+		;강제 역조교플래그를 온
+		FLAG:턴엔드조교 = 1
+		;그 이후의 데일리 이벤트 발생을 잡는다
+		DAILY_CANCEL = 1
+ENDSELECT
+
+KDVAR:대상:청아_모두를당신에 = 1
+RETURN 1

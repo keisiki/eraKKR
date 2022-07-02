@@ -1,0 +1,200 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_DOREMY_IN_DREAM_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_DOREMY_IN_DREAM_DECISION(대상)
+#DIM 대상
+
+;일회뿐  조건에 「안면 없음」이 있어, 이 이벤트 끝나면 안면 붙기 때문에, 일부러 변수 관리할 정도의 것인가?   라는 느낌이지만
+SIF KDVAR:대상:도레미_안녕하세요도레미
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_DOREMY_IN_DREAM_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_DOREMY_IN_DREAM(대상)
+#DIM 대상
+
+;소속이 다른 경우
+IF CFLAG:대상:소속 != CFLAG:MASTER:소속
+	PRINTFORMW 여기는 어디일까?
+	PRINTFORML %ANAME(MASTER)%의 기억이 확실하면, 일을 끝내 자고 있었을 것이다
+	PRINTFORML 라고 말하는데, %조사처리(ANAME(MASTER),"는")%, 기묘한 공간에 한사람 헤매고 있었다
+	PRINTFORMW 어딘지 모르게 환각적인, 수수께끼의 공간이다
+	PRINTFORML 「이런……?   이런이런 이런」
+	PRINTFORMW 「이런 꿈의 세계의 끝에 헤매어 오는 사람이 계(오)신다고는」
+	PRINTFORML 근처를 바라보고 있으면, 갑자기 소녀에게 말을 걸려졌다
+	PRINTFORML 펑펑과 같은 것이 다루어진 의상에 몸을 싸는 그녀는, 이런 기묘한 장소에 있다는데, 태연하게 하고 있다
+	PRINTFORMW 보통 사람은 아니구나……조심하는 %조사처리(ANAME(MASTER),"를")% 보고, 소녀는 쿡쿡하고 웃는다
+	PRINTFORMW 「이런이런, 그렇게 경계하지 말아 주세요, 무섭네요」
+	PRINTFORML 「괜찮아요, 보통으로 무심코 헤매어 버린 사람에게 해를 이루는 만큼, 바쿠도 한가하지 않아서」
+	PRINTFORML 바쿠--사람의 꿈 속에 비집고 들어가, 꿈을 먹어 버리는 요괴라고 얘기한다
+	PRINTFORMW 라고 하면 여기는 꿈 속인 것인가. %조사처리(ANAME(MASTER),"가")% 방문하면, 해 빌리고와 소녀는 수긍했다
+	PRINTFORML 「꿈의 세계의, 변경이지만 말이죠. 당신운이 좋아요. 보통으로 자고 있는 만큼에는, 이런 곳 올 수 없기에」
+	PRINTFORMW 「……뭐, 보지 않아도 괜찮은 것을 보고 있다고 생각하면, 운이 좋을지 나쁠지 모르지만 말이죠」
+	PRINTFORM 「어이쿠!   말씀드려 늦었습니다. 나의 이름은
+	CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+	PRINTFORML . 이후 알아봐주기를……」
+	PRINTFORMW 「……은, 뭐, 기억해 있을 수 있으면의 이야기이지만」
+	PRINTFORML 이런 "인상적인"만남을 한 상대의 이름과 얼굴을 잊는 만큼, 이제 여섯 하고 있지 않다……
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 농담인 척 하며 돌려주면, %조사처리(ANAME(대상),"는")% 고개를 저었다
+	PRINTFORML 「알고 계시지 않는다. 여기는 꿈 속이에요」
+	PRINTFORML 「당신은 어제 본 꿈의 내용을 기억하고 있습니까?   기억하지 않을 것입니다?」
+	PRINTFORMW 「그러한 것이랍니다……일어나면 완전히 잊고 있습니다. 그리고 그 때는, 이제 곧 거기군요」
+	PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+	PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+	PRINTFORML 「아휴, 이야기 하기 너무 짧은 시간이었지요」
+	PRINTFORMW 「안녕히, 이름도 모르는 (분)편. 할 수 있으면 다음은, 꿈의 세계 이외로 만남 하고 싶어요……」
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+	PRINTFORMW 오늘 아침은 굉장히 좋은 날씨다. 오늘도 하루 좋은 하루가 될 것 같다면, %ANAME(MASTER)%의 기분은 밝았다
+	PRINTFORMW ……그렇다 치더라도, 무슨 꿈을 꾸고 있었던가?
+	PRINTFORML
+	CALL COLOR_PRINTW(@"%NAME_FORMAL(대상)%의 안면을 얻었습니다", 칼라_주의)
+	CFLAG:대상:호감도 += 200
+	CFLAG:대상:안면 = 1
+	
+;소속이 같은 경우로 안면 없음
+ELSEIF CFLAG:대상:소속 == CFLAG:MASTER:소속 && !CFLAG:대상:안면
+	PRINTFORMW 여기는 어디일까?
+	PRINTFORML %ANAME(MASTER)%의 기억이 확실하면, 일을 끝내 자고 있었을 것이다
+	PRINTFORML 라고 말하는데, %조사처리(ANAME(MASTER),"는")%, 기묘한 공간에 한사람 헤매고 있었다
+	PRINTFORMW 어딘지 모르게 환각적인, 수수께끼의 공간이다
+	PRINTFORML 「이런……?   이런이런 이런」
+	PRINTFORMW 「확실히…당신은 %ANAME(MASTER)%씨였던가요?」
+	PRINTFORML 근처를 바라보고 있으면, 갑자기 소녀에게 말을 걸려졌다
+	PRINTFORML 펑펑과 같은 것이 다루어진 의상에 몸을 싸는 그녀는, 이런 기묘한 장소에 있다는데, 태연하게 하고 있다
+	PRINTFORMW 보통 사람은 아니구나……조심하는 %조사처리(ANAME(MASTER),"를")% 보고, 소녀는 쿡쿡하고 웃는다
+	PRINTFORMW 「이런이런, 그렇게 경계하지 말아 주세요, 무섭네요」
+	PRINTFORML 「나는 바쿠의 요괴입니다. 이렇게 보여도 일단, 당신과 같은 세력의 사람인 것이에요?」
+	PRINTFORML 바쿠--사람의 꿈 속에 비집고 들어가, 꿈을 먹어 버리는 요괴라고 얘기한다
+	PRINTFORMW 라고 하면 여기는 꿈 속인 것인가. %조사처리(ANAME(MASTER),"가")% 방문하면, 해 빌리고와 소녀는 수긍했다
+	PRINTFORML 「꿈의 세계의, 변경이지만 말이죠. 당신운이 좋아요. 보통으로 자고 있는 만큼에는, 이런 곳 올 수 없기에」
+	PRINTFORMW 「……뭐, 보지 않아도 괜찮은 것을 보고 있다고 생각하면, 운이 좋을지 나쁠지 모르지만 말이죠」
+	PRINTFORM 「어이쿠!   말씀드려 늦었습니다. 나의 이름은
+	CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+	PRINTFORML . 이후 알아봐주기를……」
+	PRINTFORMW 「……은, 뭐, 기억해 있을 수 있으면의 이야기이지만」
+	PRINTFORML 이런 "인상적인"만남을 한 상대의 이름과 얼굴을 잊는 만큼, 이제 여섯 하고 있지 않다……
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 농담인 척 하며 돌려주면, %조사처리(ANAME(대상),"는")% 고개를 저었다
+	PRINTFORML 「알고 계시지 않는다. 여기는 꿈 속이에요」
+	PRINTFORML 「당신은 어제 본 꿈의 내용을 기억하고 있습니까?   기억하지 않을 것입니다?」
+	PRINTFORMW 「그러한 것이랍니다……일어나면 완전히 잊고 있습니다. 그리고 그 때는, 이제 곧 거기군요」
+	PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+	PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+	PRINTFORML 「아휴, 이야기 하기 너무 짧은 시간이었지요」
+	PRINTFORMW 「안녕히, %ANAME(MASTER)%」
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+	PRINTFORMW 오늘 아침은 굉장히 좋은 날씨다. 오늘도 하루 좋은 하루가 될 것 같다면, %ANAME(MASTER)%의 기분은 밝았다
+	PRINTFORMW ……그렇다 치더라도, 무슨 꿈을 꾸고 있었던가?
+	PRINTFORML
+	CALL COLOR_PRINTW(@"%NAME_FORMAL(대상)%의 안면을 얻었습니다", 칼라_주의)
+	CFLAG:대상:호감도 += 200
+	CFLAG:대상:안면 = 1
+
+;소속이 같은 경우로 안면 있어
+ELSEIF CFLAG:대상:소속 == CFLAG:MASTER:소속 && CFLAG:대상:안면
+	PRINTFORMW 여기는 어디일까?
+	PRINTFORML %ANAME(MASTER)%의 기억이 확실하면, 일을 끝내 자고 있었을 것이다
+	PRINTFORML 라고 말하는데, %조사처리(ANAME(MASTER),"는")%, 기묘한 공간에 한사람 헤매고 있었다
+	PRINTFORMW 어딘지 모르게 환각적인, 수수께끼의 공간이다
+	PRINTFORML 「이런……?   이런이런 이런」
+	PRINTFORMW 「%ANAME(MASTER)%씨가 아닙니까?」
+	PRINTFORML 근처를 바라보고 있으면, 갑자기 소녀에게 말을 걸려졌다
+	PRINTFORML 펑펑과 같은 것이 다루어진 의상에 몸을 싸는 그녀는, 이런 기묘한 장소에 있다는데, 태연하게 하고 있다
+	PRINTFORMW 보통 사람은 아니구나……조심하는 %조사처리(ANAME(MASTER),"를")% 보고, 소녀는 쿡쿡하고 웃는다
+	PRINTFORMW 「이런이런, 그렇게 경계하지 말아 주세요, 무섭네요」
+	PRINTFORML 「나는 바쿠의 요괴입니다. 이렇게 보여도 일단, 당신과 같은 세력의 사람인 것이에요?」
+	PRINTFORML 바쿠--사람의 꿈 속에 비집고 들어가, 꿈을 먹어 버리는 요괴라고 얘기한다
+	PRINTFORMW 라고 하면 여기는 꿈 속인 것인가. %조사처리(ANAME(MASTER),"가")% 방문하면, 해 빌리고와 소녀는 수긍했다
+	PRINTFORML 「꿈의 세계의, 변경이지만 말이죠. 당신운이 좋아요. 보통으로 자고 있는 만큼에는, 이런 곳 올 수 없기에」
+	PRINTFORMW 「……뭐, 보지 않아도 괜찮은 것을 보고 있다고 생각하면, 운이 좋을지 나쁠지 모르지만 말이죠」
+	PRINTFORMW 「……은, 뭐, 기억해 있을 수 있으면의 이야기이지만」
+	PRINTFORML 이런 "인상적인"장소를 잊는 만큼, 이제 여섯 하고 있지 않다……
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 농담인 척 하며 돌려주면, %조사처리(ANAME(대상),"는")% 고개를 저었다
+	PRINTFORML 「알고 계시지 않는다. 여기는 꿈 속이에요」
+	PRINTFORML 「당신은 어제 본 꿈의 내용을 기억하고 있습니까?   기억하지 않을 것입니다?」
+	PRINTFORMW 「그러한 것이랍니다……일어나면 완전히 잊고 있습니다. 그리고 그 때는, 이제 곧 거기군요」
+	PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+	PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+	PRINTFORML 「아휴, 이야기 하기 너무 짧은 시간이었지요」
+	PRINTFORMW 「안녕히, %ANAME(MASTER)%」
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+	PRINTFORMW 오늘 아침은 굉장히 좋은 날씨다. 오늘도 하루 좋은 하루가 될 것 같다면, %ANAME(MASTER)%의 기분은 밝았다
+	PRINTFORMW ……그렇다 치더라도, 무슨 꿈을 꾸고 있었던가?
+	PRINTFORML
+	CFLAG:대상:호감도 += 200
+	
+ELSE
+	PRINTFORMW 여기는 어디일까?
+	PRINTFORML %ANAME(MASTER)%의 기억이 확실하면, 일을 끝내 자고 있었을 것이다
+	PRINTFORML 라고 말하는데, %조사처리(ANAME(MASTER),"는")%, 기묘한 공간에 한사람 헤매고 있었다
+	PRINTFORMW 어딘지 모르게 환각적인, 수수께끼의 공간이다
+	PRINTFORML 「이런……?   이런이런 이런」
+	PRINTFORMW 「이런 꿈의 세계의 끝에 헤매어 오는 사람이 계(오)신다고는」
+	PRINTFORML 근처를 바라보고 있으면, 갑자기 소녀에게 말을 걸려졌다
+	PRINTFORML 펑펑과 같은 것이 다루어진 의상에 몸을 싸는 그녀는, 이런 기묘한 장소에 있다는데, 태연하게 하고 있다
+	PRINTFORMW 보통 사람은 아니구나……조심하는 %조사처리(ANAME(MASTER),"를")% 보고, 소녀는 쿡쿡하고 웃는다
+	PRINTFORMW 「이런이런, 그렇게 경계하지 말아 주세요, 무섭네요」
+	PRINTFORML 「괜찮아요, 보통으로 무심코 헤매어 버린 사람에게 해를 이루는 만큼, 바쿠도 한가하지 않아서」
+	PRINTFORML 바쿠--사람의 꿈 속에 비집고 들어가, 꿈을 먹어 버리는 요괴라고 얘기한다
+	PRINTFORMW 라고 하면 여기는 꿈 속인 것인가. %조사처리(ANAME(MASTER),"가")% 방문하면, 해 빌리고와 소녀는 수긍했다
+	PRINTFORML 「꿈의 세계의, 변경이지만 말이죠. 당신운이 좋아요. 보통으로 자고 있는 만큼에는, 이런 곳 올 수 없기에」
+	PRINTFORMW 「……뭐, 보지 않아도 괜찮은 것을 보고 있다고 생각하면, 운이 좋을지 나쁠지 모르지만 말이죠」
+	PRINTFORM 「어이쿠!   말씀드려 늦었습니다. 나의 이름은
+	CALL COLOR_PRINT(@"%NAME_FORMAL(대상)%", 칼라_주의)
+	PRINTFORML . 이후 알아봐주기를……」
+	PRINTFORMW 「……은, 뭐, 기억해 있을 수 있으면의 이야기이지만」
+	PRINTFORML 이런 "인상적인"만남을 한 상대의 이름과 얼굴을 잊는 만큼, 이제 여섯 하고 있지 않다……
+	PRINTFORMW %조사처리(ANAME(MASTER),"가")% 농담인 척 하며 돌려주면, %조사처리(ANAME(대상),"는")% 고개를 저었다
+	PRINTFORML 「알고 계시지 않는다. 여기는 꿈 속이에요」
+	PRINTFORML 「당신은 어제 본 꿈의 내용을 기억하고 있습니까?   기억하지 않을 것입니다?」
+	PRINTFORMW 「그러한 것이랍니다……일어나면 완전히 잊고 있습니다. 그리고 그 때는, 이제 곧 거기군요」
+	PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+	PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+	PRINTFORML 「아휴, 이야기 하기 너무 짧은 시간이었지요」
+	PRINTFORMW 「안녕히, 이름도 모르는 (분)편. 할 수 있으면 다음은, 꿈의 세계 이외로 만남 하고 싶어요……」
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+	PRINTFORMW 오늘 아침은 굉장히 좋은 날씨다. 오늘도 하루 좋은 하루가 될 것 같다면, %ANAME(MASTER)%의 기분은 밝았다
+	PRINTFORMW ……그렇다 치더라도, 무슨 꿈을 꾸고 있었던가?
+	PRINTFORML
+	CALL COLOR_PRINTW(@"%NAME_FORMAL(대상)%의 안면을 얻었습니다", 칼라_주의)
+	CFLAG:대상:호감도 += 200
+ENDIF
+KDVAR:대상:도레미_안녕하세요도레미 = 1
+
+RETURN 1

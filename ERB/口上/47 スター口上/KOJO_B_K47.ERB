@@ -1,0 +1,6514 @@
+﻿;-------------------------------------------------
+;「포로 조교」의 구상
+;-------------------------------------------------
+
+;=================================================
+;●개시시의 대사
+;=================================================
+@KOJO_TRAIN_START_B_K47
+;[공허]상태라면 구상을 표시하지 않는다
+IF TALENT:공허
+	RETURN
+ENDIF
+
+;-------------------------------------------------
+;첫회
+;-------------------------------------------------
+IF CFLAG:202 == 0
+	CFLAG:202 = 1
+	;첫대면의 경우
+	IF !CFLAG:17
+		;PRINTFORMW 
+	;이미 만났던 적이 있는 경우
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+
+;-------------------------------------------------
+;개시시(1회만)
+;-------------------------------------------------
+;연모 또는 복종을 획득했다
+ELSEIF CFLAG:202 < 3 && (TALENT:연모 || TALENT:복종)
+	CFLAG:202 = 3
+	;PRINTFORMW 
+;의존도가 300이상이 되었다
+ELSEIF CFLAG:202 < 2 && CFLAG:3 >= 300
+	CFLAG:202 = 2
+	;PRINTFORMW 
+
+;-------------------------------------------------
+;개시시(2회째 이후)
+;-------------------------------------------------
+;연모 or 복종
+ELSEIF TALENT:연모 || TALENT:복종
+	;PRINTFORMW 
+;의존도가 300이상
+ELSEIF CFLAG:3 >= 300
+	;PRINTFORMW 
+;그 이외
+ELSE
+	;PRINTFORMW 
+ENDIF
+
+;=================================================
+;●종료시의 대사
+;=================================================
+@KOJO_TRAIN_END_B_K47
+;[공허]상태라면 구상을 표시하지 않는다
+IF TALENT:공허
+	RETURN
+ENDIF
+
+;-------------------------------------------------
+;행동불능의 경우
+;-------------------------------------------------
+;술에 취함에 의한 행동불능
+IF TCVAR:53 == 1
+	;PRINTFORMW 
+;쾌감인 나머지 기절
+ELSEIF TCVAR:52
+	;PRINTFORMW 
+;피로에 의한 행동불능
+ELSEIF TCVAR:51
+	;PRINTFORMW 
+ENDIF
+
+;-------------------------------------------------
+;종료시(1회만)
+;-------------------------------------------------
+;처음으로 의존도가 300이상이 되었다
+IF CFLAG:203 < 2 && CFLAG:2 >= 300
+	CFLAG:203 = 2
+	;행동불능이라면 플래그만 세워 표시는 하지 않는다
+	IF !(TCVAR:51 || TCVAR:52 || TCVAR:53)
+		;PRINTFORMW 
+	ENDIF
+;첫회
+ELSEIF CFLAG:203 < 1
+	CFLAG:203 = 1
+	;행동불능이라면 플래그만 세워 표시는 하지 않는다
+	IF !(TCVAR:51 || TCVAR:52 || TCVAR:53)
+		;PRINTFORMW 
+	ENDIF
+
+;-------------------------------------------------
+;종료시(2회째 이후)
+;-------------------------------------------------
+;행동불능이라면 비표시
+ELSEIF !(TCVAR:51 || TCVAR:52 || TCVAR:53)
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		;PRINTFORMW 
+	;의존도가 300이상
+	ELSEIF CFLAG:3 >= 300
+		;PRINTFORMW 
+	;그 이외
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;=================================================
+;●커맨드 실행전(이 캐릭터가 타겟측 때)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;=================================================
+@KOJO_COM_BEFORE_TARGET_B_K47
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+RETURN 0
+
+;=================================================
+;●커맨드 실행전(이 캐릭터가 플레이어측 때)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_PLAYER 대신에 사용한다
+;=================================================
+@KOJO_COM_BEFORE_PLAYER_B_K47
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+RETURN 0
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어로도 타겟에서도 불려 간다)
+;  플레이어·타겟의 구별이 없는 커맨드는 여기에 구상을 기술한다
+;=================================================
+@KOJO_COM_B_K47
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;키스
+;-------------------------------------------------
+IF SELECTCOM == 20
+	;퍼스트 키스
+	IF TALENT:키스미경험
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+		PRINTFORMW 「실은 퍼스트 키스였던 것이에요. 에헤헤…」
+
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「야앗! 싫다 싫다 그만두어! 변태! 로리-」 
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 격렬하게 저항하는 스타를 억누르고 무리하게 입술을 빼앗았다
+			PRINTFORMW 「처음이었는데……히긋……좀 더……멋진 것이 좋았는데……」
+
+		ENDIF
+	;키스 경험함
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「츗………응………」
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「흐므우………～」
+			PRINTFORMW 스타(냄새나는………기분 나쁘다………)
+		CASE 1
+			PRINTFORMW 스타 「응응………얏………푸…………꿀꺽………」
+ENDSELECT
+
+		;그 이외
+		ELSE
+			SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「응″-! 응″-!」
+			PRINTFORMW 스타는 눈의 구석에 눈물을 모으면서도가 있다.
+		CASE 1
+			PRINTFORMW 스타 「응붓! 응구구…아뭇」
+			PRINTFORMW 스타 「～～～～～～～～～～～!!」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 스타에 입으로담을 먹였다
+			PRINTFORMW 스타 「오…에″…………」
+
+		CASE 2
+			PRINTFORMW 스타 「응우………」
+			PRINTFORMW 스타는 노골적으로 싫을 것 같은 얼굴을 하고 있다
+
+
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조개맞대기
+;-------------------------------------------------
+IF SELECTCOM == 21
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쌍두바이브
+;-------------------------------------------------
+IF SELECTCOM == 22
+	;처음
+	IF IS_COM_FIRST()
+		;이 캐릭터와 주인공이 함께 처녀
+		IF TALENT:처녀 && TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;이 캐릭터만 처녀
+		ELSEIF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공만 처녀
+		ELSEIF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;이 캐릭터와 주인공이 함께 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 타겟측 때)
+;=================================================
+@KOJO_COM_TARGET_B_K47
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애무(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 0
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;가슴애무(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 1
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｂ감 Lv3 이상
+			IF ABL:Ｂ감 >= 3
+				;PRINTFORMW 
+			;Ｂ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｂ감 Lv3 이상
+			IF ABL:Ｂ감 >= 3
+				;PRINTFORMW 
+			;Ｂ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｂ감 Lv3 이상
+			IF ABL:Ｂ감 >= 3
+				;PRINTFORMW 
+			;Ｂ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쿤닐링구스(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 2
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;손가락삽입(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 3
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널애무(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 4
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;거품춤(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 5
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;꼬리삽입(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 6
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널핥기(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 8
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+;			PRINTFORMW
+
+		;그 이외
+		ELSE
+;			PRINTFORMW 
+
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+;			PRINTFORMW 
+		;그 이외
+		ELSE
+;			PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;대딸(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 10
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+
+;-------------------------------------------------
+;파이즈리(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 12
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;스마타(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 13
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;풋잡(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 14
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;엉덩이코키(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 15
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;오나홀대딸(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 16
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;꼬리대딸(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 17
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;정상위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 30
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「사, 상냥하게! 나 처음이기 때문에 상냥하게 부탁합니다!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 그만두어어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「무겁다……」 
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「싫다아아아아, 그렇게 더러운 것 넣지 말아요!」 
+				PRINTFORMW 스타 「아프다아! 그만두어어!」 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				PRINTFORMW 스타 「괘, 괜찮습니다…기분이 좋습니닷…」
+			;Ｖ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「괘, 괜찮습니다…아프지 않습니다…기분이 좋습니닷…」
+				PRINTFORMW …매우 아픈 것 같다
+			ENDIF
+		;그 이외
+		ELSE
+			IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		ELSE
+	SELECTCASE RAND:6
+		CASE 0
+			PRINTFORMW 스타 「아픈, 아프다앗!」
+			PRINTFORMW 스타는 손발을 발버둥치게 해 저항하고 있지만 %ANAME(MASTER)%의 힘에는 이길 수 없었다
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타의 간원을 무시해 %조사처리(ANAME(MASTER),"는")% 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! 이런 것 죽어 버린다아…」
+		CASE 3
+			PRINTFORMW 스타 「그만두어엇! 아프다아! 아픈거야!」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…서니…루나…도와아…」
+		CASE 5
+			PRINTFORMW 스타 「무거워…괴로운…물러나…」
+
+ENDSELECT
+		ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+	ENDIF
+;-------------------------------------------------
+;후배위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 31
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「사, 상냥하게! 나 처음이기 때문에 상냥하게 부탁합니다!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 그만두어어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「이, 이런 개 같은 모습으로?」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「아프다! 아프다! 머리카락 이끌지 마아!」
+  				PRINTFORMW 스타 「제대로 된 곳 잡아요」
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				PRINTFORMW 스타 「괘, 괜찮습니다…기분이 좋습니닷…」
+			;Ｖ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「괘, 괜찮습니다…아프지 않습니다…기분이 좋습니닷…」
+				PRINTFORMW …매우 아픈 것 같다
+			ENDIF
+		ELSE
+IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:6
+		CASE 0
+			PRINTFORMW 스타 「아픈, 아프다앗!」
+			PRINTFORMW 스타는 손발을 발버둥치게 해 저항하고 있지만 %ANAME(MASTER)%의 힘에는 이길 수 없었다
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타의 간원을 무시해 %조사처리(ANAME(MASTER),"는")% 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! 이런 것 죽어 버린다아…」
+		CASE 3
+			PRINTFORMW 스타 「그만두어엇! 아프다아! 아픈거야!」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말)나…누군가 도와아…」
+		CASE 5
+			PRINTFORMW 스타 「말하는…머리카락 빠져 버리기 때문 그만두어…」
+			PRINTFORMW 스타 「분명하게 움직이기 때문에…머리카락만은 그만두어 주세요…」
+ENDSELECT
+		ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;대면좌위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 32
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「사, 상냥하게! 나 처음이기 때문에 상냥하게 부탁합니다!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 그만두어어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타(키스 하면 화가 날까나……)
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「우우～냄새나는 냄새나는 냄새나는…얼굴이 접근하지 말라고…」
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				PRINTFORMW 스타 「괘, 괜찮습니다…기분이 좋습니닷…」
+			;Ｖ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「괘, 괜찮습니다…아프지 않습니다…기분이 좋습니닷…」
+				PRINTFORMW …매우 아픈 것 같다
+			ENDIF
+		ELSE
+IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORMW 스타 「아픈, 아프다앗!」
+			PRINTFORMW 스타는 손발을 발버둥치게 해 저항하고 있지만 %ANAME(MASTER)%의 힘에는 이길 수 없었다
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타의 간원을 무시해 %조사처리(ANAME(MASTER),"는")% 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! 이런 것 죽어 버린다아…」
+		CASE 3
+			PRINTFORMW 스타 「그만두어엇! 아프다아! 아픈거야!」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말)나…누군가 도와아…」
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;배면좌위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 33
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「사, 상냥하게! 나 처음이기 때문에 상냥하게 부탁합니다!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 그만두어어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「나의 머리카락의 냄새, 어때? 좋은 냄새겠지?」
+			;그 이외
+			ELSE
+				PRINTFORMW　스타「아゛……」 
+				PRINTFORMW　스타（얼굴이안보이고제일좋을지도…）
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				PRINTFORMW 스타 「괘, 괜찮습니다…기분이 좋습니닷…」
+			;Ｖ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「괘, 괜찮습니다…아프지 않습니다…기분이 좋습니닷…」
+				PRINTFORMW …매우 아픈 것 같다
+			ENDIF
+		ELSE
+	IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		PRINTFORMW 스타 「부, 부탁, 이제(이미/벌써/더는/정말) 그만햇, 날개가 접혀 버린다!」
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타의 간원을 무시해 %조사처리(ANAME(MASTER),"는")% 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! 이런 것 죽어 버린다아…」
+		CASE 3
+			PRINTFORMW 스타 「그만두어엇! 아프다아! 아픈거야!」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…누군가 도와아…」
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+	ENDIF
+;-------------------------------------------------
+;기승위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 34
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+		PRINTFORMW 스타 「스스로 움직이기 때문에……읏, 이제(이미/벌써/더는/정말), 난폭하지 않고……읏」
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;배면기승위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 35
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ4위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 40 ||SELECTCOM == 41 ||SELECTCOM == 42 || SELECTCOM == 43 
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「어, 어째서 엉덩이야!?」
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「어, 어째서 엉덩이야!?」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				PRINTFORMW 스타 「엉덩이는 아기할 수 없는데……」
+			;Ａ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「치질이 되어 버리는…앞에 둬…」
+			ENDIF
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		CASE 1
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타의 간원을 무시해 %조사처리(ANAME(MASTER),"는")% 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! 이런 것 죽어 버린다아…」
+		CASE 3
+			PRINTFORMW 스타 「그만두어엇! 아프다아! 아픈거야!」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…누군가 도와아…」
+ENDSELECT
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;Ａ기승위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 44
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ배면기승위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 45
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;로터(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 60
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;바이브(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 61
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널바이브(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 62
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;클리캡(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 63
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｃ감 Lv3 이상
+			IF ABL:Ｃ감 >= 3
+				;PRINTFORMW 
+			;Ｃ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유두캡(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 64
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｂ감 Lv3 이상
+			IF ABL:Ｂ감 >= 3
+				;PRINTFORMW 
+			;Ｂ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｂ감 Lv3 이상
+			IF ABL:Ｂ감 >= 3
+				;PRINTFORMW 
+			;Ｂ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｂ감 Lv3 이상
+			IF ABL:Ｂ감 >= 3
+				;PRINTFORMW 
+			;Ｂ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ｖ확장벌룬(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 65
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+				;PRINTFORMW 
+			;Ｖ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ확장벌룬(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 66
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;로션(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 70
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;미약(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 71
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;배란유발제(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 72
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;절륜환(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 73
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;위협한다(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 80
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+
+			PRINTFORMW 스타 「히우…뭐든지 말하는 것 (듣)묻기 때문에 화내지 마…」 
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「히우…뭐든지 말하는 것 (듣)묻기 때문에 아프게 하지 말아줘…」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				PRINTFORMW 스타 「무섭기 때문에 고함치지 말아요…」 
+			ENDIF
+		;그 이외
+		ELSE
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「야아…」
+			PRINTFORMW 스타는 방의 구석에서 덜커덩덜커덩 떨고 있다
+		CASE 1
+			PRINTFORMW 스타 「무서워…루나…소리 지워…」
+		CASE 2
+			PRINTFORMW 스타 「누…누군가 도와아…」
+ENDSELECT
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;스팽킹(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 81
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「아프다 아프다! 상냥하게 해!」
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「아프다 아프다! 이제(이미/벌써/더는/정말) 못된 장난 같은거 하지 않기 때문에 그만두어 주세요!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! 그만두어 주세요!」
+		CASE 1
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		CASE 2
+			PRINTFORMW 스타 「왕, 아프다～아프다～…」
+ENDSELECT
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;채찍(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 82
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「아프다아! 상냥하게 해!」
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「아프다아! 이제(이미/벌써/더는/정말) 못된 장난 같은거 하지 않기 때문에 용서해 주세요오!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「H인 것이라면 뭐든지 하기 때문 그만두어…」 
+			ENDIF
+		;그 이외
+		ELSE
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…라고…서니…루나…」
+
+		CASE 1
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타 「아프게 하지 않고…아픈 것 싫어어…」
+ENDSELECT
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;바늘(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 83
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「아프다아! 상냥하게 해!」
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「아프다아! 이제(이미/벌써/더는/정말) 못된 장난 같은거 하지 않기 때문에 용서해 주세요오!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「H인 것이라면 뭐든지 하기 때문 그만두어…」 
+			ENDIF
+		;그 이외
+		ELSE
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…라고…서니…루나…」
+
+		CASE 1
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타 「아프게 하지 않고…아픈 것 싫어어…」
+ENDSELECT
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;눈가리개(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 84
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밧줄(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 85
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;재갈(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 86
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;피스트퍽(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 87
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			PRINTFORMW 스타 「이갸아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아!!!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv5 이상
+			IF ABL:Ｖ감 >= 5
+				;PRINTFORMW 
+			;Ｖ감 Lv5 미만
+			ELSE
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「보통 H인 것이라면 뭐든지 하기 때문 그만두어…」 
+
+			ENDIF
+		;그 이외
+		ELSE
+			;Ｖ감 Lv5 이상
+			IF ABL:Ｖ감 >= 5
+				;PRINTFORMW 
+			;Ｖ감 Lv5 미만
+			ELSE
+	SELECTCASE RAND:4
+		CASE 0
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…라고…서니…루나…」
+		CASE 1
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타 「아프게 하지 않고…아픈 것 싫어어…」
+		CASE 2
+			PRINTFORMW 스타 「로…누구라도 좋지만들…」
+			PRINTFORMW 스타 「″″자리자리로…」
+		CASE 3
+			PRINTFORMW 스타 「있고 매우…간가 없다아…」
+ENDSELECT
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널피스트(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 88
+	;처음
+	IF IS_COM_FIRST()
+			PRINTFORMW 스타 「이갸아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아!!!」
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv5 이상
+			IF ABL:Ａ감 >= 5
+				;PRINTFORMW 
+			;Ａ감 Lv5 미만
+			ELSE
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「보통 H인 것이라면 뭐든지 하기 때문 그만두어…」 
+
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv5 이상
+			IF ABL:Ａ감 >= 5
+				;PRINTFORMW 
+			;Ａ감 Lv5 미만
+			ELSE
+	SELECTCASE RAND:4
+		CASE 0
+			PRINTFORMW 스타 「있고 매우…있고 매우…」
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…라고…서니…루나…」
+		CASE 1
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…그만두어…」
+			PRINTFORMW 스타 「아프게 하지 않고…아픈 것 싫어어…」
+		CASE 2
+			PRINTFORMW 스타 「로…누구라도 좋지만들…」
+			PRINTFORMW 스타 「″″자리자리로…」
+		CASE 3
+			PRINTFORMW 스타 「있고 매우…간가 없다아…」
+ENDSELECT
+
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;때리기(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 89
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「무……무엇으로……? 어째서……?」
+			PRINTFORMW 스타는 울 것 같은 눈으로 이쪽을 보고 있다…
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「앗……! 히우……」
+			PRINTFORMW 스타는 울 것 같은 눈으로 이쪽을 보고 있다…
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+					SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「좀 더 상냥하게 해엣……!」
+		CASE 1
+			PRINTFORMW 스타 「H인 일이라면 뭐든지 하기 때문에 난폭은 하지 말아요…」
+		CASE 2
+			PRINTFORMW 스타 「부탁이니까 상냥하게 해 주세요…아픈 것은 그만두어어…」
+ENDSELECT
+			ENDIF
+		;그 이외
+		ELSE
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「미안해요, 미안해요……」
+		CASE 1
+			PRINTFORMW 스타 「이제 때리지 마앗……」
+		CASE 2
+			PRINTFORMW 스타 「히긋…아프다～아파……」
+ENDSELECT
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;이라마치오(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 90
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「싫어엇! 그렇게 더러운 것 싫어!」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 도망치려고 하는 스타의 머리카락을 난폭하게 잡아 때가 모인 육봉을 스타의 입에 밀어넣었다
+			PRINTFORMW 스타 「아구웃! 응긋……우웃……」
+
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			IF GETBIT(TALENT:음란계, 소질_음란_마조)
+				;PRINTFORMW 
+			ELSE
+			PRINTFORMW 스타 「난폭하게 하는 것은 그만두어요…」
+			PRINTFORMW 스타 「스스로 빨기 때문에…」 
+			ENDIF
+		;그 이외
+		ELSE
+	SELECTCASE RAND:4
+		CASE 0
+			PRINTFORMW 스타 「오구우! 올 수 있는! 후구우……게핫!」
+		CASE 1
+			PRINTFORMW 스타 「응브우!? 응″～～～～!」
+			PRINTFORMW 싫어한다스타의 머리카락을 난폭하게 잡아 강제적으로 봉사시켰다…
+		CASE 2
+			PRINTFORMW 스타(이제(이미/벌써/더는/정말)나…냄새나고 괴로운 것은이나…)
+		CASE 3
+			PRINTFORMW 스타 「～……!」
+			PRINTFORMW 스타(수상해……괴로워……서니…루나…도우러 와…）
+ENDSELECT
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;개 부추기고(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 92
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「시……싫다 싫다, 개 같은거 싫어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 개 같은거 절대로 싫어어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「시……싫다 싫다, 개 같은거 싫어! 부탁이니까!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 개 같은거 싫어! 부탁이니까!」
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+			;Ｖ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「글자로 응인 질질 끄는 것…」
+			ENDIF
+		ELSE
+	IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! , 날개가 접혀 버린다!」
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아……그만두어……」
+			PRINTFORMW 스타의 간원을 무시해 개는 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「개는 이제(이미/벌써/더는/정말) 그만두어어…아프고…무섭다…」
+		CASE 3
+			PRINTFORMW 스타 「날개라고 끝낸다……」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…누군가 도와아……」
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+	ENDIF
+;-------------------------------------------------
+;개A 부추기고(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 93
+	;처음
+	IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「시……싫다 싫다, 개 같은거 싫어! 부탁이니까!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 개 같은거 싫어! 부탁이니까!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;A감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+			;A감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「글자로 응인 질질 끄는 것…」
+			ENDIF
+		ELSE
+	IF ABL:Ａ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! , 날개가 접혀 버린다!」
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아……그만두어……」
+			PRINTFORMW 스타의 간원을 무시해 개는 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「개는 이제(이미/벌써/더는/정말) 그만두어어…아프고…무섭다…」
+		CASE 3
+			PRINTFORMW 스타 「날개라고 끝낸다……」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…누군가 도와아……」
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+	ENDIF
+
+
+
+;-------------------------------------------------
+;돼지 부추기고(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 95
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「시……싫다 싫다, 돼지 같은거 싫어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 돼지 같은거 절대로 싫어어! 부탁일까…」
+				PRINTFORMW 스타 「아″……」
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「시……싫다 싫다, 돼지 같은거 싫어! 부탁이니까!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 돼지 같은거 싫어! 부탁이니까!」
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ｖ감 Lv3 이상
+			IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+			;Ｖ감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「글자로 응인 질질 끄는 것…」
+			ENDIF
+		ELSE
+	IF ABL:Ｖ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! , 날개가 접혀 버린다!」
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아……그만두어……」
+			PRINTFORMW 스타의 간원을 무시해 돼지씨는 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「돼지는 이제(이미/벌써/더는/정말)나! 냄새가 난다! 더럽다!」
+		CASE 3
+			PRINTFORMW 스타 「날개라고 끝낸다……」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…누군가 도와아……」
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+	ENDIF
+;-------------------------------------------------
+;돼지 A 부추기고(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 96
+	;처음
+	IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORMW 스타 「시……싫다 싫다, 돼지 같은거 싫어! 부탁이니까!」
+			;그 이외
+			ELSE
+				PRINTFORMW 스타 「시……싫다 싫다, 돼지 같은거 싫어! 부탁이니까!」
+			ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;A감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+			;A감 Lv3 미만
+			ELSE
+				PRINTFORMW 스타 「글자로 응인 질질 끄는 것…」
+			ENDIF
+		ELSE
+	IF ABL:Ａ감 >= 3
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「우우……」
+			PRINTFORMW 스타는 이미 저항하는 것을 단념하고 있는 것 같다
+		CASE 1
+			PRINTFORMW 스타 「빨리, 끝나……」
+			PRINTFORMW 스타는 딱딱하게 눈을 감아, 빨리 행위가 끝날 것을 바라고 있는 것 같다
+ENDSELECT
+		;그 이외
+		ELSE
+	SELECTCASE RAND:5
+		CASE 0
+		PRINTFORMW 스타 「그, 그만두고, 아웃!」
+		PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 그만두어엇! , 날개가 접혀 버린다!」
+		CASE 1
+
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아……그만두어……」
+			PRINTFORMW 스타의 간원을 무시해 돼지씨는 능욕을 계속했다
+		CASE 2
+			PRINTFORMW 스타 「돼지는 이제(이미/벌써/더는/정말)나! 냄새가 난다! 더럽다!」
+		CASE 3
+			PRINTFORMW 스타 「날개라고 끝낸다……」
+		CASE 4
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫다아…누군가 도와아……」
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	ENDIF
+	RETURN 0
+	ENDIF
+
+;-------------------------------------------------
+;자위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 100
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;안면승마(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 101
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;플레이어가 질이 없다(구슬빨기)
+			IF !HAS_VAGINA(MPLY:0)
+			PRINTFORMW 「다, 다른 일로 합시다…」
+			PRINTFORMW 「힛…나 합니다. 해요…」
+
+			;플레이어에 질이 있다(비부 빨고)
+			ELSE
+			PRINTFORMW 「싫어! 아무리 뭐라해도 절대 싫어어!」
+			PRINTFORMW 「힛…나 합니다. 해요…」
+
+			ENDIF
+		;그 이외
+		ELSE
+			;플레이어가 질이 없다(구슬빨기)
+			IF !HAS_VAGINA(MPLY:0)
+			PRINTFORMW 스타 「싫다 싫다! 냄새가 난다! 더럽다!」
+			PRINTFORMW 스타 「응브우!? 응″～～～～!」
+			PRINTFORMW 스타는 필사적으로 저항했지만 %ANAME(MASTER)%의 힘에는 이길 수 없었다
+			;플레이어에 질이 있다(비부 빨고)
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;플레이어가 질이 없다(구슬빨기)
+			IF !HAS_VAGINA(MPLY:0)
+				;PRINTFORMW 
+			;플레이어에 질이 있다(비부 빨고)
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;플레이어가 질이 없다(구슬빨기)
+			IF !HAS_VAGINA(MPLY:0)
+					SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「우게에………냄새가 난다아……………」
+		CASE 1
+			PRINTFORMW 스타 「부탁이니까 물러나…」
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…수상해…」
+			PRINTFORMW 스타는 눈물고인 눈이 되면서 간원 했지만 %조사처리(ANAME(MASTER),"는")% 기분에도 두지 않고 씻지 않은 옥대를 빨게 했다
+ENDSELECT
+			;플레이어에 질이 있다(비부 빨고)
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;플레이어가 질이 없다(구슬빨기)
+			IF !HAS_VAGINA(MPLY:0)
+					SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「우게에………냄새가 난다아……………」
+		CASE 1
+			PRINTFORMW 스타 「부탁이니까 물러나…」
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…수상해…」
+			PRINTFORMW 스타는 눈물고인 눈이 되면서 간원 했지만 %조사처리(ANAME(MASTER),"는")% 기분에도 두지 않고 씻지 않은 옥대를 빨게 했다
+ENDSELECT
+			;플레이어에 질이 있다(비부 빨고)
+
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ안면승마(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 102
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 「다, 다른 일로 합시다…」
+			PRINTFORMW 「힛…나 합니다. 해요…」
+
+		;그 이외
+		ELSE
+			PRINTFORMW 「싫어! 아무리 뭐라해도 절대 싫어어!」
+			PRINTFORMW 「힛…나 합니다. 해요…」
+
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 「사랑스러운 주인님이지만 과연 그것은…싫을지도…」
+			PRINTFORMW 하지만 %조사처리(ANAME(MASTER),"가")% 용서하는 일은 없었다
+
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+					SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「우게에………냄새가 난다아……………」
+		CASE 1
+			PRINTFORMW 스타 「부탁이니까 물러나…」
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…수상해…」
+			PRINTFORMW 스타는 눈물고인 눈이 되면서 간원 했지만 %조사처리(ANAME(MASTER),"는")% 기분에도 두지 않고 씻지 않은 국문을 빨게 했다
+ENDSELECT
+
+		;그 이외
+		ELSE
+					SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 「우웃…저런 더러운 것…이제 빨고 싶지 않다…」
+			PRINTFORMW 「부탁 다른 것으로 해」
+			PRINTFORMW 빠는 전부터 스타는 뚝뚝 울기 시작했다
+			PRINTFORMW 하지만 %조사처리(ANAME(MASTER),"가")% 용서하는 일은 없었다
+		CASE 1
+			PRINTFORMW 스타 「부탁이니까 물러나…」
+		CASE 2
+			PRINTFORMW 스타 「이제(이미/벌써/더는/정말) 싫어…수상해…」
+			PRINTFORMW 스타는 눈물고인 눈이 되면서 간원 했지만 %조사처리(ANAME(MASTER),"는")% 기분에도 두지 않고 씻지 않은 국문을 빨게 했다
+ENDSELECT
+
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전기안마(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 103
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;다리를빤다(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 104
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;귀두고문대딸(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 106
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;귀두고문페라(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 107
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방뇨한다(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 130
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;오줌을뿌린다(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 131
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;이뇨제(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 140
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 141
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장＆플러그(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 142
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방귀뀐다(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 150
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			PRINTFORMW　스타「·…믿을수없다…」 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW  스타 「이제(이미/벌써/더는/정말)! 무엇 먹고 있으면 이런 냄새나기 시작해!?」 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			PRINTFORMW 스타 「벌써 적당 익숙해졌어요…」 
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「최저…」 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;안면기승방귀(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 151
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW　스타「！！」 
+		;그 이외
+		ELSE
+			PRINTFORMW　스타「！！」 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			;IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			;ELSE
+			PRINTFORMW  스타 「이제(이미/벌써/더는/정말)! 무엇 먹고 있으면 이런 냄새나기 시작해!?」 
+			;ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			;IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			;ELSE
+			PRINTFORMW　스타「…수상해…물러나…」 
+			;ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수소환(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 200
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수삽입(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 201
+	;처음
+	IF IS_COM_FIRST()
+		;처녀
+		IF TALENT:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수Ａ삽입(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 202
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수 클리 꾸짖고(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 203
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수가슴애무(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 204
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수오나홀(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 205
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수대딸(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 206
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수착유(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 207
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수긴박(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 208
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수펠라(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 210
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수자위(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 211
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수산란(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 212
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수Ａ산란(타겟)
+;-------------------------------------------------
+IF SELECTCOM == 213
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;=================================================
+@KOJO_COM_PLAYER_B_K47
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애무(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 0
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;가슴애무(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 1
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쿤닐링구스(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 2
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;손가락삽입(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 3
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널애무(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 4
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;거품춤(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 5
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;꼬리삽입(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 6
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;꼬리Ａ삽입(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 7
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널핥기(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 8
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 「다, 다른 일로 합시다…」
+			PRINTFORMW 「힛…나 합니다. 해요…」
+
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「싫어! 아무리 뭐라해도 절대 싫어어!」
+			PRINTFORMW 스타 「힛…나 합니다. 해요…」
+
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「사랑스러운 주인님이지만 과연 그것은…싫을지도…」
+			PRINTFORMW 하지만 %조사처리(ANAME(MASTER),"가")% 용서하는 일은 없었다
+		;그 이외
+		ELSE
+;			PRINTFORMW 스타 「우웃…저런 더러운 것…이제 빨고 싶지 않다…」
+			PRINTFORMW 스타 「부탁 다른 것으로 해」
+			PRINTFORMW 빠는 전부터 스타는 뚝뚝 울기 시작했다
+			PRINTFORMW 하지만 %조사처리(ANAME(MASTER),"가")% 용서하는 일은 없었다
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;대딸(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 10
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;페라(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 11　||　SELECTCOM == 107
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 	
+		;그 이외
+		ELSE
+			PRINTFORMW 스타 「그런 냄새의 입에 넣지 않으면 안 돼……」
+			PRINTFORMW 스타는 노골적으로 싫을 것 같은 얼굴을 하고 있다
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 스타 「하무……」
+			PRINTFORMW 스타는 눈을 감아 자신이 물고 있는 것을 보지 않도록 하고 있다
+		CASE 1
+			PRINTFORMW 스타 「우에……때가 가득…분명하게 씻어…」
+			PRINTFORMW 스타는 마음 속 싫을 것 같은 얼굴로 빨고 있다
+		CASE 2
+			PRINTFORMW 스타 「이런 것 빨면 병이 들어 버린다…」
+			ENDSELECT
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+
+;-------------------------------------------------
+;파이즈리(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 12
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;스마타(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 13
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;풋잡(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 14
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;엉덩이코키(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 15
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;오나홀대딸(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 16
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;꼬리대딸(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 17
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;정상위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 30
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;후배위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 31
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;대면좌위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 32
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;배면좌위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 33
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;기승위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 34
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;배면기승위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 35
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ정상위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 40
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ후배위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 41
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ대면좌위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 42
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ배면좌위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 43
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ기승위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 44
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ배면기승위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 45
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;로터(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 60
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;바이브(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 61
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널바이브(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 62
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;클리캡(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 63
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유두캡(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 64
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ｖ확장벌룬(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 65
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ확장벌룬(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 66
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;로션(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 70
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;미약(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 71
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;배란유발제(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 72
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;절륜환(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 73
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;위협한다(플레이어)
+;-------------------------------------------------
+;실행 불가
+
+;-------------------------------------------------
+;스팽킹(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 81
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;채찍(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 82
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;바늘(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 83
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;눈가리개(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 84
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밧줄(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 85
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;재갈(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 86
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;피스트퍽(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 87
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;애널피스트(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 88
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;때리기(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 89
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;이라마치오(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 90
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 100
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;자위 Lv2 이상
+			IF ABL:자위 >= 2
+				;PRINTFORMW 
+			;자위 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;자위 Lv2 이상
+			IF ABL:자위 >= 2
+				;PRINTFORMW 
+			;자위 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;자위 Lv2 이상
+			IF ABL:자위 >= 2
+				;PRINTFORMW 
+			;자위 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;안면승마(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 101
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;Ａ안면승마(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 102
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;Ａ감 Lv3 이상
+			IF ABL:Ａ감 >= 3
+				;PRINTFORMW 
+			;Ａ감 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전기안마(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 103
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;다리를빤다(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 104
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;귀두고문대딸(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 106
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;귀두고문페라(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 107
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방뇨한다(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 130
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;오줌을뿌린다(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 131
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;입안방뇨(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 132
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;이뇨제(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 140
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 141
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장＆플러그(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 142
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방귀뀐다(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 150
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;안면기승방귀(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 151
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;배설 Lv2 이상
+			IF ABL:배설 >= 2
+				;PRINTFORMW 
+			;배설 Lv2 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수소환(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 200
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수삽입(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 201
+	;처음
+	IF IS_COM_FIRST()
+		;주인공이 처녀
+		IF TALENT:MASTER:처녀
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공이 비처녀
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수Ａ삽입(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 202
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수 클리 꾸짖고(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 203
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수가슴애무(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 204
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수오나홀(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 205
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수대딸(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 206
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수착유(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 207
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수긴박(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 208
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수펠라(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 210
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수자위(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 211
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			;촉수 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			;촉수 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;그 이외
+		ELSE
+			;촉수 Lv3 이상
+			IF ABL:촉수 >= 3
+				;PRINTFORMW 
+			;촉수 Lv3 미만
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수산란(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 212
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수Ａ산란(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 213
+	;처음
+	IF IS_COM_FIRST()
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;2회째 이후
+	ELSE
+		;연모 or 복종
+		IF TALENT:연모 || TALENT:복종
+			;PRINTFORMW 
+		;의존도 300이상
+		ELSEIF CFLAG:3 >= 300
+			;PRINTFORMW 
+		;그 이외
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;=================================================
+@KOJO_COM_AFTER_B_K47
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;처녀상실
+;-------------------------------------------------
+;주인공과의 섹스에 의한 처녀상실
+IF TCVAR:13 == 1
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「있어 아″……우우″…」
+			PRINTFORMW 스타 「이런 아프다고는 생각하지 않았었다～」
+			PRINTFORMW 스타 「그렇지만 나의 처음이 당신으로 좋았어요…」
+	;그 이외
+	ELSE
+			PRINTFORMW 스타 「히긋……아무리 요정이니까 라고…」
+			PRINTFORMW 스타 「이런 건…너무 해요……」
+			PRINTFORMW 스타의 눈으로부터 뚝뚝눈물이 흘러 떨어졌다
+
+	ENDIF
+;주인공에게 섹스 이외로 처녀를 빼앗긴다
+ELSEIF TCVAR:13 == 2
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		;PRINTFORMW 
+	;그 이외
+	ELSE
+		PRINTFORMW　스타「···아니」 
+		PRINTFORMW　스타「···이런건이나―！위-응！」 
+
+	ENDIF
+;그 이외때에 처녀상실
+ELSE
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		;PRINTFORMW 
+	;그 이외
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;주인공을 사정시켰다
+;-------------------------------------------------
+IF NOWEX:MASTER:사정 > 0
+	SELECTCASE TCVAR:MASTER:420
+		;질에 사정
+		CASE 1
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+		PRINTFORMW  「그런데 인간과 요정과의 사이는 아이 생길까……할 수 있으면 좋겠다」
+			;그 이외
+			ELSE
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW 스타 「안 돼앳! 요정에서도 안은 안 돼!」
+			PRINTFORMW 스타의 몸을 억지로 억누르고 %조사처리(ANAME(MASTER),"는")% 질내에 충분히 사정했다
+			PRINTFORMW 「싫다……당신의 아기는…싫어……」
+			PRINTFORMW 스타는 얼굴을 손으로 가리면서 오열 하고 있다
+		CASE 1
+			PRINTFORMW 스타 「……! 싫닷! 뽑아 뽑아!」
+			PRINTFORMW 스타의 간원을 무시해 %조사처리(ANAME(MASTER),"는")% 억지로 질을 정액으로 채웠다
+			PRINTFORMW 스타 「싫어어……저기에 가득 반응이……」
+			PRINTFORMW 스타는 임신의 공포에 새파래지고 있다
+ENDSELECT
+			ENDIF
+		;애널에 사정
+		CASE 2
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「엉덩이에 내도 아기 같은거 할 수 없는데……」
+			ELSE
+			PRINTFORMW 스타 「우아아아……! 기분악……!」
+			ENDIF
+		;손에 사정
+		CASE 3
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;구에 사정
+		CASE 4
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+			PRINTFORMW 스타 「읏……! 응우……!」
+			PRINTFORMW 스타 「노력해 마셨어요…씁쓸하다…」
+			;그 이외
+			ELSE
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 음모가 스타의 코와 밀착하는만큼, 일물을 안쪽까지 밀어넣었다…
+			PRINTFORMW 스타 「～～～～～～!! ～～～～～～!」
+			PRINTFORMW 질식한 스타는 발버둥 쳤지만 %조사처리(ANAME(MASTER),"는")% 상관하지 않고 농후한 정액을 대량으로 쏟았다……
+			PRINTFORMW ! 븃! 우우 우우 우우 우우!
+			PRINTFORMW 스타 「～～～～～～!? ～～～～～～～～～～～～!」
+			PRINTFORMW 드푹……그푹……고포폭……출렁……두근……
+			PRINTFORMW 스타 「…………읏! ……………………」
+			PRINTFORMW 스타 「………………………………」
+			PRINTFORMW 모두를 쏟은 후 간신히 %조사처리(ANAME(MASTER),"는")% 스타의 입을 자유롭게 했다……
+			PRINTFORMW 스타 「부핫……! 가……」
+			PRINTFORMW 목 안에 억지로 정액을 흘려 넣어진 스타는 입에 남은 정액을 토해내고 있다……
+			PRINTFORMW 스타 「…………마셔 버렸어……」
+		CASE 1
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 스타의 머리를 단단히 멈 구의 안에 농후한 정액을 쏟았다……
+			PRINTFORMW 스타 「～～～～～～!? ～～～～～～～～～～～～!」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 스타를 토해낼 수 없게 사타구니를 입에 밀착시켰다……
+			PRINTFORMW 스타는 눈물고인 눈으로 「토해내고 싶다」라고 눈만으로 호소했지만
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 스타를 위한 자지 밀크인 것이니까 남기지 않고 마시도록(듯이) 말했다
+			PRINTFORMW 스타 「………………………………」
+			PRINTFORMW 스타 「……………끄덕…………………끄덕…………………」
+			PRINTFORMW 스타는 단념했는지 뚝뚝 눈물을 흘리면서 입에 모인 정액을 마셔 갔다……
+			PRINTFORMW 모두 마신 후 간신히 %조사처리(ANAME(MASTER),"는")% 스타의 입으로부터 육봉을 뽑아 냈다…
+ENDSELECT
+	RETURN 0
+			ENDIF
+		;가슴에 사정
+		CASE 5
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;PRINTFORMW 
+			;그 이외
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;다리에 사정
+		CASE 6
+		;꼬리에 사정
+		CASE 7
+		;얼굴에 사정
+		CASE 8
+			PRINTFORMW 스타 「우에……비릿하다………」
+		;머리카락에 사정
+		CASE 9
+IF TALENT:연모
+		PRINTFORMW 스타 「이제(이미/벌써/더는/정말)! 확실히 씻지 않으면 취할 수 없는거야?」
+ELSE
+			PRINTFORMW 스타 「너, 너무 해요……하필이면 머리카락에 걸치다니이……」
+ENDIF
+
+		;겨드랑이에 사정
+		CASE 10
+		;그 외의 장소에 사정
+		CASEELSE
+	ENDSELECT
+
+;-------------------------------------------------
+;주인공을 사정시키지 않고 절정 시켰다
+;-------------------------------------------------
+ELSEIF NOWEX:MASTER:Ｃ절정 + NOWEX:MASTER:Ｖ절정 + NOWEX:MASTER:Ａ절정 + NOWEX:MASTER:Ｂ절정 + NOWEX:MASTER:Ｍ절정 > 0
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		;PRINTFORMW 
+	;그 이외
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;오줌 흘리기 했다
+;-------------------------------------------------
+SELECTCASE TCVAR:0
+	;소변욕이 있는 상태로 절정 강도의 합계가 4이상
+	CASE 1
+		;PRINTFORMW 
+	;소변욕이 높은 상태로 절정
+	CASE 2
+		;PRINTFORMW 
+	;소변욕의 한계
+	CASE 3
+		;PRINTFORMW 
+	;공포에 의한 실금
+	CASE 4
+		PRINTFORMW 스타 「이제(이미/벌써/더는/정말)나……서니……루나……도와아……」
+ENDSELECT

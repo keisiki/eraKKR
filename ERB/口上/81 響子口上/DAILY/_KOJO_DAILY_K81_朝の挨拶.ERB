@@ -1,0 +1,140 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K81_GOOD_MORNING_RATE(대상)
+#DIM 대상
+RETURN (KDVAR:대상:쿄코_인사 > 0 ? 80 # 40)
+
+	
+;3회무시하면 발생하지 않는다
+SIF KDVAR:대상:쿄코_인사없음 >= 3
+	RETURN 0
+	
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K81_GOOD_MORNING_DECISION(대상)
+#DIM 대상
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K81_GOOD_MORNING_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K81_GOOD_MORNING(대상)
+#DIM 대상
+
+SELECTCASE KDVAR:대상:쿄코_인사
+	CASE 0 TO 1
+		PRINTFORMW 「안녕하세요♪」
+		PRINTFORMW %조사처리(ANAME(대상),"가")% 인사했다……
+		PRINTL
+		CALL ASK_YN("안녕하세요", "무시한다")
+		IF RESULT == 0
+			PRINTFORMW 상냥한 인사를 돌려주었다……
+			CFLAG:대상:호감도 += 10
+		ELSE
+			PRINTFORML 무시해 통과했다……
+			IF KDVAR:대상:쿄코_인사없음>= 2 
+				PRINTFORML 「아………」
+				PRINTFORMW 재삼 인사가 무시되어, %조사처리(ANAME(대상),"는")% 표정을 흐리게 했다……
+			ENDIF
+			KDVAR:대상:쿄코_인사없음 ++
+		ENDIF
+		KDVAR:대상:쿄코_인사 ++
+	CASE 2
+		IF KDVAR:대상:쿄코_인사없음>= 2
+			PRINTFORMW 「아……, 아, 안녕하세요……」
+			PRINTFORML %조사처리(ANAME(대상),"가")% 인사했다
+			PRINTFORMW 지금까지 %ANAME(MASTER)%에 무시되어, 인사해야할 것인가 당황하고 있는 것 같다
+		ELSEIF KDVAR:대상:쿄코_인사없음== 0
+			PRINTFORMW 「아, 안녕하세요♪」
+			PRINTFORML %조사처리(ANAME(대상),"가")% 기쁜듯이 인사했다
+			PRINTFORMW 지금까지 %조사처리(ANAME(MASTER),"가")% 상냥하게 인사를 돌려주었던 것이 기뻤던 것 같다
+		ELSE
+			PRINTFORMW 「안녕하세요!」
+			PRINTFORMW %조사처리(ANAME(대상),"가")% 인사했다……
+		ENDIF
+		PRINTL
+		CALL ASK_YN("안녕하세요", "무시한다")
+		IF RESULT == 0
+			PRINTFORMW 상냥한 인사를 돌려주었다……
+			IF KDVAR:대상:쿄코_인사없음>= 2 
+				PRINTFORML 「에?   아!   , 안녕하세요!」
+				PRINTFORMW 지금까지 무시되고 있었는데 갑자기 인사를 돌려주어 %조사처리(ANAME(대상),"는")% 당황하면서도 기쁜듯이 하고 있다
+			ENDIF
+			CFLAG:대상:호감도 += 20
+			KDVAR:대상:쿄코_인사 ++
+		ELSE
+			PRINTFORML 무시해 통과했다……
+			IF KDVAR:대상:쿄코_인사없음>= 2 
+				PRINTFORML 「아………」
+				PRINTFORMW 재삼 인사가 무시되어, %조사처리(ANAME(대상),"는")% 표정을 흐리게 했다……
+			ENDIF
+			KDVAR:대상:쿄코_인사없음 ++
+		ENDIF
+	CASE 3
+		PRINTFORMW 「아, %ANAME(MASTER)%!   안녕하세요!」
+		PRINTFORML %조사처리(ANAME(대상),"가")% 매우 기쁜듯이 인사했다
+		PRINTFORMW 지금까지 %조사처리(ANAME(MASTER),"가")% 몇 번이나 인사를 돌려주었던 것이 상당히 기뻤던 것 같다
+		PRINTFORML 자각이 있는지 없는 것인지, 작은 꼬리를 강아지같이 탁탁 털어 기쁨을 나타내고 있다
+		PRINTFORMW 그 모양이 너무 사랑스러워서, 인사를 돌려주었을 때에, 무의식 중에 그녀의 머리를 어루만져 버렸다
+		IF TALENT:대상:연모
+			PRINTFORML 「앗,…에헤헤헤♥」
+			PRINTFORMW 마음을 보내고 있는 %ANAME(MASTER)%에 어루만질 수 있어, %조사처리(ANAME(대상),"는")% 기쁜듯이 하고 있다
+			CFLAG:대상:호감도 += 100
+		ELSE
+			PRINTFORML 「?   …에헤헤♪」
+			PRINTFORMW 무심코 손이 나와 버렸지만, %조사처리(ANAME(대상),"는")% 싫어하는 모습은 없고, 오히려 기뻐하고 있는 모습이었다
+			CFLAG:대상:호감도 += 50
+		ENDIF
+		KDVAR:대상:쿄코_인사 ++
+	CASE 4
+		PRINTDATAW
+		DATAFORM 「아, %ANAME(MASTER)%-! 안녕하세요!!」
+		DATAFORM 「앗! %ANAME(MASTER)%! 안녕하세요!!」
+		DATAFORM 「앗, %조사처리(ANAME(MASTER),"다")%! 안녕하세욧!!   오늘도 좋은 날씨구나♪」
+		ENDDATA
+		PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 모습을 보면, 한층 더 기쁜듯이 인사했다
+		PRINTFORMW 「아, 시끄러웠어?   미안해요. 그렇지만 %조사처리(ANAME(MASTER),"가")% 인사 돌려주기 때문에 기뻐서, 무심코 들떠 버려요♪」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 작은 꼬리를 강아지같이 탁탁 거절해, %ANAME(MASTER)%에 사랑스러운 웃는 얼굴을 향한다
+		PRINTFORML 그런 %ANAME(대상)%의 머리를 어루만지면서, 오늘도 수행을 노력하도록(듯이)  라고 전했다
+		PRINTFORMW 「응!   노력한다! 　%ANAME(MASTER)%도 일 노력해-!」
+		PRINTFORML %조사처리(ANAME(MASTER),"를")% 웃는 얼굴로 전송한 %조사처리(ANAME(대상),"는")%, 의욕에 넘쳐 수행에 임했다……
+		SELECTCASE RAND:6
+			CASE 0
+				CALL PRINT_ADD_EXP(대상, "무투경험치", RAND:7 +1, 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+			CASE 1
+				CALL PRINT_ADD_EXP(대상, "방위경험치", RAND:7 +1, 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+			CASE 2
+				CALL PRINT_ADD_EXP(대상, "지략경험치", RAND:7 +1, 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+			CASE 3
+				CALL PRINT_ADD_EXP(대상, "정치경험치", RAND:7 +1, 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+			CASE 4
+				CALL PRINT_ADD_EXP(대상, "요리경험치", RAND:7 +1, 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+			CASE 5
+				CALL PRINT_ADD_EXP(대상, "가창경험치", RAND:7 +1, 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+		ENDSELECT
+		CFLAG:대상:호감도 += 100
+ENDSELECT
+RETURN 1

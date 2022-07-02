@@ -1,0 +1,177 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K10_ASK_MASTER_NAME_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K10_ASK_MASTER_NAME_DECISION(대상)
+#DIM 대상
+
+;대상 구상 데일리 입력계 사용의 설정이 「사용한다」는 아니면 돌아온다
+SIF 레밀리아_구상데일리입력계사용 != 2
+	RETURN 0
+
+SIF !TALENT:대상:연인 && !TALENT:대상:낙인
+	RETURN 0
+
+;일회뿐
+SIF KDVAR:대상:레밀리아_애칭을가르쳐줘
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K10_ASK_MASTER_NAME_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K10_ASK_MASTER_NAME(대상)
+#DIM 대상
+#DIM 레밀리아_대상
+#DIMS NOW_CALLNAME_MASTER_K10
+#DIMS NOW_CALLNAME_MASTER_RUBY_K10
+
+;리셋트
+레밀리아_대상 = MASTER
+
+
+
+
+SETCOLOR 레밀리아_구상칼라
+
+PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%」
+PRINTFORMDW 거점의 순찰을 하고 있으면, 발코니에서 이쪽으로 손짓하고 있는 %조사처리(ANAME(대상),"가")% 눈에 들어왔다
+PRINTL 
+PRINTFORML 「조금 여기에 와. (듣)묻고 싶은 것이 있어」
+PRINTFORML 「저기, %조사처리(CALLNAME_K10(레밀리아_대상),"는")% 누군가에게 애칭을 붙여 받았던 것은 있어?」
+PRINTFORMDW %조사처리(ANAME(대상),"는")% 발코니로부터 떨어질 것 같게 몸을 나서, 눈을 빛내고 있다
+PRINTL 
+PRINTFORML 「마음에 들어있는 불리는 방법이 있으면, 나에게도 가르쳐요」
+
+;CALLNAME_K10로 현재 호칭 판정과 후리가나의 재취득을 하고 있으므로 여기서 리셋트
+NOW_CALLNAME_MASTER_K10 '= CALLNAME_K10(레밀리아_대상)
+NOW_CALLNAME_MASTER_RUBY_K10 '= 레밀리아_주인공에게로의호칭후리가나
+
+LOCAL:0 = LINECOUNT
+$SHOW_LOOP
+
+RESETCOLOR
+CALL SINGLE_DRAWLINE
+
+SETCOLOR 칼라_선택불가
+PRINTFORM 가르치고 싶은 명칭을 입력·또는 결정
+PRINTL 
+PRINTFORM 현재의 %조사처리(ANAME(대상),"로")%부터 %ANAME(레밀리아_대상)%에의 호칭         : 
+RESETCOLOR
+
+PRINTFORM %NOW_CALLNAME_MASTER_K10, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력"
+PRINTL 
+
+SETCOLOR 칼라_선택불가
+PRINTFORM 현재의 %조사처리(ANAME(대상),"로")%부터 %ANAME(레밀리아_대상)%에의 호칭 후리가나 : 
+RESETCOLOR
+
+PRINTFORM %NOW_CALLNAME_MASTER_RUBY_K10, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력 후리가나"
+PRINTBUTTON "  [결정]", "결정"
+
+PRINTL 
+CALL SINGLE_DRAWLINE
+
+;입력·초기치는 "결정"
+INPUTS 결정
+
+IF RESULTS == "결정"
+	레밀리아_주인공에게로의호칭 '= NOW_CALLNAME_MASTER_K10
+	레밀리아_주인공에게로의호칭후리가나 '= NOW_CALLNAME_MASTER_RUBY_K10
+	CLEARLINE LINECOUNT - LOCAL:0
+	PRINTL 
+
+ELSEIF RESULTS == "입력"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTFORML 호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_CALLNAME_MASTER_K10
+		INPUTS %NOW_CALLNAME_MASTER_K10%
+		LOCALS:0 '= RESULTS
+		;반각을 1자와 세어 LOCALS:0의 0자눈으로부터 20자눈까지를 자른다
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_CALLNAME_MASTER_K10 '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSEIF RESULTS == "입력 후리가나"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTFORML 호칭 후리가나 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_CALLNAME_MASTER_RUBY_K10
+		INPUTS %NOW_CALLNAME_MASTER_RUBY_K10%
+		LOCALS:0 '= RESULTS
+		;반각을 1자와 세어 LOCALS:0의 0자눈으로부터 20자눈까지를 자른다
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_CALLNAME_MASTER_RUBY_K10 '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSE
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+ENDIF
+
+;※여기서 플래그를 세우지 않으면 아래같이 텍스트내에서 변경 후의 호칭에 대응 할 수 없다
+KDVAR:대상:레밀리아_애칭을가르쳐줘 = 1
+
+SETCOLOR 칼라_선택불가
+PRINTFORML ➡%CALLNAME_K10(레밀리아_대상)%（%레밀리아_주인공에게로의호칭후리가나%）
+PRINTL 
+
+SETCOLOR 레밀리아_구상칼라
+
+IF 레밀리아_주인공에게로의호칭 == "" && 레밀리아_주인공에게로의호칭후리가나 == ""
+	PRINTFORMDW %조사처리(ANAME(레밀리아_대상),"는")% %ANAME(대상)%에 이것까지 대로 『%CALLNAME_K10(레밀리아_대상)%（%레밀리아_주인공에게로의호칭후리가나%）』라고 부르도록(듯이) 전했다
+	PRINTL 
+	PRINTFORML 「없는거야?   재미없어요」
+	PRINTFORMW 「그렇지만, %조사처리(CALLNAME_K10(레밀리아_대상),"라")%고 부르는 것도 좋아해요. 그대로도 좋네요」
+	PRINTL 
+	PRINTFORML 「그러면, 또 놀러 오세요. 기다리고 있어요. %CALLNAME_K10(레밀리아_대상)%」
+	PRINTFORMDL %조사처리(ANAME(대상),"는")% 크게 손을 흔들어 방으로 돌아갔다
+ELSE
+	PRINTFORMDW %조사처리(ANAME(레밀리아_대상),"는")% %ANAME(대상)%에 『%CALLNAME_K10(레밀리아_대상)%（%레밀리아_주인공에게로의호칭후리가나%）』라고 부르도록(듯이) 전했다
+	PRINTL 
+	PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%?   그것이 마음에든다?」
+	PRINTFORMW 「알았어요. %CALLNAME_K10(레밀리아_대상)%군요, %CALLNAME_K10(레밀리아_대상)%. 기억했어요」
+	PRINTL 
+	PRINTFORML 「그러면, 또 놀러 오세요. 기다리고 있어요. %CALLNAME_K10(레밀리아_대상)%」
+	PRINTFORMDL %조사처리(ANAME(대상),"는")% 크게 손을 흔들어 방으로 돌아갔다
+ENDIF
+WAIT
+RESETCOLOR
+CFLAG:대상:호감도 = CFLAG:대상:호감도 + 100
+CFLAG:대상:의존도 = CFLAG:대상:의존도 + 100
+CFLAG:대상:종속도 = CFLAG:대상:종속도 + 100
+
+RETURN 1
+

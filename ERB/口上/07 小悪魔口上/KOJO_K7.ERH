@@ -1,0 +1,5 @@
+﻿#DIM CONST 소악마_정기흡수 = 1
+#DIM CONST 소악마_정기흡수_조교중 = 2
+#DIM CONST 소악마_정기흡수_사정량 = 3
+#DIM CONST 소악마_저속해진음마 = 4
+#DIM CONST 소악마_정액을빨아들이는자 = 5

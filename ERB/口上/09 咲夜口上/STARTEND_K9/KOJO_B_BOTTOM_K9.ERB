@@ -1,0 +1,229 @@
+﻿;─────────────────────────────────────── 
+;●「포로 조교」의 개시시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_START_B_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;사쿠야 구상의 사용 가부 설정과 초기화
+SIF CFLAG:사쿠야:400 == 0
+	CALL KOJO_ASK_RESET_K9
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+IF CFLAG:사쿠야:202 == 0
+
+	;포로 조교 구상 첫회 호출 플래그 온
+	CFLAG:사쿠야:202 = 1
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		PRINTFORML 「아……우-……」
+		PRINTFORMDL %ANAME(사쿠야)%는 흐트러진 복장으로 인형과 같이 손발을 내던지고 있다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상 첫대면
+	;  안면이 없고 홍마관멤버나 아는 사람 캐릭터가 아닌 경우
+	;───────────────────────────────────── 
+	IF !CHECK_K9("안면")
+		IF CHECK_K9("경어")
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……뭔가의 나쁜 농담이라고 생각하고 싶습니다만. 진심으로 이러한 취미가?」
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에 필요한 봉사라면, 교제는 합니다만……」
+			PRINTFORML 「나는 이러한 고문을 받는 만큼 뭔가 실패를 한 것입니까?」
+		ELSE
+			PRINTFORML 「이것은 도대체 무슨 생각이야일까?」
+			PRINTFORML 「당신 같은거 본 기억도 없는 것이지만. 누구라도 좋을 정도 굶고 있는 거야?」
+			PRINTFORML 「시간이 아무리 무한해도, 나는 그만큼 한가하지 않아요. 청소에서도 하고 있는 편이 좋구나」
+			PRINTFORML 「다른 곳을 알아봐 줄까」
+		ENDIF
+	;───────────────────────────────────── 
+	;▼통상 첫대면은 아니다
+	;  안면이 있는 또는 홍마관멤버나 아는 사람 캐릭터의 경우
+	;───────────────────────────────────── 
+	ELSE
+		IF KDVAR:사쿠야:사쿠야_주의주인은
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……받아 주세요%ANAME(사쿠야)%를 아무쪼록 예의범절을 가르쳐 주세요」
+		ELSEIF KDVAR:사쿠야:사쿠야_주의손님은
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……기다리고는 있던 것이지만, 이것은 어떻게 말하는 것일까」
+			PRINTFORML 「힘으로 따르게 할 필요 같은거, 없는 것이 아니어서?」
+		ELSEIF IS_SLAVE(사쿠야)
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……잘 부탁드립니다」
+			PRINTFORMDL %ANAME(사쿠야)%는 깊게 머리를 늘어졌다
+		ELSEIF CHECK_K9("경어") && IS_LOVER(사쿠야)
+			PRINTFORML 「이러한 취미에까지 교제하지 않으면 안됩니까?」
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에 안겼던 것은은 싫지는 않습니다만……」
+			PRINTFORML 「놀이가 진지해져 가볍게 취급당하면, 관계가 망가져 버리는 것만이 나의 불안 재료입니다」
+		ELSEIF CHECK_K9("경어")
+			PRINTFORML 「이러한 취미에까지 교제하지 않으면 안됩니까?」
+			PRINTFORML 「놀이가 진지해져 가볍게 취급당하는 것은 걱정입니다」
+		ELSEIF IS_LOVER(사쿠야)
+			PRINTFORML 「……무슨 생각일까요?   별로 이런 일 하지 않아도, %CALLNAME_K9(사쿠야_대상)%에 안겼던 것은은 싫지 않아요」
+			PRINTFORML 「그렇지 않으면, 그러면 만족 할 수 없는 것 같은 취미이기도 할까」
+			PRINTFORML 「곤란한 사람을 선택해 버린듯 하네, 나……」
+		ELSEIF TALENT:사쿠야:합의
+			PRINTFORML 「……무슨 생각일까요?   별로 이런 일 하지 않아도, %CALLNAME_K9(사쿠야_대상)%에 안겼던 것은은 싫지 않아요」
+			PRINTFORML 「그렇지 않으면, 그러면 만족 할 수 없는 것 같은 취미이기도 할까」
+			PRINTFORML 「나쁘지만 거기까지는 교제하지 못해요?」
+		ELSE
+			PRINTFORML 「무슨 생각일까요? 　%CALLNAME_K9(사쿠야_대상)%, 변태야?」
+			PRINTFORML 「나쁘지만 다른 곳을 알아봐 주지 않을까. 하아……」
+		ENDIF
+	ENDIF
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+;─────────────────────────────────────── 
+;○2회째 이후  데레 부족
+;─────────────────────────────────────── 
+ELSE
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		PRINTFORML 「아……우-……」
+		PRINTFORMDL %ANAME(사쿠야)%는 흐트러진 복장으로 인형과 같이 손발을 내던지고 있다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	IF IS_SLAVE(사쿠야)
+		PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……받아 주세요……%ANAME(사쿠야)%를 아무쪼록 예의범절을 가르쳐 주세요……」
+	ELSEIF IS_LOVER(사쿠야)
+		IF CHECK_K9("경어")
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……이것은 연인에게 하시는 것입니까?」
+		ELSE
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%……연인이 되었다고 생각한 것은 기분탓이었을까?」
+		ENDIF
+	ELSE
+		IF CHECK_K9("경어")
+			PRINTFORML 「…………」
+		ELSE
+			PRINTFORML 「……익숙해져 오고 있는 자신이 싫구나」
+		ENDIF
+	ENDIF
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+ENDIF
+
+;─────────────────────────────────────── 
+;●「포로 조교」의 종료시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_END_B_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+PRINTL 
+
+;─────────────────────────────────────── 
+;행동불능
+;─────────────────────────────────────── 
+;이탈이 끝난 상태
+IF TCVAR:사쿠야:53 > 1
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;공허
+IF TALENT:사쿠야:공허
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 %조사처리(ANAME(사쿠야_대상),"가")% 떠나려고 하고 있는 일을 알아차리지 않는 것 같다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:사쿠야:53 == 1
+	PRINTFORML 「응하아……이제(이미/벌써/더는/정말) 앙돼……기분이 좋아요?」
+	PRINTFORMDL %ANAME(사쿠야)%는 곤드레만드레가 되어 홍안을 히쭉거리게 하면서 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:사쿠야:52 || BASE:사쿠야:기력 <= 300
+	PRINTFORML 「응우……?   아……」
+	PRINTFORMDL %ANAME(사쿠야)%입는 충분한 손발을 가끔 실룩거리게 해, 황홀과 미소짓고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:사쿠야:51
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 완전히 지쳐 버린 얼굴로 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+;처음으로 의존도가 300이상이 되었다
+IF CFLAG:203 < 2 && CFLAG:2 >= 300
+	CFLAG:203 = 2
+	PRINTFORML 「……이제(이미/벌써/더는/정말), 좋아요. 들리지 않는거네」
+
+;첫회
+ELSEIF CFLAG:203 < 1
+	CFLAG:203 = 1
+	PRINTFORML 「……무엇이었을까……아아, 아픈……지쳤어요……」
+
+;─────────────────────────────────────── 
+;○2회째 이후  데레 부족
+;─────────────────────────────────────── 
+ELSEIF IS_SLAVE(사쿠야)
+	PRINTFORML 「잘 부탁드립니다……」
+
+ELSEIF IS_LOVER(사쿠야)
+	PRINTFORML 「이제(이미/벌써/더는/정말)……무엇인 것일까요」
+
+ELSEIF CFLAG:사쿠야:의존도 >= 300
+	PRINTFORML 「……저항하는 것도……지치는 거네……」
+
+ELSE
+	PRINTFORML 「……끝난 거네」
+
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+

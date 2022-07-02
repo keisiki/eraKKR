@@ -1,0 +1,115 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K63_KAMINARI_RATE(대상)
+#DIM 대상
+RETURN 35
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K63_KAMINARI_DECISION(대상)
+#DIM 대상
+
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("사토리"), NAME_TO_CHARA("코이시"), NAME_TO_CHARA("오린"))
+	RETURN 0
+
+SIF CFLAG:대상:의존도 < 150
+	RETURN 0
+
+SIF KDVAR:대상:우츠호_첫체험
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K63_KAMINARI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K63_KAMINARI(대상)
+#DIM 대상
+
+PRINTFORML 오늘 밤은 날씨가 나쁘다. 번개도 울리고 있다
+PRINTFORMW 그런 가운데, %ANAME(MASTER)%의 방을 %조사처리(ANAME(대상),"가")% 방문해 왔다
+PRINTFORMW 「저……%ANAME(MASTER)%, 괜찮다면, 그, 함께 자기를 원하지만……」
+PRINTFORML
+CALL ASK_YN("어떻게 했어?", "거절한다")
+
+IF RESULT == 1
+	PRINTFORMW 잘 때는 혼자서 자고 싶은 주의다
+	PRINTFORMW %조사처리(ANAME(대상),"를")% 돌려 보냈다……
+	KDVAR:대상:우츠호_첫체험 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「으음……번개는, 나, 이것이 처음이지만」
+PRINTFORMW 「그……사토리님이나 린도, 번개라는 것이 있다는 이야기는 했지만」
+PRINTFORMW 「생각하고 있었던 것보다 훨씬 무엇인가, 시끄럽고, 그……무섭기 때문에, 으음, 할 수 있으면, 함께 있기를 원한다는, 안 돼?」
+PRINTFORMW 과연, 쭉 지저에서 살고 있었던 %PRONOUN(대상)%에 있어 보면, 이것이 처음경험일 것이다
+PRINTFORMW 그런데……
+PRINTFORML
+CALL ASK_YN("함께 잔다", "혼자서 잔다")
+
+IF RESULT == 1
+	PRINTFORMW 잘 때는 혼자서 자고 싶은 주의다
+	PRINTFORMW %조사처리(ANAME(대상),"를")% 돌려 보냈다……
+	KDVAR:대상:우츠호_첫체험 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 스스로 좋다면 함께 자자
+PRINTFORMW %조사처리(ANAME(대상),"를")% 침상에 불러들였다
+PRINTFORMW 「고마워요, %ANAME(MASTER)%. ……떨어지지 말아줘?」
+PRINTFORMW 떨어지지 말아줘도 굳이, %조사처리(ANAME(대상),"로")%부터 밀착하고 있으므로, 떨어지려고 해도 떨어질 수 없다
+PRINTFORMW %PRONOUN(대상)%의 가슴의 부드러움이 등 너머로 전해져, 소녀다운 향기가 코를 간질인다……
+PRINTL
+CALL ASK_YN("손을 댄다", "잘 자요")
+
+IF RESULT == 1
+	PRINTFORMW 「우뉴……휴가……」
+	PRINTFORMW 이성을 쥐어짜 참는다. %PRONOUN(대상)%는 %조사처리(ANAME(MASTER),"와")% 함께로 안심했는지, 곧바로 잠들었다
+	PRINTFORMW 한편의 %조사처리(ANAME(MASTER),"는")%, 욕망과 이성의 틈에서 번민스럽게 하면서 하룻밤을 보냈다……
+	CALL ADD_COOLTIME(MASTER, 1)
+	CFLAG:대상:호감도 += 300
+	CFLAG:대상:의존도 += 50
+	KDVAR:대상:우츠호_첫체험 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「우뉴? 　%ANAME(MASTER)%?」
+PRINTFORMW %ANAME(대상)%의 잠옷에 손을 댄다. %PRONOUN(대상)%는 당황하고 있었지만, 저항은 되지 않았다
+PRINTFORMW 「으음, 번개의 일 잊을 정도로, 기분 좋게 해 주면, 좋아?」
+PRINTFORMW 「……아, 그렇지만, 상냥하게 해?」
+PRINTFORMW %ANAME(대상)%에 덮어씌웠다……
+
+CFLAG:대상:호감도 += 300
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:조교중돌아가지않는다 = 1
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 1
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+;플래그
+KDVAR:대상:우츠호_첫체험 = 1
+
+RETURN 1
+

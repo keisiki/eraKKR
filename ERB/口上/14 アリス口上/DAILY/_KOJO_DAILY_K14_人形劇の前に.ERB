@@ -1,0 +1,126 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K14_PUPPET_SHOW_RATE(대상)
+#DIM 대상
+RETURN 100
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K14_PUPPET_SHOW_DECISION(대상)
+#DIM 대상
+
+SIF !IS_SLAVE(대상) || !TALENT:대상:합의
+	RETURN 0
+
+SIF KDVAR:대상:앨리스_인형극의전에
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K14_PUPPET_SHOW_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K14_PUPPET_SHOW(대상)
+#DIM 대상
+
+
+KDVAR:대상:앨리스_인형극의전에 = 1
+
+
+PRINTFORML 「……아」
+PRINTFORML 복도에서, %조사처리(ANAME(대상),"와")% 엇갈렸다
+PRINTFORML ……가, 노골적으로 시선을 딴 데로 돌려져 버렸다
+PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 복종했을 텐데, 를 잊고 있는 것 같다
+PRINTFORML 생각나게 해 줄 필요가 있을 듯 하지만……
+
+CALL ASK_YN("조교한다", "또 다음에")
+
+IF RESULT == 1
+	PRINTFORML 뭐, 좋을 것이다
+	PRINTFORML 방치하기로 했다……
+	RETURN 1
+ENDIF
+
+PRINTFORML 주인에게 향하여 그 태도는 받을 수 없다
+PRINTFORMW 예의범절을 가르쳐 주려고, %ANAME(대상)%의 신체에 손을 댄다
+PRINTFORML 「……읏, 기다려」
+PRINTFORMW 「지금부터 마을에서 인형극이니까……그런 일 되면, 곤란해」
+PRINTFORML 생각과 되물리쳤다
+PRINTFORML 아무래도 자신의 입장을 잊어 버린 것 같다
+PRINTFORML 이것은 드디어, 다시 예의범절을 가르쳐 줄 필요가 있다……
+
+CALL ASK_YN("금방 예의범절을 가르친다", "인형극으로부터 돌아오면")
+
+IF RESULT == 0
+	PRINTFORML 「앗……안 돼앳……!」
+	PRINTFORML 알 바인가
+	PRINTFORML 페니스를 다룬 손과 입으로, 인형극을 하면 될 것이다
+	PRINTFORMW 그렇게 잘라 버려, 방에 데리고 들어간다
+	PRINTFORMW 저항하는 %ANAME(대상)%의 옷을 난폭하게 벗겨내, 부드러운 살갗으로 손을 뻗었다……
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORMW 「히, 아아, 아하앗……♥」
+	PRINTFORML 절정의 여운에, %조사처리(ANAME(대상),"는")% 신체를 삐걱삐걱 진동시키고 있다
+	PRINTFORML 전신에는 어렴풋이 땀이 떠올라, 입이나 양구멍으로부터는 %ANAME(MASTER)%의 백탁이 흘러넘치고 있다
+	PRINTFORMW 「아하아……나, 나는, %ANAME(MASTER)%님의 것입니다……♥」
+	PRINTFORMW 「생각해 내도, 감사합니다……♥」
+	PRINTFORML 축 늘어진 %ANAME(대상)%에 육봉을 들이대어, 애액과 정액 투성이가 되는 페니스를 청소시킨다
+	PRINTFORML 얼굴에 백탁을 붙여, 양구멍으로부터 흰 것을 흘려 보내는 %ANAME(대상)%에 최저한의 옷을 입힌다
+	PRINTFORMW 목욕도 허락하지 않고, 속옷도 입게 하지 않는 채, 인형극에 내보냈다……
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORMW 성교의 쾌락에 들뜬 채로의 %조사처리(ANAME(대상),"는")%, 인형극에 집중 할 수 없었던 것 같다
+	PRINTFORMW 하지만, 극을 하고 있는 동안의 요염한 모습이, 관객들을 다른 의미로 매료한 것 같았다
+	PRINTFORMW 돌아온 %조사처리(ANAME(대상),"를")%, %조사처리(ANAME(MASTER),"는")% 다시 한껏 예의범절을 가르쳐 주었다……
+ELSE
+	PRINTFORML 좋을 것이다
+	PRINTFORMW 이지만, 돌아오면 한껏 「예의범절을 가르치고」의 시간이다, 각오 해 두어라
+	PRINTFORML 그렇게 전하면, %조사처리(ANAME(대상),"는")% 얼굴을 숙였다
+	PRINTFORMW 아무것도 말하는 것 없이, 터벅터벅 나갔다……
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORML 거점으로 돌아간 뒤를 생각해, %조사처리(ANAME(대상),"는")% 인형극에 집중 할 수 없었던 것 같다
+	PRINTFORMW 하지만, 극을 하고 있는 동안의 요염한 모습이, 관객들을 다른 의미로 매료한 것 같았다
+	PRINTFORMW ……돌아온 %조사처리(ANAME(대상),"는")%, 뺨을 붉히고 있었다
+	PRINTFORML 아무래도, 이러니 저러니 말해 기대하고 있던 것 같다
+	PRINTFORMW 일부러 방까지 온 %ANAME(대상)%의 옷을 난폭하게 벗겨내, 부드러운 살갗으로 손을 뻗었다……
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORMW 「히, 아아, 하앗……♥」
+	PRINTFORML 절정의 여운에, %조사처리(ANAME(대상),"는")% 신체를 삐걱삐걱 진동시키고 있다
+	PRINTFORML 전신에는 어렴풋이 땀이 떠올라, 입이나 양구멍으로부터는 %ANAME(MASTER)%의 백탁이 흘러넘치고 있다
+	PRINTFORMW 「아하아……나, 나는, %ANAME(MASTER)%님의 것입니다……♥」
+	PRINTFORMW 「생각해 내도, 감사합니다……♥」
+	PRINTFORML 축 늘어진 %ANAME(대상)%에 육봉을 들이대어, 애액과 정액 투성이가 되는 페니스를 청소시킨다
+	PRINTFORMW 그 뒤도 %조사처리(ANAME(대상),"를")%, 밤이 끝날 때까지 귀여워해 주었다……
+ENDIF
+
+CALL FUCK(MASTER, "욕망, Ｃ, 사정, Ｖ삽입, Ａ삽입", "동정상실, 키스상실", GET_SPERM_ID("불명"), @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질")
+FOR LOCAL, 0, 3
+	CALL FUCK(대상, "욕망, Ａ, Ｖ, Ｃ, Ｂ, Ｍ, 봉사, 성기술, 정애, Ｖ성교, Ａ성교, 키스, 펠라티오", "질내사정, 항내사정, 구강사정, 애널처녀상실, 처녀상실, 키스상실", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", ANAME(MASTER), "", "조교")
+NEXT
+
+RETURN 1

@@ -1,0 +1,113 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K140_REVENGE_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K140_REVENGE_DECISION(대상)
+#DIM 대상
+#DIM 레이무
+
+레이무 = NAME_TO_CHARA("레이무")
+
+SIF 레이무 == -1 || 레이무 == MASTER
+	RETURN 0
+
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("레이무"))
+	RETURN 0
+
+SIF CFLAG:레이무:포로처 != CFLAG:MASTER:소속
+	RETURN 0
+
+SIF KDVAR:대상:에키샤_복수
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0) && CHECK_KOJO_DAILY_HAPPEN(레이무, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K140_REVENGE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K140_REVENGE(대상)
+#DIM 대상
+#DIM 레이무
+
+KDVAR:대상:에키샤_복수 = 1
+
+레이무 = NAME_TO_CHARA("레이무")
+
+PRINTFORMW 「%ANAME(MASTER)%, 조금 좋은가?」
+PRINTFORML 밤, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%의 방을 방문해 왔다
+PRINTFORML 「그 무녀를 잡은 것 같지 않은가」
+PRINTFORML 「나는 그 무녀와 뭐랄까……인연이 있어서 말이야, 저쪽은 기억하지 않을 것이지만, 나는 원망하고 있다」
+PRINTFORMW 「거기서 상담이지만, 저 녀석을 나에게 맡겨 주지 않는가?」
+PRINTFORMW 「이렇게 보여 인간의 취급에는 익숙해져 있다. 예쁜 신체인 채, 뭐든지 말하는 것을 (듣)묻는 인형으로 해 너에게 돌려준다」
+PRINTFORML %ANAME(대상)%의 눈은 진심이었다. %ANAME(레이무)%에 대해 상당히 깊은 원한이 있을 것이다
+PRINTFORML 왜 그러는 것인가……
+PRINTFORML 
+CALL ASK_YN("맡겨 본다", "그만둔다")
+
+IF RESULT == 1
+	PRINTFORMW 「나의 이야기를 듣고 있었는가!?」
+	PRINTFORMW 물론 (듣)묻고 있었지만, 그 위에서, 그런 이야기를 받아들일 수는 없다
+	PRINTFORMW 아우성치는 %조사처리(ANAME(대상),"를")% 되돌려 보냈다……
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「좋아 왔다!   쿠쿡, 본때를 보여 주겠어 폭력 무녀째……」
+PRINTFORMW %ANAME(대상)%에 감옥의 열쇠를 건네주면, 덩실거림 하면서 조속히 향하고 있었던……
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORMW ·
+PRINTFORMW 「오오%ANAME(MASTER)%!   언젠가는 고마워요」
+PRINTFORMW 「좋은 보고를 하러 온 것이다, 이봐요, 인사를 해라」
+PRINTFORML 며칠 후, %조사처리(ANAME(대상),"가")% 대범하게 말을 걸어 왔다
+PRINTFORML 옆에 데리고 있는 것은 %ANAME(레이무)%다. 아무래도 「복수」에 성공한 것 같다
+PRINTFORMW 완전히 얌전해진 모습의 %ANAME(레이무)%는, %ANAME(MASTER)%에 깊숙히 인사 했다
+PRINTFORML 「이번에, %ANAME(MASTER)%에 거역하는 것 같은 일을 해 죄송했습니다」
+PRINTFORMW 「그것에 대해, %ANAME(대상)%에 충분히 반성시켜 받았으므로……앞으로도 잘 부탁 드리겠습니다」
+PRINTFORMW %ANAME(레이무)%의 인사에 계속되어, 어때, 굉장한 것이다?   라고 %조사처리(ANAME(대상),"는")% 자랑스럽게 말한다
+PRINTFORMW 「그 무녀도, 나의 손에 걸리면 이렇게 된다는 것이다」
+PRINTFORMW 「물론, 약속대로 %ANAME(레이무)%는 예쁜 신체인 채다. 그러면서 뭐든지 말하는 것을 (듣)묻도록(듯이)했다」
+PRINTFORMW 「뒤는 적당하게 즐기든지든지 해 줘, 나의 복수는 끝났기 때문에……아아, 화악했군!」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 기분 좋게 떠났다……
+CALL COLOR_PRINTW(@"%ANAME(레이무)%가 충성을 맹세했습니다", 칼라_주의)
+CALL COLOR_PRINTW(@"%ANAME(레이무)%의 합의를 얻었습니다", 칼라_주의)
+
+CFLAG:대상:호감도 += 1000
+
+CFLAG:레이무:종속도 = MAX(CFLAG:레이무:종속도, 1500)
+CFLAG:레이무:의존도 = MAX(CFLAG:레이무:의존도, 300)
+TALENT:레이무:복종 = 1
+TALENT:레이무:합의 = 1
+TALENT:레이무:선을넘지않음 = 0
+TALENT:레이무:쵸로인 = 1
+TALENT:레이무:젖기쉬움 = 1
+TALENT:레이무:Ｃ둔감 = 0
+TALENT:레이무:Ｂ둔감 = 0
+TALENT:레이무:Ｖ둔감 = 0
+TALENT:레이무:Ａ둔감 = 0
+TALENT:레이무:Ｃ민감 = 1
+TALENT:레이무:Ｂ민감 = 1
+TALENT:레이무:Ｖ민감 = 1
+TALENT:레이무:Ａ민감 = 1
+
+RETURN 1

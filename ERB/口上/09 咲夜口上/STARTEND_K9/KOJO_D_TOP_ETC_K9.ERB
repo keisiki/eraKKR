@@ -1,0 +1,255 @@
+﻿;─────────────────────────────────────── 
+;●「포로 역조교(외래 세력에 잡혔을 경우)」개시시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_START_D_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;사쿠야 구상의 사용 가부 설정과 초기화
+SIF CFLAG:사쿠야:400 == 0
+	CALL KOJO_ASK_RESET_K9
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+IF CFLAG:사쿠야:206 == 0
+
+	;포로 역조교(외래) 구상 첫회 호출 플래그 온
+	CFLAG:사쿠야:206 = 1
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		IF IS_MALE(사쿠야_대상)
+			PRINTFORML 「……우……응아……?   자지……?   자지……」
+		ELSE
+			PRINTFORML 「우, 응아……?   여자의, 와……질척질척, 는……아, 아?」
+		ENDIF
+		PRINTFORMDL %ANAME(사쿠야)%는 공허한 눈동자로 가까워져 왔다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	PRINTFORML 「아라. %조사처리(CALLNAME_K9(사쿠야_대상),"가")% 아니다……후훗. 훗, 크후, 아하하」
+	PRINTFORML 「만날 수 있어 기뻐요. 저기?   도우러 와 준 것이지요」
+	PRINTFORMW 「나?   물론 도우러 왔어요……당신이라고는 몰랐지만, 말야?」
+	PRINTL 
+	IF IS_MALE(사쿠야_대상)
+		PRINTFORML 「저 녀석들에게 심하게 완구로 된 것이지요? 　%CALLNAME_K9(사쿠야_대상)%」
+		PRINTFORML 「소중한 자지가 붓고 있을 뿐으로 괴로워요」
+	ELSE
+		PRINTFORML 「저 녀석들에게 심하게 완구로 된 것이지요? 　%CALLNAME_K9(사쿠야_대상)%」
+		PRINTFORML 「소중한 여자아이도 엉덩이의 구멍도, 붓고 있을 뿐으로 괴로워요」
+	ENDIF
+	PRINTFORMDL %조사처리(ANAME(사쿠야_대상),"가")% 아는 %ANAME(사쿠야)%에 소리도 모습도 자주(잘) 비슷했지만
+	PRINTFORMDW 숨을 어지럽혀 희미하게 웃음을 띄우는 그 표정에 소쇄인 모습은 조각도 눈에 띄지 않는다
+	PRINTL 
+	PRINTFORML 「지금 도와 주어요……?」
+	PRINTFORMDL %ANAME(사쿠야_대상)%의 가랑이에 뚝뚝하고 군침을 늘어뜨리면서 엉덩이를 흔드는 그녀는
+	PRINTFORMDL 교미를 조르는 한마리의 암캐로 변모하고 있었다……
+
+;─────────────────────────────────────── 
+;○2회째 이후
+;─────────────────────────────────────── 
+ELSE
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		IF IS_MALE(사쿠야_대상)
+			PRINTFORML 「……우……응아……?   자지……?   자지……」
+		ELSE
+			PRINTFORML 「우, 응아……?   여자의, 와……질척질척, 는……아, 아?」
+		ENDIF
+		PRINTFORMDL %ANAME(사쿠야)%는 공허한 눈동자로 가까워져 왔다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%, 나를 기다리고 있어 주었을까」
+	PRINTFORML 「나는 기다리고 있었어요. 매우 멋졌던 것. 또 멋지게 될 수 있을까요?」
+	PRINTFORML 「후훗……?   자, 빨리 섹스 합시다?」
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+
+;─────────────────────────────────────── 
+;●「포로 역조교(외래)」종료
+;─────────────────────────────────────── 
+@KOJO_TRAIN_END_D_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+PRINTL 
+
+;─────────────────────────────────────── 
+;행동불능
+;─────────────────────────────────────── 
+;이탈이 끝난 상태
+IF TCVAR:사쿠야:53 > 1
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+IF TALENT:사쿠야:공허
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 %조사처리(ANAME(사쿠야_대상),"가")% 떠나려고 하고 있는 일을 알아차리지 않는 것 같다……
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:사쿠야:53 == 1
+	PRINTFORML 「응하아……이제(이미/벌써/더는/정말) 앙돼……기분이 좋아요?」
+	PRINTFORMDL %ANAME(사쿠야)%는 곤드레만드레가 되어 홍안을 히쭉거리게 하면서 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:사쿠야:52 || BASE:사쿠야:기력 <= 300
+	PRINTFORML 「응우……?   아……」
+	PRINTFORMDL %ANAME(사쿠야)%입는 충분한 손발을 가끔 실룩거리게 해, 황홀과 미소짓고 있다……
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:사쿠야:51
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 완전히 지쳐 버린 얼굴로 자고 있다……
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;주인공의 행동불능
+;─────────────────────────────────────── 
+IF TALENT:사쿠야_대상:공허
+	PRINTFORML 「좋아요, 그대로 멍하니 하고 있어?」
+	PRINTFORML 「나의……?   이런 야비한 모습도, 하앗, 아?   잊엇」
+	IF IS_MALE(사쿠야_대상)
+		PRINTFORML 「그 편이, 나도……자지?   아, 는 아아앙?   자지?」
+	ELSE
+		PRINTFORML 「그 편이, 나도……아는 아?   기분이 좋은?   아?」
+	ENDIF
+	PRINTFORMDL %ANAME(사쿠야)%는 공허한 눈동자의 %ANAME(사쿠야_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:사쿠야_대상:53
+	PRINTFORML 「좋아요, 전부 술의 탓이야. 앗, 하?」
+	PRINTFORML 「나의……?   이런 야비한 모습도, 하앗, 아?   잊엇」
+	IF IS_MALE(사쿠야_대상)
+		PRINTFORML 「그 편이, 나도……자지?   아, 는 아아앙?   자지?」
+	ELSE
+		PRINTFORML 「그 편이, 나도……아는 아?   기분이 좋은?   아?」
+	ENDIF
+	PRINTFORMDL %ANAME(사쿠야)%는 취해 무너진 %ANAME(사쿠야_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:사쿠야_대상:52 || BASE:사쿠야_대상:기력 <= 300
+	PRINTFORML 「좋아요, 그대로 바보가 될 때까지 가고 있을 뿐이 되어?」
+	PRINTFORML 「나의……?   이런 야비한 모습도, 하앗, 아?   잊엇」
+	IF IS_MALE(사쿠야_대상)
+		PRINTFORML 「그 편이, 나도……자지?   아, 는 아아앙?   자지?」
+	ELSE
+		PRINTFORML 「그 편이, 나도……아는 아?   기분이 좋은?   아?」
+	ENDIF
+	PRINTFORMDL %ANAME(사쿠야)%는 정신을 잃었던 %ANAME(사쿠야_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:사쿠야_대상:51
+	PRINTFORML 「좋아요, 그대로 자 버리면 좋아요?」
+	PRINTFORML 「나의……?   이런 야비한 모습도, 하앗, 아?   잊엇」
+	IF IS_MALE(사쿠야_대상)
+		PRINTFORML 「그 편이, 나도……자지?   아, 는 아아앙?   자지?」
+	ELSE
+		PRINTFORML 「그 편이, 나도……아는 아?   기분이 좋은?   아?」
+	ENDIF
+	PRINTFORMDL %ANAME(사쿠야)%는 완전히 지쳐 버린 %ANAME(사쿠야_대상)%에 언제까지나 몸을 계속 관련되게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;첫회
+;─────────────────────────────────────── 
+IF CFLAG:사쿠야:206 < 2
+	CFLAG:206 = 2
+	PRINTFORML 「저속해져 버리면 좋은데. 그렇게 하면 함께 기분 좋게 될 수 있을까요?」
+	PRINTFORML 「이렇게 기분이 좋은데?   얼굴을 돌리다니 어떻게 되었나 봐요」
+	PRINTFORML 「나, 이렇게 행복한데……어째서 전해지지 않는 것일까요?」
+;─────────────────────────────────────── 
+;2회째 이후
+;─────────────────────────────────────── 
+ELSE
+	PRINTFORML 「아직 고집을 부리고 있을까……후훗」
+	IF IS_MALE(사쿠야_대상)
+		PRINTFORML 「하루 어느 정도 정액을 짜내면 단념할까?」
+		PRINTFORML 「재어 줄까요」
+	ELSE
+		PRINTFORML 「하루 어느 정도 절정 지옥을 만끽시키면 단념할까?」
+		PRINTFORML 「몇회 갈 수 있을까 세어 줄까요」
+		IF CFLAG:사쿠야_대상:임신기간 == 0
+			PRINTFORML 「그렇지 않으면, 임신하면 체념이 붙는 것일까요」
+			PRINTFORML 「그쪽은 내가 확인할 것도 없는 것 같구나」
+		ELSE
+			PRINTFORML 「그렇지 않으면, 아기를 낳으면 체념이 붙는 것일까요」
+			PRINTFORML 「그쪽은 내가 확인할 것도 없는 것 같구나」
+		ENDIF
+	ENDIF
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+

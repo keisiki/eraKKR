@@ -1,0 +1,713 @@
+﻿;-------------------------------------------------
+;공통 부분
+;-------------------------------------------------
+
+;=================================================
+;●구상의 존재 판정
+;=================================================
+@KOJO_EXIST_K35
+
+;=================================================
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_K35
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_K35
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_K35
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_K35
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_K35
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착")
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;첫절정은 재사용할 수 있을 것 같은 것으로 여기에 작성
+;-------------------------------------------------
+;-------------------------------------------------
+;처음Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	IF CFLAG:220 == 0
+		CFLAG:220 = 1
+		SETCOLOR 칼라_코마색
+		;시키에이키가 플레이어일때 + 친애
+		IF TALENT:친애 && CSTR:MASTER:99 == "시키에이키"
+			PRINTFORMW 「~! 읏아아아~?!」
+			PRINTFORMW 「흐, 흐아…」
+			PRINTFORMW 「이제 와서라는 느낌이긴 하지만… 클리로는 처음 가 본거네요」
+			RESETCOLOR
+		;시키에이키가 플레이어일때 + 연모
+		ELSEIF TALENT:연모 && CSTR:MASTER:99 == "시키에이키"
+			PRINTFORMW 「~! 읏아아아~?!」
+			PRINTFORMW 「흐, 흐아…」
+			PRINTFORMW 「아, 아뇨 그게」
+			PRINTFORMW 「……에이키님은 지식이 하나도 없으실까 걱정했는데 그건 아닌가 해서요」
+			PRINTFORMW 「아ㅡ닙니다 집중하고 있습니다 네엡ㅡ」
+			RESETCOLOR
+		;시키에이키가 플레이어일때
+		ELSEIF CSTR:MASTER:99 == "시키에이키"
+			PRINTFORMW 「~! 읏아아아~?!」
+			PRINTFORMW 「새… 생각보다 잘하시네요 시키님」
+			PRINTFORMW 「아, 아니 이건 불손한 생각으로부터 나온 게 아니ㄹ……」
+			PRINTFORMW 「꺙!」
+			RESETCOLOR
+		;그 외
+		ELSE
+			PRINTFORMW 「~! 읏아아아~?!」
+			PRINTFORMW 「아, 아하, 하앗……」
+			PRINTFORMW 「아ㅡ 응, 좋았어」
+			RESETCOLOR
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	IF CFLAG:221 == 0
+		CFLAG:221 = 1
+		SETCOLOR 칼라_코마색
+		;시키에이키가 플레이어일때 + 친애
+		IF CSTR:MASTER:99 == "시키에이키" && TALENT:친애
+			PRINTFORMW 「앗, 앗, 아앗, 에, 에이키」
+			PRINTFORMW 「조금만 더 안 쪽으, 로……!」
+			PRINTFORMW 「와, 와아아아앗ㅡ!」
+			PRINTFORMW 「후…… 후우… 후」
+			PRINTFORMW 「응? 아, 괜찮아요, 괜찮아. 이걸 그 뭐라 하더라…」
+			PRINTFORMW 「"이, 이걸 몰랐다니 인생 절반 손해 봤어엇ㅡ!"」
+			PRINTFORMW 「같은 느낌이었으니까요」
+			PRINTFORMW 「어 넵. 아니 뭔가 너무 걱정스러운 표정이시길래」
+			PRINTFORMW 「네에… 역시 이건 침실에서 할 말은 아니었죠」
+			RESETCOLOR
+		;시키에이키가 플레이어일때 + 연모
+		ELSEIF CSTR:MASTER:99 == "시키에이키" && TALENT:연모
+			PRINTFORMW 「앗, 앗, 아앗, 고, 곧」
+			PRINTFORMW 「갈, 아아아앗…!」
+			PRINTFORMW 「하아… 하아… 응, 사랑하고 있습니다 에이키님…」
+			RESETCOLOR
+		;시키에이키가 플레이어일때
+		ELSEIF CSTR:MASTER:99 == "시키에이키"
+			PRINTFORMW 「앗, 앗, 아앗, 고, 곧」
+			PRINTFORMW 「ㅡ가아앗!」
+			PRINTFORMW 「후우, 후우…… 아, 좋았습니다…」
+			RESETCOLOR
+		;그 외
+		ELSE
+			PRINTFORMW 「앗, 앗, 아앗, 고, 곧」
+			PRINTFORMW 「ㅡ가아앗!」
+			PRINTFORMW 「후우, 후우……」
+			PRINTFORMW 「후우. 음, 잘하잖아?」
+			RESETCOLOR
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	IF CFLAG:222 == 0
+		CFLAG:222 = 1
+		SETCOLOR 칼라_코마색
+		;시키에이키가 플레이어일때 + 친애
+		IF CSTR:MASTER:99 == "시키에이키" && TALENT:친애
+			PRINTFORMW 「~! 으응? 으으, 으으읏!?」
+			PRINTFORMW 「엣, 아니 여기도, 아니, 진짜로?」
+			PRINTFORMW 「앗, 응, 으응, 으읏!!」
+			PRINTFORMW 「하아하아……」
+			PRINTFORMW 「……아니, 그 뭐랄까… 아무리 에이키라도…」
+			PRINTFORMW 「으음, 끄으음…」
+			PRINTFORMW 부정의 구멍에서 밀려오는 쾌락에 잠시 몸을 맡긴 코마치는 애널로 갔다는 것이 마음에 들진 않은 듯 하나, 사랑하는 시키에이키라 뭐라 불만을 표하지도 못하는 듯 하다…
+			RESETCOLOR
+		;시키에이키가 플레이어일때 + 연모
+		ELSEIF CSTR:MASTER:99 == "시키에이키" && TALENT:연모
+			PRINTFORMW 「~! 아니, 그, 래도 여기인,」
+			PRINTFORMW 「싫, 어으욧, 으, 싫은, 데」
+			PRINTFORMW 「왜 하필 여기인,」
+			PRINTFORMW 「으으으응!」
+			PRINTFORMW 코마치는 부정한 구멍으로 간다는 것에 대해 불만이 있어 보이지만, 애널에서 처음으로 느껴보는 쾌락에 입을 다물었다…
+			RESETCOLOR
+		;시키에이키가 플레이어일때
+		ELSEIF CSTR:MASTER:99 == "시키에이키"
+			PRINTFORMW 「~! 아니, 그, 래도 여기인,」
+			PRINTFORMW 「좀, 싫, 어으욧」
+			PRINTFORMW 「왜 하필 여기인,」
+			PRINTFORMW 「으으으응!」
+			PRINTFORMW 코마치는 부정한 구멍으로 갔다는 것에 대해 불만이 있어 보인다…
+			RESETCOLOR
+		;그 외 + 연모
+		ELSEIF TALENT:연모
+			PRINTFORMW 「~! 아니, 그, 래도 여기인,」
+			PRINTFORMW 「좀, 싫, 으읏, 싫은뎃, 응」
+			PRINTFORMW 「왜 하필 여기인,」
+			PRINTFORMW 「으으으응!」
+			PRINTFORMW 코마치는 부정한 구멍으로 간다는 것에 대해 불만이 있어 보이지만, 애널에서 처음으로 느껴보는 쾌락에 입을 다물었다…
+			RESETCOLOR
+		;그 외
+		ELSE
+			PRINTFORMW 「~! 아니, 그, 래도 여기인,」
+			PRINTFORMW 「좀, 싫, 으읏, 싫어, 엇」
+			PRINTFORMW 「왜 하필 여기인,」
+			PRINTFORMW 「으으으응!」
+			PRINTFORMW 코마치는 부정한 구멍으로 갔다는 것에 대해 불만이 있어 보인다…
+			RESETCOLOR
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	IF CFLAG:223 == 0
+		CFLAG:223 = 1
+		SETCOLOR 칼라_코마색
+		;시키에이키가 플레이어일때 + 친애
+		IF CSTR:MASTER:99 == "시키에이키" && TALENT:친애
+			PRINTFORMW 「후, 후으으ㅡ읏!」
+			PRINTFORMW 「아……」
+			PRINTFORMW 「가슴으로 가게 하다니, 에이키도 꽤 변태 아닌가요~?」
+			PRINTFORMW 「……그렇게 아무 말 없이 주무르시면 더 무서운데요」
+			RESETCOLOR
+		;시키에이키가 플레이어일때 + 연모
+		ELSEIF CSTR:MASTER:99 == "시키에이키" && TALENT:연모
+			PRINTFORMW 「후, 후으으ㅡ읏!」
+			PRINTFORMW 「으응, 후우…」
+			PRINTFORMW 「가슴으로 가게 하다니, 후우, 시키님도 꽤 변태 아닙니까~?」
+			PRINTFORMW 「말랑말랑하니, 후, 좋죠? 그치만 방금 막 갔으니까」
+			PRINTFORMW 「……뭐, 에이키님이니까 좀 더 만지셔도 되긴 하는 ㄷ…」
+			PRINTFORMW 딱!
+			PRINTFORMW 「꺙! 아니 왜요, 아팟, 아프다니까요!」
+			RESETCOLOR
+		;시키에이키가 플레이어일때
+		ELSEIF CSTR:MASTER:99 == "시키에이키"
+			PRINTFORMW 「후, 후으으ㅡ읏!」
+			PRINTFORMW 「으응, 후우……」
+			PRINTFORMW 「가슴으로 가게 하다니, 시키님도 꽤 변태 아니신가요~?」
+			PRINTFORMW 딱!
+			PRINTFORMW 「꺙! 아파요, 아프다니까요!」
+			PRINTFORMW 「그걸 왜 여기까지 들고 오시는 거에요…」
+			RESETCOLOR
+		;그 외 + 연모 있음
+		ELSEIF TALENT:연모
+			PRINTFORMW 「후, 후으으ㅡ읏!」
+			PRINTFORMW 코마치의 몸이 작게 떨리더니, 이내 거칠게 숨을 쉬기 시작했다.
+			PRINTFORMW 「으응, 후우……」
+			PRINTFORMW 「하핫, 역시 말랑말랑하니 좋지?」
+			RESETCOLOR
+		;그 외
+		ELSE
+			PRINTFORMW 「후, 후으으ㅡ읏!」
+			PRINTFORMW 코마치의 몸이 작게 떨리더니, 이내 거칠게 숨을 쉬기 시작했다.
+			PRINTFORMW 「아… 가슴으로 가버린건가…」
+			RESETCOLOR
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	IF CFLAG:224 == 0
+		CFLAG:224 = 1
+		SETCOLOR 칼라_코마색
+		;연모
+		ELSEIF TALENT:연모
+			PRINTFORMW 「?! 으응!」
+			PRINTFORMW 「앙, 츕, 으응……」
+			PRINTFORMW 코마치는 입 만으로도 가버렸다는 것에 잠깐 놀란 듯 하지만, 곧 행위에 다시 몰두하기 시작했다. 
+			RESETCOLOR
+		; 그 외
+		ELSE
+			PRINTFORMW 「?! 으응!」
+			PRINTFORMW 「어랏…? 으응? 갔나?」
+			PRINTFORMW 「입도 점막이긴 하다는 건가……」
+			PRINTFORMW 코마치는 처음 느껴보는 입으로 가는 쾌감에 조금 의아하고 있는 듯 하다.
+			RESETCOLOR
+	ENDIF
+ENDIF
+
+;=================================================
+;●단체 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기로부터 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람하지 않게 주의해 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_K35
+;바람기 ED판정용의 변수 정의
+#DIM 암캐
+#DIM 정액변소
+#DIM 모판
+#DIM 노출광
+#DIM 약물중독
+#DIM ＡＶ여배우
+#DIM 창녀
+#DIM UWK_LV
+
+
+암캐 = GETBIT(TALENT:음란계, 소질_음란_암캐)
+정액변소 = GETBIT(TALENT:음란계, 소질_음란_정액변소)
+모판 = GETBIT(TALENT:음란계, 소질_음란_모판)
+노출광 = GETBIT(TALENT:음란계, 소질_음란_노출광)
+약물중독 = GETBIT(TALENT:음란계, 소질_음란_약물중독)
+ＡＶ여배우 = GETBIT(TALENT:음란계, 소질_음란_ＡＶ여배우)
+창녀 = GETBIT(TALENT:음란계, 소질_음란_창녀)
+
+
+
+UWK_LV = 암캐 + 정액변소 + 노출광 + 약물중독 + ＡＶ여배우 + 창녀
+
+
+;단체 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+PRINTFORML 
+SETCOLOR 칼라_코마색
+;음란 소유로 특정의 NTR계 소질 3개 이상이나 특수 세력에 함락이 끝난 상태
+IF  GETBIT(TALENT:음란계, 소질_음란_음란) && (TALENT:특수세력함락계 || UWK_LV >= 3)
+	PRINTFORML …
+	PRINTFORML ……
+	PRINTFORMW ………
+	PRINTFORML  
+	RESETCOLOR
+	PRINTFORMW 　　　　　　　　　　ＮＴＲＥＮＤ
+	PRINTFORML
+;호감도 45000이상으로 정실이나 첩
+ELSEIF CFLAG:2 >= 45000 && (TALENT:정실 || TALENT:첩)
+	PRINTFORML …
+	PRINTFORML ……
+	PRINTFORMW ………
+	RESETCOLOR
+	PRINTFORMW 　　　　　　　　　　베스트ＥＮＤ
+	PRINTFORML
+;호감도 25000이상으로 연인 또한 친애나 예속
+ELSEIF CFLAG:2 >= 25000 && TALENT:연인 && (TALENT:친애 || TALENT:예속)
+	PRINTFORML …
+	PRINTFORML ……
+	PRINTFORMW ………
+	RESETCOLOR
+	PRINTFORMW 　　　　　　　　　　베타ＥＮＤ
+	PRINTFORML 
+;그 이외
+ELSE
+	PRINTFORML …
+	PRINTFORML ……
+	PRINTFORMW ………
+	RESETCOLOR
+	PRINTFORMW　　　　　　　　　　노멀ＥＮＤ
+	PRINTFORML
+ENDIF
+PRINTFORML 
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 1
+
+@KOJO_DEAD_ENDING_K35
+#DIM 대상
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「……베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+SETCOLOR 칼라_코마색
+;정실이나 첩
+IF TALENT:정실 || TALENT:첩
+	;플레이어 캐릭터가 시키에이키
+	IF CSTR:MASTER:99 == "시키에이키"
+		PRINTFORML …
+		PRINTFORML ……
+		PRINTFORML ………
+		PRINTFORML 삼도천, 어느 배 위
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 「아아니, 제가 살다살다 이런 걸 다 경험해 볼 줄이야」
+		PRINTFORMW 「이 일을 하면서 이런 저런 영혼들을 숱하게 피안으로 보내왔었지만, 이건 정말 처음이네요. 와ㅡ 신기해라」
+		PRINTFORML
+		PRINTFORMW 물결 하나 일렁이지 않는 은백빛 강 위에서, 한 배만이 조용히 강을 나아간다.
+		PRINTFORMW 규칙적으로 끼익끼익 들려오는 나룻배 노 젓는 소리와 함께 입담 좋을 듯한 사공의 목소리가 어우려져 사자(死者)의 마지막 가는 길 같아 보이지 않는 가벼운 분위기가 배 주위를 둘러싸고 있었지만, 사공의 맞은 편에 앉아있는 여성은 묵묵부답인 채 마모된 배의 낡은 바닥 판자만을 바라보고 있었다.
+		PRINTFORML
+		PRINTFORMW 「설마 영혼을 심판하는 염마가 반대로 심판받는 입장이 될 줄이야. 이 일이 일어나기 전까지는 염마에게도 죽음이 있는 줄 정말 몰랐었어요, 에이키님」
+		PRINTFORML
+		PRINTFORMW 푸하하하.
+		PRINTFORML
+		PRINTFORMW 한차례 크게 너털웃음을 터뜨린 사신 때문에 배는 잠시 나아가던 길을 멈추었지만, 이내 다시 물을 바삐 가르기 시작했다.
+		PRINTFORML
+		PRINTFORMW 「아- 이것도 신기하기는 하지만… 참 세상이란 여러 일이 다 있는 거네요. 신도 완벽하지 않다는 건, 오래 전부터 알고는 있었지만 그래도 설마 했죠, 설마」
+		PRINTFORMW 『당신은, 당신은 지금 당신이 저지른 일이 얼마나 무모하고, 바보 같고, 죄 깊은 일인지 알고 있는 건가요』
+		PRINTFORML
+		PRINTFORMW 겨우 다시 본 얼굴에 살짝 맺혀 있던 것은 눈물이었다.
+		PRINTFORMW 공평하게 죽음을 판결내려야 하는 야마자나두라는 이름 때문에 평소라면 절대로 볼 수 없던 염마의 눈물이, 사공의 눈 앞에 맺혀 있었다.
+		PRINTFORML
+		PRINTFORMW 「에이키님…… 일단, 울지마세요. 죽음 정도야 숱하게 봐오셨잖아요……」
+		PRINTFORMW 『제가 말하고자 하는 게 그것이 아니라는 것 정도는 알고 있잖습니까!』
+		PRINTFORML
+		PRINTFORMW 눈물을 닦아주기 위해 뻗어진 사신의 손을, 염마는 내쳐버렸다.
+		PRINTFORML
+		PRINTFORMW 『대체 무슨 생각인건가요 코마치?! 당신도 알잖아요, 죄를 쌓으면 안 된다는 것을! 그런데도 왜 일부러 죄를 쌓아, 이곳까지 온 건가요!』
+		PRINTFORMW 「에이키님… 죄송해요」
+		PRINTFORMW 「하지만 어쩔 수 없잖아요. 피안에서도, 그 난리통에서도 항상 함께였었는데. 지금까지는 어리광 같아서 말하지 못했었지만, 이제는 꼭 말해야겠습니다」
+		PRINTFORMW 「혼자는 싫습니다, 에이키님. 홀로 남겨지는 것은 싫어요」
+		PRINTFORMW 『그래도, 그래도 그건 아니잖아요, 코마치. 당신도 알죠? 혼은 돌고 돕니다. 영원히 혼자 남는 게 아니에요. 당신은 강하니까 다른 세력의 밑에 들어가 그 능력을 활용해 이 난세를 끝내고 행복하게 살았다면, 어쩌면 다시 만날 수도 있던 것을 왜 일부러 부숴버린 건가요!』
+		PRINTFORML
+		PRINTFORMW 툭, 투둑.
+		PRINTFORML
+		PRINTFORMW 결국 떨어지기 시작한 배 위의 빗방물에, 흐릿해보이는 사공은 젓던 노를 놓고서 삼도천을 바라보았다.
+		PRINTFORML
+		PRINTFORMW 「저라고 생각을 하지 않고 행동한 것은 아니에요. 사신인 제가, 그런 걸 모를리가 없잖아요」
+		PRINTFORMW 「스스로 목숨을 끊은 죄, 중하도다」
+		PRINTFORMW 「죽음을 인정하지 않은 채 영(靈)의 모습으로 능력을 쓰는 죄, 중하도다」
+		PRINTFORMW 「사자(死者)가 생자(生者)의 직업을 행하려는 죄, 중하도다」 
+		PRINTFORMW 「그 뿐이겠어요, 에이키님. 항상 농땡이 피우던 것부터 시작해서 여기저기 몰래몰래 하던 노름이나 제 타고난 불성실함을 생각해보면, 저는 아주 새까만 흑(黑)이네요, 흑(黑)」
+		PRINTFORMW 「정파리의 거울로 비춰보지 않아도 알 것 같습니다. 저는 지옥에 가겠지요」
+		PRINTFORML
+		PRINTFORMW 담담하게 이 앞에서 자신에게 일어날 일을 고하는 코마치에게, 시키에이키는 최후의 설교를 하기 위해 입을 열려고 했으나,
+		PRINTFORML
+		PRINTFORMW 「하지만, 그러고 싶었어요」
+		PRINTFORML
+		PRINTFORMW ㅡ하질 못했다. 
+		PRINTFORMW 
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 「이것이 죄라 하여도 좋습니다. 지옥에 가서 후회할 정도로 긴 시간동안 고통을 받는다 하더라도 좋습니다」
+		PRINTFORMW 「제가 하고 싶었기에, 사후 어떤 일이 제게 일어난다 하더라도 저는 마지막에는 제가 하고 싶은 일을 해내고 싶었어요」
+		PRINTFORMW 「이 마음 만큼은 누구도 말리지 못하겠죠. 그것이 설령 신이라도, 염마라도,」
+		PRINTFORMW 「…에이키, 당신이라도」
+		PRINTFORMW 「좀 더 같이 있고 싶어서, 이야기를 나누고 싶어서, 정말 어쩔 줄을 모르겠다는 생각만이 머리에 맴돈다는 게, 무섭기도 하고 한편으로는 기쁘기도 했어요」
+		PRINTFORML
+		PRINTFORMW 우는 것도, 웃는 것도 아닌 여러 감정이 섞인 표정으로 고개를 떨군 채 웅크린 시키에이키를 코마치는 천천히 껴안았다.
+		PRINTFORML
+		PRINTFORMW 「에이키는 백(白)일테죠. 옆에서 계속 지켜보던 제가 확신할 수 있어요. 깨끗하고도, 상냥한 백(白)입니다」
+		PRINTFORMW 「그러니 먼저 가서, 모든 것을 잊고 지금까지처럼 건강하고 친절하게 살아주세요」
+		PRINTFORMW 「아앗, 그래도 사실 이번에는 조금 농땡이 부리는 삶을 살아보는 것도 괜찮으실 것 같네요. 너무 성실하게만 사는 것도 분명 어딘가에선 죄일 겁니다…… 아니 잘은 모르겠지만」
+		PRINTFORML
+		PRINTFORMW 완전히 얼굴을 무릎에 묻은 채 조금씩 떨기 시작한 전(前) 상사의 작은 몸을 보며, 지금까지 그녀는 야마자나두의 이름 아래 그 여린 몸에 비해 너무 큰 짐을 지어왔었다고 코마치는 쓴 웃음을 지었다.
+		PRINTFORMW 
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 나룻배는 다시 나아간다.
+		PRINTFORMW 여전히 삼도천에는 물결 하나, 비 한 방울 내리지 않는다.
+		PRINTFORMW 끼익거리는 노 젓는 소리와 누군가의 작고도 안타까운 한숨만이 간간히 들려올 뿐이다.
+		PRINTFORML
+		PRINTFORMW 「드디어 강의 끝이 보이네요, 에이키님」
+		PRINTFORMW 「이런 못난 부하를 항상 챙겨주셔서, 지금까지 정말 감사했습니다」
+		PRINTFORML
+		PRINTFORMW 이번 생에서 마지막으로 전하게 될 말을 그녀에게 들려주기 위해, 코마치는 웃으면서 입을 열었다.
+		PRINTFORML
+		PRINTFORMW 「얼마나 걸리더라도, 제가 반드시 찾아갈테니 에이키님은 안심하고 살아주세요」
+		PRINTFORMW 「꽤 긴 시간일지도 모릅니다. 60간지가 몇 십번, 몇 백번을 돌아도 부족할지도 몰라요」
+		PRINTFORMW 「하지만 그건 어찌본다면」
+		PRINTFORMW 「굉장히 짧은 시간일지도 모른다고, 저는 생각해요」
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		RESETCOLOR
+		PRINTFORMW 　　　　　　　              　　　배드ＥＮＤ1 - 한 가지만 다르던 일상의 풍경 -
+	;플레이어 캐릭터가 아큐	
+	ELSEIF CSTR:MASTER:99 == "아큐"
+		PRINTFORML …
+		PRINTFORML ……
+		PRINTFORML ………
+		PRINTFORML 환상향 어느 장소.
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 안개가 자욱한 환상향 내 어느 장소, 삿갓을 써 얼굴이 보이지 않는 인물이 한 혼과 이야기를 나누고 있었다.
+		PRINTFORMW 계속해서 말을 거는 자와 다르게 아무 말 없는 영혼의 조합은 다른 이들이 보기에 일방적인 대화로 보였으나, 삿갓을 쓴 인물은 아랑곳하지 않고 말을 이어갔다.
+		PRINTFORML
+		PRINTFORMW 「혼자서 가려고 하다니, 너무하네 아큐. 내가 사신이 아니였다면 어쩌려고 그랬어?」
+		PRINTFORMW 「응? 아, 나 왜 여기 있냐고?」
+		PRINTFORMW 「원래 권력 다툼에는 관심도 없었고, 이제 더 이상 저 난리통에 참가할 필요가 없으니까 이 참에 환상향 여기저기나 돌아다닐까 해서 온 거지」
+		PRINTFORML
+		PRINTFORMW 웃으면서 말을 이어가는 코마치의 태도가 마음에 들지 않은 듯, 미동 없던 영혼이 순간 가로로 움직였다.
+		PRINTFORML
+		PRINTFORMW 「혼을 빼돌리면 어떡하냐고?」
+		PRINTFORMW 「걱정도 많네. 이건 지금까지 열심히 사회를 위해 일한 나를 위한 최후의 보상 같은 거야」
+		PRINTFORMW 「설마 계속 함께하겠다고 했던 약속을 잊은 건 아니겠지.」
+		PRINTFORMW 「……그렇긴 하지. 지금은 여기저기 전쟁으로 난리가 나 업무가 버벅거리고는 있어도, 곧 와야 할 혼이 오질 않는다는 사실을 알아채고 추격자를 보내겠지」
+		PRINTFORMW 「괜찮아. 내 능력은 쫒는 데에도 특출난 능력이지만, 도망가기 위해 쓴다면 이보다 적합한 능력은 없으니까」
+		PRINTFORMW 「싸우지 않으면 안 되는 최악의 순간이 온다 하더라도 쉽게 질 생각은 없어.」
+		PRINTFORMW 「전부 이길 수 있다고는 못 말하겠지만 대부분 어떻게든 쓰러뜨릴 수 있겠지……」
+		PRINTFORML
+		PRINTFORMW 이미 영혼 하나가 없어졌다는 것을 알아챘을 것이다.
+		PRINTFORMW 사신 하나가 사라졌다는 것도 알아챘을 것이다.
+		PRINTFORMW 사라진 영혼, 동시에 사라진 사신, 영혼과 의사소통이 가능한 사신.
+		PRINTFORMW 이 간단한 퍼즐 조각을 맞춰 무슨 일이 일어났는 지 알아내는 데에 얼마의 시간이 걸릴까?
+		PRINTFORMW 곧 추격자가 올 것을 느낀 코마치는, 잠시 기대어 쉬고 있던 돌으로부터 일어나 추격을 따돌릴 준비를 하기 시작했다.
+		PRINTFORML
+		PRINTFORMW 「있지」
+		PRINTFORMW 「별로 걱정 할 거 없어. 잠깐의 여행이라고 생각해」
+		PRINTFORMW 「이래보여도 수 십년 넘게 쌓아온 땡땡이 실력으로 숨겨진 명소 같은 거 잘 알고 있어. 인외가 만들어 낸 세상 또한 얼마나 다채로울 수 있는 지 한껏 보여줄께」
+		PRINTFORMW 「전쟁통에 제대로 하질 못했던 데이트를 몰아서 즐겨보자구」
+		PRINTFORMW 「……그럼 이제 이동해볼까. 어디로 가게 될 지, 정처 없이 떠나는 여행이라 기대되네」
+		PRINTFORML
+		PRINTFORMW 손 위에 떠도는 작은 혼을 소중하게 품에 넣고서, 코마치는 느슨하게 잡고 있던 낫을 바로잡았다.
+		PRINTFORMW ㅡ그 손에 들린 낫은 위압용으로 들고 다니던 구불어진 낫이 아닌 살상을 위해 만들어졌다는 것이 훤히 보이는, 곧은 날을 가진 낫이었다.
+		PRINTFORML
+		PRINTFORMW 「아레의 아이도, 히에다 가도, 환생의 의식도」
+		PRINTFORMW 「피안의 뱃사공도, 사신의 업무도, 설교도 없어」
+		PRINTFORMW 「어때, 아큐. 자유로운 삶도 나쁘지 않을 것 같지 않아?」
+		PRINTFORMW 「뭐, 그것이 어떤 형태로 되었든 말이야」
+		PRINTFORML
+		PRINTFORML 
+		PRINTFORML
+		RESETCOLOR
+		PRINTFORMW 　　　　　　　              　　　배드ＥＮＤ2 - 고리를 끊고서 -
+	;그 이외 캐릭터가 플레이어이면서, 동 진영에 시키에이키가 있음
+	ELSEIF CFLAG:(NAME_TO_CHARA("시키에이키")):소속 == CFLAG:(MASTER):소속 && CFLAG:(NAME_TO_CHARA("시키에이키")):소속 == CFLAG:(MASTER):소속
+		PRINTFORML …
+		PRINTFORML ……
+		PRINTFORML ………
+		PRINTFORML 삼도천, 어느 배 위
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 「아아니, 살다살다 이렇게 끝날 줄이야」
+		PRINTFORMW 「지금까지 영혼을 전송하는 일을 하면서 숱하게 피안을 건너봤었지만, 이렇게 가보는 건 처음이네요. 와ㅡ 신기해라」
+		PRINTFORML
+		PRINTFORMW 물결 하나 일렁이지 않는 은백빛 강 위에서, 한 배만이 조용히 강을 나아간다.
+		PRINTFORMW 규칙적으로 끼익끼익 들려오는 나룻배 노 젓는 소리와 함께 입담 좋을 듯한 사공의 목소리가 어우려져 사자(死者)의 마지막 가는 길 같아 보이지 않는 가벼운 분위기가 배 주위를 둘러싸고 있었지만, 사공의 맞은 편에 앉아있는 여성은 묵묵부답인 채 마모된 배의 낡은 바닥 판자만을 바라보고 있었다.
+		PRINTFORML
+		PRINTFORMW 「바로 얼마 전까지만 해도 태풍의 중심에 있었는데, 그곳에서 유유히 나와 다시 시키님을 직장으로 보내주는 일을 하게 될 줄은 몰랐네요」
+		PRINTFORML
+		PRINTFORMW 푸하하하.
+		PRINTFORML
+		PRINTFORMW 한차례 크게 너털웃음을 터뜨린 사신 때문에 배는 잠시 나아가던 길을 멈추었지만, 이내 다시 물을 바삐 가르기 시작했다.
+		PRINTFORML
+		PRINTFORMW 「아ㅡ 이것도 재미있기는 하지만… 참 세상이란 여러 일이 다 있는 거네요. 앞의 인생을 알려고 하는 것은 안개를 잡는 것과도 같다고는 했지만, 그래도 설마 했죠, 설마」
+		PRINTFORMW 『당신은, 당신은 지금 당신이 저지른 일이 얼마나 무모하고, 바보 같고, 죄 깊은 일인지 알고 있는 건가요』
+		PRINTFORML
+		PRINTFORMW 겨우 입을 연 상사는 고정이라도 해 둔 마냥 차가운 무표정인 채 사신의 얼굴을 바라보고 있었다.
+		PRINTFORMW 분노도, 안타까움도, 한탄도 보이지 않는 표정에 제아무리 느긋한 페이스를 자랑하던 코마치도 순간 몸이 굳어버렸다.
+		PRINTFORML
+		PRINTFORMW 「시키님…… 그 뭐냐, 이런 말을 한다면 화를 내시겠지만… 죽음 정도야 숱하게 봐오셨잖아요……」
+		PRINTFORMW 『제가 뭘 말하고자 하는 지 알고 있잖습니까!』
+		PRINTFORML
+		PRINTFORMW 처음이자 마지막으로 온 힘을 다해 휘둘러진 회오의 봉은 담긴 힘에 무색하게도, 목표를 빗나가 버렸다.
+		PRINTFORML
+		PRINTFORMW 『대체 무슨 생각인건가요 코마치?! 당신도 알잖아요, 죄를 쌓으면 안 된다는 것을! 그런데도 왜 일부러 죄를 쌓아, 이곳까지 온 건가요!』
+		PRINTFORMW 「시키님… 죄송해요」
+		PRINTFORMW 「하지만 어쩔 수 없잖아요. 전쟁 속에서 항상 함께였었는데, 그 난리통에서도 서로 사랑해왔는데. 지금까지는 어리광 같아서 말하지 못했지만, 이제는 꼭 말해야겠더라구요」
+		PRINTFORMW 「혼자는 싫습니다, 시키님. 홀로 남겨지는 것은 싫어요」
+		PRINTFORMW 『어째서 그렇게 조급하게 행동한 건가요! 당신도 알지 않습니까. 혼은 돌고 돕니다. 영원히 홀로 남는 게 아니에요. 남들보다도 긴 수명을 가진 당신은 기다렸다면 다시 만날 수 있던 것을, 스스로 기회를 걷어차버리고, 죄를 쌓고 쌓아 지금 그 죄를 심판 받으러 가는 길인 겁니다!』
+		PRINTFORMW 『이런 식으로 부하의 죄를 심판해야 하는 제 마음까지 생각하지 않았다 하더라도 상관 없습니다! 하지만 제가 제일 화가나는 것은, 코마치, 당신이 사랑한다고 행한 그 행동이 결국은 서로에게 하나 좋을 것 없는 일이었다는 것 때문에 그런겁니다!』
+		PRINTFORMW 『어째서! 어째서 그렇게 이기적인 행동으로 삶을 끊은 건가요……』
+		PRINTFORML
+		PRINTFORMW 툭.
+		PRINTFORML
+		PRINTFORMW 여러 감정에 떨리던 손에서 결국 떨어져버린 회오의 봉의 소리와 함께, 어딘가 흐릿해 보이는 사공은 젓던 노를 놓고선 삼도천을 바라보았다.
+		PRINTFORML
+		PRINTFORMW 「저라고 생각을 하지 않고 행동한 것은 아니에요. 사신인 제가, 그런 걸 모를리가 없잖아요」
+		PRINTFORMW 「스스로 목숨을 끊은 죄, 중하도다」
+		PRINTFORMW 「죽음을 인정하지 않은 채 영(靈)의 모습으로 능력을 쓰는 죄, 중하도다」
+		PRINTFORMW 「사자(死者)가 생자(生者)의 직업을 행하려는 죄, 중하도다」 
+		PRINTFORMW 「그 뿐이겠습니까, 시키님. 항상 농땡이 피우던 것부터 시작해서 여기저기 몰래몰래 하던 노름이나 제 타고난 불성실함을 생각해보면, 저는 아주 새까만 흑(黑)이네요, 흑(黑)」
+		PRINTFORMW 「정파리의 거울 대신 사신의 눈으로 본 결과를 말씀드리겠습니다. 지옥행이군요」
+		PRINTFORML
+		PRINTFORMW 담담하게 이 앞에서 자신에게 일어날 일을 고하는 코마치에게, 시키에이키는 최후의 설교를 하기 위해 입을 열려고 했으나,
+		PRINTFORML
+		PRINTFORMW 「하지만, 이젠 그건 중요하지 않다고 생각해요」
+		PRINTFORML
+		PRINTFORMW ㅡ하질 못했다. 
+		PRINTFORMW 
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 「이것은 죄이지요. 하지만 상관 없습니다」
+		PRINTFORMW 「지옥에 가서 후회할 정도로 긴 시간동안 고통을 받는다 하더라도 좋습니다」
+		PRINTFORMW 「제가 유일하게 알고싶은 것은, 걱정되는 것은, 제가 가는 곳에 %조사처리(ANAME(MASTER),"가")% 없을지도 모른다는 것」
+		PRINTFORMW 「……그래도 %조사처리(ANAME(MASTER),"은")% 그렇게 악인은 아니었으니, 만나지 못 할 지도 모르겠네요」
+		PRINTFORMW 「아아ㅡ 무섭네요, 이제 와서 무서워졌습니다 시키님」
+		PRINTFORMW 「나름 길게 살아왔다고 생각했는데, 이렇게나 사랑이 맹목적으로 만들 수 있다는 것을, 이성적인 판단을 못하게 만들 수 있다는 것을」
+		PRINTFORMW 「저는 이제서야 알아버렸습니다」
+		PRINTFORMW 「삶의 끝의 끝에서, 겨우 알아버렸어요」
+		PRINTFORML
+		PRINTFORMW 우는 것도, 웃는 것도 아닌 여러 감정이 섞인 표정으로 코마치는 시키에이키를 바라보았다.
+		PRINTFORML
+		PRINTFORMW 「%조사처리(ANAME(MASTER),"가")% 보고싶어서, 혼자 있는 것을 이젠 견디지를 못하겠습니다」
+		PRINTFORMW 「정말이지, 무슨 무연총에서 심심치 않게 발견되던 B급 연애소설 결말도 아니고」
+		PRINTFORMW 「객관적으로 생각해봐도 제정신이 아닌 게 분명한데도… 시키님, 저는」
+		PRINTFORMW 「이 모든 게, %조사처리(ANAME(MASTER),"를")% 사랑하던 것부터 제가 이렇게 끝나게 된 것 모든 일들이」
+		PRINTFORMW 「저는 정말 하나도 후회가 되질 않아요……」
+		PRINTFORML
+		PRINTFORMW 부하의 마지막 고백을 듣고, 눈을 감은 채 얼굴을 돌리는 것 외에 시키에이키가 할 수 있는 것은 없었다.
+		PRINTFORMW 
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 나룻배는 다시 나아간다.
+		PRINTFORMW 여전히 삼도천에는 물결 하나, 비 한 방울 내리지 않는다.
+		PRINTFORMW 끼익거리는 노 젓는 소리와 누군가의 작고도 안타까운 한숨만이 간간히 들려올 뿐이다.
+		PRINTFORML
+		PRINTFORMW 「드디어 강의 끝이 보이네요, 시키님」
+		PRINTFORMW 「이런 못난 부하를 항상 챙겨주셔서, 지금까지 정말 감사했습니다」
+		PRINTFORML
+		PRINTFORMW 이번 생 마지막 말을 전하기 위해, 코마치는 웃으면서 입을 열었다.
+		PRINTFORML
+		PRINTFORMW 「얼마나 걸리더라도, 저는 제 벌을 다 받고서 %조사처리(ANAME(MASTER),"를")% 다시 찾겠습니다」
+		PRINTFORMW 「꽤 긴 시간일지도 모릅니다. 60간지가 몇 십번, 몇 백번을 돌아도 부족할지도 몰라요」
+		PRINTFORMW 「하지만 그렇다고 하더라도」
+		PRINTFORMW 「저는 그것마저 행복하다고 느낄 것 같아요」
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 「그러니 염마이시여, 이제 당신의 공정한 판결을」
+		PRINTFORMW 「제게 내려주시길 바랍니다」
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		RESETCOLOR
+		PRINTFORMW 　　　　　　　              　　　배드ＥＮＤ3 - 죄와 벌 -
+	;그 이외 캐릭터가 플레이어이며 동진영에 시키에이키가 없음
+	ELSE
+		PRINTFORML …
+		PRINTFORML ……
+		PRINTFORML ………
+		PRINTFORMW 「혼은 돌고 돌지」
+		PRINTFORMW 「즉, 언젠가는 다시 만날 수 있다는 거야」
+		PRINTFORMW 「댁 말이야, 내가 사신인 걸 다행이라고 생각하라구. 이렇게 긴 수명을 가지고 있는 자도 그리 흔하지 않아?」
+		PRINTFORMW 「죽음에 제일 가까우면서도 반대로 멀다는 것이 그렇게나 싫었었는데, 이렇게 도움이 되는 건가」
+		PRINTFORMW 「얼마나 걸리든, 나는 이곳에서 기다리고 있을 테니」
+		PRINTFORMW 「언젠가 다시 만날 수 있겠지」
+		PRINTFORML
+		PRINTFORMW 무연총 어딘가.
+		PRINTFORMW 작은 현장의 집과는 다르게 이리저리 막 지어진 것 같이 생긴 작은 오두막에 한 소녀가 앉아 있었다.
+		PRINTFORML 항상 묶고 있던 머리도 풀은 채 낫 만을 몸에 기대어 둔 채 미동 하나 없는 그 모습은 마치 사람 형상을 한 석상 곁에 낫이 기대어진 것 같이 보였다.
+		PRINTFORMW 그 석상은, 움직이지 않을 것이다.
+		PRINTFORMW 기다리고 있는 그녀만의 특별한 『댁』이 오기 전까지는.
+		PRINTFORMW 그 자가 언제 찾아올 지를 아는 자는, 아무도 없었다.
+		PRINTFORMW 그럼에도 불구하고 그녀는 손수 만든 집에서 가만히 기다리고 있을 것이다.
+		PRINTFORML
+		PRINTFORML
+		PRINTFORMW 계속해서, 끝 없이.
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		RESETCOLOR
+		PRINTFORMW 　　　　　　　              　　　배드ＥＮＤ4 - 다만 기다린다면, 언젠가는 만나는 것 -
+	ENDIF
+;정실이나 첩이 아님
+ELSE
+	PRINTFORML …
+	PRINTFORML ……
+	PRINTFORML ………
+	PRINTFORML 삼도천, 코마치의 배 위
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMW 「그래 그래. 그래서 댁은 어떤 삶을 살다 오셨나?」
+	PRINTFORML
+	PRINTFORMW 환상향은 한 때 분열해 치열한 싸움이 매일 일어나는 전쟁터가 되어 있었지만, 시간이 지나자 차츰 전쟁이 줄어들더니 이내 다시 안정을 되찾았다.
+	PRINTFORML 원래 제멋대로 사는 요괴들이 많이 사는 환상향이기에, 그들에게는 이 전쟁도 어찌보면 잠깐의 유희였을지도 모른다.
+	PRINTFORML 무너진 곳은 재건하고, 지치면 언제 싸운 적이 있었냐는 듯 모두 함께 모여 연회를 한다.
+	PRINTFORML 하필 어느 가여운 신사에서 연회가 일어나느라 생겨버린 한 무녀의 눈물 외에는 모두가 나름대로 행복했다.
+	PRINTFORML 그것이 지금의 환상향이었다.
+	PRINTFORMW 그러나 전쟁은, 강한 자들에게는 잠깐의 유희였을지도 모르나 사람이나 저급 요괴들과 같이 약한 자들에게는 끝 없는 재앙이었다.
+	PRINTFORMW 덕분에 지금 혼들은 넘처나고 있었고 이는 곧 염마들의 추가 근무가 늘었음을 의미했다.
+	PRINTFORMW 그것은 시비 곡식청 또한 마찬가지라, 코마치는 땡땡이도 제대로 치지 못하는 채 혼들을 피안 너머로 전송해주고 있었다.
+	PRINTFORML
+	PRINTFORMW 「아ㅡ 역시 전쟁통에 죽은 영혼인건가ㅡ」
+	PRINTFORMW 「그래서, 민간인이었나? 아님 병사?」
+	PRINTFORMW 「병사였다고? 허어, 이건 기도 좀 해야 할 지도 모르겠네」
+	PRINTFORML 「전쟁 중에 생명을 뺏어 봤겠지? 살생은 꽤 중한 죄인데, 이것 참…」
+	PRINTFORMW 「…그래, 전쟁 자체부터가 이미 중죄이니…」
+	PRINTFORMW 「참 아이러니 하지. 죄라는 건 댁이 열심히 산다고 무조건 안 생기는 것이 아니거든」
+	PRINTFORML 「태어난 시대에 따라, 상황에 따라, 개인에 따라 죄가 생길 수 밖에 없을 때도 있으니까」
+	PRINTFORML 「그에 따라 죄인가 아닌가도 변하기도 하지. 애매하고도, 흔들거리는 게 죄야」
+	PRINTFORMW 「물론, 걱정 마. 염마님들은 딱딱해보일지도 몰라도 흑백을 확실하게 가리시니, 댁에게 제일 필요한 판결을 내려주실 거야」
+	PRINTFORML
+	PRINTFORMW 찰팍, 찰팍.
+	PRINTFORML 삼도천 위를 낡은 배는 천천히 나아간다.
+	PRINTFORMW 영혼들을 전송하면서, 어쩔 수 없이 코마치의 머리에 떠오르는 한 사람이 있다.
+	PRINTFORML 이 영혼들과 똑같이 전쟁에 참여해, 살생을 행해버린 자.
+	PRINTFORMW 가지고 있던 포부에 비해 그 끝은 꽤 초라했던 것 같다고, 코마치는 생각했다.
+	PRINTFORML
+	PRINTFORMW 「어떠려나. 마지막으로 한 번, 술이라도 더 같이 마셨을까 했는데」
+	PRINTFORMW 「…아쉽네」
+	PRINTFORML
+	PRINTFORMW 그 말을 끝으로, 코마치는 다시 영혼을 전송하는 일에 집중한다.
+	PRINTFORML 삼도천은 잔잔해보이지만 그 밑에 빠진다면 어떤 일이 일어날 지 모르기에 항시 조심하고 있어야 한다.
+	PRINTFORML 저 편에 있을 아직 보이지 않는 피안을 목표로 하면서, 배는 천천히 사공의 노 젓는 속도에 맞춰 나아간다.
+	PRINTFORML
+	PRINTFORMW 「피안에 가기 위해 기다리는 영혼들이 아직도 많이 남아있나?」
+	PRINTFORML 「그 전쟁통에서 과연 몇이나 인리를 지켰을까…」
+	PRINTFORMW 「…그래, 한동안은 흑(黑)이 많겠구나……」
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	RESETCOLOR
+	PRINTFORMW 　　　　　　　　　　배드ＥＮＤ5 - 영혼을 보내며 -
+ENDIF
+RESETCOLOR
+PRINTFORML
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 1

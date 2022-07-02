@@ -1,0 +1,3 @@
+﻿#DIM CONST 스미레코_꿈속 = 0
+#DIM CONST 스미레코_음몽 = 1
+#DIM CONST 스미레코_도둑 = 2

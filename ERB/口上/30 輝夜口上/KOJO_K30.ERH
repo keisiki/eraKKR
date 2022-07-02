@@ -1,0 +1,6 @@
+﻿#DIM CONST 카구야_귀족의권유 = 0
+#DIM CONST 카구야_화장실공주 = 1
+#DIM CONST 카구야_귀족의후예와승부 = 2
+#DIM CONST 카구야_귀족의후예패배치 = 3
+
+#DIM CONST 카구야_귀족의후예의노예신부 = 21

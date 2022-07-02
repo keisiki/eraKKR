@@ -1,0 +1,323 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K23_OLDTALE_RATE(대상)
+#DIM 대상
+RETURN 100 + (KDVAR:대상:스이카_옛날이야기 > 0) * 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K23_OLDTALE_DECISION(대상)
+#DIM 대상
+
+;플레이어 캐릭터가 유카리인가 유우기나 카센이라면 발생하지 않는다
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("유카리"), NAME_TO_CHARA("유우기"), NAME_TO_CHARA("카센"))
+	RETURN 0
+
+;끝나고 있으면 발생하지 않는다
+SIF KDVAR:대상:스이카_옛날이야기 == -1
+	RETURN 0
+	
+;연모계로, 합의가 없으면 안 돼
+SIF !(IS_LOVER(대상) && TALENT:대상:합의)
+	RETURN 0
+	
+;ARG:0이 구상 데일리 이벤트를 실시할 수 있을까의 간이 체크 함수
+;ARG:10 MASTER와 별세력인 1 MASTER와 동일 세력이다  -1어디라도 좋다
+;ARG:20 포로가 아닌 1 포로인 -1어디라도 좋다
+;ARG:30 안면이 없는 1 안면이 있는 -1어디라도 좋다
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K23_OLDTALE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K23_OLDTALE(대상)
+#DIM 대상
+
+
+SELECTCASE KDVAR:대상:스이카_옛날이야기
+	CASE 0
+		PRINTFORMW 「야아, %ANAME(MASTER)%」
+		PRINTFORML 밤, 밖을 빈둥빈둥 하고 있으면 %조사처리(ANAME(대상),"가")% 달을 보면서 술을 마심을 하고 있었다
+		PRINTFORMW 「달을 보고 있으면, 뭔가 조금 옛날을 생각해 내」
+		PRINTFORMW 「추억을 술안주에 마시고 있던 곳이야. 달의 빛은 지금도 옛날도 변함없으니까」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 겉모습과 달리 길게를 살아 온 대요괴다
+		PRINTFORMW 당연, 과거에도 다양한 일이 있었을 것이다. …조금 흥미가 있구나
+		PRINTFORML 「…괜찮다면 그렇지만, 나의 옛날 이야기, (들)물어 봐? 가득 한턱 낸다」
+		PRINTFORMW 어떻게 하지……
+		PRINTFORML 
+		CALL ASK_YN("어떤 이야기인가, 흥미가 있다", "오늘은 좋을까")
+		IF RESULT == 1
+			PRINTFORML 「그래? 그거야 유감. 뭐, 기분이 내키면 또 이번이군요」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 손을 흔들어 헤어졌다
+		ELSE
+			PRINTFORMW 「후후, 그러면, 술주정꾼의 이야기에 조금 교제해 주어라」
+			PRINTFORML 
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 자신의 과거를 다양하게 말해 주었다
+			PRINTFORML 옛날 사람 사이들과의 교류, 받은 은혜와 원수의 이야기를 구별 없고…
+			PRINTFORMW 고자질의 이모저모로부터, 인간에게로의 호의가 배어 나오고 있었다
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 「후우…, 오늘은 여기까지로 할까. 교제해 주어 고마워요」
+			PRINTFORML 여러 가지 듣는 내용이었다. 계속도 언젠가 (듣)묻고 싶구나
+			PRINTFORMW 「그, 그렇게? 헤헤, 뭔가 수줍은구나」
+			PRINTFORML 「그렇지만―, 취기가 얕다고 흥이 타지 않고…그렇네」
+			PRINTFORML
+			CALL ICPRINT("「다음은<청주 세개>준비해 주면 이야기해 준다」", "W", 칼라_주의)
+			PRINTFORML
+			PRINTFORML 다음의 이야기는 이쪽에서 술을 준비하면 들려주는 것 같다
+			PRINTFORMW 「나는 여기서 마시고 있을테니까, 기분이 내키면 또 와」
+			PRINTFORML
+			CALL ICPRINT(@"<%조사처리(ANAME(대상),"는")% 옛날 이야기로 한 때경험을 생각해 낸 것 같다>", "W", 칼라_주의)
+			CALL PRINT_ADD_EXP(대상, "무투경험치", 10, 1)
+			CALL PRINT_ADD_EXP(대상, "방위경험치", 10, 1)
+			CALL PRINT_ADD_EXP(대상, "지략경험치", 5, 1)
+			CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(50, 100), 1)
+			CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(50, 100), 1)
+			CALL TRAIN_AUTO_ABLUP(대상)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			PRINTFORML
+			CFLAG:대상:호감도 += 200
+			KDVAR:대상:스이카_옛날이야기 = 1
+		ENDIF
+	;KDVAR:대상:스이카_옛날이야기 = 가 1으로 이벤트 발생
+	CASE 1
+		PRINTFORML 「여어, %ANAME(MASTER)%」
+		PRINTFORMW 밤, 밖을 걷고 있으면 %조사처리(ANAME(대상),"가")% 달을 보면서 술을 마심을 하고 있었다
+		PRINTFORML 「또 나의 이야기, (듣)묻고 싶어졌는지?」
+		CALL ICPRINT("「<청주 세개>준다면 들려준다」", "W", 칼라_주의)
+		PRINTFORMW 어떻게 하지……
+		PRINTFORML 
+		CALL ASK_MULTI_JUDGE("(듣)묻고 싶다",  ITEM:청주 >= 3, "오늘은 그만둔다", 1)
+		IF RESULT == 1
+			PRINTFORML 「그래? 그거야 유감. 뭐, 기분이 내키면 또 이번이군요」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 손을 흔들어 헤어졌다
+		ELSE
+			PRINTFORMW 「후후, 확실히야 %ANAME(MASTER)%. 그러면, 오늘도 술주정꾼의 이야기에 교제해 줘」
+			PRINTFORML 
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 자신의 과거를 다양하게 말해 주었다
+			PRINTFORML 많은 오니나 인간과 만나, 싸워, 그리고 친교가 깊어져 간 것…
+			PRINTFORMW 고자질의 이모저모로부터, 오니로서의 자랑이 배어 나오고 있었다
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 「후우…, 오늘은 여기까지로 할까. 교제해 주어 고마워요」
+			PRINTFORMW 「하지만 청자가 있으면, 너무 뭔가 말해 버리는군. 지루하지 않았어?」
+			PRINTFORML 여러 가지 듣는 내용이었다. 또 계속을 (듣)묻고 싶구나
+			PRINTFORMW 「그, 그렇게? 헤헤, 뭔가 수줍은구나」
+			PRINTFORML 「그렇지만―, 취기가 얕다고 흥이 타지 않고…그렇네」
+			PRINTFORML
+			CALL ICPRINT("「다음은<맥주 세개>준비해 주면 이야기해 준다」", "W", 칼라_주의)
+			PRINTFORML
+			PRINTFORML 다음의 이야기는 이쪽에서 술을 준비하면 들려주는 것 같다
+			PRINTFORMW 「나는 여기서 마시고 있을테니까, 기분이 내키면 또 와」
+			PRINTFORML
+			CALL ICPRINT(@"<%조사처리(ANAME(대상),"는")% 옛날 이야기로 한 때경험을 생각해 낸 것 같다>", "W", 칼라_주의)
+			CALL PRINT_ADD_EXP(대상, "무투경험치", 15, 1)
+			CALL PRINT_ADD_EXP(대상, "방위경험치", 15, 1)
+			CALL PRINT_ADD_EXP(대상, "지략경험치", 5, 1)
+			CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(20, 50), 1)
+			CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(20, 50), 1)
+			CALL TRAIN_AUTO_ABLUP(대상)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			ITEM:청주 -= 3
+			CALL COLOR_PRINTW("청주를 3개 다 마셨다", 칼라_주의)
+			CFLAG:대상:호감도 += 200
+			KDVAR:대상:스이카_옛날이야기 = 2
+		ENDIF
+	;KDVAR:대상:스이카_옛날이야기 = 가 2로 이벤트 발생
+	CASE 2
+		PRINTFORML 「오우, %ANAME(MASTER)%」
+		PRINTFORMW 밤, 밖을 걷고 있으면 %조사처리(ANAME(대상),"가")% 달을 보면서 술을 마심을 하고 있었다. 근처에 일인분의 스페이스를 비워…
+		PRINTFORML 「또 나의 이야기, (듣)묻고 싶어졌는지?」
+		CALL ICPRINT("「<맥주 세개>준다면 들려준다」", "W", 칼라_주의)
+		PRINTFORMW 어떻게 하지……
+		PRINTFORML 
+		CALL ASK_MULTI_JUDGE("(듣)묻고 싶다",  ITEM:맥주 >= 3, "오늘은 그만둔다", 1)
+		IF RESULT == 1
+			PRINTFORML 「그래? 그거야 유감. 뭐, 기분이 내키면 또 이번이군요」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 손을 흔들어 헤어졌다
+		ELSE
+			PRINTFORMW 「오오! 확실히야 %ANAME(MASTER)%. 그러면, 오늘도 술주정꾼의 이야기에 교제해 줘」
+			PRINTFORML 
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 자신의 과거를 다양하게 말해 주었다
+			PRINTFORML 인간들과의 관계의 변화에 의해 일어난 일, 인간과 오니와의 인연의 임종…
+			PRINTFORMW 고자질의 이모저모로부터, 분함과 그리고 외로움이 배어 나오고 있었다
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 「후우…, 오늘은 여기까지로 할까. 왠지 불필요한 일까지 이야기해 버린 것 같다」
+			PRINTFORML 여러 가지 듣는 내용이었다. 계속도 언젠가 (듣)묻고 싶구나
+			PRINTFORMW 「그, 그렇게? 헤헤, 뭔가 수줍은구나」
+			PRINTFORML 「그렇지만―, 취기가 얕다고 흥이 타지 않고…그렇네」
+			PRINTFORML
+			CALL ICPRINT("「다음은<일본술 세개>준비해 주면 이야기해 준다」", "W", 칼라_주의)
+			PRINTFORML
+			PRINTFORML
+			CALL ICPRINT(@"<%조사처리(ANAME(대상),"는")% 옛날 이야기로 한 때경험을 생각해 낸 것 같다>", "W", 칼라_주의)
+			CALL SKILL_LEARN_BY_NAME(대상, 스킬_장르_SP, NO:대상, "아메노타지카라오 던지기")
+			SIF RESULT
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 스킬＜아메노타지카라오 던지기＞를 습득했습니다", 칼라_주의)
+			CALL PRINT_ADD_EXP(대상, "무투경험치", 15, 1)
+			CALL PRINT_ADD_EXP(대상, "방위경험치", 15, 1)
+			CALL PRINT_ADD_EXP(대상, "지략경험치", 5, 1)
+			CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(20, 50), 1)
+			CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(20, 50), 1)
+			CALL TRAIN_AUTO_ABLUP(대상)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			ITEM:맥주 -= 3
+			CALL COLOR_PRINTW("맥주를 3개 다 마셨다", 칼라_주의)
+			CFLAG:대상:호감도 += 200
+			KDVAR:대상:스이카_옛날이야기 = 3
+		ENDIF
+	;KDVAR:대상:스이카_옛날이야기 = 가 3으로 이벤트 발생
+	CASE 3
+		PRINTFORML 「아아, %ANAME(MASTER)%」
+		PRINTFORMW 밤, 밖을 걷고 있으면 %조사처리(ANAME(대상),"가")% 달을 보면서 술을 마심을 하고 있었다. 근처에 일인분의 스페이스를 비워…
+		PRINTFORML 「또 나의 이야기, (듣)묻고 싶어졌는지?」
+		CALL ICPRINT("「<일본술 세개>준다면 들려준다」", "W", 칼라_주의)
+		PRINTFORMW 어떻게 하지……
+		PRINTFORML 
+		CALL ASK_MULTI_JUDGE("(듣)묻고 싶다",  ITEM:일본술 >= 3, "오늘은 그만둔다", 1)
+		IF RESULT == 1
+			PRINTFORML 「그래? 그거야 유감. 뭐, 기분이 내키면 또 이번이군요」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 손을 흔들어 헤어졌다
+		ELSE
+			PRINTFORMW 「있어라! 기다리고 있었습니다―♪그러면 %ANAME(MASTER)%, 오늘도 술주정꾼의 이야기에 교제해 줘」
+			PRINTFORML 
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 자신의 과거를 다양하게 말해 주었다
+			PRINTFORML 인간과의 관계가 차가워진 뒤도, 아무래도 인간들과 떨어질 수 있지 못하고
+			PRINTFORMW 한 때의 인연을 되찾으려고 해 분투해, 생명을 잃은…혹은, 극히 조금 받아들일 수 있었던 동포들을…
+			PRINTFORMW 고자질의 이모저모로부터, 슬픔과 그리고 자신의 생각을 관철한 동포에게로의 부러움이 배어 나오고 있었다
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW 「후우…, 오늘은 여기까지로 할까. 왠지 어두운 이야기로 나쁘다」
+			PRINTFORML ……여러가지 생각하게 되어지는 내용이었다. 또 계속을 (듣)묻고 싶구나
+			PRINTFORMW 「그래? 하하, 너도 호기심이구나」
+			PRINTFORML 「그렇지만―, 취기가 얕다고 흥이 타지 않고…그렇네」
+			PRINTFORML
+			CALL ICPRINT("「다음은<증류주 세개>준비해 주면 이야기해 준다」", "W", 칼라_주의)
+			PRINTFORML
+			PRINTFORML 다음의 이야기는 이쪽에서 술을 준비하면 들려주는 것 같다
+			PRINTFORMW 「지금까지 교제해 주어 고마워요. 다음의 이야기로, 나의 옛날 이야기는 최후야. 기대해도 좋은♪」
+			PRINTFORML
+			CALL ICPRINT(@"<%조사처리(ANAME(대상),"는")% 옛날 이야기로 한 때경험을 생각해 낸 것 같다>", "W", 칼라_주의)
+			CALL SKILL_LEARN_BY_NAME(대상, 스킬_장르_SP, NO:대상, "미싱 퍼플 파워")
+			SIF RESULT
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 스킬＜미싱 퍼플 파워＞를 습득했습니다", 칼라_주의)
+			CALL PRINT_ADD_EXP(대상, "무투경험치", 20, 1)
+			CALL PRINT_ADD_EXP(대상, "방위경험치", 20, 1)
+			CALL PRINT_ADD_EXP(대상, "지략경험치", 10, 1)
+			CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(50, 100), 1)
+			CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(50, 100), 1)
+			CALL TRAIN_AUTO_ABLUP(대상)
+			CALL TRAIN_AUTO_ABLUP(MASTER)
+			ITEM:일본술 -= 3
+			CALL COLOR_PRINTW("일본술을 3개 다 마셨다", 칼라_주의)
+			CFLAG:대상:호감도 += 200
+			KDVAR:대상:스이카_옛날이야기 = 4
+		ENDIF
+	;KDVAR:대상:스이카_옛날 이야기 =가 4로 이벤트 발생
+	CASE 4
+		PRINTFORML 「야아, %ANAME(MASTER)%」
+		PRINTFORMW 밤, 밖을 걷고 있으면 %조사처리(ANAME(대상),"가")% 달을 보면서 술을 마심을 하고 있었다. 근처에 일인분의 스페이스를 비워…
+		PRINTFORML 「또 나의 이야기를 들으러 와 주었는지?」
+		PRINTFORMW 「이번이 마지막 이야기야. 어떻게 해?」
+		CALL ICPRINT("「<증류주 세개>준다면 들려준다」", "W", 칼라_주의)
+		PRINTFORMW 어떻게 하지……
+		PRINTFORML 
+		CALL ASK_MULTI_JUDGE("(듣)묻고 싶다",  ITEM:증류주 >= 3, "오늘은 그만둔다", 1)
+		IF RESULT == 1
+			PRINTFORML 「그래? 그거야 유감. 뭐, 기분이 내키면 또 이번이군요」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%에 손을 흔들어 헤어졌다
+		ELSE
+			PRINTFORMW 「～♪분명하게 준비해 준다고는 과연 %ANAME(MASTER)%! 그러면, 나의 마지막 이야기, 교제해 줘」
+			PRINTFORML 
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 자신의 과거를 다양하게 말해 주었다
+			PRINTFORML 인간과의 관계에 단념해, 무서운들만으로 살기 시작한 일. 그래서 적당히는 능숙하게 되어지고 있던 일
+			PRINTFORMW 그런데도 인간과의 인연을 단념하지 않고, 환상향에 오고, 그리고 많은 바뀐 무리를 만난 일…
+			PRINTFORML 지기의 친구였다 유카리, 레밀리아와 같은 서양의 귀신, 불량 천인, 레이무나 마리사들이라고 한 이상한 인간들…
+			PRINTFORMW 취기의 깊이에 맡겨, %조사처리(ANAME(대상),"는")% 오늘까지 환상향에서 만날 수 있었던 사람들을 실로 즐거운 듯이 이야기해 주었다
+			PRINTFORMW 고자질의 이모저모로부터, 기쁨과 그리고 모두에게로의 감사의 생각이 배어 나오고 있었다
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW ·
+			PRINTFORMW 「후우……이것으로 나의 옛날 이야기는 끝이야. 끝까지 (들)물어 주어 고마워요」
+			PRINTFORML 「%조사처리(ANAME(MASTER),"가")% 진지하게 (들)물어 주는 것이니까, 무심코 뜨겁게 말해 버렸어」
+			PRINTFORMW 매우 흥미로운 이야기였다. 하지만, 무엇으로 이런 신상이야기를 일부러 자신 따위에?
+			PRINTFORML 「어째서 일까요…혹시, 알기를 원했던 것일까. 나의 일이나 동포들의 일, 오니와 인간을……」
+			PRINTFORML
+			PRINTFORML 「그것을 근거로 해, %ANAME(MASTER)%에 듣고 싶은 것이 있다」
+			PRINTFORMW
+			PRINTFORMW ……%조사처리(ANAME(대상),"는")% 신기한 표정으로 %조사처리(ANAME(MASTER),"와")% 마주보았다
+			PRINTFORML 「옛날은, 인간들이 오니에게 속임수를 사용하게 되어, 대단히 분개한 것이야」
+			PRINTFORMW 「비겁자 녀석! 온전히 마주보는 일도할 수 없게 되었는지, 이 나약자놈들! 라고……」
+			PRINTFORML 「그렇지만, 역이었는가도…정말로 마주보지 않게 된 것은, 인간에게 지기 시작한 우리오니의 (분)편이 아닌가 하고 말야…」
+			PRINTFORMW 「오니가 정말로 강했던 것이라면…비겁한 수단도 받아 들여, 인간과 마주봐야 했지 않은가……」
+			PRINTFORML 「…그런 식으로, 생각하게 되었다」
+			PRINTFORML 「그러면, 우리오니와 인간의 관계는, 좀 더 다른 것이 되어 있지 않았을까……그렇게 생각한다」
+			PRINTFORMW 「뭐, 유우기들은, 『작은 머리로 지나치게 생각한다』라고 말해졌지만 말야」
+			PRINTFORML 「하하, 그 때문인지군요. 나의 모퉁이는 대단히 뒤틀린 형태가 되어 버렸어」
+			PRINTFORML ……이 소녀는, 벌써 지나가 버린 오니와 사람의 관계를 쭉 생각해, 지금까지 단념하지 못하고 있었을 것인가
+			PRINTFORMW 「그러니까 생각한다. 전혀같이 도망치기 시작하지 않고, 인간나름의 강함과 마주봐 제대로 받아 들이는 강함을 목표로 해야할 것인가」
+			PRINTFORMW 「그렇지 않으면 이 환상향에서, 지금까지와는 다른, 앞으로의 인간들과의 새로운 인연과 삶의 방법을 찾아내야할 것인가…」
+			PRINTFORML 「이봐, %ANAME(MASTER)%. ……나는 어떻게 하면 좋다고 생각해?」
+			PRINTFORML 자신의 의견은……
+			PRINTFORMW 
+			CALL ASK_YN("앞으로의 미래를 만들어 가자", "한 때의 이상을 추구해야 함")
+			IF RESULT == 1
+				PRINTFORML 「……그런가. 그렇게 말해 주는구나, %조사처리(ANAME(MASTER),"는")%」
+				PRINTFORMW 「…응! 뭔가 후련하게 터진 느낌이야! 역시 뒤죽박죽 생각하는 것은 성에 맞지 않는다!」
+				PRINTFORML 「좋아! 지금부터는 바득바득 간다! 그 안 %ANAME(MASTER)%도 채갈테니까. 각오 해 두어―♪」
+				PRINTFORML ……건강하게는 된 것 같지만, 수를 쿡쿡 찔러 오니가 나온 것 같은……
+				PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 지지되어 후련하게 터진 것 같다
+				CALL SKILL_LEARN_BY_NAME(대상, 스킬_장르_SP, NO:대상, "오오에산 학살")
+				SIF RESULT
+					CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 스킬＜오오에산 학살＞을 습득했습니다", 칼라_주의)
+				CALL PRINT_ADD_EXP(대상, "무투경험치", 100, 1)
+				CALL PRINT_ADD_EXP(대상, "방위경험치", 90, 1)
+				CALL PRINT_ADD_EXP(대상, "지략경험치", 10, 1)
+				CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(60, 120), 1)
+				CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(60, 120), 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+				CALL TRAIN_AUTO_ABLUP(MASTER)
+			ELSE
+				PRINTFORML 「……그런가. 그렇게 말해 주는구나, %조사처리(ANAME(MASTER),"는")%」
+				PRINTFORMW 「좋아! 뭔가 후련하게 터진 느낌이야! 역시 궁시렁궁시렁 고민할 여유가 있으면 진행되어야 하네요」
+				PRINTFORML 「자 우선, 앞으로도 잘 부탁해, %ANAME(MASTER)%」
+				PRINTFORML 「너와의 인연이 어떤 것이 되는지, 기대하고 있어♪」
+				PRINTFORMW %ANAME(MASTER)%의 지지로, %조사처리(ANAME(대상),"는")% 앞으로의 미래를 만들어 간다고 결정한 것 같다
+				CALL SKILL_LEARN_BY_NAME(대상, 스킬_장르_BASE, NO:대상, "백만귀야행")
+				SIF RESULT
+					CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 스킬＜백만귀야행＞을 습득했습니다", 칼라_주의)
+				CALL PRINT_ADD_EXP(대상, "무투경험치", 70, 1)
+				CALL PRINT_ADD_EXP(대상, "방위경험치", 70, 1)
+				CALL PRINT_ADD_EXP(대상, "지략경험치", 60, 1)
+				CALL PRINT_ADD_EXP(대상, "주량경험치", RAND(60, 120), 1)
+				CALL PRINT_ADD_EXP(MASTER, "주량경험치", RAND(60, 120), 1)
+				CALL TRAIN_AUTO_ABLUP(대상)
+				CALL TRAIN_AUTO_ABLUP(MASTER)
+			ENDIF
+			PRINTFORML 
+			KDVAR:대상:스이카_옛날이야기 = -1
+			ITEM:증류주 -= 3
+			CALL COLOR_PRINTW("증류주를 3개 다 마셨다", 칼라_주의)
+			CFLAG:대상:호감도 += 500
+		ENDIF
+ENDSELECT
+
+RETURN 1

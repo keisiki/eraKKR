@@ -1,0 +1,2622 @@
+﻿돈＆견의 캐릭터화에 수반해 불요? (이)가 된 구상(어떻게 하지이것…)
+
+
+
+;-------------------------------------------------
+;개페라(플레이어)  ※당신이 빠는 (분)편입니다 이것……
+;-------------------------------------------------
+IF SELECTCOM == 91
+	;이 캐릭터가 주도권을 가지고 있다
+	IF IS_INITIATIVE(TARGET)
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 개의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 개의 페니스를 계속 빤다
+				PRINTFORMW 개는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 개의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 개의 페니스를 계속 빤다
+				PRINTFORMW 개는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 개의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 개의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML 사랑하는 %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 개의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 개의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 개의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 개의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		ENDIF
+	;이 캐릭터가 주도권을 가지고 있지 않다
+	ELSE
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 개의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 개의 페니스를 계속 빤다
+				PRINTFORMW 개는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 개의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 개의 페니스를 계속 빤다
+				PRINTFORMW 개는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 개의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 개의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML 사랑하는 %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 개의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 개의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 개의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 개의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 개에게 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;개 부추기고(플레이어)  상대를 파게 하는 (분)편입니다(어째서 이런 길어…나…수간이라든지 취미가 아니야…도레미씨와 이체라브 해-…)
+;-------------------------------------------------
+IF SELECTCOM == 92
+	;이 캐릭터가 주도권을 가지고 있다
+	IF IS_INITIATIVE(TARGET)
+		;처음
+		IF IS_COM_FIRST()
+			;처녀
+			IF TALENT:처녀
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 처녀를 버리게 하고 몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 처녀를 버리게 하고 몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			;비처녀
+			ELSE
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 질내에 대형개의 페니스가 소리를 내 들어간다
+						PRINTFORMW 대형개는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 대형개는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 질내를 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 대형개에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「개의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 개의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 질내에서 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 대형개도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 개 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 개도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 개는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	;이 캐릭터가 주도권을 가지고 있지 않다
+	ELSE
+		;처음
+		IF IS_COM_FIRST()
+			;처녀
+			IF TALENT:처녀
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 처녀를 버리게 하고 몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 처녀를 버리게 하고 몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			;비처녀
+			ELSE
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 질내에 대형개의 페니스가 소리를 내 들어간다
+						PRINTFORMW 대형개는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 대형개는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 질내를 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 대형개에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「개의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 개의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 질내에서 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 대형개도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 개 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 개도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 개는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;개a 부추기고(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 93
+	;이 캐릭터가 주도권을 가지고 있다
+	IF IS_INITIATIVE(TARGET)
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+			;그 이외
+			ELSE
+				PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 애널에 대형개의 페니스가 소리를 내 들어간다
+						PRINTFORMW 대형개는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 대형개는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 애널을 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 대형개에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「개의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 개의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 애널로 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 대형개도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 개 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 개도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 개는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	;이 캐릭터가 주도권을 가지고 있지 않다
+	ELSE
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+			;그 이외
+			ELSE
+				PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 대형개였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 대형개를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 개는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 개의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 대형개가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 대형개는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 대형개는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 개에게 습격당해 초몇분, 개가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 대형개는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 개의 귀두는 사정시로 부풀어 올라 빠지지 않게 해, 확실히 상대를 임신하게 하는 취지를 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 대형개는 계속 연결되었다…
+					PRINTFORMW
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 애널에 대형개의 페니스가 소리를 내 들어간다
+						PRINTFORMW 대형개는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 대형개는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 애널을 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 대형개에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「개의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 개의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 애널로 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 대형개도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 개 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 개도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 개는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;돼지 페라(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 94
+	;이 캐릭터가 주도권을 가지고 있다
+	IF IS_INITIATIVE(TARGET)
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 돼지의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 돼지의 페니스를 계속 빤다
+				PRINTFORMW 돼지는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 돼지의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 돼지의 페니스를 계속 빤다
+				PRINTFORMW 돼지는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 돼지의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 돼지의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML 사랑하는 %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 돼지의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 돼지의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 돼지의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 돼지의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		ENDIF
+	;이 캐릭터가 주도권을 가지고 있지 않다
+	ELSE
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 돼지의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 돼지의 페니스를 계속 빤다
+				PRINTFORMW 돼지는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「엣…?」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+				PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+				PRINTFORML
+				PRINTFORML
+				PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+				PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+				PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+				PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「………엣?」
+				PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+				PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+				PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 그 순간, %조사처리(ANAME(MASTER),"가")% 당돌하게 돼지의 페니스를 물기 시작했다
+				PRINTFORML 「……!?」
+				PRINTFORML 너무 돌연의 사건에 굳어져 버리는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 돼지의 페니스를 계속 빤다
+				PRINTFORMW 돼지는 %ANAME(TARGET)%에 다가붙으면서도 핫학과 숨을 거칠게 하고 허리를 흔들기 시작하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「!?!?!?!?!?!?!?!?」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 오로지 혼란하고 있다…
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 돼지의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 돼지의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML 사랑하는 %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 돼지의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			;그 이외
+			ELSE
+				PRINTFORML
+				PRINTFORML 「………」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 소리를 내 돼지의 페니스를 빨고 있다
+				PRINTFORML 그것을 보는 %조사처리(ANAME(TARGET),"는")% 평상시보다 묘하게 침착해 버리고 있다
+				PRINTFORMW 하지만 한편, 일종의 기행에 달리는 %조사처리(ANAME(MASTER),"를")% 멈추어야 할 것인가 고민하고 있다
+				PRINTFORML 
+				PRINTFORML 
+				PRINTFORML 「도대체 어째서 돼지의 페니스를 빨고 있을까…」
+				PRINTFORML 「…라는 것보다…」
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 짐승 따위에 빼앗기고 있는 것을 자그만 패배감에 가까운 것을 느낀다
+				PRINTFORML 「저런 돼지의 페니스를 빨 정도라면 나의…」
+				PRINTFORML 「아아-! 이제(이미/벌써/더는/정말), 정말뭐야!」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 오로지 돼지에 페라하고 있다…
+				PRINTFORMW 
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;돼지 부추기고(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 95
+	;이 캐릭터가 주도권을 가지고 있다
+	IF IS_INITIATIVE(TARGET)
+		;처음
+		IF IS_COM_FIRST()
+			;처녀
+			IF TALENT:처녀
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 처녀를 버리게 하고 몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 처녀를 버리게 하고 몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			;비처녀
+			ELSE
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 질내에 돼지의 페니스가 소리를 내 들어간다
+						PRINTFORMW 돼지는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 돼지는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 질내를 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 돼지에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「돼지의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 돼지의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 질내에서 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 돼지도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 돼지 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 돼지도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 돼지는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	;이 캐릭터가 주도권을 가지고 있지 않다
+	ELSE
+		;처음
+		IF IS_COM_FIRST()
+			;처녀
+			IF TALENT:처녀
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 처녀를 버리게 하고 몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 처녀를 버리게 하고 몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			;비처녀
+			ELSE
+				;연모 or 복종
+				IF TALENT:연모 || TALENT:복종
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				;그 이외
+				ELSE
+					PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 균열에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+				ENDIF
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 질내에 돼지의 페니스가 소리를 내 들어간다
+						PRINTFORMW 돼지는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 돼지는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 질내를 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 돼지에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「돼지의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 돼지의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 질내에서 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 돼지도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 돼지 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 돼지도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 돼지는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ｖ감 Lv3 이상
+				IF ABL:Ｖ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ｖ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;돼지 a 부추기고(플레이어)
+;-------------------------------------------------
+IF SELECTCOM == 96
+	;이 캐릭터가 주도권을 가지고 있다
+	IF IS_INITIATIVE(TARGET)
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML
+					PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+			;그 이외
+			ELSE
+				PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 애널에 돼지의 페니스가 소리를 내 들어간다
+						PRINTFORMW 돼지는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 돼지는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 애널을 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 돼지에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「돼지의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 돼지의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 애널로 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 돼지도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 돼지 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 돼지도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 돼지는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	;이 캐릭터가 주도권을 가지고 있지 않다
+	ELSE
+		;처음
+		IF IS_COM_FIRST()
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+			;그 이외
+			ELSE
+				PRINTFORML 「엣…?」
+					PRINTFORML %조사처리(ANAME(MASTER),"가")% 방에 데려 온 것은 돼지였다
+					PRINTFORMW 숨이 난폭하고, 눈초리가 번득이고 있어 특히 페니스는 터질듯이 발기하고 있어 강하게 암컷을 요구하고 있는 것을 알 수 있다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「으, 응 이것은 어떻게 말하는 것…」
+					PRINTFORML 상상되는 지금부터의 전개에 흥분은 공포로 바뀌어, 식은 땀이 와 하고 나오기 시작하는 %ANAME(TARGET)%
+					PRINTFORML 느릿느릿 가까워져 오는 돼지를 앞에 %조사처리(ANAME(TARGET),"는")% 무심코 시트로 몸을 숨기면서 뒤로 물러나 한다
+					PRINTFORMW 공포감도 함께 일어서는 일도 뜻대로 되지 않은 채, 앉으면서 뒤로 물러나 하는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「………엣?」
+					PRINTFORML %ANAME(TARGET)%의 앞에서 멈추는 돼지는 천천히 응석부리도록(듯이) 다가붙는다
+					PRINTFORML 「아아…무엇이다, 나의 지레짐작이었던 것이군요…」
+					PRINTFORMW 돼지의 머리를 어루만져, 자애의 미소를 보이는 %ANAME(TARGET)%
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 그 순간, 돼지가 %ANAME(TARGET)%에 덮어씌우는 마운트를 잡는다
+					PRINTFORML 「꺗!」
+					PRINTFORML 기가 죽은 %ANAME(TARGET)%의 엉덩이구멍에 돼지는 가차 없이 페니스를 찌른다
+					PRINTFORML 「아, 앗…!?」
+					PRINTFORMW 상황을 파악할 수 없는 %조사처리(ANAME(TARGET),"를")% 다른 장소에 돼지는 격렬하게 피스톤 운동을 시작한다
+					PRINTFORML
+					PRINTFORML
+					PRINTFORML 「뽑아! 뽑아 아 아 아!!!   ～～～……!!!!!!!」
+					PRINTFORML 간원 하도록(듯이) 외치는 것도 곧바로 소리가 시드는 %ANAME(TARGET)%
+					PRINTFORML 눈물고인 눈으로 손을 이쪽에 늘렸다
+					PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그 손을 잡아 주면 %ANAME(TARGET)%도 강하게 잡아 돌려주어 온다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 돼지에 습격당해 초몇분, 돼지가 스퍼트를 걸치기 시작했다
+					PRINTFORML 침착성을 되찾기 시작하고 있던%조사처리(ANAME(TARGET),"였")%지만, 재차의 예감에 날뛰기 시작했다
+					PRINTFORML 「도와 %ANAME(MASTER)%!!   응!!!   %ANAME(MASTER)%!!!!!」
+					PRINTFORMW 도움을 간원 하는 %조사처리(ANAME(TARGET),"를")% 뒷전으로 %조사처리(ANAME(MASTER),"는")% 손을 잡는 것 외에 아무것도 하는 일은 없었다
+					PRINTFORML 
+					PRINTFORML 
+					PRINTFORML 「앗…」
+					PRINTFORML %ANAME(TARGET)%의 예감이 적중과 동시에 돼지는 사정했다
+					PRINTFORML 「…빠지지 않는다」
+					PRINTFORML 약간 방심 상태로 사정중의 페니스를 뽑으려고 하는 것도 빠지지 않고 있다
+					PRINTFORML 돼지의 페니스는 드릴장이 되어 있어, 자궁의 안쪽의 안쪽까지 먹혀들어 인간의 70배 이상의 정액을 내는 일을 가르치면 %조사처리(ANAME(TARGET),"는")% 입을 다물어 버렸다
+					PRINTFORML 그 후, 30분 정도 %조사처리(ANAME(TARGET),"과")% 돼지는 계속 연결되었다…
+					PRINTFORMW
+			ENDIF
+		;2회째 이후
+		ELSE
+			;연모 or 복종
+			IF TALENT:연모 || TALENT:복종
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:5 == 0
+						PRINTFORML
+						PRINTFORML 「그, 그러면……삽입할 수 있어요……?」
+						PRINTFORML %ANAME(TARGET)%의 애널에 돼지의 페니스가 소리를 내 들어간다
+						PRINTFORMW 돼지는 %ANAME(TARGET)%의 허리를 잡아 마음껏 밀어올렸다
+						PRINTFORML
+						PRINTFORMW 「하아읏! , 와……갑자기 밀어올리지 말고……아앗!」
+						PRINTFORML 돼지는 허리를 격렬하게 상하시키고 연속으로 %ANAME(TARGET)%의 애널을 관철한다
+						PRINTFORML 「기, 기다려,……좀 더 천천히……아앗!」
+						PRINTFORMW
+					ELSEIF RAND:4 == 0
+						PRINTFORML
+						PRINTFORML 「얏, 굉장한, 아……안쪽까지, 닿고 있다아……!」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 돼지에 걸쳐 흐트러지고 허덕이고 있다
+						PRINTFORML 「돼지의 자지, 뜨겁고, 딱딱해서……!」
+						PRINTFORML 「응읏……아아읏!」
+						PRINTFORMW
+					ELSEIF RAND:3 == 0
+						PRINTFORML
+						PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……」
+						PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴」
+						PRINTFORML %조사처리(ANAME(TARGET),"는")% 허리를 빙글빙글 회전시키기 시작한다
+						PRINTFORMW 전후좌우, 상하와 불규칙하게 움직여, 돼지의 쾌감을 증대시킨다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「읏……후훗, 저기, 또 애널로 커지고 있어요?」
+						PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……」
+						PRINTFORMW
+					ELSEIF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「핫, 아앗!!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「아앗……기분이 좋다」
+						PRINTFORML %ANAME(TARGET)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 돼지도 허리를 움직인다
+						PRINTFORML 「응아앗! 얏, 안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)……아아앗!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「아, 아앗, 좋아해, 너무 좋아앗……!」
+						PRINTFORML 돼지 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(TARGET)%
+						PRINTFORMW 돼지도 허리를 밀어올린다
+						PRINTFORML
+						PRINTFORML
+						PRINTFORML 「하, 아아읏! 이, 이제, 안 돼, 가 버릴 것 같다……!」
+						PRINTFORML 「핫, 응앗, 아아아아앗……!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……응읏!」
+						PRINTFORML 「굉장히…그…기분이 좋다……!」
+						PRINTFORML 「읏, 쿠우읏! 거기에……깊게까지 들어 와……응읏!」
+						PRINTFORML 아무래도 %조사처리(ANAME(TARGET),"는")% 이 체위가 마음에 드는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「응웃! ……아, 하아읏!」
+						PRINTFORMW 「……안쪽에, 맞아……!」
+						PRINTFORML
+						PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(TARGET),"가")% 달콤한 비명을 흘린다
+						PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, 돼지는 허리의 속도를 재촉한다
+						PRINTFORML 「응아앗! , 는이나……아, 앗!」
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			;그 이외
+			ELSE
+				;Ａ감 Lv3 이상
+				IF ABL:Ａ감 >= 3
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「응야앗! 하앗, 후아아아읏!」
+						PRINTFORML 「좀 더 찔러, 가득…햇!」
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「앗, 후아앗!」
+						PRINTFORML 「너무 느껴 버린다앗……응, 아아아아앗!」
+						PRINTFORMW
+					ENDIF
+				;Ａ감 Lv3 미만
+				ELSE
+					IF RAND:2 == 0
+						PRINTFORML
+						PRINTFORML 「읏, 하앗……우아……」
+						PRINTFORML 아직 쾌감을 얻는 것에는 이르지 않는 것 같다
+						PRINTFORMW
+					ELSE
+						PRINTFORML
+						PRINTFORML 「읏……쿳, 하, 아……」
+						PRINTFORML 괴로운 것 같은 소리를 내는 %ANAME(TARGET)%
+						PRINTFORML 좀 더 천천히 움직여 주는 편이 좋을 것이다
+						PRINTFORMW
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+
+;----------------------------------
+;꿈의 이변  파와포케적 메인스토리 서장(다음은 아직)
+;----------------------------------
+@KOJO_DAILY_K134_YUMEIHEN
+#DIM 도레미
+도레미 = NAME_TO_CHARA("도레미")
+
+
+
+;도레미가 포로가 아니고, 안면이 있는, 이벤트【안녕하세요 도레미】를 끝마친,3%
+SIF  ! (CHECK_KOJO_DAILY_HAPPEN(도레미, 30, -1, 0, 1) && KDVAR:도레미:도레미_안녕하세요 도레미)
+	RETURN -1
+;일회뿐
+SIF KDVAR:도레미:도레미_꿈세계의 이변
+	RETURN -1
+
+CALL KOJO_DAILY_START()
+
+	;도레미와 소속이 같음
+	IF CFLAG:도레미:소속 == CFLAG:MASTER:소속
+		PRINTFORMW 여기는 확실히……
+		PRINTFORML %ANAME(MASTER)%의 기억이 확실하면, 일을 끝내 자고 있었을 것이다
+		PRINTFORML 라고 말하는데, %조사처리(ANAME(MASTER),"는")%, 기묘한 공간에 한사람 헤매고 있었다
+		PRINTFORML 어딘지 모르게 환각적인 공간으로, 뭔가 모습이 이상하다
+		PRINTFORML %ANAME(MASTER)%의 기억에 반짝이는 이미지, 이 장소는 온 일이 있다
+		PRINTFORMW 추억인 것처럼도 생각해 낼 수 없는, 여기는 어디다……
+		PRINTFORML 「이런이런, %ANAME(MASTER)%씨」
+		PRINTFORMW 「이런 타이밍에 재방된다고는」
+		PRINTFORML 근처를 바라보고 있으면, 갑자기 나타난%ANAME(도레미)%에 말을 걸려졌다
+		PRINTFORMW %ANAME(도레미)%는 묘하게 안절부절 하고 있어, 초조해 해 있는 것처럼 보인다
+		PRINTFORML 「여기가 꿈의 세계라는 일은 아시는 바군요?」
+		PRINTFORMW 「봐 주세요, 근처가 불안정해 무너질 것 같겠지요?」
+		PRINTFORMW 그렇게 (들)물어 보면 앞에 왔을 때보다, 공간에 균열이나 일그러짐을 볼 수 있다
+		PRINTFORML 「달의 백성, 지상의 신들…거기에 이계의 사람들까지도가 각각의 목적으로 가이안 통로를 억지로 사용한 결과입니다……」
+		PRINTFORML 「현세의 존재가 꿈에 너무 침입한……아마, 꿈은 곧 현세에 삼켜져 버리겠지요」
+		PRINTFORMW 「꿈의 세계 복구를 위해서(때문에) 움직이지 않으면, 대단한 일이 될지도 모르네요」
+		PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+		PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+		PRINTFORMW 「슬슬, 나도 내쫓아질 것 같네요……에서는 %ANAME(MASTER)%, 또 다음에……」
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+		PRINTFORMW 꿈의 기억이 완전하게 머리에 들어가 있다. 꿈이 현세에 삼켜지고 시작한 영향일까……
+	
+	;도레미와 소속이 같음, 연모 습득제
+	ELSEIF CFLAG:도레미:소속 == CFLAG:MASTER:소속 && TALENT:도레미:연모
+		PRINTFORMW 여기는 확실히……
+		PRINTFORMW %ANAME(MASTER)%의 기억이 확실하면, 여기는 꿈의 세계다. 하지만 뭔가 모습이 이상하다
+		PRINTFORML 「이런이런, %ANAME(MASTER)%씨」
+		PRINTFORMW 「어떻게 하지요, 귀찮은 일이 되어 버렸어요…」
+		PRINTFORML 근처를 바라보고 있으면, 갑자기 나타난%ANAME(도레미)%에 말을 걸려졌다
+		PRINTFORMW %ANAME(도레미)%는 묘하게 안절부절 하고 있어, 초조해 해 있는 것처럼 보인다
+		PRINTFORML 「여기가 꿈의 세계라는 일은 아시는 바군요?」
+		PRINTFORMW 「봐 주세요, 근처가 불안정해 무너질 것 같겠지요?」
+		PRINTFORMW 그렇게 (들)물어 보면 앞에 왔을 때보다, 공간에 균열이나 일그러짐을 볼 수 있다
+		PRINTFORML 「달의 백성, 지상의 신들…거기에 이계의 사람들까지도가 각각의 목적으로 가이안 통로를 억지로 사용한 결과입니다……」
+		PRINTFORML 「현세의 존재가 꿈에 너무 침입한……아마, 꿈은 곧 현세에 삼켜져 버리겠지요」
+		PRINTFORMW 「꿈의 세계 복구를 위해서(때문에) 움직이지 않으면, 대단한 일이 될지도 모르네요」
+		PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+		PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+		PRINTFORMW 「슬슬, 나도 내쫓아질 것 같네요……에서는 %ANAME(MASTER)%, 또 다음에……」
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+		PRINTFORMW 꿈의 기억이 완전하게 머리에 들어가 있다. 꿈이 현세에 삼켜지고 시작한 영향일까……
+		PRINTFORML 「안녕%ANAME(MASTER)%, 조금 전 이야기한 일은 기억하고 있을까」
+		PRINTFORML 「꿈의 세계 수선에는 우선, 꿈의 세계를 우리들의 영지로 하지 않으면 말야……」
+		
+	;도레미와 소속이 다르다(연모 따위의 유무는 관계 없음)
+	ELSE
+		PRINTFORMW 여기는 확실히……
+		PRINTFORML %ANAME(MASTER)%의 기억이 확실하면, 일을 끝내 자고 있었을 것이다
+		PRINTFORML 라고 말하는데, %조사처리(ANAME(MASTER),"는")%, 기묘한 공간에 한사람 헤매고 있었다
+		PRINTFORML 어딘지 모르게 환각적인 공간으로, 뭔가 모습이 이상하다
+		PRINTFORML %ANAME(MASTER)%의 기억에 반짝이는 이미지, 이 장소는 온 일이 있다
+		PRINTFORMW 추억인 것처럼도 생각해 낼 수 없는, 여기는 어디다……
+		PRINTFORML 「응읏?   거기에 있기 전에 만났다……」
+		PRINTFORMW 「이런 타이밍에 재방된다고는」
+		PRINTFORML 근처를 바라보고 있으면, 갑자기 소녀에게 말을 걸려졌다
+		PRINTFORMW 펑펑과 같은 것이 다루어진 의상에 몸을 싸는 그녀는, 묘하게 안절부절 하고 있어, 초조해 해 있는 것처럼 보인다
+		PRINTFORMW 생각해 낸……이 소녀는 %ANAME(도레미)%다, 그리고 여기는 꿈의 세계다
+		PRINTFORML 「이런이런, 그 모습이라고도 해나 나을 기억으로 계(오)시는 거네」
+		PRINTFORMW 「그렇지만 지금은 조금 수중에 넣고 있어서요……봐 주세요, 근처가 불안정해 무너질 것 같겠지요?」
+		PRINTFORMW 그렇게 (들)물어 보면 앞에 왔을 때보다, 공간에 균열이나 일그러짐을 볼 수 있다
+		PRINTFORML 「달의 백성, 지상의 신들…거기에 이계의 사람들까지도가 각각의 목적으로 가이안 통로를 억지로 사용한 결과입니다……」
+		PRINTFORMW 「현세의 존재가 꿈에 너무 침입한……아마, 꿈은 곧 현세에 삼켜져 버리겠지요」
+		PRINTFORML 어떤 의미인가, 물을 여유도 없었다. 주위가 밝아져, 희게 물들어 간다
+		PRINTFORMW 도레미의 모습은 커녕, %ANAME(MASTER)%자신의 모습도 안보이게 되는 가운데, 그녀의 목소리가 울렸다
+		PRINTFORML 「나는 지금, 어떤(분)편아래에서 꿈의 세계 수복으로 움직이고 있습니다」
+		PRINTFORML 「안녕히, 이름도 모르는 (분)편. 할 수 있으면 현세에서는, 당신 싸우고 싶지 않아요……」
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW 아침해가 방에 쑤셔, 깨어났다
+		PRINTFORMW 꿈의 기억이 완전하게 머리에 들어가 있다. 꿈이 현세에 삼켜지고 시작한 영향일까……
+	ENDIF
+KDVAR:도레미:도레미_꿈세계의 이변 = 1
+
+
+;----------------------------------
+;도레미·스위트의 방위 죠오이치  도레미에 순수하게 방위 전술이 붙었으므로 사장들이 후보
+;----------------------------------
+@KOJO_DAILY_K134_RYUHUKU
+#DIM 도레미
+도레미 = NAME_TO_CHARA("도레미")
+
+;도레미와 안면이 있어, 소속이 같음, 도레미가 포로가 아니고, 죽지 않은, 0.3%
+SIF ! CHECK_KOJO_DAILY_HAPPEN(도레미, 3, 1, 0, 1)
+	RETURN -1
+
+;일회뿐
+SIF KDVAR:도레미:도레미_방위 죠오이치
+	RETURN -1
+
+;네토라레미중은 일어나지 않는다
+SIF KDVAR:도레미:도레미_네토라레미 > 0
+	RETURN -1
+
+CALL KOJO_DAILY_START()
+
+	PRINTFORML 수도로부터 크게 멀어져, 이웃나라의 곧 부근에 지어진 성에 방문한 %조사처리(ANAME(MASTER),"과")% %ANAME(도레미)%
+	PRINTFORML 하나의 마을로 보이는 성 안은 몇백의 주거, 밭, 연병소가 점재해, 도처에서 일의 연기가 오르고 있다
+	PRINTFORML 그것을 둘러싸는 50미터는 넘는 성벽은 강고한 돌만들기에 마법 대책 따위의 대결계가 쳐지고 있다
+	PRINTFORMW 어려운 노역을 강요당하고 있는 성민들이지만, 그 만큼 풍부하게 살게 하고 있다……
+	PRINTFORML 
+	PRINTFORMW 성벽 위에 올라, 성 안을 바라보는 %조사처리(ANAME(MASTER),"과")% %ANAME(도레미)%
+	PRINTFORML 「인 요의 격차를 중화 하는 규칙을 만들어, 남의 눈에 띄지 않는 범죄를도 자세히 집어내」
+	PRINTFORMW 「학교를 지어 제방을 수리해, 벼농사를 궁리해……실로 섬세한 일입니다」
+	PRINTFORML 「내가 부하의 한사람을 주의 장관에게 임명해, 그 사람이 이 땅에 섰을 때, 여기는 아무것도 없는 빈성이었습니다」
+	PRINTFORMW 「그것이 지금은 수천의 백성이 깃드는 방위 죠오이치입니다」
+	PRINTFORML 성밖을 바라보는 %ANAME(도레미)%, 그 전에는 사진을 감아올리고 다가오는 도둑의 무리가 보인다
+	PRINTFORMW 이 성을 덮치러 왔을 것이다, 성 안에서는 낭비가 없는 움직임으로 병들이 방위 준비를 갖추어 간다
+	PRINTFORMW 「%ANAME(MASTER)%, 이 싸움은 나에게 맡겨 받습니다……」
+	PRINTFORML 그렇게 고하면 장비를 정돈하고 성벽을 내려 그대로 병사들의 아래에 향해 갔다……
+	PRINTFORML 마를 타%조사처리(ANAME(MASTER),"는")% 무기를 취한, 오늘 정도는 %ANAME(도레미)%의 말이 되어 주자
+	PRINTFORMW %ANAME(도레미)%가 주의 장관에게 맡긴 부하는 도둑과의 방위전에서 전사한, 그 원한을 풀지 않겠는가……
+	PRINTFORMW 「……카이몬!!!」
+	PRINTFORML
+	PRINTFORML
+	CALL COLOR_PRINTW(@"%ANAME(도레미)%는 방위방법에 뛰어나게 되었다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(도레미)%는＜방위 전술＞을 얻었습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"호감도가 500올랐다", 칼라_주의)
+	CFLAG:도레미:호감도 += 500
+	SETBIT TALENT:도레미:ＳＬＧ소질, 소질_ＳＬＧ_방위 전술
+	KDVAR:도레미:도레미_방위 죠오이치 = 1

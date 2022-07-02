@@ -1,0 +1,307 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K111_Industrialization_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K111_Industrialization_DECISION(대상)
+#DIM 대상
+
+;흐름적에는 당신이 군주의 경우일 것이다
+SIF GET_COUNTRY_BOSS(CFLAG:MASTER:소속) != MASTER
+RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K111_Industrialization_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K111_Industrialization(대상)
+#DIM 대상
+#DIM 대상_도시_경제
+#DIM 경제요소
+#DIM 대상_도시
+#DIM 증감액
+#DIM 실패
+
+;자국 도시 랜덤
+CALL DAILY_EVENT_RAND_CITYSELECT(0)
+대상_도시 = RESULT
+
+;SHAFFLE_ARRAY
+;MONEY:(CFLAG:MASTER:소속)
+	
+PRINTFORMW 여느 때처럼 서류 일을 해내고 있으면, %조사처리(ANAME(대상),"가")% 왔다
+
+;초견
+IF 겐게츠_DAILY_경제효과 == "초견"
+	PRINTFORML 이야기를 들으면, 현재의 자국은 타국에 비해 공업력에 뒤떨어지고 있는 것 같다
+	PRINTFORML 실제 전장에 나와 있어도, 상대국의 무기와 비교하면 자군의 무기는 뒤떨어지고 있는 것은 사실이다
+	PRINTFORML 전장에 나와 있으므로, 그 이야기는 아플 정도(수록) 잘 안다.
+	PRINTFORML 더욱 그녀의 세계 「몽환 세계」는, 많은 시간을 폐쇄적인 환경에서 지냈기 때문에, 설비도 경험도 없는 것이 현상이다.
+	PRINTFORMW 거기서, 얼마 안 되는 학자들에 의해 「　%GET_CITYNAME(대상_도시)%  」에 공업화를 찾아낸 것 같다.
+	
+ELSEIF 겐게츠_DAILY_경제효과 == "초견 캔슬"
+	PRINTFORML 이야기를 들으면, 전회 계획하고 있던 「　%GET_CITYNAME(겐게츠_DAILY_지정도시)%  」의 공업화를 이번은 「　%GET_CITYNAME(대상_도시)%  」에 갔다는 이야기였다.
+	PRINTFORML 「역시 단념하지 못할의...」
+	PRINTFORML 「투자는 리스크를 수반하지만, 리스크를 지지 않으면 리턴은 얻을 수 없다고 생각해요」
+	PRINTFORMW 「안 돼... 그럴까?」
+	PRINTFORML
+
+;기독
+ELSEIF 겐게츠_DAILY_경제효과 == "성공" ||  겐게츠_DAILY_경제효과 == "대성공" || 겐게츠_DAILY_경제효과 == "실패"
+	
+	;전회의 도시와 이번 도시가 동일한가?
+	IF 대상_도시 == 겐게츠_DAILY_지정도시
+		PRINTFORML 이야기를 들으면, 전회 같이 「　%GET_CITYNAME(대상_도시)%  」의 공업화에 향한 이야기였다
+		
+		ELSE
+			
+			PRINTFORML 이야기를 들으면, 전회 「　%GET_CITYNAME(겐게츠_DAILY_지정도시)%  」의 공업화를 이번은 「　%GET_CITYNAME(대상_도시)%  」에 실시하려는 이야기였다.
+		ENDIF
+				
+		PRINTFORML 실제 전장에 나와 있어도, 상대국의 무기와 비교하면 자군의 무기는 뒤떨어지고 있는 것은 사실이다
+		PRINTFORML 전장에 나와 있으므로, 그 이야기는 아플 정도(수록) 잘 안다.
+	;전회 캔슬
+	ELSE
+		PRINTFORML 전회 끊은 공업화의 이야기였다.
+		PRINTFORML 그때 부터 재조사를 해, 「　%GET_CITYNAME(대상_도시)%  」의 공업화가 가능과의 일
+	ENDIF
+	
+	;전회는 어떠한 결과였어?
+	IF 겐게츠_DAILY_경제효과 == "캔슬"
+		PRINTFORML 「역시 단념하지 못할의...」
+		PRINTFORML 「투자는 리스크를 수반하지만, 리스크를 지지 않으면 리턴은 얻을 수 없다고 생각해요」
+		PRINTFORMW 「안 돼... 그럴까?」
+		
+	ELSEIF 겐게츠_DAILY_경제효과 == "성공"
+		PRINTFORML 「또, 이지만」
+		PRINTFORML 「솔직히 말하면 미안하지만, 이 예산으로는 한정적인 경제성장이었어요」
+		PRINTFORMW 「무리하게, 라고는 말하지 않지만... 열강을 따라 잡으려면 아직 부족해요」
+			
+		ELSEIF 겐게츠_DAILY_경제효과 == "대성공"
+		PRINTFORML 「일전에는 고마워요」
+		PRINTFORML 「덕분에 열강에 가까워질 수가 있었어요」
+		PRINTFORML 「할 수 있으면, 전회와 동등한가 그 이상의 예산을 받을 수 있으면 기쁘지만」
+		PRINTFORMW 「아직도 부족해요」
+		
+	ELSEIF 겐게츠_DAILY_경제효과 == "실패"
+		PRINTFORML 「전회는 미안...」
+		PRINTFORML 「변명이 되지만, 역시 경험이 부족해요」
+		PRINTFORML 「이것만은, 돈은 살 수 없어～」
+		PRINTFORML 「재개발이나 법정비에 굉장히 돈이 들고 있어」
+		PRINTFORMW 「예산을 주어 받을 수 있으면, 말야, 부탁해요」
+	
+	;없다고 생각하지만
+	ELSE
+	;PRINTFORML 
+	ENDIF
+	
+	;첫회 한정의 선택지
+	IF KDVAR:대상:겐게츠_몽환의공업화 == 0
+		PRINTFORMW 「첫회는 이만큼 추측해 보았지만...」
+		PRINTFORML 
+		PRINTFORML 현재의 국고:"{MONEY:(CFLAG:MASTER:소속)}"
+		CALL COLOR_PRINTW(@"「　%GET_CITYNAME(대상_도시)%  」의 공업화에는 15, 000걸립니다", 칼라_주의)
+		
+		CALL ASK_MULTI_JUDGE("투자한다", MONEY:(CFLAG:MASTER:소속) >= 15000, "그만둔다", 1)
+		IF RESULT == 1
+			PRINTFORML 「아라, 그렇게... 유감이구나」
+			
+			SIF MONEY:(CFLAG:MASTER:소속) <= 15000
+			PRINTFORMW 「지금은 자금의 여유가 없는 것인지도 모르네요」
+			
+			PRINTFORMW 「다만, 또 이번에 와요」
+			PRINTFORMW 「우리는 항상 앞으로 나아가지 않으면 안 되는 것이니까」
+			
+			겐게츠_DAILY_지정도시 = 대상_도시
+			겐게츠_DAILY_경제효과 = 초견캔슬
+			;데일리 종료
+			RETURN 1
+			
+		ELSEIF RESULT == 0 && MONEY:(CFLAG:MASTER:소속) >= 15000
+			;표시되는 숫자의 100배가 CITY_ECONOMY에는 보존되고 있다  즉 시모후타자리수는 실질의 소수점 2자리수
+			;최초로 100으로 나누어 100을 걸치는 것은, 실질의 FLOOR
+			대상_도시_경제 = RAND(CITY_ECONOMY_LIMIT:(대상_도시) / 100 * 100 / 10 , CITY_ECONOMY_LIMIT:(대상_도시) / 100 * 100 / 10 + 1000)
+			대상_도시_경제 += 100
+			CALL MODIFY_CITY_ECONOMY(대상_도시, 대상_도시_경제)
+
+			;다음번에의 미루어 조
+			겐게츠_DAILY_경제효과 = 성공
+			겐게츠_DAILY_투자금액 = 15000
+			KDVAR:대상:겐게츠_몽환의공업화 = 1
+		
+		;여기까지 오지 않는다고 생각한다
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+		
+	;초견 이후
+	ELSE 
+		;증감액 계산
+		증감액 = 1000 * KDVAR:대상:겐게츠_몽환의공업화
+		PRINTFORML 그런데, 어떻게 할까
+		PRINTFORML 현재의 국고:"{MONEY:(CFLAG:MASTER:소속)}"
+		PRINTFORML 투자액:"{겐게츠_DAILY_투자금액}"
+		PRINTFORML 
+		PRINTFORML 증감액:{증감액}
+		PRINTFORML 
+		PRINTFORML 증액 후:{겐게츠_DAILY_투자금액 + 증감액}
+		PRINTFORML 감액 후:{겐게츠_DAILY_투자금액 - 증감액}
+		CALL COLOR_PRINTW(@"※투자는 10, 000을 밑도는 일은 할 수 없다", 칼라_주의)
+		
+		CALL ASK_MULTI_JUDGE("증액한다", MONEY:(CFLAG:MASTER:소속) >= 겐게츠_DAILY_투자금액 + 증감액, "감액한다", MONEY:(CFLAG:MASTER:소속) >= 겐게츠_DAILY_투자금액 + 증감액 && 10000 <= 겐게츠_DAILY_투자금액 + 증감액, "현상 유지", MONEY:(CFLAG:MASTER:소속) >= 겐게츠_DAILY_투자금액, "투자를 중단한다", 4 )
+		
+		IF RESULT == 0
+			KDVAR:대상:겐게츠_몽환의공업화 += 1
+			겐게츠_DAILY_투자금액 += 증감액
+			
+			겐게츠_DAILY_경제효과 = 성공
+			;대성공 판정, 증액하면 확률이 오른다
+			경제요소 = RAND:100
+			
+			SIF 경제요소 <=  10 + 2 * KDVAR:대상:겐게츠_몽환의공업화
+			겐게츠_DAILY_경제효과 = 대성공
+			
+			IF 겐게츠_DAILY_경제효과 == "대성공"
+				CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 투자는 %ANAME(대상)%에 의해 적절히 「　%GET_CITYNAME(대상_도시)%  」에 배분되고 예상 이상의 발전을 이루었다! }", 칼라_주의)
+				경제요소 = 300
+				경제요소 += 5 * KDVAR:대상:겐게츠_몽환의공업화
+				경제요소 += 증감액 / 10000
+				
+			;통상 성공
+			ELSE
+				PRINTFORML …
+				PRINTFORML …
+				PRINTFORML …
+				PRINTFORMW 「투자는 잘되었어요, 이것으로 아직 싸울 수 있어요」
+				경제요소 = 200
+				경제요소 += 증감액 / 10000
+			ENDIF
+			
+		ELSEIF RESULT == 1
+			PRINTFORML 「주, 줄여 버리는 거야?」
+			PRINTFORML 「재정이 괴로운 것 원 알지만...」
+			PRINTFORML …
+			PRINTFORML …
+			PRINTFORML …
+			
+			SIF KDVAR:대상:겐게츠_몽환의공업화 == 1
+				KDVAR:대상:겐게츠_몽환의공업화 += 1
+			
+			KDVAR:대상:겐게츠_몽환의공업화 -= 1
+			겐게츠_DAILY_투자금액 -= 증감액
+			
+			겐게츠_DAILY_경제효과 = 성공
+			;실패 판정, 증액하면 확률이 내린다(이론상 8회 실패하면 실패하지 않게 되는, 조금하에서 리미터를 붙인다)
+			경제요소 = RAND:100 
+			경제요소 += 겐게츠_DAILY_실패회수 * 5
+			
+			SIF 경제요소 <= 40
+				겐게츠_DAILY_경제효과 = 실패
+			
+			경제요소 += 증감액 / 1000
+			
+			IF 겐게츠_DAILY_경제효과 == "실패"
+				CALL COLOR_PRINTW(@"급속한 공업화에 의해 환경파괴를 일으켜 피해가 나와 있다!", 칼라_경고)
+				;감액하면 보정 없음
+				경제요소 += 증감액 / 1000
+				
+				실패 = RAND:20
+				
+				IF CITY_GUARD:대상_도시 >= 실패
+					CALL COLOR_PRINTW(@"　%GET_CITYNAME(대상_도시)%  의 방위율이 내렸다...", 칼라_경고)
+					CITY_GUARD:대상_도시 -= 실패
+					
+				ELSEIF CITY_GUARD:대상_도시 > 3
+					CALL COLOR_PRINTW(@"　%GET_CITYNAME(대상_도시)%  의 방위율이 내렸다...", 칼라_경고)
+					CITY_GUARD:대상_도시 -= 2
+					
+				ELSEIF CITY_GUARD:대상_도시 > 1
+					CITY_GUARD:대상_도시 -= 1
+						
+				ELSE
+					CALL COLOR_PRINTW(@"　%GET_CITYNAME(대상_도시)%  는 이미 몹시 황폐해지고 있었기 때문에 특히 피해는 나오지 않았다...", 칼라_경고)
+				ENDIF
+				
+				PRINTFORML 「우우... 미안해요, 실패해 버렸다」
+				PRINTFORML 「부탁이니까 예산은 줄이지 마...」
+				PRINTFORML 「다음으로부터는 같은 실수를 범하지 않게 노력하겠습니다」
+				PRINTFORMW %조사처리(ANAME(대상),"은")% 꽤 낙담하고 있는 것 같다...
+				
+				SIF 겐게츠_DAILY_실패회수 <= 5
+				CALL COLOR_PRINTW(@"다음번부터의 투자에서의 실패 확률이 감소했습니다", 칼라_주의)
+				
+				;실패 리미터
+				
+				SIF 겐게츠_DAILY_실패회수 <= 5
+				겐게츠_DAILY_실패회수 += 1
+			ELSE
+				PRINTFORML 「공업화에 성공했어요」
+				PRINTFORMW 「예산의 일, 아무쪼록 부탁해요?」
+				경제요소 = 200
+				경제요소 += 증감액 / 10000
+				
+			ENDIF
+		ELSEIF RESULT == 2
+			PRINTFORML 「전회와 같은 이마군요?」
+			PRINTFORML …
+			PRINTFORML …
+			PRINTFORML …
+			PRINTFORML 「투자는 잘되었어요, 이것으로 아직 싸울 수 있어요」
+			겐게츠_DAILY_경제효과 = 성공
+			
+		ELSEIF RESULT == 3
+			PRINTFORML 「아라, 이번은 패스?」
+			PRINTFORML 「공업 발전은 기다려 주지만, 적은 기다려 주지 않아요?」
+			겐게츠_DAILY_경제효과 = 캔슬
+			;데일리 종료
+			RETURN 1
+			
+		;아마 없다고 생각하지만
+		ELSE
+			PRINTFORML …
+			PRINTFORML …
+			PRINTFORML …
+			PRINTFORML 「투자는 잘되었어요, 이것으로 아직 싸울 수 있어요」
+			경제요소 = 100
+			경제요소 += 증감액 / 10000
+		ENDIF
+	
+	;표시되는 숫자의 100배가 CITY_ECONOMY에는 보존되고 있다  즉 시모후타자리수는 실질의 소수점 2자리수
+	;최초로 100으로 나누어 100을 걸치는 것은, 실질의 FLOOR
+	대상_도시_경제 = RAND(CITY_ECONOMY_LIMIT:(대상_도시) / 100 * 100 / 10 , CITY_ECONOMY_LIMIT:(대상_도시) / 100 * 100 / 10 + 1000)
+	대상_도시_경제 += 경제요소
+	CALL MODIFY_CITY_ECONOMY(대상_도시, 대상_도시_경제)
+ENDIF
+	;국고의 감액 계산과 이번 도시 ID를 ERH에 건네준다
+	겐게츠_DAILY_지정도시 = 대상_도시
+	MONEY:(CFLAG:MASTER:소속) -=  겐게츠_DAILY_투자금액
+	PRINTFORMW 
+	
+
+
+
+
+
+
+
+RETURN 1

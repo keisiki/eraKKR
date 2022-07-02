@@ -1,0 +1,90 @@
+﻿;현재  KOJO_SYSTEM.ERB로, TCVAR:52 || TCVAR:53（쾌락 실신 or술취수면이나 이탈 상태）라면
+;구상이 억제되기 (위해)때문에 체력 부족 이외는 죽어 분기
+;술에 취함·쾌락 실신·피로
+@KOJO_K9_SYNCOPE(사쿠야_대상)
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+PRINT 「
+PRINTDATA
+	DATAFORM 아
+	DATAFORM 아
+	DATAFORM 아
+	DATAFORM 만난다
+	DATAFORM 만난다
+	DATAFORM 열린다
+	DATAFORM 
+	DATAFORM 앙
+	DATAFORM 
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 우우
+	DATAFORM 
+	DATAFORM 괴롭고
+	DATAFORM 우대신
+	DATAFORM 구
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 먹는다
+	DATAFORM 구
+	DATAFORM 
+	DATAFORM 는
+	DATAFORM 는
+	DATAFORM 후~
+	DATAFORM 
+	DATAFORM 는
+	DATAFORM 입는다
+	DATAFORM 
+	DATAFORM 
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM 식
+	DATAFORM 
+	DATAFORM 응
+	DATAFORM 응아
+	DATAFORM 
+	DATAFORM 응구
+	DATAFORM 
+	DATAFORM 응응
+ENDDATA
+PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+PRINTDATA
+	DATAFORM 
+	DATAFORM ……
+	DATAFORM ……응, 우
+	DATAFORM 응……우
+	DATAFORM 아
+	DATAFORM 
+	DATAFORM ……우
+	DATAFORM 는……
+	DATAFORM 아……응
+ENDDATA
+PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+PRINTDATA
+	DATAFORM , 후
+	DATAFORM 아……아
+	DATAFORM 
+	DATAFORM 앙
+	DATAFORM 는, 후
+	DATAFORM 응구……
+	DATAFORM ……
+	DATAFORM 후~
+	DATAFORM ……응
+ENDDATA
+
+PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+PRINTL 」
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

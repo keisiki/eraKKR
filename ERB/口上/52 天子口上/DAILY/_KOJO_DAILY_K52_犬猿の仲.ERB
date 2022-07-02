@@ -1,0 +1,87 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K52_FUCK_YOU_RATE(대상)
+#DIM 대상
+RETURN 300
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K52_FUCK_YOU_DECISION(대상)
+#DIM 대상
+#DIM 유카리
+
+유카리 = NAME_TO_CHARA("유카리")
+
+SIF KDVAR:대상:텐시_견원지간
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, -1) && CHECK_KOJO_DAILY_HAPPEN(유카리, 1, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K52_FUCK_YOU_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K52_FUCK_YOU(대상)
+#DIM 대상
+#DIM 유카리
+
+유카리 = NAME_TO_CHARA("유카리")
+
+CFLAG:대상:안면 = 1
+CFLAG:유카리:안면 = 1
+
+KDVAR:대상:텐시_견원지간 = 1
+
+PRINTFORML 「%ANAME(MASTER)%!」
+PRINTFORMW 무슨 일일까하고 생각했는데, %조사처리(ANAME(대상),"가")% 굉장한 험악한 얼굴로 달려들어 왔다
+PRINTFORMW 그 옆에는 %ANAME(유카리)%도 있다……
+PRINTFORMW 「어째서 이 녀석이 여기에 있는거야!?   이 질이 나쁜, 어쩐지 수상한, 으음, 믿을 수 없는 녀석이!」
+PRINTFORMW 「그것은 여기의 대사예요. 어째서 당신과 같은 불량이 여기에?」
+PRINTFORMW ……대단히 사이가 나쁜 것 같다
+PRINTFORML 지금은 동료끼리인 것이니까, 그다지 반목 하기를 바라지 않지만……
+CALL ASK_MULTI(@"%조사처리(ANAME(대상),"가")% 편을 듣는다", @"%ANAME(유카리)%가 편을 듣는다", "적당적당해 끝마친다", "어느 쪽 짐일까요")
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORML 「아라, 그 불량이 편을 듣는 거네」
+		PRINTFORMW 「조금 잘못 보았어요?」
+		PRINTFORML 「에에-응, 말해 주세요틈새 요괴!」
+		PRINTFORMW 「과연 %ANAME(MASTER)%, 알아 준다고 생각하고 있었어요!」
+		PRINTFORMW %ANAME(유카리)%의 기분을 조금 해쳐 버린 것 같다……
+		CFLAG:유카리:호감도 -= 300
+		CFLAG:대상:호감도 += 300
+	CASE 1
+		PRINTFORML 「하!?   이니까 너가 그 녀석의 어깨도 개 (뜻)이유!?」
+		PRINTFORMW 「믿을 수 없다!   잘못 보았어요!」
+		PRINTFORML 「잘못 보는 것도 아무것도, 자신의 소행을 생각해 보세요」
+		PRINTFORMW 「그렇다면 %ANAME(MASTER)%도 보충할 수 없어요, 저기?」
+		PRINTFORMW %ANAME(대상)%의 기분을 조금 해쳐 버린 것 같다……
+		CFLAG:유카리:호감도 += 300
+		CFLAG:대상:호감도 -= 300
+	CASE 2
+		PRINTFORMW 「……%ANAME(MASTER)%, 그러한 것 제일 미움받는다 라고 알고 있어?」
+		PRINTFORMW 「이 불량과 마음이 맞는 것은, 조금 업복인 것이지만, 저기」
+		PRINTFORMW 양쪽 모두의 기분을 해쳐 버린 것 같다……
+		CFLAG:유카리:호감도 -= 300
+		CFLAG:대상:호감도 -= 300
+	CASE 3
+		PRINTFORML 여기를 말려들게 하지 않으면 좋겠다
+		PRINTFORMW 방치했다……
+ENDSELECT
+		
+RETURN 1

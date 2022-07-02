@@ -1,0 +1,3 @@
+﻿#DIM CONST 마리사_트레이닝 = 0
+#DIM CONST 마리사_해방을위한내기 = 1
+#DIM CONST 마리사_재회 = 2

@@ -1,0 +1,99 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K147_BANDIT_GANGBANG_RATE(대상)
+#DIM 대상
+RETURN 300
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K147_BANDIT_GANGBANG_DECISION(대상)
+#DIM 대상
+#DIM 도둑
+#DIM 사토노
+
+사토노 = NAME_TO_CHARA("사토노")
+도둑 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_도둑)
+
+
+SIF 도둑 == -1
+	RETURN 0
+
+SIF KDVAR:대상:마이_도둑
+	RETURN 0
+
+SIF CFLAG:대상:소속 != 도둑 || CFLAG:사토노:소속 != 도둑
+	RETURN 0
+
+SIF !GETBIT(TALENT:대상:특수세력함락계, 특수세력_도둑) || !GETBIT(TALENT:사토노:특수세력함락계, 특수세력_도둑)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, -1, 0) && CHECK_KOJO_DAILY_HAPPEN(사토노, -1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K147_BANDIT_GANGBANG_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K147_BANDIT_GANGBANG(대상)
+#DIM 대상
+#DIM 사토노
+#DIM 도둑
+도둑 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:특수세력_도둑)
+사토노 = NAME_TO_CHARA("사토노")
+
+PRINTFORML 도둑의 아지트, 연회장
+PRINTFORMW 배치해 둔 스테이지에서 춤추는, 두 명의 소녀의 모습이 있었다
+PRINTFORMW 「아핫♥  봣, 나의 모습, 아앗♥」
+PRINTFORMW 「이봐요, 어떻습니까♥  사토노보다, 내 쪽이, 엣치하겠지? ♥」
+PRINTFORML 다름아닌, %조사처리(ANAME(대상),"와")% %ANAME(사토노)%다
+PRINTFORMW 두 명은 창녀도 압도하는 추잡한 의상에 몸을 싸, 각각 댄스……라는 이름의 스트립·자위 쇼를 펼치고 있었다
+PRINTFORMW 「아앗♥  응, 힛, 하, 쿠웃♥」
+PRINTFORMW 「이봐요 봣♥  모두, 나의 추잡하면 개, 아, 앗♥」
+PRINTFORML 편이나 관객에게 엉덩이를 내밀어, 질척질척 육 패를 만지작거리는 모양을 마음껏 과시해,
+PRINTFORML 편이나 양다리를 크게 넓혀, 발기한 클리토리스를 손가락으로 굴리면서 방뇨한다
+PRINTFORML 흥분한 도둑들로부터 추잡한 야지가 날면 미소를 돌려주어,
+PRINTFORMW 얼마나 명령 받고도 보통 하지 않는 것 같은 외설스러운 행위를, 태연하게 실시한다
+PRINTFORMW 두 명은 지금은, 완전히 도둑의 성노예로서 손인 지어지고 있었다
+PRINTFORMW 「아학……♥  아, 하아……는……♥」
+PRINTFORMW 「여러분……부디 나에게 깨끗한 한 표를……♥」
+PRINTFORMW 이윽고 댄스가 끝나면, 남자들은 스테이지에 올라, %조사처리(ANAME(대상),"를")% 둘러싼다
+PRINTFORML 쇼를 봐 어느 쪽으로 섹스하고 싶어졌는지 투표해 받아, 가지고 어느 쪽이 뛰어난 노예인가 결정한다
+PRINTFORMW 이것은 그러한, 어쩔 수 없는 행사였다
+PRINTFORMW 명령 받고 시작한 것은 아니고, 두 명이 자주적으로 모두에게 협력을 우러러봤다는 것이, 무엇보다 어쩔 수 없었다
+PRINTFORMW 「아라」
+PRINTFORMW 「엣」
+PRINTFORML 이윽고 남자들이 두 명을 둘러싸 끝낸다. 결과는, 완전히 동수표였다
+PRINTFORML 왜 그러는 것이나 곤혹하는 두 명에게, 남자들은 말한다
+PRINTFORMW 라면 실제 섹스해 비교해, 사용감이 좋았던 (분)편이 승리라는 것으로 하면 좋을 것이다?   와
+PRINTFORMW 그 말에, 두 명 모여 얼굴을 녹게 했다
+PRINTFORMW 「네……♥  그러면, 우리의……」
+PRINTFORMW 「녹진녹진이 된 추잡한 보지, 충분히 사용해 주세요……♥」
+PRINTFORMW 스스로 비순을 나누어 여는 두 명에게, 남자들은 앞 다투어 모여 간다
+PRINTFORMW 그들이 만족할 때까지, 두 명은 페니스 위에서 추잡한 댄스를 피로 계속 했다……
+TRYCALLFORM %SP_COUNTRY_NAME_ENG:특수세력_도둑%_FALLEN_LEAVE_MARK(사토노)
+TRYCALLFORM %SP_COUNTRY_NAME_ENG:특수세력_도둑%_FALLEN_LEAVE_MARK(대상)
+PRINTFORML 
+
+FOR LOCAL, 0, 5
+	CALL FUCK_GANGBANG_SP(사토노, GET_SPERM_ID("도둑"), "도둑의 페니스", "도둑", 도둑)
+	CALL FUCK_GANGBANG_SP(대상, GET_SPERM_ID("도둑"), "도둑의 페니스", "도둑", 도둑)
+NEXT
+
+KDVAR:대상:마이_도둑 = 1
+
+RETURN 1
+

@@ -1,0 +1,118 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K2_TRAINING_RATE(대상)
+#DIM 대상
+RETURN 40
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K2_TRAINING_DECISION(대상)
+#DIM 대상
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K2_TRAINING_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K2_TRAINING(대상)
+#DIM 대상
+#DIM 시간
+#DIM 대답
+#DIMS 대답문자열 = "왼쪽", "오른쪽", "상", "하"
+#DIM 경험치
+
+;대답을 내 둔다
+대답 = RAND:4
+
+;오르는 능력도 내 둔다
+SELECTCASE RAND:100
+	CASE IS < 25
+		경험치 = GET_EXP(GETNUM(ABL, "무투"))
+	CASE IS < 50
+		경험치 = GET_EXP(GETNUM(ABL, "방위"))
+	CASE IS < 65
+		경험치 = GET_EXP(GETNUM(ABL, "지략"))
+	CASE IS < 80
+		경험치 = GET_EXP(GETNUM(ABL, "정치"))
+	CASE IS < 90
+		경험치 = GET_EXP(GETNUM(ABL, "요리"))
+	CASEELSE
+		경험치 = GET_EXP(GETNUM(ABL, "가창"))
+ENDSELECT
+
+
+SELECTCASE KDVAR:대상:마리사_트레이닝
+	CASE 0
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 산책을 하던 도중, %조사처리(ANAME(대상),"가")% 마법을 연습하고 있던 것을 발견했다.
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 이쪽을 발견하고선 잠시 훈련을 중단하고 가까이 다가왔다.
+		PRINTFORMW 「아-, 비밀의 특훈을 할 생각이었는데……」
+		PRINTFORML 「뭐 좋아, 가상의 적이 있으면, 훈련도 진척되겠지」
+		PRINTFORMW 「조금 교제해 주지 않겠어?」
+		PRINTFORMW 가벼운 어조로 말하고는 있지만, 그녀가 사용하는 것은 진짜 마법이다.
+		PRINTFORML 실패한다면 당연히 상처를 입겠지만……
+	CASE 1
+		PRINTFORMW 또, %조사처리(ANAME(대상),"가")% 특훈을 하고 있는 것을 발견해버렸다.
+		PRINTFORMW 「옷, 딱 좋아」
+		PRINTFORMW 「또 교제해 주지 않겠어?」
+		PRINTFORML 실패한다면 당연히 상처를 입겠지만……
+	CASE 2
+		PRINTFORMW 또, %조사처리(ANAME(대상),"가")% 특훈을 하고 있는 것을 발견해버렸다.
+		PRINTFORMW 「옷, 딱 좋아」
+		PRINTFORMW 「이번에는 교제해 주겠어?」
+		PRINTFORML 실패한다면 당연히 상처를 입겠지만……
+ENDSELECT
+CALL ASK_YN("교제한다", "위험하니까 하지 않는다")
+IF RESULT == 1
+	PRINTFORMW 「에-? 야, 무기력하구만」
+	PRINTFORMW 「어쩔 수 없네, 혼자서 연습할까」
+	PRINTFORML %조사처리(ANAME(대상),"는")% 훈련하러 돌아갔다……
+	KDVAR:대상:마리사_트레이닝 = 2
+ELSE
+	PRINTFORMW 「좋아, 그렇게 정해졌으면 이야기는 빠르지」
+	PRINTFORMW 「거기에 서 줘. ……어, 거기」
+	PRINTFORMW 「좋아, 간다!」
+	PRINTFORML %조사처리(ANAME(대상),"가")% 매직 스파크를 발사했다!
+	CALL COLOR_PRINTL(@"%조사처리(대답문자열:대답,"를")% 선택해라!", 칼라_경고)
+	FOR LOCAL, 0, VARSIZE("대답문자열")
+		PRINTFORML [{LOCAL}] %대답문자열:LOCAL%
+	NEXT
+	TINPUT 2000, -1, 1
+	;실패한 패턴
+	IF RESULT != 대답
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 회피하려고 시도했다!
+		PRINTFORMW 하지만, 탄막은 보기 좋게 %ANAME(MASTER)%에게 명중했다!
+		PRINTFORMW 「이, 이봐 이봐, 괜찮아!?」
+		PRINTFORMW 「아-, 뭔가 미안…… 뭐, 그래도 덕분에 자신이 붙었어. 고마워」
+		PRINTFORMW %ANAME(대상)%에게 도움을 받았다……
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")% 다쳐 버렸습니다", 칼라_경고)
+		CALL ADD_COOLTIME(MASTER, 3)
+		CALL PRINT_ADD_EXP(대상, EXPNAME:경험치, RAND:5 + 1, 1)
+	;성공
+	ELSE
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 회피하려고 시도했다!
+		PRINTFORMW %조사처리(ANAME(대상),"가")% 발사한 탄막을, 훌륭히 회피했다!
+		PRINTFORMW 「어이쿠…… 꽤 진심으로 한 건데, 피할 수 있다니」
+		PRINTFORMW 「나도 아직이네. 교제해줘서 고마워, 예의를 표하지」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 훈련하러 돌아갔다……
+		CALL PRINT_ADD_EXP(MASTER, EXPNAME:경험치, RAND:5 + 1, 1)
+	ENDIF
+	KDVAR:대상:마리사_트레이닝 = 1
+ENDIF
+
+CALL TRAIN_AUTO_ABLUP(대상)
+
+RETURN 1

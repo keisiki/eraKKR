@@ -1,0 +1,110 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K3_STRAY_YOUKAI_RATE(대상)
+#DIM 대상
+RETURN 35
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K3_STRAY_YOUKAI_DECISION(대상)
+#DIM 대상
+
+SIF CFLAG:대상:특수상태 != 특수상태_방랑
+	RETURN 0
+
+SIF KDVAR:대상:루미아_들요괴
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K3_STRAY_YOUKAI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K3_STRAY_YOUKAI(대상)
+#DIM 대상
+
+KDVAR:대상:루미아_들요괴 = 1
+CFLAG:대상:안면 = 1
+
+PRINTFORMW 「있지있지, 거기 당신」
+PRINTFORML %조사처리(ANAME(MASTER),"가")% 거리를 순회하고 있던 도중, 갑자기 누군가가 말을 걸어왔다.
+PRINTFORMW 주위를 둘러보자, 한 소녀가 이쪽을 응시하고 있었다.
+CALL ICPRINT(@"「안녕, 나는 <%NAME_FORMAL(대상)%>, 땅거미의 요괴야", "W", 칼라_주의)
+PRINTFORMW 「갑작스럽게 미안하지만, 지금 배가 비어있어서」
+PRINTFORMW 「그치만 나 요괴고, 돈이라던가 가지고 있지 않아서 말이야」
+PRINTFORMW 「밥 한턱 사준다면, 기쁘겠지만 말이야-」
+PRINTFORML ……설마 들요괴에 밥을 사달라고 들을 줄이야……
+PRINTFORML 그럼, 어떻게 할까……
+
+CALL ASK_MULTI_JUDGE("베풀어 준다", MONEY >= 1000, "무리", 1)
+
+IF RESULT == 1
+	PRINTFORMW 「에-, 유감」
+	PRINTFORMW 「그러면, 다른 누군가에게 부탁할까나」
+	PRINTFORMW 용건은 다 말한 듯, %조사처리(ANAME(대상),"는")% 휘청휘청 날아갔다……
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「정말? 고마운 걸」
+PRINTFORMW 「그러면 가게에 데려가 줘, 뭐든지 좋아!」
+PRINTFORMW %ANAME(대상)%에게 끌려가듯이 가게에 들어갔다……
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORML %조사처리(ANAME(대상),"는")% 가볍게 3인분을 먹고선 간신히 침착해진 것 같다.
+CALL ICPRINT("금<1000>을 지불했습니다", "W", 칼라_주의)
+MONEY -= 1000
+PRINTFORMW 요괴라는 건 모두 이런 것일까……
+PRINTFORMW 「후우, 먹었다 먹었다. 잘 먹었어」
+PRINTFORMW 「뭔가 답례를 할까나. 뭘 해줬으면 해?」
+PRINTFORML 자, 그럼, 어쩔까……
+
+CALL ASK_MULTI_JUDGE("힘을 가지고 싶어", 1, "기술을 가르쳐 줘", GET_EMPTY_SKILL_SLOT(MASTER, 스킬_장르_BASE) != -1, "돈은 없다고 했었지……", 0, "동료가 되라", 1, "필요없어", 1)
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「그걸으로 좋은 거야? 문제 없지」
+		PRINTFORMW %ANAME(대상)%에게 훈련을 받았다……
+		CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 무투가 3 상승했다!", 칼라_주의)
+		ABL:MASTER:무투 += 3
+	CASE 1
+		PRINTFORMW 「흐음? 딱히 상관 없어」
+		PRINTFORMW 「그러면, 내 필살기를 가르쳐 주도록 할까」
+		PRINTFORMW 「능숙하게 잘 다뤄보라구」
+		CALL SKILL_LEARN_BY_NAME(MASTER, 스킬_장르_BASE, NO:대상, "다크 사이드 오브더 문")
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")% 스킬 「다크 사이드 오브더 문」을 습득했다!", 칼라_주의)
+	CASE 2
+		;죽어 분기
+	CASE 3
+		PRINTFORMW 「응? 당신의 동료?」
+		PRINTFORMW 「좋아, 친절하게 대해준 것에 대한 답례」
+		PRINTFORMW 「아 그치만, 가끔씩 밥 한턱 내줘?」
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 동료가 되었습니다", 칼라_주의)
+		CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+		CFLAG:대상:호감도 += 500
+		RETURN 1
+	CASE 4
+		PRINTFORMW 「에-? 겸허하네」
+		PRINTFORMW 「……정말 아무것도 안 해줘도 괜찮아?」
+		PRINTFORMW 「뭐, 그렇다면 그걸로도 좋지만」
+ENDSELECT
+
+PRINTFORMW 「그러면, 나는 이만. 고마워!」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 떠났다……
+
+RETURN 1

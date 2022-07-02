@@ -1,0 +1,467 @@
+﻿;-------------------------------------------------
+;공통 부분
+;-------------------------------------------------
+
+;=================================================
+;●구상의 존재 판정
+;=================================================
+@KOJO_EXIST_K87
+
+;=================================================
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_K87
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_K87
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_K87
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_K87
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_K87
+;[공허]상태의 경우, 입이 막히고 있는 경우는 구상을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET, "입장착") || CFLAG:400 == 1
+	RETURN 0
+ENDIF
+
+;음란하고 이쪽에 주도권이 있으면 이따금 졸라대는 시험 기술. 조건을 채우면 확률이 오른다.
+;현상 조르기를 (들)물어도 특히 의미는 없다. 육성의 즐거움 요소, 달성감, 매너리즘 회피…적인?
+
+;만나러간다 or 침실호출 
+IF GETBIT(TALENT:음란계, 소질_음란_음란) && TFLAG:45 == 0 && (FLAG:조교모드 == 0 || FLAG:조교모드 == 1) && CFLAG:600 == 1
+	;V조르기
+	IF RAND:5 == 0 && !TALENT:임신 && TequIP:1 == 1
+		PRINTFORML 
+		IF RAND:4 == 0 && ABL:Ｖ감 >= 5
+			PRINTFORMW ［질교조르기］
+				IF RAND:2 == 0
+					PRINTFORML 「너…, 아이는 갖고 싶지 않을까?」
+				ELSE
+					PRINTFORML 「차린 밥상 먹지 않는은 남자의 수치다?」
+				ENDIF
+				IF RAND:2 == 0 
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")%, 비부를 펼쳐 음미롭게 미소짓고 있다……
+				ELSE
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 엎드린 채로 %조사처리(ANAME(MASTER),"를")% 불러들이도록(듯이) 팔을 뻗고 있다……
+				ENDIF
+		ELSEIF RAND:3 == 0 && GETBIT(TALENT:음란계, 소질_음란_음호)
+			PRINTFORMW ［질교조르기］
+				IF RAND:2 == 0 
+					PRINTFORML 「나를 이런 몸으로 한 것은 너이니까…? 만족시켜 줄 때까지 리…?」
+				ELSE
+					PRINTFORML 「너의 손에 걸리면 나도 단순한 암컷이다…」
+				ENDIF
+				IF RAND:2 == 0 
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")%, 비부를 크게 펼쳐%조사처리(ANAME(MASTER),"를")% 권하고 있다……
+				ELSE
+					PRINTFORMW %조사처리(ANAME(TARGET),"가")% %조사처리(ANAME(MASTER),"를")% 불러들이도록(듯이) 가랑이를 열면, 애액이 지면에 방울져 떨어졌다……
+				ENDIF
+		ELSEIF RAND:2 == 0 && (TequIP:1 == 2 || TequIP:1 == 10 )
+			PRINTFORMW ［질교조르기］
+			PRINTFORML 「이런 완구는 아니고…, 너의 것을 갖고 싶은 것은…」
+				IF RAND:2 == 0 
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 안타깝게 %조사처리(ANAME(MASTER),"를")% 응시하고 있다……
+				ELSE
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 음미롭게 허리를 흔들었다……
+				ENDIF
+		ELSE
+			PRINTFORML 
+		ENDIF
+	;A조르기
+	ELSEIF RAND:4 == 0 && TequIP:2 == 1
+		PRINTFORML 
+		IF RAND:4 == 0 && ABL:Ａ감 >= 5
+			PRINTFORMW ［항교조르기］
+				IF RAND:2 == 0 
+					PRINTFORML 「슬슬…, 이쪽이 그리워져 와서 말이야…」
+				ELSE
+					PRINTFORML 「나도…, 완전히 변태의 동참 가능…?」
+				ENDIF
+				IF RAND:2 == 0 
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 엉덩이를 내밀면 애널섹스를 간원 했다……
+				ELSE
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 2 개의 손가락으로 엉덩이 구멍을 크게 펼쳐, %조사처리(ANAME(MASTER),"를")% 권하고 있다……
+				ENDIF
+		ELSEIF RAND:3 == 0 && GETBIT(TALENT:음란계, 소질_음란_항문광)
+			PRINTFORMW ［항교조르기］
+				IF RAND:2 == 0 
+					PRINTFORML 「이 상스러운 구멍을…, 부디 마음껏 귀여워해 주지 않은가의…?」
+				ELSE
+					PRINTFORML 「엉덩이 구멍이 쑤셔 견딜 수 없는 것은…, 진정시켜서는…주지 않는 가능?」
+				ENDIF
+				IF RAND:2 == 0 
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 2 개의 손가락으로 엉덩이 구멍을 크게 펼쳐, %조사처리(ANAME(MASTER),"를")% 권하고 있다……
+				ELSE
+					PRINTFORMW 완전히 이완 해 세로로 갈라진 %ANAME(TARGET)%의 엉덩이 구멍은, %조사처리(ANAME(MASTER),"를")% 애타게 기다린 것처럼 실룩거리고 있다……
+				ENDIF
+		ELSEIF RAND:2 == 0 && TequIP:2 == 10
+			PRINTFORMW ［항교조르기］
+			PRINTFORML 「이런 완구는 아니고…, 너의 것을 갖고 싶은 것은…」
+				IF RAND:2 == 0 
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 안타깝게 %조사처리(ANAME(MASTER),"를")% 응시하고 있다……
+				ELSE
+					PRINTFORMW %조사처리(ANAME(TARGET),"는")% 음미롭게 허리를 흔들었다……
+				ENDIF
+		ELSE
+			PRINTFORML 
+		ENDIF
+	;C조르기
+	ELSEIF RAND:3 == 0
+		PRINTFORML 
+		IF RAND:4 == 0 && ABL:Ｃ감 >= 5
+			PRINTFORMW ［음핵 조르기］
+			PRINTFORML 「」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 클리토리스에 손가락끝을 기게 하고 있다……
+		ELSEIF RAND:3 == 0 && GETBIT(TALENT:음란계, 소질_음란_음핵)
+			PRINTFORMW ［음핵 조르기］
+			PRINTFORML 「지릿지릿 쑤셔 견딜 수 없는 것은…」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 클리토리스를 과시해 왔다……
+		ELSEIF RAND:2 == 0 && TequIP:0 == 10
+			PRINTFORMW ［음핵 조르기］
+			PRINTFORML 「사실은 너의 손으로 만지작거렸으면 좋지만…」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 클리토리스에 장착된 음구를 원망스러운 듯이 응시하고 있다……
+		ELSE
+			PRINTFORML 
+		ENDIF
+	;B조르기
+	ELSEIF RAND:2 == 0
+		PRINTFORML 
+		IF RAND:4 == 0 && ABL:Ｂ감 >= 5
+			PRINTFORMW ［유방 조르기］
+			PRINTFORML 「너에게라면 어떤 일을 되어도……」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 양팔로 가슴의 골짜기를 만들어 유혹하고 있다……
+		ELSEIF RAND:3 == 0 && GETBIT(TALENT:음란계, 소질_음란_음유)
+			PRINTFORMW ［유방 조르기］
+			PRINTFORML 「으음우…, 가슴이 펴 괴로운데……」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 힐끔힐끔%ANAME(MASTER)%에 시선을 넘기고 있다……
+		ELSEIF RAND:2 == 0 && TequIP:3 == 10
+			PRINTFORMW 「사실은 너의 손으로 만지작거렸으면 좋지만…」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 유두에 장착된 음구를 원망스러운 듯이 응시하고 있다……
+		ELSE
+			PRINTFORML 
+		ENDIF
+	;M조르기
+	ELSE
+		PRINTFORML 
+		IF RAND:3 == 0 && ABL:Ｍ감 >= 5
+			PRINTFORMW ［키스 조르기］
+			PRINTFORMW 「응……」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 입술을 똑똑손가락으로 두드려 키스를 조르고 있다……
+		ELSEIF RAND:2 == 0 && GETBIT(TALENT:음란계, 소질_음란_키스마)
+			PRINTFORMW ［구 교조르기］
+			PRINTFORML 「어쩐지 입 외로운데…」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 입의 앞에서 손가락의 고리를 만들어, 혀를 내미는 제스추어를 하고 있다……
+		ELSE
+			PRINTFORML 
+		ENDIF
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;첫절정은 재사용할 수 있을 것 같은 것으로 여기에 작성  다중절정도 그 중
+;-------------------------------------------------
+;-------------------------------------------------
+;처음Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	PRINTFORML 
+	IF CFLAG:220 == 0
+		CFLAG:220 = 1
+		;PRINTFORMW 「」
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	PRINTFORML 
+	;첫회
+	IF CFLAG:221 == 0
+		CFLAG:221 = 1
+		PRINTFORML 「읏…! 구～…♡!!」
+		PRINTFORMW 뜻밖의만큼 사랑스러운 소리로, 몸을 진동시키면서 %조사처리(ANAME(TARGET),"는")% 절정에 이르렀다
+			;섹스시
+			IF SELECTCOM == 30 || SELECTCOM == 31 || SELECTCOM == 32 || SELECTCOM == 33 || SELECTCOM == 34 || SELECTCOM == 35 || SELECTCOM == 36 || SELECTCOM == 55 || SELECTCOM == 57
+				PRINTFORML 「…신체의 궁합은, 나쁘지 않게는……」
+			ELSE
+				PRINTFORML 「긋…! 테크닉만으로 가게 된다는 것은, 불찰이다…」
+			ENDIF
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% 초점이 맞지 않는 눈으로 %조사처리(ANAME(MASTER),"를")% 응시하고 있다……
+	;2회째 이후
+	ELSE
+		IF GETBIT(TALENT:음란계, 소질_음란_음호)
+			IF RAND:3 == 0
+				PRINTFORML 「---♡! ---z__________♡♡!!」
+				;섹스시
+				IF SELECTCOM == 30 || SELECTCOM == 31 || SELECTCOM == 32 || SELECTCOM == 33 || SELECTCOM == 34 || SELECTCOM == 35 || SELECTCOM == 36 || SELECTCOM == 55 || SELECTCOM == 57
+					PRINTFORML 절정과 동시에, %ANAME(TARGET)%의 질이 자윤을 요구해 강하게 긴장되었다……
+				ELSE
+					PRINTFORML 절정과 동시에, %ANAME(TARGET)%의 질이 소리가 선(뿐)만에 강하게 꼭 죄였다……
+				ENDIF
+			ELSEIF RAND:2 == 0
+				;섹스시
+				IF SELECTCOM == 30 || SELECTCOM == 31 || SELECTCOM == 32 || SELECTCOM == 33 || SELECTCOM == 34 || SELECTCOM == 35 || SELECTCOM == 36 || SELECTCOM == 55 || SELECTCOM == 57
+					;마스터가 사정
+					IF NOWEX:MASTER:사정 > 0
+						PRINTFORML 「아…후웃…! 갈 때는 함께는…♡♡!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%의 절정의 전조를 느껴 한층허리를 격렬하게 움직였다……
+					ELSE
+						PRINTFORML 「쿳! …다, 다음은 내가 가게 하는 차례다!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 열심으로 되어 다시 허리를 움직이기 시작했다……
+					ENDIF
+				ELSE
+					;도구
+					IF IS_EQUIP_TARGET(MTAR:0, 61)
+						PRINTFORML 「앗…힛…♡장난감…휘저으면 …♡…, 아앗♡!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 바이브의 쾌감에 몸을 쪼그라지게 했다……
+					;손가락
+					ELSEIF SELECTCOM == 3
+						PRINTFORML 「그런…손가락…휘저으면 …♡…, 아앗♡!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 민감한 개소를 손가락으로 훑어지고 등을 크게 뒤로 젖힐 수 있었다……
+					ENDIF
+				ENDIF
+			ELSE 
+				PRINTFORML 「핫…후우……♡당신, 최고였다……♡」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 암컷으로서 최고의 절정의 여운에 잠겨 있다……
+			ENDIF
+		ELSE
+			IF RAND:3 == 0
+				PRINTFORML 「응읏…! ---♡!」
+				;섹스시
+				IF SELECTCOM == 30 || SELECTCOM == 31 || SELECTCOM == 32 || SELECTCOM == 33 || SELECTCOM == 34 || SELECTCOM == 35 || SELECTCOM == 36 || SELECTCOM == 55 || SELECTCOM == 57
+					PRINTFORML 절정과 동시에, %ANAME(TARGET)%의 질이 %ANAME(MASTER)%의 페니스를 졸랐다……
+				ELSE
+					PRINTFORML 절정과 동시에, %ANAME(TARGET)%의 질이 소리가 선(뿐)만에 강하게 꼭 죄였다……
+				ENDIF
+			ELSEIF RAND:2 == 0
+				;섹스시
+				IF SELECTCOM == 30 || SELECTCOM == 31 || SELECTCOM == 32 || SELECTCOM == 33 || SELECTCOM == 34 || SELECTCOM == 35 || SELECTCOM == 36 || SELECTCOM == 55 || SELECTCOM == 57
+					;마스터가 사정
+					IF NOWEX:MASTER:사정 > 0
+						PRINTFORML 「아…훗…! 나…, 나만이 갈까 보냐…!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")%, %ANAME(MASTER)%도 가게 할 수 있도록 한층허리를 격렬하게 움직이기 시작했다……
+					ELSE
+						PRINTFORML 「쿳! …다, 다음은 내가 가게 하는 차례다!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 기를쓰고 되어 다시 허리를 움직이기 시작했다……
+					ENDIF
+				ELSE
+					;도구
+					IF IS_EQUIP_TARGET(MTAR:0, 61)
+						PRINTFORML 「후…, 우웃! …그런 완구로오…♡!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 바이브의 진동에 몸을 쪼그라지게 했다……
+					;손가락
+					ELSEIF SELECTCOM == 3
+						PRINTFORML 「후…, 우웃! …손가락 따위로오…♡!」
+						PRINTFORMW %조사처리(ANAME(TARGET),"는")% 민감한 개소를 손가락으로 훑어지고 등을 크게 뒤로 젖힐 수 있었다……
+					ENDIF
+				ENDIF
+			ELSE 
+				PRINTFORMW 「핫…후우…♡!」
+				PRINTFORML 「…당신, 좀처럼 하는 것이 아닌가……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 절정의 여운에 잠겨 있다……
+			ENDIF
+		ENDIF
+	ENDIF
+	PRINTFORML 
+ENDIF
+
+;-------------------------------------------------
+;처음Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	PRINTFORML 
+	;첫회
+	IF CFLAG:222 == 0
+		CFLAG:222 = 1
+		PRINTFORML 「아…히잇…!? 있고″…, 쿠우우우…읏!?」
+			;A섹스시
+			IF SELECTCOM == 40 || SELECTCOM == 41 || SELECTCOM == 42 || SELECTCOM == 43 || SELECTCOM == 44 || SELECTCOM == 45 || SELECTCOM == 46 || SELECTCOM == 56 || SELECTCOM == 58
+				PRINTFORMW 엉덩이 구멍을 범해지고 있었던 %ANAME(TARGET)%의 얼굴이 문득 비뚤어져, 전신을 삐걱삐걱 전율하게 했다
+			ELSE
+				PRINTFORMW 엉덩이 구멍을 만지작거려지고 있었던 %ANAME(TARGET)%의 얼굴이 문득 비뚤어져, 전신을 삐걱삐걱 전율하게 했다
+			ENDIF
+		PRINTFORMW 아무래도 %조사처리(ANAME(TARGET),"는")% 처음으로 항문 절정에 이른 것 같다
+		PRINTFORML 「다, 달랏…, 이것은 달랏…!」
+		PRINTFORML %조사처리(ANAME(TARGET),"는")% 비정상인 쾌감으로 끝나 버린 일에 부끄럽게 여긴 모습으로, 주홍에 물든 얼굴을 양손으로 억제하고 있다……
+	;2회째 이후
+	ELSE
+		IF GETBIT(TALENT:음란계, 소질_음란_항문광)
+			IF RAND:3 == 0
+				PRINTFORML 「----♡♡♡!!!」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 꼬리를 움찔움찔 보풀이 일게 해 소리가 되지 않는 절규를 올렸다……
+			ELSEIF RAND:2 == 0
+				PRINTFORML ----변태----
+					;A섹스시
+					IF SELECTCOM == 40 || SELECTCOM == 41 || SELECTCOM == 42 || SELECTCOM == 43 || SELECTCOM == 44 || SELECTCOM == 45 || SELECTCOM == 46 || SELECTCOM == 56 || SELECTCOM == 58
+						PRINTFORMW 귓전으로 그렇게 속삭이면, %ANAME(TARGET)%의 항문이 미치리와 한층 강하게 %ANAME(MASTER)%의 음경을 졸랐다……
+					ELSE
+						PRINTFORMW 귓전으로 그렇게 속삭이면, %ANAME(TARGET)%의 항문이 미치리와 한층 강하게 꼭 죄였다……
+					ENDIF
+			ELSE 
+				PRINTFORML 「앗아아앗…! 히………♡♡!」
+				PRINTFORMW %ANAME(TARGET)%의 괄약근은 몇 번이나 수축을 반복해, %조사처리(ANAME(TARGET),"를")% 절정의 높은 곳에 이끌어 간다……
+			ENDIF
+		ELSE
+			IF RAND:3 == 0
+				PRINTFORML 「----♡!!!」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 꼬리를 움찔움찔 보풀이 일게 해 소리가 되지 않는 절규를 올렸다……
+			ELSEIF RAND:2 == 0
+				PRINTFORML ----변태----
+				PRINTFORMW 귓전으로 그렇게 속삭이면, %조사처리(ANAME(TARGET),"는")% 새빨갛게 되면서 %조사처리(ANAME(MASTER),"를")% 노려봐 왔다……
+			ELSE 
+				PRINTFORML 「아…아아…, 엉덩이가…헨, 에………」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 당신의 몸이 엉덩이 구멍으로 가도록(듯이) 조교된 사실에, 이 시기에 이르러 아직 저항이 있는 것 같다……
+			ENDIF
+		ENDIF
+	ENDIF
+	PRINTFORML 
+ENDIF
+
+;-------------------------------------------------
+;처음Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	IF CFLAG:223 == 0
+		CFLAG:223 = 1
+		;PRINTFORMW 「」
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	IF CFLAG:224 == 0
+		CFLAG:224 = 1
+		;PRINTFORMW 「」
+	ENDIF
+ENDIF
+
+;=================================================
+;●단체 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기로부터 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람하지 않게 주의해 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_K87
+;단체 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+IF TALENT:정실
+	PRINTFORML 
+ELSEIF TALENT:복종
+	PRINTFORML 
+ELSEIF TALENT:연모
+	PRINTFORML 
+ELSE
+	PRINTFORML 
+ENDIF
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 0
+
+@KOJO_DEAD_ENDING_K87
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「……베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+IF TALENT:정실
+	PRINTFORMW -----묘소
+	PRINTFORML 
+	PRINTFORMW 「…뭐, 두고 갈 수 있다는 일은 각오 하고 있었어」
+	PRINTFORMW 「원래 사람과 요괴에서는 사는 시간이 다른 것으로…」
+	PRINTFORML 
+	PRINTFORMW 「그리고도…」
+	PRINTFORMW 「아무리 뭐라해도…너무 빠를 것이다…」
+	PRINTFORMW 「무엇이 반드시 돌아가는은…거짓말쟁이째…」
+	PRINTFORMW 「약속한이 아닌가…」
+	PRINTFORMW 「고집을 부려 생명도 잃어…」
+	PRINTFORMW 「이…! 왕바보놈이…!」
+	PRINTFORMW 「…………」
+	PRINTFORML 
+	PRINTFORMW 「…또, 오겠어 있고」
+	PRINTFORML 묘석의 앞 사람그림자가 마치 일순간의 백일몽과 같이 사라지면,
+	PRINTFORML 이상한 일로 구름도 없는데 빗방울이 떨어지기 시작해,
+	PRINTFORMW 눈물의 자취를 숨기도록(듯이) 상냥하게 지면을 적셔 갔다……
+ELSE
+	PRINTFORMW -----묘소
+	PRINTFORML 
+	PRINTFORMW 「완전히…, 실컷 날뛰어 돈 주제에 갈 때는 시원스럽게 가 있어……」
+	PRINTFORMW 「…………」
+	PRINTFORML 
+	PRINTFORMW 「…」
+	PRINTFORMW 「만약, 내가」
+	PRINTFORMW 「너를 좋아하고 있었다고」
+	PRINTFORMW 「모두 살고 싶다고 바라고 있었다고」
+	PRINTFORMW 「일생의 인연을 주고 받고 싶었다고」
+	PRINTFORMW 「그렇게 진심으로 생각하고 있었다고 하면, 너는 웃었을 것인가」
+	PRINTFORMW 「…………」
+	PRINTFORML 
+	PRINTFORMW 「…그럼, 안녕은」
+	PRINTFORML 일진의 바람이 불었을 때, 묘석의 전에는 이미 사람의 그림자는 없고
+	PRINTFORMW 다만 나뭇잎만이 외로운 듯이 춤추고 있었다……
+ENDIF
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체 엔딩 메세지가 스킵 된다
+RETURN 0

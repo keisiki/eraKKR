@@ -1,0 +1,103 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K17_SOUL_GO_HAPPY_RATE(대상)
+#DIM 대상
+RETURN 35
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K17_SOUL_GO_HAPPY_DECISION(대상)
+#DIM 대상
+
+SIF ABL:대상:욕망 < 3
+	RETURN 0
+
+SIF TALENT:대상:처녀 || TALENT:대상:키스미경험
+	RETURN 0
+
+SIF !IS_LOVER(대상) && !IS_SLAVE(대상) && !IS_SLAVED_BY(대상)
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF KDVAR:대상:메를랑_소우르고합피
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K17_SOUL_GO_HAPPY_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K17_SOUL_GO_HAPPY(대상)
+#DIM 대상
+
+PRINTFORMW 어쩐지 사타구니 주위가 기분 좋다……
+PRINTFORM 의아스럽게 생각하면서 %조사처리(ANAME(MASTER),"가")% 눈을 뜨면,
+SELECTCASE IFRAND("0, 1", 1, "2", GET_BUSTSIZE(대상) > 0)
+	CASE 0
+		PRINTFORML 이불이 분위기를 살리고 있다
+		PRINTFORMW 무슨 일일까하고 생각해 걸어 보면, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%의 것을 빨고 있었다
+		PRINTFORMW 「응쿠, 응……♥  하, 안녕, %ANAME(MASTER)%」
+		PRINTFORMW 「후후, 기분이 좋아?   이렇게 하면 나도 %ANAME(MASTER)%도 아침부터 행복하겠지?」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 생긋 미소지어, 펠라티오를 재회한다
+		PRINTFORMW 복받쳐 오는 감각에, %조사처리(ANAME(MASTER),"는")% 눈 깜짝할 순간에 사정해 버렸다……
+		CALL FUCK(대상, "Ｍ, 봉사, 정애, 성기술, 욕망, 펠라티오", "키스상실, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", "", "", "화간")
+		CALL FUCK(MASTER, "Ｃ, 사정, 욕망", "")
+		PRINTFORMW 「응쿠웃……응구, 응……♥  아침부터 진한 것이 나왔군요……잘 먹었습니다♥」
+	CASE 1
+		PRINTFORMW %조사처리(ANAME(대상),"가")% %ANAME(MASTER)% 위에서 허리를 흔들고 있는 것이 아닌가
+		PRINTFORMW 「아핫……아응……아쿳, 우우읏……♥」
+		PRINTFORMW 「응앗, 하……♥  아, 일어났어?   안녕……아아읏!」
+		PRINTFORML 상냥하게 인사해 오는 %조사처리(ANAME(대상),"이지만")%, 그 표정은 평소의 그녀답지 않을 정도 음미롭다
+		PRINTFORMW 그 허리는 정액을 짜내려고 하고 있는것같이 요염하게 구불거리고 있다……
+		PRINTFORMW 「아우읏……둘이서 아침부터 기분 좋게 될 수 있다니 최고로 해피라고 생각하지 않아?」
+		PRINTFORMW 「조금 기다려……나, 슬슬 이니까, 악, 하, 응우웃♥」
+		PRINTFORML 열중한 것 같은 표정으로 중얼거리면, %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"와")%의 성교에 몰두해 나간다
+		PRINTFORMW 그 헌신적이고 추잡한 허리사용에, %조사처리(ANAME(MASTER),"는")% 눈 깜짝할 순간에 달하게 되었다
+		CALL FUCK(대상, "Ｖ, 봉사, 성교, 욕망, 성기술, Ｖ성교", "질내사정, 처녀상실", GET_ID(MASTER), "", ANAME(MASTER), "", "화간")
+		CALL FUCK(MASTER, "Ｃ, 사정, 욕망, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질", "화간")
+		PRINTFORMW 「응응읏……♥  아는……가득 사정이라고……하아……」
+		PRINTFORMW 「많이 사정한 거네, 대단한 대단하다」
+	CASE 2
+		PRINTFORML 이불이 분위기를 살리고 있다
+		PRINTFORMW 무슨 일일까하고 생각해 걸어 보면, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%의 것을 가슴으로 잡아당기고 있다
+		PRINTFORMW 「응……핫, 아, 안녕, %ANAME(MASTER)%」
+		PRINTFORMW 「남자는 가슴, 좋아하네요」
+		PRINTFORMW 「아침부터 좋아하는 것으로 기분 좋게 될 수 있다니 매우 해피겠지?」
+		PRINTFORML 확실히, 매우 행복하다……
+		PRINTFORMW %ANAME(대상)%의 풍부한 유방의 부드러운 감촉은, %조사처리(ANAME(MASTER),"를")% 눈 깜짝할 순간에 사정에 이끌었다
+		CALL FUCK(대상, "Ｂ, 봉사, 정애, 성기술, 욕망")
+		CALL FUCK(MASTER, "Ｃ,   사정, 욕망")
+		PRINTFORMW 「아핫……♥  젖가슴열……기분 좋았던 것이군요, 좋았다」
+ENDSELECT
+
+PRINTFORMW 「서로 기분 좋아져, 가득 행복하게 되어, 최고의 아침이예요」
+PRINTFORM 「그러면 %ANAME(MASTER)%, 오늘도
+IF IS_LOVER(대상)
+	PRINTFORMW 하루, 노력해요?」
+	PRINTFORMW 미소를 띄우는 %ANAME(대상)%에 가볍게 입맞춤하면, %조사처리(ANAME(MASTER),"는")% 일어났다……
+ELSE
+	PRINTFORMW 가득, 나의 일, 귀여워해……?」
+	PRINTFORMW %ANAME(MASTER)%에 심취한 %조사처리(ANAME(대상),"는")%, 음미로운, 그리고 아첨한 것 같은 표정을 띄운다
+	PRINTFORMW 가볍게 입맞춤해 주면, %조사처리(ANAME(MASTER),"는")% 일어났다……
+ENDIF
+
+KDVAR:대상:메를랑_소우르고합피 = 1
+
+RETURN 1

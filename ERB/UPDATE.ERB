@@ -1,0 +1,459 @@
+﻿;-------------------------------------------------
+;준 버젼 문자열에 대응하는 버젼 수치의 취득
+;-------------------------------------------------
+@GET_VERSION_VALUE(버젼문자열)
+#FUNCTION
+#DIMS 버젼문자열
+;RESULT 퇴피
+LOCAL = RESULT
+SPLIT 버젼문자열, ".", LOCALS
+RESULT = LOCAL
+
+RETURNF TOINT(LOCALS:0) * 10000 + TOINT(LOCALS:1) * 100 + TOINT(LOCALS:2)
+;-------------------------------------------------
+;준 버젼 수치에 대응하는 버젼 문자열의 취득
+;-------------------------------------------------
+@GET_VERSION_STRING(버젼수치)
+#FUNCTIONS
+#DIM 버젼수치
+
+RETURNF TOSTR(버젼수치 / 10000) + "." + TOSTR(버젼수치 % 10000 / 100) + "." + TOSTR(버젼수치 % 10000 % 100)
+;-------------------------------------------------
+;준 버젼 문자열과 지금의 버젼을 비교해, 아프데가 필요한가 조사한다
+;-------------------------------------------------
+@CHECK_UPDATE(버젼문자열)
+#FUNCTION
+#DIMS 버젼문자열
+
+RETURNF LASTLOAD_VERSION < GET_VERSION_VALUE(버젼문자열)
+
+;-------------------------------------------------
+;세이브 데이터의 업데이트 처리
+;-------------------------------------------------
+@UPDATE
+#DIM 강제인계플래그
+
+강제인계플래그 = 0
+
+IF LASTLOAD_VERSION != GAMEBASE_VERSION
+	PRINTFORML 업데이트 처리를 실시합니다
+	PRINTFORML 「엔들레스 루프의 혐의가 운운」이라고 나올 가능성이 있습니다만, 문제는 없기에 속행해 주세요
+	PRINTFORMW
+	CALL CLEAN_SPERM_MAP()
+	; 이전 버전 세이브 CSTR 업데이트용
+	; CSV 숫자만큼 루프 반복
+	FOR COUNT:0, 1, 151
+		FOR COUNT:1, 0, 100
+			IF CSTR:(COUNT:0):(COUNT:1) != ""
+;				PRINTFORML {COUNT:0}{COUNT:1} %CSTR:(COUNT:0):(COUNT:1)%
+;				PRINTFORML {COUNT:0}{COUNT:1} %CSVCSTR(COUNT:0, COUNT:1)%
+				CSTR:(COUNT:0):(COUNT:1) = %CSVCSTR(COUNT:0, COUNT:1)%
+;				PRINTFORML {COUNT:0} %CSTR:(COUNT:0):(COUNT:1)%
+			ENDIF
+		NEXT
+;		PRINTFORML %NAME:(COUNT:0)%
+;		PRINTFORML %CALLNAME:(COUNT:0)%
+		NAME:(COUNT:0) = %CSVNAME(COUNT:0)%
+		CALLNAME:(COUNT:0) = %CSVCALLNAME(COUNT:0)%
+;		PRINTFORML {COUNT:0} %NAME:(COUNT:0)%
+;		PRINTFORML {COUNT:0} %CALLNAME:(COUNT:0)%
+	NEXT
+	PRINTFORMW 변경된 캐릭터네임을 업데이트했습니다
+ENDIF
+
+IF CHECK_UPDATE("1.1.0")
+	CALL COLOR_PRINTW("Ver1.1.0", 칼라_주의)
+	PRINTFORML + AI에 의한 훈련
+	PRINTFORML + 구상 데일리
+	PRINTFORML + 스킬
+	PRINTFORML + 능력 계산식이 평방근 베이스로부터 비례 베이스에（저능력으로 약하고, 고능력으로 강하고）
+ENDIF
+
+IF CHECK_UPDATE("1.1.2")
+	CALL COLOR_PRINTW("Ver1.1.2", 칼라_주의)
+	PRINTFORML + 위험일이 5기에 한 번으로 변경
+	PRINTFORML   랜덤에 다시 거절합니다
+	FOR LOCAL, 0, CHARANUM
+		TALENT:LOCAL:위험일 = RAND:5
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.2.0")
+	CALL COLOR_PRINTW("Ver1.2.0", 칼라_주의)
+	PRINTFORML + 구상 데일리의 내부적인 만들어 수선
+	PRINTFORML + 스킬·구상 데일리
+	PRINTFORML + 도시에 의한 화력지원 추가
+ENDIF
+
+IF CHECK_UPDATE("1.3.0")
+	CALL COLOR_PRINTW("Ver1.3.0", 칼라_주의)
+	PRINTFORML + 소질 「첩」추가. 「정실」취득자가 있는 상태로 혼인의식 실행으로 취득가능
+	PRINTFORML + 자동 조교의 미묘한 확장
+ENDIF
+
+IF CHECK_UPDATE("1.4.0")
+	CALL COLOR_PRINTW("Ver1.4.0", 칼라_주의)
+	PRINTFORML + 커맨드 실행 회수의 취급이 내부적으로 변경
+	PRINTFORML + 스킬 「암살」은 너무 강했으므로 데바후스킬 「기습」로 변경
+	PRINTFORML + 성교계 커맨드의 추가
+	FOR LOCAL, 0, CHARANUM
+		FOR LOCAL:1, 0, 300
+			COM_EXP:LOCAL:(LOCAL:1 + 1000) = COM_EXP:LOCAL:(LOCAL:1 + 300)
+			COM_EXP:LOCAL:(LOCAL:1 + 2000) = COM_EXP:LOCAL:(LOCAL:1 + 600)
+			COM_TENDENCY:LOCAL:(LOCAL:1 + 1000) = COM_TENDENCY:LOCAL:(LOCAL:1 + 300)
+			COM_TENDENCY:LOCAL:(LOCAL:1 + 2000) = COM_TENDENCY:LOCAL:(LOCAL:1 + 600)
+			COM_EXP:LOCAL:(LOCAL:1 + 300) = 0
+			COM_EXP:LOCAL:(LOCAL:1 + 600) = 0
+			COM_TENDENCY:LOCAL:(LOCAL:1 + 300) = 0
+			COM_TENDENCY:LOCAL:(LOCAL:1 + 600) = 0
+		NEXT
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.4.7")
+	FOR LOCAL, 0, CHARANUM
+		FOR LOCAL:2, 0, MAX_SKILL_SLOT
+			IF SKILL_NO_SLOT:LOCAL:스킬_장르_BASE:(LOCAL:2) == 4 && SKILL_ID_SLOT:LOCAL:스킬_장르_BASE:(LOCAL:2) == 0
+				SKILL_NO_SLOT:LOCAL:스킬_장르_BASE:(LOCAL:2) = -1
+				SKILL_ID_SLOT:LOCAL:스킬_장르_BASE:(LOCAL:2) = -1
+			ENDIF
+		NEXT
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.5.0")
+	CALL COLOR_PRINTW("Ver1.5.0", 칼라_주의)
+	PRINTFORML + 신규 특수 세력 「광신도」
+	PRINTFORML + 특수 세력의 능력 조정
+	PRINTFORML + 구상 데일리를 통합 온·오프 하는 기능
+ENDIF
+
+IF CHECK_UPDATE("1.6.0")
+	CALL COLOR_PRINTW("Ver1.6.0", 칼라_주의)
+	PRINTFORML + 광신도전용 데일리·구상 데일리
+	PRINTFORML + 전투 표시의 간략 설정
+	PRINTFORML + 헬프의 확충
+	PRINTFORML + 스킬
+ENDIF
+
+IF CHECK_UPDATE("1.7.0")
+	CALL COLOR_PRINTW("Ver1.7.0", 칼라_주의)
+	PRINTFORML + 신규 스킬·데일리
+	PRINTFORML + 소질 「음란」등의 취득 조건 변경
+ENDIF
+
+IF CHECK_UPDATE("1.8.0")
+	CALL COLOR_PRINTW("Ver1.8.0", 칼라_주의)
+	PRINTFORML + 신규 스킬·데일리
+	PRINTFORML + 밧줄 따위 사용해 두면 조교중 화내 돌아가거나 하기 어려워진다
+	PRINTFORML + 소질 「음란」등의 취득 조건 변경
+	PRINTFORML + 이따금 상대가 취한 상태로 조교가 개시한다
+	SIF MAPID == "Japan"
+		THROW 전국 시나리오는 수중에 넣어 보류중입니다. 구버젼으로 주회 해 별시나리오를 선택하고 나서 이행 해 주세요.
+ENDIF
+
+IF CHECK_UPDATE("1.9.0")
+	CALL COLOR_PRINTW("Ver1.9.0", 칼라_주의)
+	PRINTFORML + 신규 스킬·데일리
+	PRINTFORML + 신규 아이템 「이상한 회중시계」
+	PRINTFORML + 함락·음란 소질은 조교중에 취득할 수 있도록(듯이)
+	PRINTFORML + 조교중의행상태가 마이 루도에
+	PRINTFORML + 가슴크기·페니스사이즈의 내부적인 변경
+
+	FOR LOCAL, 0, CHARANUM
+		IF TALENT:LOCAL:120
+			CALL SET_PENISSIZE(LOCAL, -2)
+		ELSEIF TALENT:LOCAL:121
+			CALL SET_PENISSIZE(LOCAL, -2)
+		ELSEIF TALENT:LOCAL:122
+			CALL SET_PENISSIZE(LOCAL, 1)
+		ELSEIF TALENT:LOCAL:123
+			CALL SET_PENISSIZE(LOCAL, 2)
+		ELSE
+			CALL SET_PENISSIZE(LOCAL, 0)
+		ENDIF
+		IF TALENT:LOCAL:140
+			CALL SET_BUSTSIZE(LOCAL, -2)
+		ELSEIF TALENT:LOCAL:141
+			CALL SET_BUSTSIZE(LOCAL, -1)
+		ELSEIF TALENT:LOCAL:142
+			CALL SET_BUSTSIZE(LOCAL, 1)
+		ELSEIF TALENT:LOCAL:143
+			CALL SET_BUSTSIZE(LOCAL, 2)
+		ELSE
+			CALL SET_PENISSIZE(LOCAL, 0)
+		ENDIF
+	NEXT
+	CVARSET TALENT, 120
+	CVARSET TALENT, 121
+	CVARSET TALENT, 122
+	CVARSET TALENT, 123
+	CVARSET TALENT, 140
+	CVARSET TALENT, 141
+	CVARSET TALENT, 142
+	CVARSET TALENT, 143
+ENDIF
+
+IF CHECK_UPDATE("1.10.2")
+	FOR LOCAL, 0, CHARANUM
+		IF TALENT:LOCAL:401
+			TALENT:LOCAL:동물 = 동물_돼지
+		ELSEIF TALENT:LOCAL:402
+			TALENT:LOCAL:동물 = 동물_말
+		ENDIF
+	NEXT
+	IF CHECK_UPDATE("1.10.0")
+		CALL COLOR_PRINTW("Ver1.10.0", 칼라_주의)
+		PRINTFORML + 신작의 캐릭터 추가
+		PRINTFORML + 거기에 응한 환상향 MAP의 변경
+		PRINTFORML + 섬세한 이것저것
+		CALL ADD_CHARA_FROM_CSV(142)
+		CALL ADD_CHARA_FROM_CSV(143)
+		CALL ADD_CHARA_FROM_CSV(144)
+		CALL ADD_CHARA_FROM_CSV(145)
+		CALL ADD_CHARA_FROM_CSV(146)
+		CALL ADD_CHARA_FROM_CSV(147)
+		CALL ADD_CHARA_FROM_CSV(148)
+		IF MAPID == "DEFAULT"
+			CALL COLOR_PRINTW("주의!", 칼라_주의)
+			PRINTFORML 맵으로 대폭 변경이 더해진 상황, 신규에 주회를 개시하지 않으면 계속해 플레이 할 수 없습니다
+			PRINTFORML 여기서 주회용 세이브를 만듭니까? （주회 하지 않는 한 플레이 속행은 할 수 없습니다）
+			CALL ASK_YN()
+			IF RESULT == 1
+				BEGIN TITLE
+			ELSE
+				강제인계플래그 = 1
+			ENDIF
+		ENDIF
+	ELSEIF CHECK_UPDATE("1.10.1")
+		CALL INIT_TAG_142(NO_TO_CHARA(142))
+		CALL INIT_TAG_143(NO_TO_CHARA(143))
+		CALL INIT_TAG_144(NO_TO_CHARA(144))
+		CALL INIT_TAG_145(NO_TO_CHARA(145))
+		CALL INIT_TAG_146(NO_TO_CHARA(146))
+		CALL INIT_TAG_147(NO_TO_CHARA(147))
+		CALL INIT_TAG_148(NO_TO_CHARA(148))
+	ENDIF
+ENDIF
+
+IF CHECK_UPDATE("1.11.0")
+	CALL COLOR_PRINTW("Ver1.11.0", 칼라_주의)
+	PRINTFORML + 신작 캐릭터 만큼 포함한 구상 데일리 다수 추가
+	PRINTFORML + 「당신」작성시, 부모나 형제, 아이를 설정할 수 있도록(듯이)
+	PRINTFORML + 다수의 바그피크스
+ENDIF
+
+IF CHECK_UPDATE("1.13.0")
+	CALL COLOR_PRINTW("Ver1.13.0", 칼라_주의)
+	PRINTFORML + 「당신」작성시, 부모나 형제, 아이를 설정할 수 있도록(듯이)
+	PRINTFORML + 주인공을 최우선으로 부대편성 하는 콘피그 추가
+	PRINTFORML + 패치 혼잡
+	PRINTFORML + 다수의 바그피크스
+ENDIF
+
+IF CHECK_UPDATE("1.13.1")
+	FOR LOCAL, 0, CHARANUM
+		SIF ABL:LOCAL:요술 > 0 && !TALENT:LOCAL:요술지식
+			TALENT:LOCAL:요술지식 = 1
+		SIF TALENT:LOCAL:복종 && TALENT:LOCAL:친구
+			TALENT:LOCAL:친구 = 0
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.14.0")
+	CALL COLOR_PRINTW("Ver1.14.0", 칼라_주의)
+	PRINTFORML + 빙의화의 캐릭터 추가
+	PRINTFORML + 방랑중도 거점 페이즈로 놀 수 있도록(듯이)
+	PRINTFORML + SLG 데일리의 폐지（통상의 데일리에 통합）
+	PRINTFORML + UI의 개선
+	PRINTFORML + 커스텀 캐릭터의 에디트 자유도의 대폭적인 향상
+	PRINTFORML + 구상 데일리를 많이 추가
+	PRINTFORML + 커맨드 「영지탐색」부활（거점 페이즈로부터）
+	CALL ADD_CHARA_FROM_CSV(149)
+	CFLAG:RESULT:특수상태 = 특수상태_방랑
+	CALL ADD_CHARA_FROM_CSV(150)
+	CFLAG:RESULT:특수상태 = 특수상태_방랑
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORMW !!!!!!!!!!!!!! 주의!!!!!!!!!!!!!!
+	PRINTFORML 커스텀 캐릭터의 사양이 변경되었습니다
+	PRINTFORML 계승하려면 이하의 순서를 밟아 주세요（한 번만 실행해 주세요）
+	PRINTFORMW
+	PRINTFORML 1. 구버젼으로 「모든 커스텀 캐릭터가 등장하는 세이브 데이터」를 작성한다
+	PRINTFORML 2. 그 세이브 데이터를, 이 버젼으로 로드
+	PRINTFORML 3. 이후에의 선택지로 「네」를 선택해, 모든 커스텀 캐릭터를 지정
+	PRINTFORML 4. 다른 데이터에서도 커스텀 캐릭터를 취급할 수 있게 된다!
+	PRINTFORMW 
+	PRINTFORML 이 데이터는 「모든 커스텀 캐릭터가 등장하는 세이브 데이터」입니까?
+	CALL ASK_YN()
+	IF RESULT == 0
+		PRINTFORML 커스텀 캐릭터를 모두 지정해 주세요
+		CALL SINGLE_DRAWLINE()
+		CALL SELECT_CHARA_LIST_MULTI_ONLY_LOGIC_SLG(-1, "NONE", "NONE")
+		FOR LOCAL, 0, SELECTED_CHARA_NUM
+			CALL SAVE_CUSTOM_DATA(LOCAL, SELECTED_CHARA:LOCAL)
+		NEXT
+		PRINTFORMW 커스텀 캐릭터의 이행이 완료했습니다
+		PRINTFORMW 이후는 전데이터에 대해, 커스텀 캐릭터를 취급할 수 있습니다
+	ENDIF
+ENDIF
+
+IF CHECK_UPDATE("1.15.1")
+	CALL COLOR_PRINTW("Ver1.15.1", 칼라_주의)
+	PRINTFORML + 조교 커맨드 「페니스밴드 재갈」
+	PRINTFORML + 거점 페이즈코만드 「투기장」
+	PRINTFORML + 여러가지 편리 개변
+	CALL COLOR_PRINTW(@"「요리장」는 「오락담당」이 되었습니다. 요리·가창이 영향을 줍니다", 칼라_주의)
+	CALL SET_SIBLING_RELATION(NAME_TO_CHARA("시온 "), NAME_TO_CHARA("조온"))
+	CALL CLOTH_INIT_149
+	CALL CLOTH_INIT_150
+ENDIF
+
+IF CHECK_UPDATE("1.15.2")
+	CALL COLOR_PRINTW("Ver1.15.2", 칼라_주의)
+	PRINTFORML 낡은 콘피그 설정을 로드하면, 커맨드 필터의 설정이 바람에 날아갑니다
+	PRINTFORML 재차 설정해, 콘피그를 세이브해 주세요
+ENDIF
+
+IF CHECK_UPDATE("1.16.0")
+	CALL COLOR_PRINTW("Ver1.16.0", 칼라_주의)
+	PRINTFORML + 「주인」 「소유자」실장
+	PRINTFORML   「연모」나 「복종」에 줄선, 「주인공을 굴복 시키고 있다」일을 나타내는 함락소질입니다
+	PRINTFORML   전용 수치인 「지배도」에 의해 획득 가능합니다
+	PRINTFORML + 쓰리 사이즈 실장
+	PRINTFORML   가 되어, 「아이체형」 「소인체형」 「풍만한엉덩이」는 보디 사이즈에 통합되었습니다
+	PRINTFORML + 자경단에 에로이 밴트 추가
+	PRINTFORML   다른 세력 같이, 포로에게 조교를 실시합니다
+	PRINTFORML   자경단을 등장시키고 있는 경우는 주의
+	FOR LOCAL, 0, CHARANUM
+		TALENT:LOCAL:가슴크기 = LIMIT(TALENT:LOCAL:가슴크기, -2, 2)
+		SIF !EXISTCSV(NO:LOCAL)
+			CONTINUE
+		TALENT:LOCAL:체격 = CSVTALENT(NO:LOCAL, GETNUM(TALENT, "체격"))
+		TALENT:LOCAL:체형 = CSVTALENT(NO:LOCAL, GETNUM(TALENT, "체형"))
+		TALENT:LOCAL:엉덩이크기 = CSVTALENT(NO:LOCAL, GETNUM(TALENT, "엉덩이크기"))
+	NEXT
+	FOR LOCAL, 0, CHARANUM
+		CALL SET_BODYSIZE(LOCAL)
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.16.1")
+	CALL COLOR_PRINTW("Ver1.16.1", 칼라_주의)
+	PRINTFORML 자그만 불안정 수정
+ENDIF
+
+IF CHECK_UPDATE("1.16.2")
+	CALL COLOR_PRINTW("Ver1.16.2", 칼라_주의)
+	PRINTFORML 자그만 불안정 수정
+ENDIF
+
+IF CHECK_UPDATE("1.16.3")
+	CALL COLOR_PRINTW("Ver1.16.3", 칼라_주의)
+	PRINTFORML 캐릭터의 체중이 이상하게 무거웠던 문제 수정
+	PRINTFORML 하는 김에 캐릭터의 쓰리 사이즈 산출 알고리즘을 만들어 수선
+	PRINTFORML 올 보통 캐릭터라면 대략 신장에 대한 이상 체형이 됩니다
+	FOR LOCAL, 0, CHARANUM
+		CALL SET_BODYSIZE(LOCAL)
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.17.0")
+	CALL COLOR_PRINTW("Ver1.17.0", 칼라_주의)
+	PRINTFORML 머리길이는 내부적으로 심플한 것에 다시 만들 수 있었습니다
+	PRINTFORML 
+	FOR LOCAL, 0, CHARANUM
+		IF EXISTCSV(NO:LOCAL)
+			TALENT:LOCAL:머리길이 = CSVTALENT(NO:LOCAL, GETNUM(TALENT, "머리길이"))
+		ELSE
+			SELECTCASE TALENT:LOCAL:머리길이
+				CASE IS < 2
+					TALENT:LOCAL:머리길이 = 0
+				CASE IS < 25
+					TALENT:LOCAL:머리길이 = 1
+				CASE IS < 175
+					TALENT:LOCAL:머리길이 = 2
+				CASE IS < 275
+					TALENT:LOCAL:머리길이 = 3
+				CASE IS < 475
+					TALENT:LOCAL:머리길이 = 4
+				CASE IS < 675
+					TALENT:LOCAL:머리길이 = 5
+				CASEELSE
+					TALENT:LOCAL:머리길이 = 6
+			ENDSELECT
+		ENDIF
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.18.0")
+	CALL COLOR_PRINTW("Ver1.18.0", 칼라_주의)
+	PRINTFORML 여러 가지 편리하게 되었습니다
+	PRINTFORML 외교의 「요구」의 처리가 다시 만들어 본연의 상태라면 약간 통하기 쉬워졌습니다
+	PRINTFORML 다만 연속해 통하고 있다고 경계되어 대로 어려워집니다
+ENDIF
+
+IF CHECK_UPDATE("1.19.0")
+	CALL COLOR_PRINTW("Ver1.19.0", 칼라_주의)
+	PRINTFORML + 겨드랑이털의 실장
+	PRINTFORML + 「귀두맞대기」 「셀프페라」등, 신규 커맨드군추가
+	PRINTFORML + 「핵열조신히소우텐소크」등, 신규 스킬군추가
+	PRINTFORML + 자궁내 정액의 취급을 리플레스. 능력표시의 「가계」탭으로 참조가능
+	PRINTFORML + 노출플레이중, 모브가 출현하도록(듯이)
+	FOR LOCAL, 0, CHARANUM
+		IF EXISTCSV(NO:LOCAL)
+			TALENT:LOCAL:겨드랑이털현재치 = CSVTALENT(NO:LOCAL, GETNUM(TALENT, "겨드랑이털현재치"))
+			TALENT:LOCAL:겨드랑이털목표치 = CSVTALENT(NO:LOCAL, GETNUM(TALENT, "겨드랑이털목표치"))
+		ENDIF
+	NEXT
+ENDIF
+
+
+IF CHECK_UPDATE("1.20.0")
+	CALL COLOR_PRINTW("Ver1.20.0", 칼라_주의)
+	PRINTFORML + 수많은 스킬의 만들어 수선
+	PRINTFORML   그 영향으로 일단전캐릭터의 스킬을 리셋트 합니다
+	PRINTFORML + 신커맨드
+	PRINTFORML + 구상 데일리의 실장
+	PRINTFORML + eraFGO K로부터 일부 디자인을 역수입
+	PRINTFORML + 신함락소질 「양질모태」 「진한정액」
+	PRINTFORML + 「주지육림」의 사양 변경
+	FOR LOCAL, 0, CHARANUM
+		CALL SKILL_INIT(LOCAL)
+		EXP:LOCAL:임신경험 = EXP:LOCAL:출산경험
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.20.4")
+	FOR LOCAL, 0, CHARANUM
+		EXP:LOCAL:임신경험 = EXP:LOCAL:출산경험
+		SIF TALENT:LOCAL:임신
+			EXP:LOCAL:임신경험 ++
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.20.7")
+	;1. 20.0이후에 한 번 출산시키고 있어 임신기간이 부정하게 1이 되는 불안정을 경험하고 있다
+	;또는 1.20. 0보다 전으로 임신기간중이지만, 임신 판명전이며, 현행 사양에 따르지 않는 상태가 되어 있다
+	;이상의 캐릭터에게 임신기간을 0으로 한다
+	FOR LOCAL, 0, CHARANUM
+		SIF CFLAG:LOCAL:임신기간 && !TALENT:LOCAL:임신
+			CFLAG:LOCAL:임신기간 = 0
+	NEXT
+ENDIF
+
+IF CHECK_UPDATE("1.21.5")
+	FOR LOCAL, 0, CHARANUM
+		FOR LOCAL:1, 0, VARSIZE("SEXUAL_EXPERIENCE_SITUATION")
+			SEXUAL_EXPERIENCE_SITUATION:(LOCAL):(LOCAL:1) =
+			SEXUAL_LAST_EXPERIENCE_SITUATION:(LOCAL):(LOCAL:1) =
+		NEXT
+	NEXT
+ENDIF
+
+IF 강제인계플래그
+	FLAG:클리어직후플래그 = 1
+	CALL SAVE_GAME
+	FLAG:클리어직후플래그 = 0
+	BEGIN TITLE
+ENDIF

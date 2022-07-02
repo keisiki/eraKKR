@@ -1,0 +1,294 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K23_SILENT_SEX_RATE(대상)
+#DIM 대상
+RETURN (KDVAR:대상:스이카_소리를억제해 > 0 ? 200 # 50)
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K23_SILENT_SEX_DECISION(대상)
+#DIM 대상
+
+;끝나고 있으면 발생하지 않는다
+SIF KDVAR:대상:스이카_소리를억제해 == -1
+	RETURN 0
+
+;호감도 5000 이하라면 안 돼
+SIF CFLAG:대상:호감도 <= 5000
+	RETURN 0
+
+;합의가 없으면 안 돼
+SIF !TALENT:대상:합의
+	RETURN 0
+
+;주인공과 동일 세력으로 포로가 아니고, 주인공이 페니스 소유
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0) && HAS_PENIS(MASTER)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K23_SILENT_SEX_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K23_SILENT_SEX(대상)
+#DIM 대상
+
+
+SELECTCASE KDVAR:대상:스이카_소리를억제해
+	CASE 0
+		PRINTFORMW 심야, %조사처리(ANAME(대상),"가")% %ANAME(MASTER)%의 방을 방문해 왔다
+		PRINTFORML 「그, 그런데 말이야…조금 괜찮을까?   특별히 상담이 있지만……」
+		PRINTFORMW 평상시의 쾌활로 한 모습은 아니다. 그리고 얼굴이 붉다. 평상시의 술에 취함에 의한 홍안과는 분명하게 다른 것이었다
+		PRINTFORML 도대체 어떻게 했는지, 이야기를 들어 보면
+		PRINTFORMW 「으음…, 그……, 그런데 말이야, 나는……%조사처리(ANAME(MASTER),"와")% 교접하고 있는 때, 소리 클까?」
+		PRINTFORMW ……조금 예상외인 상담이 되돌아 왔다
+		PRINTFORML 「시, 싫구나!?   다른 아이에게 들었지만…%조사처리(ANAME(MASTER),"와")% 시 비칠 때, 나의 소리…, 주위로 들리고 있는 것 같아서…」
+		PRINTFORMW 「다른 아이는 그렇게도 아닌 것 같지만…. 나의 신음소리, 그렇게 클까 하고…말야」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 얼굴을 붉게 하면서 %ANAME(MASTER)%에 고민을 털어 놓았다
+		PRINTFORMW 그런데, 어떻게 대답하자……
+		PRINTFORML
+		CALL ASK_YN("…확실히 클지도", "신경쓸 필요는 없다")
+		PRINTFORML
+		IF RESULT == 1
+			PRINTFORMW 별로 그렇지 않다. 신경쓸 필요는 없다고 전했다
+			PRINTFORML 「저, 정말?   억제하거나 하지 않아도 괜찮아?」
+			PRINTFORMW 오히려 %조사처리(ANAME(대상),"는")% 생각하는 대로 소리를 높이고 있는 (분)편이 매력적이다, 라고 전했다
+			PRINTFORML 「저, 정말! 　%ANAME(MASTER)%도 참 상태 좋은 일 말해 버려」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 허리를 팡팡 두드리면서도, 입가를 느슨해지게 하고 있다
+			PRINTFORML 「그런 일 하기 때문에……무늬에도 없게 신체가 쑤셔 와 버렸지 않을까…♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 안타깝게 신체를 구불거리게 되어지면서 %ANAME(MASTER)%에 다가선다
+			PRINTFORMW 그녀가 요구하는 기대에 응해 %조사처리(ANAME(대상),"를")% 껴안아, 사랑스러운 신음소리를 듣기 위한 교제를 시작했다……
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+			CFLAG:대상:호감도 += 800
+			CFLAG:대상:종속도 += 500
+			CFLAG:대상:의존도 += 300
+			KDVAR:대상:스이카_소리를억제해 = -1
+		ELSE
+			PRINTFORMW 확실히 조금…클지도, 라고 전했다
+			PRINTFORML 「…여, 역시, 그렇다……아아!   이제(이미/벌써/더는/정말) 부끄럽닷!   지금까지 주위로 들리고 있었다니!」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 귀까지 새빨갛게 해 얼굴을 숨긴다. 평상시는 호쾌 단순하지만, 이런 곳은 역시 부끄러운 것 같다
+			PRINTFORML 자신의 교성이 주위에 뻔히 들림이었다고 말하는 수치에 몸부림치는 %ANAME(대상)%에, %조사처리(ANAME(MASTER),"는")% 어떤 제안을 했다
+			PRINTFORMW 라면 지금부터 소리를 억제하도록(듯이) 연습을 하자, 라고
+			PRINTFORML 「헤?   소리를 억제하는 연습?   어떻게 말하는 것?」
+			PRINTFORMW 요점은 엣치때에 큰 소리로 허덕이지 않으면 좋은 것뿐이다
+			PRINTFORMW 이니까 한동안, 소리를 내지 않게 의식하면서 조금씩 쾌감에 길들여 가자, 라고 전했다
+			PRINTFORML 「…그런가, 조금씩 길들여 가면 부끄러운 소리를 들리는 일도 없어질지도…」
+			PRINTFORMW 「응, 조금 해 본다」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 그 제안을 탔다. 좋은 일은 서두른다다. %조사처리(ANAME(MASTER),"는")% 즉시 %ANAME(대상)%의 신체를 껴안았다
+			PRINTFORMW 갑자기 성교는 하지 않고, 오늘은 가벼운 애무만으로 시험해 보자, 라고 고한다
+			PRINTFORMW 「으, 응…저, 소리 내지 않게, 일단은 노력하기 때문에……상냥하게 해……」
+			PRINTFORML 평상시와 사정이 다른 행위에, %조사처리(ANAME(대상),"은")% 조심스러운 태도로 %ANAME(MASTER)%에 몸을 맡겼다…
+			PRINTFORML
+			PRINTFORMW …
+			PRINTFORML 「후…! …♥…응,…응응……! …♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 가능한 한 소리를 높이지 않도록, 힘들게 입을 다물어 쾌감에 참고 있다
+			PRINTFORMW 그 반응으로부터, 평상시보다 민감하게 되어 있는 것처럼 느꼈다
+			PRINTFORML 일반적으로, 어느 일을 해서는 안 된다, 라고 의식하면 반대로 그것들에게 과민하게 반응해 버리게 된다고 한다
+			PRINTFORMW 지금의 %ANAME(대상)%도 그것과 같았다
+			PRINTFORML 소리를 높이지 않도록, 쾌감을 느끼지 않게 의식하면 할수록
+			PRINTFORMW %ANAME(대상)%의 육체는 평소보다 민감하게 %ANAME(MASTER)%의 애무의 감촉을 감지해 버리고 있었다
+			PRINTFORML 「응읏♥…후앗…! …앗♥…읏♥……읏!」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")%, 소리를 억제해 사랑스럽게 허덕이는 %조사처리(ANAME(대상),"를")% 마음껏 어루만져, 쾌감에 길들여 갔다…
+			PRINTFORML ……
+			PRINTFORMW 행위가 끝난 뒤, %조사처리(ANAME(대상),"는")% 교접했을 것도 아닌데 황홀한 표정으로 녹고 있었다
+			PRINTFORMW 「%ANAME(MASTER)%……또, 이것에…교제해…♥」
+			CALL FUCK(MASTER, "봉사, 성기술", "키스상실")
+			CALL FUCK(대상, "Ｂ, Ｃ, 욕망")
+			CFLAG:대상:호감도 += 200
+			CFLAG:대상:종속도 += 200
+			CFLAG:대상:의존도 += 100
+			KDVAR:대상:스이카_소리를억제해 = 1
+		ENDIF
+		PRINTFORML
+	;유두 고문
+	CASE 1
+		PRINTFORMW 심야, %조사처리(ANAME(대상),"가")% 또 %ANAME(MASTER)%의 방을 방문해 왔다
+		PRINTFORMW 「그, 그런데 말이야…. 또…, 예의 연습에 교제했으면 좋지만……」
+		PRINTFORML 아무래도 또, 섹스시에 소리를 억제하는 연습을 하고 싶은 것 같다
+		PRINTFORMW 기특한 태도로 %조사처리(ANAME(MASTER),"를")% 올려보는 %조사처리(ANAME(대상),"는")% 나이 상응하는 소녀로 보인다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 전회의 계속을 하기 위해, %조사처리(ANAME(대상),"를")% 상냥하게 껴안았다
+		PRINTFORMW 「저, 저……소리 내지 않게, 노력하기 때문에……상냥하게 해……」
+		PRINTFORML 
+		PRINTFORMW …
+		PRINTFORMW 「응…! …♥…응응,…후……아…! …♥」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 가능한 한 소리를 높이지 않도록, 힘들게 입을 다물면서 쾌감에 참고 있다
+		PRINTFORML 전회는 신체 전체에의 애무만으로 끝났지만, 이번은 가슴을 중심으로 한 고문을 실시하고 있다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")%, 작은 흔들림인 %ANAME(대상)%의 가슴을 손바닥 전체로 천천히 매만지도록(듯이) 애무한다
+		PRINTFORML %조사처리(ANAME(대상),"는")% 소리를 높이지 않게 의식하는 만큼, 신체는 평소보다 민감하게 애무의 감촉을 감지해 버리고 있었다
+		PRINTFORMW 이윽고, 소립인 유두를 중심으로 손가락끝으로 훑는 것처럼, 하지만 결코 유두에는 닿지 않게 꾸짖는다
+		PRINTFORML 「…읏♥…아……! …훗♥…읏♥…읏!」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 안타까운 한숨을 흘린다. 굳이 유두를 손대지 않는 초조하게 하는 것 같은 애무가, 확실히 쾌감을 주고 있다
+		PRINTFORML 「응……%ANAME(MASTER)%……」
+		PRINTFORMW 물기를 띤 눈동자로 %조사처리(ANAME(대상),"는")% 그 앞을 간원 한다. 지금까지 훨씬 보류 상태였던 것이다
+		PRINTFORMW 그 유처는 벌써 볼록 부풀어, 예쁜 담홍색의 유두가 손대어지는 것을 대기 원하는 대로 날카로워져 서 있다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 마침내 그 유두를 꾸짖는다. 격렬하지 않게, 만지작만지작 상냥하게 사리 굴리도록(듯이) 탄다
+		PRINTFORMW 「읏!   응…!   ♥♥」
+		PRINTFORMW 지워 강하게 타지는 않지만, 지금까지 초조하게함에 초조해 해진 %ANAME(대상)%의 유두는, 언제나 이상으로 과민하게 되어 있었다
+		PRINTFORML 스구루 까는군 글자등도, 달콤하게 저리는 것 같은 쾌감이 유처로부터 서서히 전신에 퍼져, 신체를 진동시킨다
+		PRINTFORMW 그 음미로운님이, %조사처리(ANAME(MASTER),"는")% 기학적인 감정이 굽은 목을 쳐들어, %ANAME(대상)%의 유두를 깎는 힘을 조금 강하게 한다
+		PRINTFORMW 「핫! …응응읏♥……훗…♥　%ANAME(MASTER)%…좋아……좀 더 해…♥」
+		PRINTFORML %조사처리(ANAME(대상),"는")%, 마침내 접할 수 있었던 유두에의 쾌감에 녹고 잘라, 새로운 고문을 요구해 왔다
+		PRINTFORMW 그 기대에 응하기 (위해)때문에, %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 유두를 입에 넣을 수 있어 빨고 굴린다
+		PRINTFORML %ANAME(대상)%의 유두는 %ANAME(MASTER)%의 혀가 닿으면 게다가 딱딱함을 늘려, 유륜도 부드럽게 분위기를 살린다
+		PRINTFORMW 오돌오돌 한 감촉을 맛보도록(듯이), 사랑스럽게 발기한 유두를 살짝 깨물기 해 그 끝 쪽을 혀로 마음껏 빨고 굴려 몰아세운다
+		PRINTFORML 「응히잇!   하♥…그것…♥좋아…♥」
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")%, 소리를 억제해 사랑스럽게 허덕이는 %ANAME(대상)%의 가슴을 마음껏 꾸짖어, 쾌감에 길들여 갔다…
+		PRINTFORML
+		PRINTFORMW …
+		PRINTFORMW 행위가 끝난 뒤, %조사처리(ANAME(대상),"는")% 꾸짖을 수 있었던 유두를 스스로 뭉그러뜨리면서 황홀한 표정으로 녹고 있었다……
+		PRINTFORMW 「%ANAME(MASTER)%……또, 이것에…교제해…♥」
+		PRINTFORML
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 가슴이 민감하게 되었습니다", 칼라_주의)
+		TALENT:대상:Ｂ민감 = 1
+		CALL FUCK(MASTER, "봉사, 성기술", "키스상실")
+		CALL FUCK(MASTER, "봉사, 성기술", "키스상실")
+		CALL FUCK(대상, "Ｂ, 욕망")
+		CALL FUCK(대상, "Ｂ, 욕망")
+		CFLAG:대상:호감도 += 400
+		CFLAG:대상:종속도 += 400
+		CFLAG:대상:의존도 += 200
+		KDVAR:대상:스이카_소리를억제해 ++
+		PRINTFORML
+	;클리 고문
+	CASE 2
+		PRINTFORMW 심야, %조사처리(ANAME(대상),"가")% 또 %ANAME(MASTER)%의 방을 방문해 왔다
+		PRINTFORMW 「그, 그런데 말이야…. 또…, 예의 연습에 교제했으면 좋지만……」
+		PRINTFORML 아무래도 또, 섹스시에 소리를 억제하는 연습을 하고 싶은 것 같다
+		PRINTFORMW 기특한 태도로 %조사처리(ANAME(MASTER),"를")% 올려보는 %조사처리(ANAME(대상),"는")% 나이 상응하는 소녀로 보인다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 전회의 계속을 하기 위해, %조사처리(ANAME(대상),"를")% 상냥하게 껴안았다
+		PRINTFORMW 「저, 저……소리 내지 않게, 노력하기 때문에……상냥하게 해……♥」
+		PRINTFORML 
+		PRINTFORMW …
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 사타구니에 얼굴을 묻어, 비부를 혀로 천천히 빨고 있다
+		PRINTFORMW 「응응～♥…! …♥…훗! …읏♥…응읏♥…읏…!! …훗! …응응～♥♥」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 스스로의 양손으로 입을 막으면서 필사적으로 쾌감에 참아, 가능한 한 소리를 높이지 않도록 하고 있다
+		PRINTFORML 하지만, 그렇지 않아도 민감한 클리토리스가 소리를 높여서는 안 되는 제약에 의해,
+		PRINTFORMW 한층 더 과민하게 쾌감을 감지해 버린다
+		PRINTFORML 양손으로 강하게 입을 막지 않았다고, 큰 교성이 울려 퍼져 버릴 것이다
+		PRINTFORMW 「응쿳…～!   ♥♥응후웃♥…읏!!   ♥♥」
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 천천히 상냥하고, %ANAME(대상)%의 음순의 주름을 정중하게 빨고 있다
+		PRINTFORMW %ANAME(대상)%의 음렬은 예쁜 핑크색으로, 혀가 닿을 때 질구가 %조사처리(ANAME(MASTER),"를")% 요구하듯이 실룩거린다
+		PRINTFORML 그리고 눈앞에서 클리토리스가 자기 주장하도록(듯이) 부풀어 오른다
+		PRINTFORMW 여기도 꾸짖었으면 좋겠다  라고 할듯이…
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 상냥하게 키스를 하도록(듯이) 음핵에 입맞추어, 『약점』에의 고문을 시작한다
+		PRINTFORML 「응읏!! ♥♥♥응응～～♥♥!! ♥♥」
+		PRINTFORMW %ANAME(MASTER)%의 입술이, 혀가, 이빨이 콩을 꾸짖을 때, %ANAME(대상)%의 신체에 전류와 같은 쾌감이 달린다
+		PRINTFORMW 뇌까지 영향을 주는 쾌감의 낙뢰에, %조사처리(ANAME(대상),"는")% 크게 몸을 비틀게 해 좋아해 몸부림친다
+		PRINTFORML %ANAME(대상)%의 사타구니에 얼굴을 묻고 있던 %조사처리(ANAME(MASTER),"는")%, 오니의 강력하고 잡아지지 않을까 조마조마 했지만,
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 그것만은 하지 않도록, 이성의 마지막 일선을 가져 허벅지로 찌부러뜨리지 않게 노력했다
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 침착하게 하려고, 좀 더 상냥하게 꾸짖기로 했다
+		PRINTFORML 「훗! …♥♥응읏…♥♥～～!! …구～…♥♥」
+		PRINTFORMW 하지만 그 배려도, 완전하게 신체가 다 달아오른 %ANAME(대상)%에는 초조해 해지도록(듯이) 밖에 느끼지 않았다
+		PRINTFORMW %조사처리(ANAME(대상),"가")% 쾌감으로 좋아할 때, 쾌감으로 좋아할 때, 비밀의 틈으로부터는 꿀이 흘러넘치고 질 구멍이 추잡하게 꿈틀거린다
+		PRINTFORML 그 나머지 추잡한 모습에 %조사처리(ANAME(MASTER),"는")%, 금방 당신의 팽창해 버린 육봉을 돌진해 주고 싶은 충동에 사로잡히지만,
+		PRINTFORMW  가슴이 답답함과 쾌감을, 눈물마저 배이게 해 필사적으로 참고 있는 %ANAME(대상)%의 모습을 봐 단념한다
+		PRINTFORML 좀 더 천천히, 좀 더 상냥하고, 단계를 두어 진행하자
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")%, 필사적으로 소리를 억제해 좋아하는 %ANAME(대상)%의 클리토리스를 꾸짖어, 쾌감에 길들여 갔다…
+		PRINTFORML
+		PRINTFORMW …
+		PRINTFORML 「핫♥♥핫♥♥하아…♥♥」
+		PRINTFORMW 행위가 끝난 뒤, %조사처리(ANAME(대상),"는")% 눈물과 군침으로 질척질척이 된 얼굴로 황홀한 표정을 띄우고 있었다……
+		PRINTFORMW 「%ANAME(MASTER)%……또……교제해…♥」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 다 녹은 얼굴과 소리로, 다음의 연습의 약속을 주고 받았다
+		FOR LOCAL, 0, 3
+			CALL FUCK(MASTER, "봉사, 성기술", "키스상실")
+			CALL FUCK(대상, "Ｃ, 욕망")
+		NEXT
+		CFLAG:대상:호감도 += 700
+		CFLAG:대상:종속도 += 700
+		CFLAG:대상:의존도 += 700
+		KDVAR:대상:스이카_소리를억제해 ++
+		PRINTFORML
+	;라스트
+	CASE 3
+		PRINTFORMW 심야, %조사처리(ANAME(대상),"가")% 또 %ANAME(MASTER)%의 방을 방문해 왔다
+		PRINTFORMW 「그, 그런데 말이야…. 또…, 예의 연습에 교제했으면 좋지만……」
+		PRINTFORML 아무래도 또, 섹스시에 소리를 억제하는 연습을 하고 싶은 것 같다
+		PRINTFORMW 기특한 태도로 %조사처리(ANAME(MASTER),"를")% 올려보는 %조사처리(ANAME(대상),"는")% 나이 상응하는 소녀로 보인다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 전회의 계속을 하기 위해 %조사처리(ANAME(대상),"를")% 상냥하게 껴안았다
+		PRINTFORMW 「저, 저……소리 내지 않게, 노력하기 때문에……상냥하게 해……♥」
+		PRINTFORML 
+		PRINTFORMW …
+		PRINTFORML 예의 그대로 %조사처리(ANAME(대상),"는")%, 스스로의 양손으로 입을 막으면서 필사적으로 쾌감에 참고 있다
+		PRINTFORMW 「응♥읏!! ♥♥…쿠우…～♥…～♥!! ♥」
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 실전의 전에, %ANAME(대상)%의 비밀의 틈에 손가락을 출납해 자극에 익숙하게 해 있다
+		PRINTFORMW %조사처리(ANAME(대상),"가")% 작은 질 구멍은, %ANAME(MASTER)%의 손가락을 놓고 싶어하지 않는 것 같이 쥬와쥬와 달라붙어 온다
+		PRINTFORML 손가락에 휘감기는 미육을 달래도록(듯이) 밀어 헤치면서, 질벽의 일점을 훑는다
+		PRINTFORMW 「응읏! ♥! ♥～～! ♥! ♥」
+		PRINTFORML %조사처리(ANAME(대상),"가")% 특별 느끼는 약한 개소다. 거기를 꾸짖을 수 있어 %ANAME(대상)%의 신체가 크게 뛴다
+		PRINTFORMW 그리고 강한 절정을 나타내도록(듯이), 꿀물과 뜨거운 조수쉿, 이라고 분출했다
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 일단 거기서, 행위를 멈추어 %ANAME(대상)%상태를 확인한다
+		PRINTFORMW 「하앗…하…하앗………아…」
+		PRINTFORML 강한 쾌감에도 소리를 내지 않게, 양손으로 필사적으로 막고 있던 것이다
+		PRINTFORML 쾌감에 저항하는 가슴이 답답함으로부터인가, 그녀의 눈동자는 눈물이 물기를 띠고 있었다
+		PRINTFORMW 그 모습을 봐 %조사처리(ANAME(MASTER),"는")% 생각한다. 오늘은 성교까지 할 생각이었지만, 멈추는 것이 좋을까…
+		PRINTFORML 망설이고 있는 %ANAME(MASTER)%의 얼굴을, %조사처리(ANAME(대상),"는")% 살그머니 어루만진다
+		PRINTFORMW 「나의 일, 걱정해 주고 있는지? …고마워요」
+		PRINTFORMW 「그렇지만 괜찮아, 나는 오니니까. …끝까지는 무리일지도 모르지만, 할 수 있는 곳까지 해 본다」
+		PRINTFORML 그 눈물은, 괴로움 만이 아니고 %조사처리(ANAME(MASTER),"가")% 주는 쾌감에의 기쁨도 서로 섞인 것이었던 것 같다
+		PRINTFORMW 뜻을 정한 %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 비밀의 틈에 페니스를 주어, 천천히 꽂아 넣는다
+		PRINTFORMW 「앗! ♥…핫♥…응응……, 후웃♥」
+		PRINTFORML 지금까지의 「연습」으로 보류 계속 되어 왔기 때문일까,
+		PRINTFORMW %ANAME(대상)%의 고기단지는, 들어 온 페니스에 큐우큐우 달라붙도록(듯이) 단단히 조인다
+		PRINTFORML 질벽의 주름이, 고기 알갱이가, %ANAME(MASTER)%의 하나의 물건을 사랑할까같이 휘감겨 꿈틀거리고 있다
+		PRINTFORMW 「앗, 하아…♥…%ANAME(MASTER)%…좋아…! ♥좀 더♥♥」
+		PRINTFORML 그 신음소리는 이미 죽이지 않고, 마침내 결궤 하도록(듯이) 입으로부터 기쁨의 소리나왔다
+		PRINTFORMW 이지만, 누가 제지당한다고 할 것이다
+		PRINTFORML 그녀는 쭉 참고 있었다. 그리고, 그 인내를 넘을 정도의 쾌락에 마음껏 소리를 높인다
+		PRINTFORMW 그 모습은, 지금까지 목의 모습보다 기분 좋은 것이나 마찬가지였다
+		PRINTFORMW 「앗! ♥앗! ♥아앗!! ♥거기를 좋아하는 사람♥좀 더 안쪽까지♥후아앗!! ♥♥」
+		PRINTFORML …벌써 %조사처리(ANAME(대상),"는")% 큰 소리로 마구 허덕여, 소리를 억제한다는 의식은 사라지고 있었다
+		PRINTFORML 에서도, 그것으로 좋다고 생각했다
+		PRINTFORMW 생각하면 여성이 자신과의 행위로 많이 느껴 소리를 높이고 기뻐해 주는 것이 얼마나 기쁜 일인가
+		PRINTFORML 자신이 잘못되어 있었다
+		PRINTFORMW 자신과의 행위로, 어느 한계에 기쁨을 전해 주는 %ANAME(대상)%의 소리를 억제하자 등, 멋없는 일이었다
+		PRINTFORMW 그녀는 지금까지의 「연습」때부터, 짐승과 같이 소리를 높이고 있는 지금(분)편이 확실히 행복한 얼굴을 하고 있으니까…
+		PRINTFORMW 「앗! ♥아앗! ♥좀 더♥ %ANAME(MASTER)%♥ 좋아해! ♥너무 좋아앗!! ♥♥」
+		PRINTFORML 그 소리를 들어, %ANAME(MASTER)%도 또한 %ANAME(대상)%에 사랑을 외치면서 짐승과 같이 허리를 흔드는
+		PRINTFORML 주위로 들리든지 알려지든지, 이제 어떻든지 좋았다
+		PRINTFORMW 지금은 단지 계속해서, 서로 소리를 높여 서로 사랑할 수밖에 머릿속에 없었다
+		PRINTFORML 
+		PRINTFORMW …
+		PRINTFORML 두 명의 사랑해 합 있고는 새벽녘 근처에서 간신히 끝났다…
+		PRINTFORMW 인내에 인내를 거듭한 끝의 개방은, 지금까지는 비교가 되지 않는 영역의 쾌락을 두 명에게 주었다
+		PRINTFORML 「……결국, 그전대로라는지, 원래의 도로아미타불이라고 할까……쓸데없는 일 해 버리고 있었는지」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 껴안으면서, 느슨해진 얼굴로 말했다
+		PRINTFORML 이지만 그렇지 않다고 생각한다
+		PRINTFORMW 적어도 그 도전이 있었기 때문에야말로, %조사처리(ANAME(대상),"는")% 소리를 높인 (분)편이 매력적이다, 라는 대답을 낼 수 있었으니까
+		PRINTFORML 「…♥  완전히, 말은 하기 나름이구나, 이♥」
+		PRINTFORMW 수마에게 습격당할 때까지, 두 명은 침대 위에서 오로지 노닥거렸다……
+		FOR LOCAL, 0, 4
+			CALL FUCK_MAKELOVE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER))
+			CALL FUCK(MASTER, "Ｃ, 사정, Ｖ삽입", "동정상실", 0, "", "", @"%ANAME(대상)%의 질")
+		NEXT
+		PRINTFORML 
+		PRINTFORMW …
+		PRINTFORMW 후일, 역시 뻔히 들림이었던 주위로부터 「소리를 억제할 마음이 없으면 이것을 사용해 줘!」라고 방음재를 건네받았다…
+		PRINTFORMW %조사처리(ANAME(대상),"를")% 호출해, 둘이서 방에 방음 처리를 가하기로 했다
+		PRINTFORML 「후후읏. 조금 수고이지만, 이것으로 염려 없게 소리를 낼 수 있다는 것이구나♪」
+		PRINTFORMW 둘이서 화기애애하게 작업을 진행시켰다. 꽤 큰 일이었지만, 이것으로 지금부터 불평도 없어질 것이다
+		PRINTFORML
+		CALL COLOR_PRINTW(@"%ANAME(대상)%의 보지가 민감하게 되었습니다", 칼라_주의)
+		TALENT:대상:Ｖ민감 = 1
+		CFLAG:대상:호감도 += 1000
+		CFLAG:대상:종속도 += 1000
+		CFLAG:대상:의존도 += 1000
+		KDVAR:대상:스이카_소리를억제해 = -1
+ENDSELECT
+
+RETURN 1

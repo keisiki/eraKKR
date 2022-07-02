@@ -1,0 +1,84 @@
+﻿		SETCOLOR カラー_パ青
+		PRINTFORML Date    [■■■■■■■■■■■■■■■■■■------]
+		RESETCOLOR
+		PRINTFORML 
+		PRINTFORMW 「うわぁっ！！！」
+		PRINTFORML 
+		SETCOLOR カラー_パ青
+		PRINTFORML Date    [■■■■■■■■■■■■■■■■■■■■--]
+		RESETCOLOR
+		PRINTFORML 
+		PRINTFORMW 「これはっ！！！」
+		PRINTFORML 
+		SETCOLOR カラー_パ青
+		PRINTFORML Date    [■■■■■■■■■■■■■■■■■■■■■]
+		RESETCOLOR
+		PRINTFORML 
+		PRINTFORMW 「はぁぁんんっ！！！！！」
+		PRINTFORML 
+		SETCOLOR カラー_パ青
+		PRINTFORML Date    [■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		RESETCOLOR
+		PRINTFORML 
+		PRINTFORMW
+		PRINTFORML 
+		SETCOLOR カラー_パ青
+		PRINTFORML Date    [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		RESETCOLOR
+		PRINTFORML 
+		PRINTFORMW
+		PRINTFORML 
+		SETCOLOR カラー_パ青
+		PRINTFORML Date    [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		RESETCOLOR
+		PRINTFORML 
+		PRINTFORMW 
+		PRINTFORMW 
+		PRINTFORMW 
+		PRINTFORMW 
+		PRINTFORML ……………………
+		PRINTFORML ………
+		PRINTFORMW …
+		PRINTFORML %ANAME(MASTER)%
+		PRINTFORMW これではっきりしたわ…
+		PRINTFORML 
+		PRINTFORML 私はもう
+		PRINTFORMW あなたに夢中なの
+		PRINTFORML 
+		PRINTFORML あなたの言うこと
+		PRINTFORML あなたのやること
+		PRINTFORMW 何もかも…
+		PRINTFORML
+		PRINTFORML 私は……もう……
+		PRINTFORMW 
+		PRINTFORML ……………………
+		PRINTFORML ………
+		PRINTFORMW …
+		PRINTFORML 
+		PRINTFORML 「おやおや、やっとお目覚めになられましたね」
+		PRINTFORMW 目を覚ますと柔らかい感触が頭に感じられる…どうやら膝枕されているようだ
+		PRINTFORML 「夜風の気持ち良さでうっかり寝ちゃいましたか？」
+		PRINTFORML 「フフッ、まさに貴方の槐安は今作られていたようですね」
+		PRINTFORMW %ANAME(対象)%は落ち着いた様子で%ANAME(MASTER)%の頭を摩っている
+		PRINTFORML 「もう少しお眠りになりますか？　きっと良い夢が見られますよ」
+		CALL ASK_YN("寝る", "寝ない")
+		IF RESULT == 0
+			PRINTFORMW もう少しこの心地良さを味わいたい
+			PRINTFORMW %ANAME(MASTER)%はしばらくそのまま寝ることにした
+			PRINTFORML 「ふふっ……%ANAME(MASTER)%……」
+		ELSE
+			PRINTFORMW 寝ても起きても夢心地だ
+			PRINTFORMW %ANAME(MASTER)%は起きて%ANAME(対象)%の手を取った
+			PRINTFORML 「では帰りましょうか」
+		ENDIF
+		PRINTFORML 
+		PRINTFORML ……デート終了
+		CALL COLOR_PRINT(@"好感度が 200上がった", カラー_注意)
+		PRINTFORMW
+		CFLAG:対象:好感度 += 200
+		KDVAR:対象:ドレミー_デートバトル！ = -1
+ENDSELECT
+
+
+
+RETURN 1

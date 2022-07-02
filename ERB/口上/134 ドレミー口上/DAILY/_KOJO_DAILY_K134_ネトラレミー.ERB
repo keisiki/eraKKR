@@ -1,0 +1,407 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_NTR_RATE(대상)
+#DIM 대상
+
+;처음은 10%
+IF KDVAR:대상:도레미_네토라레미 == 0
+	RETURN 100
+;2회째 이후는 100%
+ELSE
+	RETURN 1000
+ENDIF
+
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_NTR_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:도레미_네토라레미 == -1
+	RETURN 0
+
+SIF !TALENT:대상:연인
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_NTR_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_NTR(대상)
+#DIM 대상
+
+SELECTCASE KDVAR:대상:도레미_네토라레미
+	CASE 0
+		PRINTFORMW 어떤 오후%조사처리(ANAME(MASTER),"가")% 복도를 걷고 있으면, 부하의 한사람이 %ANAME(대상)%에 구애하고 있는 것이 보였다
+		PRINTFORML 「……읏……」
+		PRINTFORMW 끈질기게 부하가 구애해 오지만, 사무적으로 접해 다 견뎠다…
+		PRINTFORML 그 모습에서는 방치하면 끈질겨질 것 같지만 왜 그러는 것인가……
+		CALL ASK_YN("아무튼 어떻게든 될 것이다", "이물은 배제하지 않으면……")
+		IF RESULT == 0
+			PRINTFORMW 아무튼 어떻게든 될 것이다
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 방치해 자신의 일하러 돌아왔다……
+			KDVAR:대상:도레미_네토라레미 = 1
+		ELSE
+			PRINTFORMW 이물은 배제하지 않으면……
+			PRINTFORMW 대여섯 시간 후, %조사처리(ANAME(MASTER),"는")% 부하를 방에 호출해 은밀하게 배제했다……
+			KDVAR:대상:도레미_네토라레미 = -1
+		ENDIF
+	CASE 1
+		PRINTFORMW %ANAME(대상)%에 부하가 구애하고 있다……
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 결국 권유를 딱잘라 거절할 수 없어, 교묘한 말인 부하에게 실려지는 부하의 사실에 데리고 가졌다……
+		IF RAND:3
+			PRINTFORMW 몇 번이나 사랑의 말을 속삭여지면서, 신체를 껴안겨져 가슴을 비비어지고 있다
+		ELSEIF RAND:3 == 0
+			PRINTFORMW 몇 번이나 사랑의 말을 속삭여지면서, 허벅지를 어루만져지고 있다
+		ELSE
+			PRINTFORMW 몇 번이나 사랑의 말을 속삭여지면서, 팬티 너머로 비밀의 틈에 손가락을 기어지고 있다
+		ENDIF
+		IF RAND:2
+			PRINTFORML 「……읏……」
+		ELSE
+			PRINTFORML 「…아………」
+		ENDIF
+		IF RAND:2 == 0
+			PRINTFORMW 비밀스런 장소를 손가락으로 몰아세울 수 있어 %조사처리(ANAME(대상),"는")% 쾌감에 참는데 힘껏으로 도망치는 것에 도망치기 시작할 수 없다…
+		ELSE
+			PRINTFORMW 도망치려고 하는 %조사처리(ANAME(대상),"는")% 부하는 비밀스런 장소에 손가락을 강압 추잡하게 어루만져 움직임을 막았다…
+		ENDIF
+		IF RAND:3 == 0
+			SETCOLOR 칼라_핑크
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 남자에게 괴롭힘에되고 있다……
+			RESETCOLOR
+			KDVAR:대상:도레미_네토라레미 = 2
+		ELSE
+		ENDIF
+	CASE 2
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 부하의 남자가 신경이 쓰여 버려, 밤에 부하의 사실에 방문한…… 
+		PRINTFORML 
+		SELECTCASE RAND:5
+			CASE 5
+				PRINTFORML 남 위에서 허리를 흔들어라고 말해진 %조사처리(ANAME(대상),"는")%,
+				PRINTFORML %ANAME(MASTER)%의 명령은 아니라고 이해하고 있는데 남자에 걸쳐, 씨뿌리기를 위한 삽입을 받아들였다……
+				PRINTFORML 남 위에서 허리를 흔들면서, 남자는 몸도 마음도 조교되고 있다……
+				PRINTFORML 방 안에는 침대의 삐걱거리는 소리와 %ANAME(대상)%의 교성이 계속 영향을 주었다……
+			CASE 4
+				PRINTFORML 침대에서 태어난 채로의 모습으로 들어가면, %조사처리(ANAME(대상),"는")% 남자에게 강하게 안겨 입술을 탐내졌다……
+				PRINTFORML 씨뿌리기를 하려고 하는 수컷의 애무에 완전히 신체를 준비된 %조사처리(ANAME(대상),"는")%, 정상위로 신체를 열어 수컷의 욕망을 받아들였다……
+				PRINTFORML 몇 번이나 자궁으로 정액을 받아 들이면서, %조사처리(ANAME(대상),"는")% 암컷의 본능인 채 자궁을 계속 바쳤다……
+			CASE 3
+				PRINTFORML 남에 옷을 벗도록 들었던 %조사처리(ANAME(대상),"는")%,
+				PRINTFORML %ANAME(MASTER)%의 명령은 아니라고 이해하고 있는데 옷을 기축, 맨살을 쬐어 버렸다……
+				PRINTFORML 그대로 %ANAME(대상)%의 전신을 빠짐없이 애무되면, %조사처리(ANAME(대상),"는")% 씨뿌리기를 위한 삽입을 받아들였다……
+				PRINTFORML 방 안에는 침대의 삐걱거리는 소리와 %ANAME(대상)%의 교성이 계속 영향을 주었다……
+			CASE 2
+				PRINTFORML 위험일이니까 오늘은 안 된다면 마음으로 결정하고 있었음이 분명한 %조사처리(ANAME(대상),"였")%지만,
+				PRINTFORML 남에 껴안겨지는 밀어 쓰러트려지면, 그대로 페니스의 삽입을 허락해 버렸다……
+				PRINTFORML 몇 번이나 자궁으로 정액을 받아 들이면서, %조사처리(ANAME(대상),"는")% 암컷의 본능인 채 자궁을 계속 바쳤다……
+			CASE 1
+				PRINTFORML 남은 %조사처리(ANAME(대상),"가")% 위험일이라고 알면, 평상시보다 격렬하게%조사처리(ANAME(대상),"를")% 요구해 갔다…
+				PRINTFORML 
+				PRINTFORML 몇 번이나 대량으로 따라진 정액이 늘어지는 것을 그대로 해, 한계를 맞이해 축 침대에 늘어진 %ANAME(대상)%에
+				PRINTFORML 남은 다시 페니스를 꽂아, 몸을 흔들기 시작했다……
+				PRINTFORML %ANAME(대상)%의 자궁을 남자의 정액으로 채워, 확실히 씨뿌리기를 완료시킬 때까지
+				PRINTFORML 남의 수컷의 본능이 행위를 끝내려고는 하지 않았다……
+			CASEELSE
+				PRINTFORML %조사처리(ANAME(대상),"는")% 벽에 손을 붙은 모습으로 남자에게 뒤로부터 범해지고 있다……
+				PRINTFORML %조사처리(ANAME(대상),"는")% 엉덩이살을 잡아지면서, 천천히 확실히 남자아이 종을 씨뿌리기 되었다……
+		ENDSELECT
+		PRINTDATAL
+			DATAFORM 「…우…앗…아…앗……하앗!」
+			DATAFORM 「당…라고……아아앗! …아읏…하아아앗!」
+			DATAFORM 「아핫……후앗……는…」
+			DATAFORM 「……햣…읏앗……핫」
+			DATAFORM 「…읏……아………쿠앗」
+		ENDDATA
+		PRINTDATAW
+			DATAFORM 뒤로부터 육봉을 찔러 넣을 수 있어 그런데도 저항하는 %조사처리(ANAME(대상),"였")%지만, 비밀스런 장소로부터는 기쁨의 증거인 애액이 탁탁 흘러넘치고 있었다…
+			DATALIST
+				DATAFORM 쾌감을 인정하고 있는 %조사처리(ANAME(대상),"를")% 봐 얇게 웃은 남자는, 페니스를 뽑아 내면 입가에 즈윽 들이댄다
+				DATAFORM 헤아린 %조사처리(ANAME(대상),"는")% 마지못해 정액과 애액으로 더러워지고 자른 육봉을 가득 넣어, 혀와 입술을 사용해 청소를 시작했다…
+			ENDLIST
+			DATAFORM 교미를 끝낸 두 명은 떨어지는 일 없이, %조사처리(ANAME(대상),"는")% 아직도 건강한 남자의 페니스를 브래지어를 입은 채로 파이즈리로 봉사했다
+			DATAFORM 풍만한 가슴을 자신이 제것으로 할 수 있도록, 남자는 정액으로 부들부들 추잡하게 흔들리는 유방에 마킹 해 나간다…
+			DATAFORM 유두에 동글동글 문지르면서, 남자는 토해내는 정액으로 %ANAME(대상)%의 가슴을 마킹 해 나간다…
+			DATALIST
+				DATAFORM 자궁에 몇 번째의 씨뿌리기를 끝내도 남자는 페니스를 뽑지않고에 그대로 허리를 계속 흔든다
+				DATAFORM 쳐박을 때에, 결합부로부터는 다 들어가지 않는 정액이 흘러넘치고 나왔다…
+			ENDLIST
+		ENDDATA
+		CALL FUCK_MAKELOVE(대상, GET_SPERM_ID("불명"), @"부하의 남자의 \@RAND:2 ? 페니스 # 입술\@", @"부하의 남자")
+		IF RAND:5 == 0
+			SETCOLOR 칼라_핑크
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 완전하게 남자에게 괴롭힘으로 되어 버렸다……
+			RESETCOLOR
+			KDVAR:대상:도레미_네토라레미 = 3
+		ELSE
+		ENDIF
+	CASE 3
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 얼굴을 붉히면서, 밤에 남자의 객실을 방문했다……
+		PRINTFORML 
+		PRINTDATAL
+			DATAFORM 「가득…사정햇…♥……임신……해도…괜찮으니까♥」
+			DATAFORM 「질내……스치고…♥……아앗…앗앗앗하아읏♥」
+			DATAFORM 「…좋아……♥……사랑하고 있는……………♥」
+			DATAFORM 「아핫♥…저런 것보다…여기가…읏……기분이 좋은…♥」
+			DATAFORM 「동물의………교미…후앗……같다………♥」
+			DATAFORM 「앗앗앗아앗……응아앗! …♥」
+			DATAFORM 「…우앗…앗…질내에서…딱 …라고……♥」
+			DATAFORM 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+			DATAFORM 「응아앗……이……임신시켜엇……아기…낳고 싶은 것…♪」
+			DATAFORM 「후앗! ……읏…읏앗……아…아핫♥」
+			DATAFORM 「…읏기분……앗…너무 좋고…♥……가…햐아아앗♥」
+		ENDDATA
+		SELECTCASE RAND:12
+			CASE 12
+				PRINTFORML 방 안에 침대의 삐걱거리는 소리가 울린다……
+				PRINTFORML 침대로 위로 향해 엎드린 %조사처리(ANAME(대상),"는")% 남자에게 몸을 맡겨, 밀어닥치는 쾌락에 허덕이고 있다……
+				PRINTFORML 남이 사정할 것 같다, 라고 %ANAME(대상)%에게 전하면 %조사처리(ANAME(대상),"는")% 웃는 얼굴로 『안에 내』라고 속삭였다……
+				PRINTFORML 
+				PRINTFORML 그 순간, 질내에서 페니스가 뛰어 남자의 정액이 배란일의 자궁내를 다 메워 간다……
+				PRINTFORML 두 명은 사정이 끝난 뒤도 연결된 채로 키스를 주고 받으면서, 생각을 서로 확인하고 있다……
+			CASE 11
+				PRINTFORML %조사처리(ANAME(대상),"는")% 방에 도착하자마자 남자에게 껴안아, 귓전으로 위험일인 일을 고했다……
+				PRINTFORML %조사처리(ANAME(대상),"가")% 요구하고 있는 것을 헤아린 남자는, 참지 못하고 %ANAME(대상)%의 속옷에 손을 걸었다……
+				PRINTFORML 
+				PRINTFORML 시간을 잊고 몰두하고 있던 아이 만들기를 위한 섹스를 끝낸 %조사처리(ANAME(대상),"는")%,
+				PRINTFORML 쏟아진 자식에게 만족해, 상냥하게 남자에게 미소지었다……
+			CASE 10
+				PRINTFORML 위로돌리고로 남자를 받아들이고 있는 %조사처리(ANAME(대상),"는")%, 다리를 얽히게 할 수 있는 물기를 띤 눈동자로 남자를 응시하고 있다……
+				PRINTFORML 알몸의 신체를 밀착함키보다 깊은 삽입을 조르는 %ANAME(대상)%의 신체는, 자궁까지 닿는 사정을 기다려 바라고 있다……
+				PRINTFORML 그리고, 뜨거운 사정을 가장 안쪽에서 느끼면, %조사처리(ANAME(대상),"는")% 뒤로 젖히면서도 남자에게 매달려,
+				PRINTFORML 더욱 더 페니스를 떼어 놓지 않으리라고 신체를 얽히게 되어져 간다……
+				PRINTFORML 
+				PRINTFORML 격렬하게 몇 번이나 교제 겨우 페니스를 해방한 %조사처리(ANAME(대상),"는")%,
+				PRINTFORML 질구로부터 흘러넘치는 정액을 남자에게 보이게 하면서 오늘이 위험일이라고 알려 생긋 미소지었다……
+			CASE 9
+				PRINTFORML 질 안쪽으로 꽂았을 때의 %ANAME(대상)%의 반응에, 평상시와는 다른 열기를 감지한 남자는,
+				PRINTFORML %조사처리(ANAME(대상),"가")% 위험일인 일을 깨달아, 대면좌위로 %ANAME(대상)%의 허리를 제대로 껴안고 최안쪽에의 자극에 집중하기 시작했다……
+				PRINTFORML 밀착한 허리사용으로부터 남자가 진심으로 자신을 임신하게 할 생각이다라고 알면,
+				PRINTFORML %ANAME(대상)%의 기대와 흥분은 더욱 높아져 간다……
+				PRINTFORML %조사처리(ANAME(대상),"는")% 빠득빠득 안쪽을 만지작거려지고 계속해 몇 번이나 가게 되고 있었지만,
+				PRINTFORML 한층 더 강렬한 절정과 함께 질이 단번에 페니스를 단단히 조여, 대망의 질내사정이 방문했다……!
+				PRINTFORML 격렬한 쾌감과 여자로서의 기쁨에 떨려, %조사처리(ANAME(대상),"는")% 눈물을 흘리면서 질내에 퍼지는 남자의 정액을 맛보았다……
+			CASE 8
+				PRINTFORML 위험일이니까 오늘은 안 된다면 마음으로 결정하고 있었음이 분명한 %조사처리(ANAME(대상),"였")%지만,
+				PRINTFORML 남에 껴안겨지는 그 체온을 신체로 느끼면, 결의보다 본능이 이겨냈다……
+				PRINTFORML 남의 정자를 자궁으로 맞이하고 싶은, 남자에게 임신하게 되어지고 싶다고 바라는 기분에,
+				PRINTFORML %조사처리(ANAME(대상),"는")% 거역하는 일은 할 수 없었다……
+			CASE 7
+				PRINTFORML 남은 %조사처리(ANAME(대상),"가")% 위험일이라고 알면, 평상시보다 격렬하게%조사처리(ANAME(대상),"를")% 요구해 갔다…
+				PRINTFORML 
+				PRINTFORML 몇 번이나 대량으로 따라진 정액이 늘어지는 것을 그대로 해, 한계를 맞이해 축 침대에 늘어진 %ANAME(대상)%에
+				PRINTFORML 남은 다시 페니스를 꽂아, 몸을 흔들기 시작했다……
+				PRINTFORML %ANAME(대상)%의 자궁을 남자의 정액으로 채워, 확실히 씨뿌리기를 완료시킬 때까지
+				PRINTFORML 남의 수컷의 본능이 행위를 끝내려고는 하지 않았다……
+			CASE 6
+				PRINTFORML %조사처리(ANAME(대상),"는")% 양팔을 뒤에 잡아져 가슴을 내미는 모습으로 남자와 사귀고 있다……
+				PRINTFORM 남이 허리를 흔들 때마다, 튀어나온 
+				PRINTFORML 휘어지게 여문 유방이 추잡하게 흔들리고 있다……
+				PRINTFORML 남은 단정치 못한 소리를 높이는 %ANAME(대상)% 안에 제대로 자신의 유전자를 새겼다……
+			CASE 5
+				PRINTFORML 남에 뒤로부터 찔리면서 %조사처리(ANAME(대상),"는")% 달콤한 교성을 주고 있다……
+				PRINTFORML %ANAME(대상)%자포자기한 질은, 조금이라도 많은 정자를 받아들이려고 남자의 페니스를 꼬옥 하고 잡아 떼어 놓지 않는다……
+				PRINTFORML 남에 몇 번이나 진심의 씨뿌리기 되면서, %조사처리(ANAME(대상),"는")% 자궁을 계속 바쳤다……
+			CASE 4
+				PRINTFORML 침대에서 태어난 채로의 모습으로 들어가면, %조사처리(ANAME(대상),"와")% 남자는 강하게 얼싸안아, 서로의 입술을 탐냈다……
+				PRINTFORML 완전히 준비가 되어있는 %조사처리(ANAME(대상),"는")%, 관철해지는 것을 요구해 남자에게 무의식 중에 허리를 칠하고 있다……
+				PRINTFORML 그리고 %조사처리(ANAME(대상),"는")% 남자의 페니스를 받아들이면, 남자의 귓전으로 달콤한 소리를 지르기 시작했다……
+			CASE 3
+				PRINTFORML 남은 %조사처리(ANAME(대상),"를")% 뒤로부터 격렬하게 찌르면서, 가슴이나 국부에의 애무를 빠뜨리지 않는다……
+				PRINTFORML %ANAME(대상)%의 약한 곳을 지있던 손가락이, %조사처리(ANAME(대상),"를")% 오늘 몇 번째인가의 절정에 간단하게 추적한다……
+				PRINTFORML 그리고, 머릿속이 새하얗게 된 중에서 더욱 꾸짖을 수 있어 %조사처리(ANAME(대상),"는")% 남자에게 몸도 마음도 맡겨 갔다……
+			CASE 2
+				PRINTFORML %조사처리(ANAME(대상),"와")% 남자는 양손을 서로 잡아, 시선을 얽히게 할 수 있는 서로 응시하면서 몇 번이나 뜨거운 입맞춤을 하고 있다……
+				PRINTFORML %조사처리(ANAME(대상),"는")% 몽롱 한 시선으로, 남자와의 키스에 열중해, 타액의 교환을 계속하고 있다……
+				PRINTFORML 길고 뜨거운 입맞춤으로 다 완전히 열었던 %ANAME(대상)%의 몸은, 남자의 페니스를 받아들이는 것만으로 절정 했다……
+			CASE 1
+				PRINTFORML %조사처리(ANAME(대상),"는")% 침대에 앉는 남자의 페니스를 눈을 치켜 뜨고 봄을 하면서로 물고 있다……
+				PRINTFORML 페니스를 뒤따른 정액을 빨고 취하고 있으면, 남자가 상냥하게 머리를 어루만졌다……
+				PRINTFORML %조사처리(ANAME(대상),"는")% 기쁜듯이 뺨을 물들이면, 한층 더 정중하게 혀를 기게 하기 시작했다……
+				PRINTFORML 
+				PRINTFORML 봉사를 계속하는 %ANAME(대상)%의 질구로부터는 조금 전 발해진 남자의 정액이 흘러 떨어지고 있다……
+			CASEELSE
+				PRINTFORML %조사처리(ANAME(대상),"는")% 벽에 손을 붙은 모습으로 남자에게 뒤로부터 범해지고 있다……
+				PRINTFORML %조사처리(ANAME(대상),"는")% 엉덩이살을 잡아지면서, 천천히 확실히 남자아이 종을 씨뿌리기 되었다……
+		ENDSELECT
+		SELECTCASE RAND:10
+			CASE 10
+				PRINTFORML 조교도 끝나, 완전히 남자에게 몸도 마음도 허락해 버린 %조사처리(ANAME(대상),"는")%, 남자 위에서 추잡하게 허덕이고 있다.
+				PRINTFORMW 자신 위에서 허덕여 마이모습에 남자는 만족하면서, 씨뿌리기를 실시할 수 있도록 허리를 움직이기 시작했다…
+			CASE 9
+				PRINTFORML 자궁을 두드릴 때에 안으로 타푼과 흔들리는 정액을 느끼면서, %조사처리(ANAME(대상),"는")% 새로운 씨뿌리기를 요구해 허리를 흔들어 움직인다.
+				PRINTFORML 움직일 때에 질내의 주름으로 칼리목을 계속 공격해, 다시 서로 절정에 도달한다.
+				PRINTFORMW 이번 씨뿌리기로 마침내 가득하게 된 자궁을, %조사처리(ANAME(대상),"는")% 행복하게 배 위로부터 어루만졌다…
+			CASE 8
+				PRINTFORML 침대 위에서 엎드린 자세로 된 %조사처리(ANAME(대상),"를")%, 남자는 허리를 잡아 욕망인 채 계속 범한다.
+				PRINTFORML 이윽고 기우뚱하게 붕괴된 %ANAME(대상)%에 덮어씌워, 몸을 억눌러 씨뿌리기 했다.
+				PRINTFORMW 절정에 떨리는 두 명이었지만, 한동안 하면 두 명의 방으로부터는 다시 신음소리가 주워듣는동 넘어 왔다…
+			CASE 7
+				PRINTFORML %조사처리(ANAME(대상),"가")% 벽에 손을 붙어 서서뒷치기의 몸의 자세를 취해, 남자가 뒤로부터 그 고기단지를 범한다.
+				PRINTFORML 침대에서 하는 것과는 다른 흥분을 즐기면서, %조사처리(ANAME(대상),"는")% 엉덩이를 내밀어 졸라댔다.
+				PRINTFORMW 남은 거기에 응하기 위해서(때문에) 피스톤의 템포를 올려 가 강직해 자궁입구를 비틀어 열어 직접 사정했다…
+			CASE 6
+				PRINTFORML 두 명 동시에 절정에 이르러, 씨뿌리기를 완료한 남자는 주르륵 페니스를 뽑아 냈다.
+				PRINTFORML 여운에 잠기면서도 쇠약해지기 시작하고 있던 페니스를 가득 넣으면 익숙해진 움직임으로 정액과 애액을 빨고 취한다.
+				PRINTFORML 이것으로 끝낼 생각이었던 남자이지만, 그 봉사상에 흥분해 다시 페니스를 딱딱하게 시켰다.
+				PRINTFORMW 발기하는 육봉을 기쁜듯이 본 %조사처리(ANAME(대상),"는")%, 비밀스런 장소를 만지작거리면서 기대의 시선으로 남자를 보았다…
+			CASE 5
+				PRINTFORML 결합부로부터 추잡한 소리를 울리면서, 두 명은 있는 한 방으로 아이 만들어 하고 있었다.
+				PRINTFORML 씨뿌리기를 공갈하도록(듯이) 다리를 얽히게 할 수 있어, 서로 사랑하도록(듯이) 신체를 서로 쳐박는다.
+				PRINTFORMW 융기 하는 유두를 희롱하면서, 남자는 %ANAME(대상)%의 최안쪽에 백탁액을 털어 놓았다…
+			CASE 4
+				PRINTFORML 페니스를 쳐박는 남자의 움직임에 맞추어 허리를 구불거리게 해, %조사처리(ANAME(대상),"는")% 상대의 사정을 재촉한다.
+				PRINTFORMW %ANAME(대상)%의 몸도 마음도 염색해 낸 위에 자신의 아이를 임신하게 할 수 있도록, 남자는 대량의 유전자를 %ANAME(대상)% 안에 새겼다…
+			CASE 3
+				PRINTFORML 평소의 짐승과 같이 격렬한 행위는 아니고, 낙낙하게 여유가 있는 움직임으로 남자와 교접한다.
+				PRINTFORMW 담소하면서 정사에 빠지는 그 결합부로부터는, 언제까지나 정액이 흘러넘치고 있었다…
+			CASE 2
+				PRINTFORML 츗 남자의 뺨에 입맞춤을 하면 허겁지겁 옷을 벌 시작한다.
+				PRINTFORML 문득 『오늘은 여기의 주인에게 안겼던 것은인가』라고 남자는 %ANAME(대상)%에 묻는다.
+				PRINTFORML %조사처리(ANAME(대상),"는")% 쿡쿡 웃으면 남자에게 알도록, 비밀스런 장소를 넓혀 안을 보인다.
+				PRINTFORMW 대량의 정액으로 가득가득해, 이미 %조사처리(ANAME(MASTER),"가")% 씨뿌리기 하는 틈새는 없다…
+			CASE 1
+				PRINTFORML 대강 씨뿌리기를 끝낸 남자의 질척질척의 페니스를 땀이 밴 유방으로 끼워 넣는다.
+				PRINTFORML 로션을 쳐바른 쌍구로, 풍만한 가슴을 좌우에 뭉그러뜨리면서 페니스를 다루고 있다.
+				PRINTFORML 지나친 쾌감에 벌써 사정을 시작한 페니스를, 아직 쇠약해지지 않는다고 확신하고 있는 %조사처리(ANAME(대상),"는")% 가차 없이 계속 잡아당겼다.
+				PRINTFORMW 평상시와는 역의 입장이 되어 유유히 페니스를 잡아당기지만, 그 움직임은 남자에게 가르쳐진 움직임에 지나지 않았다…
+			CASEELSE
+				PRINTFORML 대강 씨뿌리기를 끝낸 남자의 질척질척의 페니스를 %조사처리(ANAME(대상),"는")% 입에 가득 넣어, 힘차게 목을 움직였다.
+				PRINTFORML 요도에 남는 정액을 들이마시면서, 혀를 장대에 관련되고 헌신적으로 계속 움직인다.
+				PRINTFORML 눈을 치켜 뜨고 페라를 계속 하는 %ANAME(대상)%에 남자는 흥분해, 다시 페니스를 단단하게 시킨다.
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 기쁜듯이 육봉으로부터 입을 떼어 놓으면, 씨뿌리기에 의해 정액이 흘러넘치는 비밀스런 장소에 육봉을 물게 해 갔다…
+		ENDSELECT
+		SETCOLOR 칼라_핑크
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML 남에 의하는 %ANAME(대상)%의 조교 내용
+		PRINTFORML
+		PRINTFORML 소요 시간　{RAND:3+1}시간{RAND:50+10}분
+		PRINTFORML 플레이 내용
+		PRINTDATAL
+			DATAFORM 『욕실로 SEX』
+			DATAFORM 『접대 플레이』
+			DATAFORM 『자궁이 가득하게 될 때까지 SEX』
+			DATAFORM 『아이 만들기 섹스♥』
+			DATAFORM 『짐승과 같은 교미』
+			DATAFORM 『봉사 섹스♥』
+			DATAFORM 『오로지 서로 사랑하는♥』
+		ENDDATA
+		PRINTFORML
+		PRINTFORML 키스　{RAND:15}회
+		PRINTFORML 자위　{RAND:15}회
+		PRINTFORML 펠라치오　{RAND:15}회
+		PRINTFORML 파이즈리　{RAND:15}회
+		PRINTFORML 정상위계　{RAND:15}회
+		PRINTFORML 후배위계　{RAND:15}회
+		PRINTFORML 기승위계　{RAND:15}회
+		PRINTFORML
+		PRINTFORML 구강사정　{RAND:10}회
+		PRINTFORML 가슴 사정　{RAND:10}회
+		PRINTFORML 질내사정　{RAND:10}회
+		PRINTFORML
+		PRINTFORML %ANAME(대상)%의 평가（내심）
+		PRINTDATAL
+			DATAFORM （빨리 이 사람과 행복하게 되고 싶은…♥）
+			DATAFORM （최고로 좋았던♥…아기 낳아 주고 싶은…♥）
+			DATAFORM （그 결점 틴 따위와 비교물에라면 아무리 있고 기분이 좋은…♥）
+			DATAFORM （그 사람보다 기분이 좋은…♥）
+			DATAFORM （기분 좋았던…♥）
+			DATAFORM （그 사람과 호각일지도 모르는…♪）
+			DATAFORM （그 사람의 (분)편이 좋을지도）
+		ENDDATA
+		RESETCOLOR
+		CALL FUCK_MAKELOVE(대상, GET_SPERM_ID("불명"), @"부하의 남자의 \@RAND:2 ? 페니스 # 입술\@", @"부하의 남자")
+		PRINTFORMW
+		IF RAND:5 == 0
+			KDVAR:대상:도레미_네토라레미 = 4
+		ELSE
+		ENDIF
+	CASE 4
+		PRINTFORMW 간신히 %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"가")% 부하의 남자와 종종 밀회를 반복하고 있는 일을 알았다
+		PRINTFORMW 지금은 정무는 커녕 일도 하지 않고, 몇 번이나 남자와 사귀고 있는 것 같다
+		PRINTFORMW 그런데 왜 그러는 것인가……
+		CALL ASK_YN("자신의 여자인 일을 생각나게 한다", "자유롭게 시킨다")
+		IF RESULT == 0
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 자신의 여자다……그것을 생각나게 해 주자
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"가")% 남자와 사귀고 있는 곳에 난입했다
+			PRINTFORMW 「?!   어째서 %조사처리(ANAME(MASTER),"가")% 여기에?!」
+			PRINTFORMW 혼란하는 %조사처리(ANAME(대상),"를")% 다른 장소에 남자를 냅다 밀쳐, %조사처리(ANAME(대상),"가")% 자신의 여자인 일을 생각나게 했다…
+			PRINTFORML
+			CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+			PRINTFORML
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			PRINTFORMW 아직이다
+			PRINTFORML
+			CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+			PRINTFORML
+			PRINTFORML 「후앗! ……읏…읏앗……아…아핫♥」
+			PRINTFORMW 아직도!
+			PRINTFORML
+			CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+			PRINTFORML
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			PRINTFORMW 아직도 아직도!!
+			PRINTFORML
+			CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+			PRINTFORML
+			PRINTFORML 「…좋아……♥……사랑하고 있는……………♥」
+			PRINTFORMW 이것으로 피니쉬다!!!
+			PRINTFORML
+			CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+			CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+			PRINTFORML
+			PRINTFORML 「…읏기분……앗…너무 좋고…♥……가…햐아아앗♥」
+			PRINTFORMW ·
+			PRINTFORMW ·
+			PRINTFORMW ·
+			PRINTFORMW 「……미안해요, 나……그……」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 거듭되는 재조사교로 본래의 주인을 생각해 내, 죄악감으로 가득 찬 눈으로 %조사처리(ANAME(MASTER),"를")% 응시했다
+			PRINTFORML 이쪽에도 대응할 수 없었던 빚은 있으므로, 살그머니 입맞춤을 해 %조사처리(ANAME(대상),"를")% 허락했다
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 눈물을 흘려 사죄의 말을 흘려, 그리고 다시 %ANAME(MASTER)%에 사랑을 맹세했다…
+			PRINTFORML
+			PRINTFORML
+			PRINTFORML
+			PRINTFORML
+			PRINTFORML
+			PRINTFORMW 더 부하의 남자는 먼 곳에 있는 수은 광산에서의 강제 노동에 종사하는 일이 되었다……
+			KDVAR:대상:도레미_네토라레미 = -1
+		ELSE
+			PRINTFORMW 별로 여자의 한사람이나 두 명, 부하에게 주어도 좋을 것이다
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"가")% 행복하면 그것으로 좋을 것이라고 결론 지었다……
+			KDVAR:대상:도레미_네토라레미 = -1
+		ENDIF
+ENDSELECT
+
+
+
+RETURN 1
+

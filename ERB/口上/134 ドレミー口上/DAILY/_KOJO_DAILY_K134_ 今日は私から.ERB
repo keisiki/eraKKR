@@ -1,0 +1,1401 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_SEISAI_ONLY_RATE(대상)
+#DIM 대상
+RETURN 70
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_SEISAI_ONLY_DECISION(대상)
+#DIM 대상
+
+;도레미와 안면이 있어, 소속이 동일, 정실인 것,7%
+SIF !TALENT:대상:정실
+	RETURN 0
+
+;네토라레미중은 일어나지 않는다
+SIF KDVAR:대상:도레미_네토라레미 > 0
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_SEISAI_ONLY_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_SEISAI_ONLY(대상)
+#DIM 대상
+#DIM 경험치
+
+PRINTFORML 
+PRINTFORMW 간신히 오늘의 분의 일이 끝났다
+PRINTFORML 그런데 체력이 조금 남아 있구나…조금 신체를 움직일까?
+PRINTFORML 그렇지 않으면 오늘은 침대에서 쉴까?
+CALL ASK_YN("신체를 움직인다", "침대에서 쉰다")
+IF RESULT == 0
+	SELECTCASE RAND:100
+		CASE IS < 40
+			경험치 = GET_EXP(GETNUM(ABL, "무투"))
+		CASE IS < 70
+			경험치 = GET_EXP(GETNUM(ABL, "방위"))
+		CASE IS < 90
+			경험치 = GET_EXP(GETNUM(ABL, "지략"))
+		CASEELSE
+			경험치 = GET_EXP(GETNUM(ABL, "정치"))
+	ENDSELECT
+	PRINTFORML 혼자서 자신의 싸우는 방법을 다시 보면서 무기를 휘둘렀다……
+	CALL PRINT_ADD_EXP(MASTER, EXPNAME:경험치, RAND:5 + 1, 1)
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그대로 아침까지 계속했다
+ELSE
+	IF KDVAR:대상:도레미_오늘은나부터 == 0
+		PRINTFORML 
+		PRINTFORML 모두가 잠들어 조용해지기 시작한 심야, %ANAME(MASTER)%도 자려고 침대에 누웠다
+		PRINTFORML %조사처리(ANAME(대상),"를")% 아내로 맞이하고 나서는 반드시 매일 같은 침대에서 자고 있다
+		PRINTFORML 이지만 근처에는 아내는 없는, 평상시라면 먼저 잠자리에 들고 있을 것이지만……
+		PRINTFORMW 반드시 꿈의 세계에 가고 있을 것이라고 생각해, %조사처리(ANAME(MASTER),"는")% 초의 등불을 지워 혼자서 자기로 했다
+		PRINTFORMW ·
+		PRINTFORMW ·
+		PRINTFORMW ·
+		SETCOLOR 칼라_핑크
+		PRINTFORML 멍하니 초의 불이 방을 비추고 있는……이상해, 초의 불은 확실히 지웠을 텐데
+		PRINTFORML 「후훗%ANAME(MASTER)%도 참, 이것으로 일어나 버린다니 잠이 얕네요 좋은 꿈 볼 수 없어요?」
+		PRINTFORML 눈을 떠 소리의 하는 (분)편에 향하면, 거기에는 도발적으로 미소지어 스커트를 걷어올린 %조사처리(ANAME(대상),"가")% 침대의 옆에 서 있었다
+		PRINTFORML 「…섹스 좋아하는 여자는……싫어?」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 뺨에 손을 대어 귓전으로 그렇게 속삭였다
+		PRINTFORML 
+		PRINTFORML 
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 뺨에 대어진 손에 스스로의 손을 모아 자신의 생각을 전했다
+		PRINTFORML 「……그러면…좋지요」
+		PRINTFORML 표정을 바꾸는 일 없고 %조사처리(ANAME(대상),"는")% 손을 떼어 놓아, 엎드린 %ANAME(MASTER)% 위에 선다
+		PRINTFORML 그대로 %조사처리(ANAME(대상),"는")% 술술 의복을 벗어 떨어뜨려, 음란한 유카리에 예쁜 자수 레이스를 다룬 베이비돌 모습이 된다
+		PRINTFORML 핑 친 유두가 비쳐 보여, 속옷의 위로부터도 욕정해 버리고 있는 것이 알 정도의 애액으로 꿀단지가 젖고 있다……
+		PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 손을 잡아, 젖은 꿀단지를 훑으게 해 왔다
+		PRINTFORML 끈적한 애액이 %ANAME(MASTER)%의 손가락과 손가락의 사이에 질척질척 소리를 내 실을 당기고 있다……
+		PRINTFORML 「이제(이미/벌써/더는/정말)……이렇게 되어 버린 것♥  응 츗……♥」
+		PRINTFORML %조사처리(ANAME(MASTER),"가")% 발기한 것을 간파하면, %조사처리(ANAME(대상),"는")% 서로의 혀를 사귀게 할 정도의 농후한 키스했다
+		PRINTFORML 「%조사처리(ANAME(MASTER),"는")% 움직이지 않아도 괜찮아요♥」
+		PRINTFORMW 
+	ELSE
+		SETCOLOR 칼라_핑크
+		PRINTFORML 모두가 잠들어 조용해지기 시작한 심야, %ANAME(MASTER)%도 자려고 침대에 누우면 근처에 %조사처리(ANAME(대상),"가")% 가로놓여 있었다
+		PRINTFORML 「후훗, 오늘도……말야♥」
+		PRINTFORML %조사처리(ANAME(대상),"는")% 벌써 음란함%SPLIT_RAND("보라/검정/빨강/초록/파랑/흰색", 1)%에 예쁜 자수 레이스를 다루었던 %SPLIT_RAND("베이비돌/오픈브라/뷔스티에/슬립", 1)%모습이다
+		PRINTFORMW 핑 친 %SPLIT_RAND("유두/클리토리스", 1)%가 비쳐 보여, 속옷의 위로부터도 욕정해 버리고 있는 것이 알 정도의 애액으로 꿀단지가 젖고 있다……
+		PRINTFORM
+			;-----------------------------------------------------------------
+		IF RAND:5 == 0
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 손을 잡아, 젖은 꿀단지를 훑으게 해 왔다
+			PRINTFORML 끈적한 애액이 %ANAME(MASTER)%의 손가락과 손가락의 사이에 질척질척 소리를 내 실을 당기고 있다……
+			PRINTFORML 「이제(이미/벌써/더는/정말)……이렇게 되어 버린 것♥  응 츗……♥」
+			PRINTFORML  %조사처리(ANAME(MASTER),"가")% 발기한 것을 간파하면, %조사처리(ANAME(대상),"는")% 서로의 혀를 사귀게 할 정도의 농후한 키스했다
+		ELSEIF RAND:5 == 0
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 키에 손을 돌려, 신체를 강압하도록(듯이) 껴안아 왔다
+			PRINTFORML 「스웃♥  후~♥  ♥  후~♥」
+			PRINTFORML %ANAME(MASTER)%의 귀의 뒤에 코를 대어 심호흡을 하는 %ANAME(대상)%, 호흡마다 신체를 흠칫 진동시키고 있다
+			PRINTFORML 신체가 떨릴 때에 %ANAME(MASTER)%의 페니스는 질척질척 소리를 내 %조사처리(ANAME(대상),"가")% 젖은 꿀단지를 갈아 간다……
+			PRINTFORML 「안 돼……인내 잘 나가지 않는♥  응 츗……♥」
+			PRINTFORML  %조사처리(ANAME(MASTER),"가")% 발기한 것을 간파하면, %조사처리(ANAME(대상),"는")% 서로의 혀를 사귀게 할 정도의 농후한 키스했다
+		ELSEIF RAND:5 == 0
+			PRINTFORML 「혀 내♥  이봐요♥  ♥  츄, 날름……♥」
+			PRINTFORML (듣)묻는 대로 혀를 내밀면, %조사처리(ANAME(대상),"는")% 그 혀끝에 스스로의 혀끝을 얽히게 할 수 있는 설리나 천정까지 빤다
+			PRINTFORML 「아뭇……쥬루루룻…읏♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 혀를 물어, 펠라치오를 하도록(듯이) 소리를 내 들이마시기 시작한다
+			PRINTFORML 그대로 더욱%ANAME(MASTER)%에 껴안으면서 %조사처리(ANAME(대상),"는")% 추잡하게 목을 움직인다
+			PRINTFORML 한동안 해 간신히 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 혀로부터 혀끝을 떼어 놓았다
+			PRINTFORML 서로의 혀끝은 투명하고 끈적끈적한 실을 개-와 늘어뜨려 연결되고 있다……
+		ELSEIF RAND:5 == 0
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 키에 손을 돌려, 신체를 강압하도록(듯이) 껴안아 왔다
+			PRINTFORML 「하아♥  응……%ANAME(MASTER)%♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 페니스를 손으로 상냥하게 애무하면서 귓전으로 속삭인다
+			PRINTFORMW 「자지♥  세워♥♥♥  가득 엣치해♥♥  기분 좋아져♥♥♥」
+			PRINTFORMW 「좋아♥　%ANAME(MASTER)%너무 좋아♥♥  사랑하고 있는♥」
+			PRINTFORMW 「이봐요 손대어♥♥  보지♥  굿쵸그쵸인 것♥　%ANAME(MASTER)%의 자지 갖고 싶은 것♥♥♥」
+			PRINTFORMW 「기분 좋아져♥  가득 엣치해♥」
+			PRINTFORMW 「임신하게 해♥♥  가득♥♥♥  기분 좋게 해♥♥♥  이봐요♥  자지 세워♥♥」
+			PRINTFORMW 「엣치♥♥  기분양～있고♥♥  엣치해♥  군요♥♥♥」
+			PRINTFORMW 「%ANAME(MASTER)%의 자지로♥♥  가득 찔러♥♥  가득 내♥♥♥」
+			PRINTFORMW 「좋아♥♥  를 좋아하는 사람♥♥  를 좋아하는 사람♥♥♥  엣치하고 싶은 것♥♥　%ANAME(MASTER)%♥♥♥  너무 좋앗♥♥♥」
+			PRINTFORML  %조사처리(ANAME(대상),"가")% 속삭임에 %조사처리(ANAME(MASTER),"가")% 발기하면, %조사처리(ANAME(대상),"는")% 서로의 혀를 사귀게 할 정도의 농후한 키스했다
+		ELSE
+			PRINTFORML %조사처리(ANAME(대상),"는")% 속옷으로부터 유두를 노출시키고 %ANAME(MASTER)%의 입가에 가까이 했다
+			PRINTFORML 「저기……들이마셔♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 희미한 핑크색의 유륜에 혀를 기게 한다…
+			PRINTFORML 「이제(이미/벌써/더는/정말)……♥  ……후훗♥」
+			PRINTFORML 그대로 유륜만을 계속 끈질기게 공격하는 %ANAME(MASTER)%
+			PRINTFORMW
+			PRINTFORML 「읏♥  ……훗-♥」
+			PRINTFORML 이미 %ANAME(대상)%의 유두는 핑 긴장되어, %ANAME(MASTER)%의 혀끝에 의한 애무에의 기대로 가득 차 있다…
+			PRINTFORML 「%ANAME(MASTER)%……」
+			PRINTFORML 안타까운 소리로 중얼거리고 있는 %ANAME(대상)%
+			PRINTFORML 그 모습을 봐 %조사처리(ANAME(MASTER),"는")% 유륜만을 꾸짖고 있던 혀끝을 유두로 옮겼다
+			PRINTFORML 「앗♥♥♥  그런 갑자기♥♥♥♥」
+			PRINTFORMW 
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 유두를 혀끝에서 빨고 짜거나 혀끝에서 조금 닿게 했다
+			PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+			PRINTFORML 그 때 %조사처리(ANAME(대상),"는")% 허리를 띄우고 느끼고 있다…
+			PRINTFORML 거기에 %조사처리(ANAME(MASTER),"는")% 단단해진 유두를 살짝 깨물기 하면서 츄파츄파와 소리를 내 들이마셨다
+			PRINTFORML 「아앙♥♥  그런 아기같이♥♥」
+			PRINTFORML 「후훗♥  좋아요♥  젖가슴을 좋아하는 것이군요♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"가")% 입을 떼어 놓으면, %조사처리(ANAME(대상),"가")% 서로의 혀를 사귀게 할 정도의 농후한 키스했다
+		ENDIF
+			;-----------------------------------------------------------------
+		IF RAND:6 == 0
+			PRINTFORML 「%조사처리(ANAME(MASTER),"는")% 움직이지 않아도 괜찮아요♥」
+		ELSEIF RAND:5 == 0
+			PRINTFORML 「나에게 맡겨♥  가득기분좋게해줘 주는♥♥」
+		ELSEIF RAND:4 == 0
+			PRINTFORML 「빠직빠직 발기한 임신하게 한 자지♥  나의 것…새보지로 드퓨♥드퓨♥시켜 준다」
+		ELSEIF RAND:3 == 0
+			PRINTFORML 「좋아♥  가득 서로 사랑합시다♥  와～라고 해도 농후한 씨뿌리기 임신하게 한 섹스 합시다♥」
+		ELSEIF RAND:2 == 0
+			PRINTFORML 「엣치합시다♥  기분이 좋은 엣치♥」
+		ELSE
+			PRINTFORML 「후훗♥  위험 날짜궁으로 자지 쭈웁쭈웁 시켜 주는♥♥♥」
+		ENDIF
+			;------------------------------------------------------------------
+		PRINTFORMW 
+	ENDIF
+;--------------------------------------------------------------------------------
+		;대딸·페라·파이즈리·스마타의 어떤 것인가가 선택된다
+	SELECTCASE RAND:4
+			;대딸＋손에 사정
+		CASE 0
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 페니스를 손에 들어 훑어 내기 시작했다
+			IF RAND:3 == 0
+				PRINTFORML
+				PRINTFORML 「후훗, 손안으로 움찔움찔 하고 있는♥」
+				PRINTFORML 열심히 페니스를 훑어 가는 %ANAME(대상)%
+				PRINTFORML 오른손으로 페니스를 훑어 내면서 왼손으로 봉투를 상냥한 손놀림으로 손대고 있다
+				PRINTFORML 너무 강하지 않고 너무 약하지 않고, 적당함%ANAME(대상)%의 봉사에 %조사처리(ANAME(MASTER),"는")% 서서히 사정으로 향해 간다
+				PRINTFORML 「사정하고 싶어지면……♥  언제라도 해도 좋아요♥  받아 들여 주는♥」
+				PRINTFORMW
+			ELSEIF RAND:2 == 0
+				PRINTFORML
+				PRINTFORML 「후훗♥  움찔움찔 해 버려 사랑스럽네요……에잇♥」
+				PRINTFORML 응와 손가락으로 가볍게 페니스를 연주한다
+				PRINTFORML 저리는 것 같은 쾌감에 무심코 %조사처리(ANAME(MASTER),"는")% 뒤로 젖힌다
+				PRINTFORML 「아랏♥  조금 아팠을까 ♥  응―……그렇지도 않는 것 같네♥」
+				PRINTFORML 그렇게 말해 %조사처리(ANAME(대상),"는")% 손의 움직임을 다시 시작했다
+				PRINTFORMW
+			ELSE
+				PRINTFORML
+				PRINTFORML 「후훗♥  상당히 큰 아이가 되어 버렸군요……♥」
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 허벅지에 얼굴을 실어, 그녀의 가슴을 만지작거리고 있다
+				PRINTFORML 한편으로 자애의 표정을 띄우면서 열심히 장대를 훑어 가는 %ANAME(대상)%
+				PRINTFORML 너무 강하지 않고 너무 약하지 않고, 적당함%ANAME(대상)%의 봉사에 %조사처리(ANAME(MASTER),"는")% 서서히 사정으로 향해 간다
+				PRINTFORML 「사정하고 싶어지면♥  언제라도 해도 좋아요♥  받아 들여 주는♥」
+				PRINTFORMW
+			ENDIF
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 그대로 %ANAME(대상)%의 손에 사정했다
+			IF RAND:4 == 0
+				PRINTFORML 「아-아-, 손바닥이 질척질척이군요♥」
+				PRINTFORML 손이나 얼굴에 걸린 정액을 %조사처리(ANAME(대상),"는")% 깨끗하게 빨고 취해 간다.
+				PRINTFORMW 이제(이미/벌써/더는/정말) 맛에도 익숙해져 버렸는지, 표정에는 욕정의 색을 엿볼 수 있었다…
+			ELSEIF RAND:4 == 0
+				PRINTFORML 「바닥이 없음이군요……♥」
+				PRINTFORMW %조사처리(ANAME(대상),"는")%, 사정 직후에도 불구하고 손안으로 다시 단단해지기 시작한 %ANAME(MASTER)%의 음경을 정신나가면서 바라보고 있다……
+			ELSEIF RAND:4 == 0
+				PRINTFORML 「…아……아핫♥」
+				PRINTFORML %조사처리(ANAME(대상),"는")% 뛰쳐나온 정액을 한 손으로 받아 들여, 손바닥에는 가득한 정액으로 할 수 있던 웅덩이가 완성한다
+				PRINTFORML 그것을 %조사처리(ANAME(대상),"는")% 단번에 다 마셔, 남은 만큼을 깨끗하게 빨고 취해 갔다
+				PRINTFORMW 그런데도 부족한 것인지 눈을 치켜 뜨고 자위 하면서, 갖고 싶어하는 듯이 다음의 사정을 공갈했다…
+			ELSE
+				PRINTFORML 「…후훗……♥」
+				PRINTFORML 손이나 얼굴을 깨끗하게 청소한 후, %조사처리(ANAME(대상),"는")% 페니스를 다뤄 나머지국물을 빨고 취한다
+				PRINTFORMW 아직도 발기하는 %ANAME(MASTER)%의 육봉을 봐, 그 씩씩함에 넋을 잃고 보고 있었다…
+			ENDIF
+			;펠라치오＋구강사정
+		CASE 1
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 페니스를 빨기 시작했다
+				;----------------------------------------
+			IF RAND:3 == 0
+				PRINTFORML 「응뭇♥  츄, 날름……」
+			ELSEIF RAND:2 == 0
+				PRINTFORML 「…쥬루……읏응응우…♥」
+			ELSE
+				PRINTFORML 「아뭇……쥬루루룻…읏♥」
+			ENDIF
+				;----------------------------------------
+			IF RAND:3 == 0
+				PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 약한 곳을 적확하게 공격해 온다
+				PRINTFORML 「츄폿……후훗, 언제라도 입의 안에 사정해도 좋은 것이에요?」
+				PRINTFORML 「응뭇……츄룻, 쥬루루루……」
+				PRINTFORML %ANAME(MASTER)%에 껴안으면서 %조사처리(ANAME(대상),"는")% 추잡하게 목을 움직인다
+				PRINTFORML 빠르게 정액을 갖고 싶은 것인지 눈을 치켜 뜨고 사정을 간절히 바라고 있다
+			ELSEIF RAND:2 == 0
+				PRINTFORML 스스로 이마라치오를 하도록(듯이)%조사처리(ANAME(대상),"는")% 눈물고인 눈이 되면서 고속으로 목을 스트로크 시킨다
+				PRINTFORML %조사처리(ANAME(MASTER),"가")% 기분 좋아지는 것을 최우선 하고 있기에(위해)인가, 군침을 흘리는 것도 상관하지 않고 계속 거절한다
+				PRINTFORML 그 성과 있어인가, 높아진 %ANAME(MASTER)%의 사정감은 곧바로 앞당겨져 갔다…
+			ELSE
+				PRINTFORML 빨리 해에 목을 움직이면서도 비어있던 손으로 타마를 비비어 %조사처리(ANAME(대상),"는")% 뜨거운 육봉을 봉사한다.
+				PRINTFORML 뺨측에 페니스를 밖으로부터 떠오르는 것이 알 정도로 문질러, %조사처리(ANAME(대상),"는")% 즐거운 듯이 웃었다…
+			ENDIF
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그대로 %ANAME(대상)%의 입에 사정했다
+			PRINTFORML
+				;----------------------------------------
+			IF !RAND:5
+				PRINTFORML 「…읏……꿀꺽……하아-……♥」
+			ELSEIF !RAND:4
+				PRINTFORML 「읏…읏……하앗……꿀꺽…꿀꺽♥」
+			ELSEIF !RAND:3
+				PRINTFORML 「끄덕……꿀꺽♥……후앗…읏……응읏…」
+			ELSEIF !RAND:2
+				PRINTFORML 「…쥬룻……읏…쥬-……꿀꺽……♥」
+			ELSE
+				PRINTFORML 「……꿀꺽…♥…쥬루루룻……읏……♥」
+			ENDIF
+				;----------------------------------------
+			IF !RAND:5
+				PRINTFORML 육봉을 %ANAME(대상)%의 목까지 찔러 넣으면, 그대로 사정한다.
+				PRINTFORML 직접목에 흘려 넣어지는 액체로 목이 막히지 않게 %조사처리(ANAME(대상),"는")% 필사적으로 참는다.
+				PRINTFORMW 모두 다 마실 수 있던 것을 머리를 어루만져 칭찬해 주면, 눈물을 견디고 있었던 %조사처리(ANAME(대상),"는")% 곧바로 웃는 얼굴이 되었다…
+			ELSEIF !RAND:4
+				PRINTFORML 기다리기 어려워 하고 있었는지같이 페니스로부터 토해내진 정액을, %조사처리(ANAME(대상),"는")% 목을 울려 마시기 시작했다.
+				PRINTFORML %조사처리(ANAME(대상),"는")% 목의 갈증을 달래도록(듯이) 정액을 계속 받아 들인다.
+				PRINTFORMW 사정이 대강 끝나면, 한 그릇 더를 공갈하도록(듯이) 눈을 치켜 뜨고 아직도 발기하는 육봉을 다시 물었다…
+			ELSEIF !RAND:3
+				PRINTFORML 사정이 끝나면 %조사처리(ANAME(대상),"는")% 페니스를 뽑아 내, 입에 모인 신선한 정액을 토해내려고 한다.
+				PRINTFORML 하지만, 그것을 토해내는 것이 왜일까 하지 못하고, 꿀꺽 목을 울려 위에 거두어 버렸다.
+				PRINTFORML 기분이 안좋을 것 같은 표정을 손질하고는 있었지만…뺨을 붉히고 욕정하고 있는 것이 분명했다.
+				PRINTFORML 요도에 남은 만큼을 청소시키려고 %ANAME(대상)%의 얼굴에 육봉을 접근하면, 일순간의 당황스러움의 뒤로 입에 포함했다…
+			ELSEIF !RAND:2
+				PRINTFORML 구에 계속 나오는 %ANAME(MASTER)%의 정액을 %조사처리(ANAME(대상),"는")% 욕정한 얼굴로 다 마신다.
+				PRINTFORML 요도에 남은 만큼도 힘차게 빨아내, 모두 위안에 거둔다.
+				PRINTFORMW 그 행위에 도취해, 욕정하는 %조사처리(ANAME(대상),"는")% 다시 페니스를 질네봉사를 계속했다…
+			ELSE
+				PRINTFORML 페니스로부터 토해내지는 정액을 다 마셔, %ANAME(MASTER)%의 여운도 다스려졌다.
+				PRINTFORMW 이지만, 그런데도 %조사처리(ANAME(대상),"는")% 스트로크를 계속해, 다음의 사정을 소망하고 있다…
+			ENDIF
+			;파이즈리＋가슴 사정
+		CASE 2
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 페니스를 가슴으로 사이에 두어 훑어 내기 시작했다
+				;----------------------------------------
+			IF RAND:2 == 0
+				PRINTFORML 「…………읏…아……♥…」
+			ELSE
+				PRINTFORML 「…아…♥」
+			ENDIF
+				;----------------------------------------
+			IF RAND:6 == 0
+				PRINTFORML %조사처리(ANAME(대상),"는")% 엎드린 자신에 걸친 %ANAME(MASTER)%의 페니스를 골짜기에 이끌었다.
+				PRINTFORML 손으로부터 흘러넘치는 가슴의 압박감을 바꾸면서 기분 좋은 것같이 허리를 흔드는 %조사처리(ANAME(MASTER),"를")% 봐 %조사처리(ANAME(대상),"는")% 기쁜듯이 미소짓는다.
+				PRINTFORMW 쳐박을 때에 얼굴에 모습을 나타내는 귀두를, %조사처리(ANAME(대상),"는")% 사랑스럽게 빨았다…
+			ELSEIF RAND:6 == 0
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"가")% 흘러넘칠듯한 쌍구의 골짜기에 육봉을 쑤시면, 양손으로 억눌러 허리를 흔들기 시작했다.
+				PRINTFORMW %조사처리(ANAME(대상),"는")% 맞추려는 듯폭유로 상하에 스트로크 하면서, 골짜기로부터 괴로운 듯이 얼굴을 내는 귀두를 입술과 혀로 애무한다…
+			ELSEIF RAND:6 == 0
+				PRINTFORML %조사처리(ANAME(대상),"는")% 풍만한 젖으로 페니스를 사이에 두면, 익숙해진 움직임으로 파이즈리를 시작했다.
+				PRINTFORML 골짜기에 숨은 육봉을 양팔로 가슴을 압박하면서 출렁출렁 소리 울려 피스톤 한다.
+				PRINTFORMW 시각적으로 흥분시키는 그 광경에, %조사처리(ANAME(MASTER),"는")% 사정감을 높여 간다…
+			ELSEIF RAND:6 == 0
+				PRINTFORML 가슴으로 %ANAME(MASTER)%의 페니스를 사이에 두면, 꼭 좋은 형태로 피트한다.
+				PRINTFORMW %조사처리(ANAME(대상),"가")% 신체를 상하시킬 때에, 칼리가 골짜기에서 강하고 자극 받으며, %ANAME(MASTER)%의 쾌감을 높여 간다…
+			ELSEIF RAND:6 == 0
+				PRINTFORML 흘러넘칠듯한 쌍구를 가볍게 들어 올리고 압박시켜, 페니스를 전부터 삽입해 그대로 신체구와 움직인다.
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 어깨를 붙잡기 섹스 하도록(듯이) 허리를 흔들어 세로 파이즈리를 즐긴다.
+				PRINTFORMW 손에 의한 압박 가감(상태)로 마치 실전을 하고 있을 것 같은 쾌감이, %ANAME(MASTER)%의 흥분을 높여 간다
+			ELSE
+				PRINTFORML %조사처리(ANAME(대상),"는")% 부드러운 가슴으로 %ANAME(MASTER)%의 페니스를 사이에 둬, 우선은 가볍게 상하해 나간다.
+				PRINTFORML 이번은 좌우 교대로 상하해 나가는 움직임으로 바꾸어, 바꿀 때에 쌍구를 페니스에 강압하고 자극한다.
+				PRINTFORMW 서서히 허리를 움직여 가는 %조사처리(ANAME(MASTER),"를")% 봐, 기분을 좋게한 %조사처리(ANAME(대상),"는")% 한층 더 자극을 강하게 해 갔다…
+			ENDIF
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그대로 %ANAME(대상)%의 가슴에 사정했다
+			PRINTFORML
+				;----------------------------------------
+			IF !RAND:3
+				PRINTFORML 「…아……아핫♥」
+			ELSEIF !RAND:2
+				PRINTFORML 「…후훗……♥」
+			ELSE
+				PRINTFORML 「…읏…아읏♥」
+			ENDIF
+				;----------------------------------------
+			IF RAND:3 == 0
+				PRINTFORML 힘차게 사정해 토해내진 정액을, %조사처리(ANAME(대상),"는")% 가슴으로 모두 받아 들인다
+				PRINTFORML 그리고 손으로 가슴 전체에 윤활유로서 음미롭게 코팅 해 나간다
+				PRINTFORMW 코팅이 끝나면, 방금전 이상으로 미끄러짐이 좋아진 가슴으로 육봉의 봉사를 재개했다…
+			ELSEIF !RAND:2
+				PRINTFORML 대량의 정액으로 더럽혀진 가슴을 %조사처리(ANAME(대상),"는")% 기쁜듯이 바라봐, 손가락으로 어루만져 관련되고 붙은 정액을 빨고 취해 간다
+				PRINTFORML %조사처리(ANAME(대상),"가")% 빨고 있는 동안에, %조사처리(ANAME(MASTER),"는")% 유두에 귀두를 강압해 나머지의 분을 내려고 한다
+				PRINTFORMW 빨고 새가 끝나면, 페니스를 입에 넣어 나머지를 들이마셔 갔다…
+			ELSE
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 절정 직전에 풍만한 유방을 잡아, 부드러운 압박감에 휩싸일 수 있어 골짜기 중(안)에서 사정했다
+				PRINTFORML 골짜기에 모인 정액을 가슴으로 상하 교대로 움직여, 피부를 정액으로 끈적끈적 시켜 간다
+				PRINTFORMW 잠시 해 가슴을 벌리면, 퍼진 정액이 실을 당겨 골짜기를 더럽히고 있었다…
+			ENDIF 
+			;스마타＋가랑이에의 사정(손사정의 개서)
+		CASE 3
+			PRINTFORMW %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%의 페니스를 스스로의 성기로 훑어 내기 시작했다
+			IF RAND:10 == 0
+				PRINTFORML 「기…기분…아……아읏………거기…♪」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「…읏…햣…좋앗……도…와…♥」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「하웃…♪……읏…앗……기분…잇……♥」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「…앗…아읏…핫핫…♥」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「당…라고……아아앗! …아읏…하아아앗! ♥」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「읏햐읏………아…앗앗아앗♪」
+			ELSEIF RAND:10 == 0
+				PRINTFORML 「후앗! ……읏…읏앗……아…아핫♥」
+			ELSE
+				PRINTFORML 「……개! ……저…저리고……후앗♥」
+			ENDIF
+			IF RAND:4 == 0
+				PRINTFORML 애액으로 젖은 %ANAME(대상)%의 비밀스런 장소에 %조사처리(ANAME(MASTER),"는")% 성기끼리를 맞추어, 재빠르게 비비어 간다.
+				PRINTFORMW 입구를 강하게 자극되면서, %ANAME(대상)%도 어떻게든 움직여 맞는 힘을 강하게 해 간다…
+			ELSEIF RAND:4 == 0
+				PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 걸쳐, 요염한 허리자세로 움직여 간다.
+			ELSEIF RAND:4 == 0
+				PRINTFORML %ANAME(MASTER)%에 신체를 맡겨%조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"를")% 껴안도록(듯이) 팔을 목에 돌린다.
+				PRINTFORMW 초조하게 하도록(듯이) 젖은 %ANAME(대상)%의 비밀스런 장소를 늦춤에 자극해 갔다…
+			ELSE
+				PRINTFORML %ANAME(MASTER)%에 걸쳐, %조사처리(ANAME(대상),"는")% 애액으로 미끄러짐이 좋아진 비밀스런 장소를 %ANAME(MASTER)%의 것에 칠한다.
+				PRINTFORMW 물결치면서 신체를 움직여, 전해져 오는 쾌감에 %조사처리(ANAME(대상),"는")% 추잡한 소리를 높이고 있었다…
+			ENDIF
+			PRINTFORML
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그대로 %ANAME(대상)%의 가랑이로 사정했다
+			IF RAND:4 == 0
+				PRINTFORML 「아-아-, 가랑이가 질척질척이군요♥」
+				PRINTFORML 가랑이에 걸린 정액을 %조사처리(ANAME(대상),"는")% 손으로 깨끗하게 빨고 취해 간다
+				PRINTFORMW 이제(이미/벌써/더는/정말) 맛에도 익숙해져 버렸는지, 표정에는 욕정의 색을 엿볼 수 있었다…
+			ELSEIF RAND:4 == 0
+				PRINTFORML 「바닥이 없음입니까 당신……?」
+				PRINTFORMW %조사처리(ANAME(대상),"는")%, 사정 직후에도 불구하고 가랑이의 사이에 다시 단단해지기 시작한 %ANAME(MASTER)%의 음경을 반 기가 막히면서 바라보고 있다……
+			ELSEIF RAND:4 == 0
+				PRINTFORML 「…아……아핫♥」
+				PRINTFORML %조사처리(ANAME(대상),"는")% 뛰쳐나온 정액을 한 손으로 받아 들여, 손바닥에는 가득한 정액으로 할 수 있던 웅덩이가 완성한다
+				PRINTFORML 그것을 %조사처리(ANAME(대상),"는")% 단번에 다 마셔, 남은 만큼을 깨끗하게 빨고 취해 갔다
+				PRINTFORMW 그런데도 부족한 것인지 눈을 치켜 뜨고 자위 하면서, 갖고 싶어하는 듯이 다음의 사정을 공갈했다…
+			ELSE
+				PRINTFORML 「…후훗……♥」
+				PRINTFORML 손이나 가랑이를 깨끗하게 청소한 후, %조사처리(ANAME(대상),"는")% 페니스를 다뤄 나머지국물을 빨고 취한다
+				PRINTFORMW 아직도 발기하는 %ANAME(MASTER)%의 육봉을 봐, 그 씩씩함에 넋을 잃고 보고 있었다…
+			ENDIF
+	ENDSELECT
+			;--------------------------------------------------------------------------------
+	PRINTFORML 
+	PRINTFORML 「후훗♥  그러면♥」
+			;기승위나 A기승위인가의 어떤 것인가가 선택된다
+	IF RAND:2 == 0
+		PRINTFORML %조사처리(ANAME(대상),"는")% 끙끙 발기한 %ANAME(MASTER)%의 육봉을 기승위의 몸의 자세로 질내에 삼킨다
+		IF RAND:5 == 0
+			PRINTFORML %ANAME(대상)%의 질내에 %ANAME(MASTER)%의 페니스가 소리를 내 들어간다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 허리를 잡아 마음껏 밀어올렸다
+			PRINTFORML 「하아읏♥  , 와♥  ……갑자기 밀어올리지 말고……아앗♥♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 허리를 격렬하게 상하시키고 연속으로 %ANAME(대상)%의 질내를 관철한다
+			PRINTFORML 「기, 기다려♥　%ANAME(MASTER)%♥  ……좀 더 천천히……아앗♥」
+			PRINTFORMW
+		ELSEIF RAND:4 == 0
+			PRINTFORML 「얏♥  , 아……안쪽까지, 닿고 있다아……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 걸쳐 흐트러지고 허덕이고 있다
+			PRINTFORML 「%ANAME(MASTER)%의 자지, 뜨겁고, 딱딱해서……♥」
+			PRINTFORML 추잡하게 허리를 흔드는 %ANAME(대상)%에 맞추자에, %ANAME(MASTER)%도 아래로부터 육봉을 찌른다
+			PRINTFORML 「응읏♥  ……아아읏♥  내♥♥  정액♥  내♥♥♥」
+			PRINTFORML 딱 자궁입구에 귀두가 맞는 감촉에 비명과 같은 소리로 %조사처리(ANAME(대상),"는")% 좋아한다
+			PRINTFORML 임신의 위험 따위 상관없이, 뜨거운 질내사정을 요구해 갔다…
+			PRINTFORMW
+		ELSEIF RAND:3 == 0
+			PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……♥」
+			PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴♥」
+			PRINTFORML 주도권을 얻을 수 있고 긴장이 풀렸는지, %조사처리(ANAME(MASTER),"를")% 억눌러 격렬한 피스톤 반복해 간다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 허리를 빙글빙글 회전시키기 시작해, 전후좌우, 상하와 불규칙하게 움직여, %ANAME(MASTER)%의 쾌감을 증대시킨다
+			PRINTFORML 「읏♥  ……후훗♥  응, 또 질내에서 커지고 있어요?   내고 싶겠지요?   응―♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 난폭한 숨결을 하면서 욕정해 버린 미소를 띄워, 스스로 허리를 움직여 육봉을 자궁입구에 맞혀 질내사정을 권한다
+			PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……♥」
+			PRINTFORML 과연 당하고 있을 뿐도 아니꼬운 것으로 아래로부터 밀어올려 주면, 기쁜듯이 허덕였다…
+			PRINTFORML 「하아읏♥  ♥  와♥  ……갑자기 밀어올리지 말고……아앗♥♥」
+			PRINTFORMW
+		ELSEIF RAND:2 == 0
+			PRINTFORML
+			PRINTFORML 「핫♥  아♥　%ANAME(MASTER)%……♥」
+			PRINTFORML 좁은 질내에서 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+			PRINTFORML 「아앗♥  ……기분이 좋은, %ANAME(MASTER)%……♥」
+			PRINTFORML 수컷의 유전자를 갖고 싶어하는 자궁에 응하도록(듯이), 그 피치(속도)도 짧고 격렬해진다
+			PRINTFORML %ANAME(대상)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 %ANAME(MASTER)%도 허리를 움직인다
+			PRINTFORML 「응아앗♥  나♥  안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)♥  ……아아앗♥♥」
+			PRINTFORML 오슬오슬 신체를 진동시키는 %조사처리(ANAME(MASTER),"를")% 웃는 얼굴로 내려다 봐, 사정을 재촉해 갔다…
+			PRINTFORMW
+		ELSE
+			PRINTFORML
+			PRINTFORML 녹진녹진의 고기단지에 파악할 수 있었던 페니스를 격렬한 그라인드로 허리를 흔드는 %ANAME(대상)%
+			PRINTFORML 「앗♥  아♥　%ANAME(MASTER)%, 좋아해, 너무 좋아앗……♥」
+			PRINTFORML %ANAME(MASTER)% 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(대상)%
+			PRINTFORML %ANAME(MASTER)%도 답례에 사랑을 속삭이면서 허리를 밀어올린다
+			PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 것 같은 감각에 욕정해, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극한다
+			PRINTFORML 「하, 아아읏♥  도, 이제, 안 돼, 가 버릴 것 같다……♥」
+			PRINTFORML 「핫♥  응♥  아아아앗……♥♥」
+			PRINTFORML 내려 오는 자궁을 느끼면서, 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+			PRINTFORMW
+		ENDIF
+			;----------------------------------------
+				;임신
+		IF TALENT:대상:임신
+			PRINTFORML
+				;----------------------------------------
+			IF !RAND:10
+				PRINTFORML 「질내……스치고…♥……아앗…앗앗앗하아읏♥」
+			ELSEIF !RAND:9
+				PRINTFORML 「…읏…햣…좋앗……우아앗! ……♥」
+			ELSEIF !RAND:8
+				PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+			ELSEIF !RAND:7
+				PRINTFORML 「하웃…♪……읏…앗……기분…잇……♥」
+			ELSEIF !RAND:6
+				PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			ELSEIF !RAND:5
+				PRINTFORML 「…우앗…앗…질내에서…딱 …라고……♥」
+			ELSEIF !RAND:4
+				PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+			ELSEIF !RAND:3
+				PRINTFORML 「응아앗……핫……이…잇…있고……방편…는…♪」
+			ELSEIF !RAND:2
+				PRINTFORML 「후앗! ……읏…읏앗……아…아핫♥」
+			ELSE
+				PRINTFORML 「…읏기분……앗…너무 좋고…♥……가…햐아아앗♥」
+			ENDIF
+				;----------------------------------------
+			IF RAND:3 == 0
+				PRINTFORML 「응읏…!? 아니, 조금 배의 아이가 깜짝 놀란 것 같은 것으로…」
+				PRINTFORML %조사처리(ANAME(대상),"는")% 배를 비비고 있다……
+			ELSEIF RAND:2 == 0
+				PRINTFORML 「이봣, 임신중 정도 참아 주세요」
+				PRINTFORML %조사처리(ANAME(대상),"는")%, 조금 화낸 모습으로 뺨을 부풀리고 있다……
+			ELSE
+				PRINTFORML 「후웃…, 멈추어와…말했는데……」
+				PRINTFORML %조사처리(ANAME(대상),"는")%, 신체를 진동시켜 질내사정의 여운에 잠겨 있다……
+			ENDIF
+			PRINTFORMW
+				;----------------------------------------
+				;음호
+		ELSEIF GETBIT(TALENT:대상:음란계, 소질_음란_음호)
+			PRINTFORML
+				;----------------------------------------
+			IF RAND:23
+				PRINTFORML 「질내에서…나와…♥……아앗…아카…쨩……♥」
+			ELSEIF RAND:22
+				PRINTFORML 「…임신…♥……해 버리는 것………♥」
+			ELSEIF RAND:21
+				PRINTFORML 「읏…♥! 안에 나오고 있는…이것은 ”생겼다”일지도 모르네요…♥?」
+			ELSEIF RAND:20
+				PRINTFORML 「가득 냈어요…♥♥」
+			ELSEIF RAND:19
+				PRINTFORML 「후웃…, 뜨거웟……녹을 것 같다……♥」
+			ELSEIF RAND:18
+				PRINTFORML 「………♥…아앗…많이…유전자…흐…흘러…왔닷♥」
+			ELSEIF RAND:17
+				PRINTFORML 「…수정………해 버린 것……같다………♥」
+			ELSEIF RAND:16
+				PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			ELSEIF RAND:15
+				PRINTFORML 「…오늘은…앗…위험…날………가득…내♥」
+			ELSEIF RAND:14
+				PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+			ELSEIF RAND:13
+				PRINTFORML 「…아앗……나오고 있다아……이…씨뿌리기……되어 버렸다…아읏…♪」
+			ELSEIF RAND:12
+				PRINTFORML 「…읏……아핫♥……가득 나왔다아……」
+			ELSEIF RAND:11
+				PRINTFORML 「자궁에……♥……가득…줘♥」
+			ELSEIF RAND:10
+				PRINTFORML 「자궁에……당신의 질척질척 정액…♥……가득…사정햇♥」
+			ELSEIF RAND:9
+				PRINTFORML 「…지…질내에…♥……사정해…………아앗…♥」
+			ELSEIF RAND:8
+				PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+			ELSEIF RAND:7
+				PRINTFORML 「좋은 것………아앗………기분…좋은………♥!」
+			ELSEIF RAND:6
+				PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			ELSEIF RAND:5
+				PRINTFORML 「…우앗…앗…질내에서…딱 …라고……♥」
+			ELSEIF RAND:4
+				PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+			ELSEIF RAND:3
+				PRINTFORML 「응아앗……핫……이…잇…있고……방편…는…♪」
+			ELSEIF RAND:2
+				PRINTFORML 「이봐요……읏…나를……아…빼앗아 보엿♥」
+			ELSE
+				PRINTFORML 「…읏기분……앗……♥……가…햐아아앗♥」
+			ENDIF
+				;----------------------------------------
+			IF RAND:16 == 0
+				PRINTFORML 사정을 시작하려고 하는 %ANAME(MASTER)%의 허리에 다리를 걸어, %조사처리(ANAME(대상),"는")% 질내사정을 강요시킨다
+				PRINTFORML 한계까지 부풀어 오른 육봉으로부터 발해지는 정액으로, 자궁을 범해지는 쾌락에 %조사처리(ANAME(대상),"는")% 떨렸다
+				PRINTFORML 임신하게 되어지는 암컷의 기쁨에 잠기면서, %조사처리(ANAME(대상),"는")% 유전자로 가득 찬 배를 사랑스러운 듯이 문질렀다…
+				PRINTFORML 「아읏…♥…질내에서 냈어요♥…이것은 ”생겼다”일지도 모릅니다…?」
+			ELSEIF RAND:16 == 0
+				PRINTFORML 녹진녹진의 고기단지에 파악할 수 있었던 페니스를 격렬한 그라인드로 허리를 흔드는
+				PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 것 같은 감각에 욕정해, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극한다
+				PRINTFORML 내려 오는 자궁을 느끼면서, 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+				PRINTFORML %조사처리(ANAME(대상),"는")% 정액으로 채워진 하복부를 비비고 있다……
+			ELSEIF RAND:16 == 0
+				PRINTFORML 「…이지만, 이 정도로 만족하지 않을 것입니다?」
+				PRINTFORML 추잡하게 허리를 흔드는 %ANAME(대상)%에 맞추도록(듯이), %ANAME(MASTER)%도 아래로부터 육봉을 찌른다
+				PRINTFORML 딱 자궁입구에 귀두가 맞는 감촉에 비명과 같은 소리로 %조사처리(ANAME(대상),"는")% 좋아한다
+				PRINTFORML 임신의 위험 따위 상관없이, %ANAME(대상)%의 질은 뜨거운 질내사정을 요구해 갔다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML 좁은 질내에서 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+				PRINTFORML 수컷의 유전자를 갖고 싶어하는 자궁에 응하도록(듯이), 그 피치(속도)도 짧고 격렬해진다
+				PRINTFORML 오슬오슬 신체를 진동시키는 %조사처리(ANAME(MASTER),"를")% 웃는 얼굴로 내려다 봐, 사정을 재촉해 갔다…
+				PRINTFORML %조사처리(ANAME(대상),"는")% 눈을 넋을 잃고가늘게 하면 비밀의 틈으로부터 흘러나온 백탁액을 손가락으로 떠올리면, 그대로 빨고 취했다……
+			ELSEIF RAND:16 == 0
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 교미의 최종 목적인 씨뿌리기를 할 수 있도록, 귀두로 자궁입구를 비틀어 열어 유전자를 토해냈다
+				PRINTFORML 정자들은 당사자들의 생각에 응할 수 있도록, 필사적으로 난자에 향하여 헤엄 낸다
+				PRINTFORML 아이를 가지기를 바라는 %조사처리(ANAME(대상),"는")%, 사랑하는 사람의 종이 무사히 수정하는 것을 빌었다…
+				PRINTFORML 「후웃…, 나와…루우……♥」
+				PRINTFORML %조사처리(ANAME(대상),"는")%, 신체를 진동시켜 질내사정의 여운에 잠겨 있다……
+			ELSEIF RAND:16 == 0
+				PRINTFORML 욕망인 채 발해진 %ANAME(MASTER)%의 유전자를, %조사처리(ANAME(대상),"는")% 발정한 암컷과 같이 자궁으로 받아 들인다
+				PRINTFORML 유린하지만과 같이 자궁의 안을 나는 일은와 채우는 감각에 %ANAME(대상)%도 또한 쾌감에 잠긴다
+				PRINTFORML 사정이 끝날 때까지의 사이, 두 명은 경련하면서 신체를 서로 강압했다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML 임신의 리스크를 수반한다는데, %조사처리(ANAME(대상),"는")% 일절의 저항 없게 질내사정을 받아 들였다
+				PRINTFORML 작은 자궁에 다스려져 자르지 않는 백탁액은, 넘쳐나 질내를 더럽히기 시작한다
+				PRINTFORML 잠시의 사이 %조사처리(ANAME(대상),"는")% 자궁의 뜨거움에 떨려, 사정의 여운에 잠긴 %조사처리(ANAME(MASTER),"를")% 껴안았다…
+				PRINTFORML 「후훗……수고 하셨습니다…♥」
+			ELSEIF RAND:16 == 0
+				PRINTFORML 덮어씌운 채로 허리를 격렬하게 피스톤시켜, 높은 칼리에 빠득빠득 후벼파지는 질벽의 쾌감에 %ANAME(대상)%도 계속 참지 못하고 교성을 올린다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 삐걱삐걱 흔들리는 침대에 몸을 맡겨, %ANAME(MASTER)%의 목에 팔을 돌려 연인같이 모두를 맡긴다
+				PRINTFORML 쳐박아지는 감열에 의해 격렬하게 흐트러져, 올리는 여력도 없어진 팔로 시트를 잡아, %ANAME(MASTER)%의 허리에 다리를 걸어 질내사정을 재촉한다…
+				PRINTFORML 「…가득♥……행복…」
+			ELSEIF RAND:16 == 0
+				PRINTFORML %조사처리(ANAME(대상),"를")% 엎드린 자세로 시키면, %조사처리(ANAME(MASTER),"는")% 그대로질내를 관철하도록(듯이) 허리를 쳐박기 시작했다
+				PRINTFORML 짐승의 교미와 같은 몸의 자세에 암컷의 본능이 눈을 떴는지, %ANAME(대상)%의 소리는 이성을 잃어 요염한 것이 되어 간다.
+				PRINTFORML 방에 울리는 고기를 뽑는 소리에 흥분을 높이면서, 두 명의 행위는 서서히 속도를 빨리 해 갔다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML %조사처리(ANAME(대상),"는")%, 답례라는 듯이 기승위로 허리를 추잡하게 움직이기 시작했다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 소리를 거칠게 하면서도 %ANAME(MASTER)%의 육봉을 기억하도록(듯이), 근원까지 삼킬 때에 질내의 형태를 %ANAME(MASTER)%의 것으로 맞추어 간다
+				PRINTFORML 심에서는 %ANAME(MASTER)%에 사과하면서, 신체는 궁합이 좋은 %조사처리(ANAME(MASTER),"를")% 선택해 버려, 한층 더 쾌락을 추구해 허리를 흔들어 빼앗았다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML 서로 한계가 가깝다. 연결된 두 명은 아무것도 말하지 않고 얼싸안아 라스트 파트를 걸친다
+				PRINTFORML 자궁입구는 벌써 입을 열고 있어 그 무방비인 자궁에 향해 육욕 투성이가 된 정액국물을 털어 놓았다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 한층 큰 교성을 올려 몸을 진동시키면, 질벽을 좁게 시켜 페니스로부터 한 방울 남김없이 정액을 짜내려고 한다
+				PRINTFORML 사정이 끝날 때까지 두 명은 자연히(과) 입맞춤을 주고 받아, 기분 좋은 여운에 잠겨 있었다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML 절정 직전의 %조사처리(ANAME(MASTER),"는")% 뒤로부터 %ANAME(대상)%의 팔을 이끌어, 방금전보다 격렬하게 육봉을 계속 쳐박는다
+				PRINTFORML 귀두로 자궁입구를 비틀어 열어 가는 감촉에 최고조의 흥분을 느끼면서, 쾌락에 빠지고 추잡한 암컷화한 %ANAME(대상)%에 씨뿌리기를 완수했다
+				PRINTFORML 근본까지 삽입되고 팽창한 육봉. 절정에서 수축하는 질벽. 토해내진 정자들은 유일한 도망갈 장소인 자궁으로 눈사태를 쳐 비집고 들어간다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 자궁이 채워져 가는 감각을 기억해, 여자로서 최고의 쾌감과 행복을 맛보았다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML 이제(이미/벌써/더는/정말) 사정이 가깝다고 말하는데%조사처리(ANAME(대상),"는")% 주도권을 잡은 채로, 바츄바츄와 소리를 내면서 요염한 허리자세로 허리를 계속 흔든다
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 계속 참지 못하고 그대로질내에 사정했지만, 하지만 %조사처리(ANAME(대상),"는")% 움직임을 멈추지 않는다
+				PRINTFORML 앉을 때에 절정에서 에러를 친 귀두가 대량의 정액을 밀어 올려, 자궁내로 보낸다
+				PRINTFORML 가득하지 않으면 만족 할 수 없는 %조사처리(ANAME(대상),"는")%, 사정이 끝난 뒤도 정액을 짜내려고 피스톤을 속행했다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML …몇 번째인가의 사정을 자궁으로 받아 들여, 나와 있는 동안에도 %조사처리(ANAME(대상),"는")% 움직임을 멈추는 일은 없다
+				PRINTFORML 좁은 질내에서 사정하고 있는 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+				PRINTFORML 탐욕에 윤택을 요구하는 자궁에 따라, 자꾸자꾸 피치(속도)도 짧고 격렬하게 추잡하게 된다
+				PRINTFORML 너무 강한 쾌락에 몇 번이나 사정하는 %조사처리(ANAME(MASTER),"를")% %조사처리(ANAME(대상),"는")% 웃는 얼굴로 내려다 봐, 한층 더 사정을 재촉해 갔다…
+			ELSEIF RAND:16 == 0
+				PRINTFORML …%ANAME(대상)%의 질내가 너무나 기분이 좋은 것인지, %조사처리(ANAME(MASTER),"는")% 끊임없이 사정을 반복한다
+				PRINTFORML 정액과 애액으로 녹진녹진의 고기단지에 파악할 수 있었던 페니스를, 아직도 갖고 싶으면 격렬한 그라인드로 허리를 계속 흔든다
+				PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 상황에 황홀의 미소를 띄워, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극.
+				PRINTFORML 이미 내리고 있는 자궁을 귀두의 접촉으로 느끼면서, 새로운 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+			ELSE
+				PRINTFORML …길게 행위를 계속해, 절정을 몇 번이나 한 둘이서는 있지만, 멈추는 기색은 전혀 없고 %조사처리(ANAME(대상),"는")% 허리를 계속 흔든다
+				PRINTFORML 눈앞에서 추잡하게 허리를 흔드는 %ANAME(대상)%에 매료되어 %조사처리(ANAME(MASTER),"는")% 되는 대로 페니스로부터 사정을 차례차례로 토해내 간다
+				PRINTFORML 한 번 신체를 내릴 때에 둔한 물소리가 되어, 접합부로부터는 다 들어가지 않는 정액이 넘쳐 나온다
+				PRINTFORML 하지만 그런데도 어딘지 부족한 것인지, %조사처리(ANAME(대상),"는")% 피스톤을 반복해 새로운 정액을 요구해 갔다…
+			ENDIF
+			PRINTFORMW
+				;----------------------------------------
+		ELSE
+			PRINTFORML
+				;----------------------------------------
+			IF RAND:20
+				PRINTFORML 「질내에서…나와…♥……아앗…아카…쨩……♥」
+			ELSEIF RAND:19
+				PRINTFORML 「…임신…♥……해 버리는 것………♥」
+			ELSEIF RAND:18
+				PRINTFORML 「………♥…아앗…많이…유전자…흐…흘러…왔닷♥」
+			ELSEIF RAND:17
+				PRINTFORML 「…수정………해 버린 것……같다………♥」
+			ELSEIF RAND:16
+				PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			ELSEIF RAND:15
+				PRINTFORML 「…오늘은…앗…위험…날………가득…내♥」
+			ELSEIF RAND:14
+				PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+			ELSEIF RAND:13
+				PRINTFORML 「…아앗……나오고 있다아……이…씨뿌리기……되어 버렸다…아읏…♪」
+			ELSEIF RAND:12
+				PRINTFORML 「…읏……아핫♥……가득 나왔다아……」
+			ELSEIF RAND:11
+				PRINTFORML 「자궁에……♥……가득…줘♥」
+			ELSEIF RAND:10
+				PRINTFORML 「자궁에……당신의 질척질척 정액…♥……가득…사정햇♥」
+			ELSEIF RAND:9
+				PRINTFORML 「…지…질내에…♥……사정해…………아앗…♥」
+			ELSEIF RAND:8
+				PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+			ELSEIF RAND:7
+				PRINTFORML 「좋은 것………아앗………기분…좋은………♥!」
+			ELSEIF RAND:6
+				PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+			ELSEIF RAND:5
+				PRINTFORML 「…우앗…앗…질내에서…딱 …라고……♥」
+			ELSEIF RAND:4
+				PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+			ELSEIF RAND:3
+				PRINTFORML 「응아앗……핫……이…잇…있고……방편…는…♪」
+			ELSEIF RAND:2
+				PRINTFORML 「이봐요……읏…나를……아…빼앗아 보엿♥」
+			ELSE
+				PRINTFORML 「…읏기분……앗……♥……가…햐아아앗♥」
+			ENDIF
+				;----------------------------------------
+			IF RAND:13 == 0
+				PRINTFORML 사정을 시작하려고 하는 %ANAME(MASTER)%의 허리에 다리를 걸어, %조사처리(ANAME(대상),"는")% 질내사정을 강요시킨다
+				PRINTFORML 한계까지 부풀어 오른 육봉으로부터 발해지는 정액으로, 자궁을 범해지는 쾌락에 %조사처리(ANAME(대상),"는")% 떨렸다
+				PRINTFORML 임신하게 되어지는 암컷의 기쁨에 잠기면서, %조사처리(ANAME(대상),"는")% 유전자로 가득 찬 배를 사랑스러운 듯이 문질렀다…
+				PRINTFORML 「아읏…♥…질내에서 냈어요♥…이것은 ”생겼다”일지도 모릅니다…?」
+			ELSEIF RAND:13 == 0
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 교미의 최종 목적인 씨뿌리기를 할 수 있도록, 귀두로 자궁입구를 비틀어 열어 유전자를 토해냈다
+				PRINTFORML 정자들은 당사자들의 생각에 응할 수 있도록, 필사적으로 난자에 향하여 헤엄 낸다
+				PRINTFORML 아이를 가지기를 바라는 %조사처리(ANAME(대상),"는")%, 사랑하는 사람의 종이 무사히 수정하는 것을 빌었다…
+				PRINTFORML 「후웃…, 나와…루우……♥」
+				PRINTFORML %조사처리(ANAME(대상),"는")%, 신체를 진동시켜 질내사정의 여운에 잠겨 있다……
+			ELSEIF RAND:13 == 0
+				PRINTFORML 욕망인 채 발해진 %ANAME(MASTER)%의 유전자를, %조사처리(ANAME(대상),"는")% 발정한 암컷과 같이 자궁으로 받아 들인다
+				PRINTFORML 유린하지만과 같이 자궁의 안을 나는 일은와 채우는 감각에 %ANAME(대상)%도 또한 쾌감에 잠긴다
+				PRINTFORML 사정이 끝날 때까지의 사이, 두 명은 경련하면서 신체를 서로 강압했다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML 임신의 리스크를 수반한다는데, %조사처리(ANAME(대상),"는")% 일절의 저항 없게 질내사정을 받아 들였다
+				PRINTFORML 작은 자궁에 다스려져 자르지 않는 백탁액은, 넘쳐나 질내를 더럽히기 시작한다
+				PRINTFORML 잠시의 사이 %조사처리(ANAME(대상),"는")% 자궁의 뜨거움에 떨려, 사정의 여운에 잠긴 %조사처리(ANAME(MASTER),"를")% 껴안았다…
+				PRINTFORML 「후훗……수고 하셨습니다…♥」
+			ELSEIF RAND:13 == 0
+				PRINTFORML 덮어씌운 채로 허리를 격렬하게 피스톤시켜, 높은 칼리에 빠득빠득 후벼파지는 질벽의 쾌감에 %ANAME(대상)%도 계속 참지 못하고 교성을 올린다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 삐걱삐걱 흔들리는 침대에 몸을 맡겨, %ANAME(MASTER)%의 목에 팔을 돌려 연인같이 모두를 맡긴다
+				PRINTFORML 쳐박아지는 감열에 의해 격렬하게 흐트러져, 올리는 여력도 없어진 팔로 시트를 잡아, %ANAME(MASTER)%의 허리에 다리를 걸어 질내사정을 재촉한다…
+				PRINTFORML 「…가득♥……행복…」
+			ELSEIF RAND:13 == 0
+				PRINTFORML %조사처리(ANAME(대상),"를")% 엎드린 자세로 시키면, %조사처리(ANAME(MASTER),"는")% 그대로질내를 관철하도록(듯이) 허리를 쳐박기 시작했다
+				PRINTFORML 짐승의 교미와 같은 몸의 자세에 암컷의 본능이 눈을 떴는지, %ANAME(대상)%의 소리는 이성을 잃어 요염한 것이 되어 간다.
+				PRINTFORML 방에 울리는 고기를 뽑는 소리에 흥분을 높이면서, 두 명의 행위는 서서히 속도를 빨리 해 갔다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML %조사처리(ANAME(대상),"는")%, 답례라는 듯이 기승위로 허리를 추잡하게 움직이기 시작했다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 소리를 거칠게 하면서도 %ANAME(MASTER)%의 육봉을 기억하도록(듯이), 근원까지 삼킬 때에 질내의 형태를 %ANAME(MASTER)%의 것으로 맞추어 간다
+				PRINTFORML 심에서는 %ANAME(MASTER)%에 사과하면서, 신체는 궁합이 좋은 %조사처리(ANAME(MASTER),"를")% 선택해 버려, 한층 더 쾌락을 추구해 허리를 흔들어 빼앗았다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML 서로 한계가 가깝다. 연결된 두 명은 아무것도 말하지 않고 얼싸안아 라스트 파트를 걸친다
+				PRINTFORML 자궁입구는 벌써 입을 열고 있어 그 무방비인 자궁에 향해 육욕 투성이가 된 정액국물을 털어 놓았다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 한층 큰 교성을 올려 몸을 진동시키면, 질벽을 좁게 시켜 페니스로부터 한 방울 남김없이 정액을 짜내려고 한다
+				PRINTFORML 사정이 끝날 때까지 두 명은 자연히(과) 입맞춤을 주고 받아, 기분 좋은 여운에 잠겨 있었다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML 절정 직전의 %조사처리(ANAME(MASTER),"는")% 뒤로부터 %ANAME(대상)%의 팔을 이끌어, 방금전보다 격렬하게 육봉을 계속 쳐박는다
+				PRINTFORML 귀두로 자궁입구를 비틀어 열어 가는 감촉에 최고조의 흥분을 느끼면서, 쾌락에 빠지고 추잡한 암컷화한 %ANAME(대상)%에 씨뿌리기를 완수했다
+				PRINTFORML 근본까지 삽입되고 팽창한 육봉. 절정에서 수축하는 질벽. 토해내진 정자들은 유일한 도망갈 장소인 자궁으로 눈사태를 쳐 비집고 들어간다
+				PRINTFORML %조사처리(ANAME(대상),"는")% 자궁이 채워져 가는 감각을 기억해, 여자로서 최고의 쾌감과 행복을 맛보았다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML 이제(이미/벌써/더는/정말) 사정이 가깝다고 말하는데%조사처리(ANAME(대상),"는")% 주도권을 잡은 채로, 바츄바츄와 소리를 내면서 요염한 허리자세로 허리를 계속 흔든다
+				PRINTFORML %조사처리(ANAME(MASTER),"는")% 계속 참지 못하고 그대로질내에 사정했지만, 하지만 %조사처리(ANAME(대상),"는")% 움직임을 멈추지 않는다
+				PRINTFORML 앉을 때에 절정에서 에러를 친 귀두가 대량의 정액을 밀어 올려, 자궁내로 보낸다
+				PRINTFORML 가득하지 않으면 만족 할 수 없는 %조사처리(ANAME(대상),"는")%, 사정이 끝난 뒤도 정액을 짜내려고 피스톤을 속행했다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML …몇 번째인가의 사정을 자궁으로 받아 들여, 나와 있는 동안에도 %조사처리(ANAME(대상),"는")% 움직임을 멈추는 일은 없다
+				PRINTFORML 좁은 질내에서 사정하고 있는 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+				PRINTFORML 탐욕에 윤택을 요구하는 자궁에 따라, 자꾸자꾸 피치(속도)도 짧고 격렬하게 추잡하게 된다
+				PRINTFORML 너무 강한 쾌락에 몇 번이나 사정하는 %조사처리(ANAME(MASTER),"를")% %조사처리(ANAME(대상),"는")% 웃는 얼굴로 내려다 봐, 한층 더 사정을 재촉해 갔다…
+			ELSEIF RAND:13 == 0
+				PRINTFORML …%ANAME(대상)%의 질내가 너무나 기분이 좋은 것인지, %조사처리(ANAME(MASTER),"는")% 끊임없이 사정을 반복한다
+				PRINTFORML 정액과 애액으로 녹진녹진의 고기단지에 파악할 수 있었던 페니스를, 아직도 갖고 싶으면 격렬한 그라인드로 허리를 계속 흔든다
+				PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 상황에 황홀의 미소를 띄워, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극.
+				PRINTFORML 이미 내리고 있는 자궁을 귀두의 접촉으로 느끼면서, 새로운 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+			ELSE
+				PRINTFORML …길게 행위를 계속해, 절정을 몇 번이나 한 둘이서는 있지만, 멈추는 기색은 전혀 없고 %조사처리(ANAME(대상),"는")% 허리를 계속 흔든다
+				PRINTFORML 눈앞에서 추잡하게 허리를 흔드는 %ANAME(대상)%에 매료되어 %조사처리(ANAME(MASTER),"는")% 되는 대로 페니스로부터 사정을 차례차례로 토해내 간다
+				PRINTFORML 한 번 신체를 내릴 때에 둔한 물소리가 되어, 접합부로부터는 다 들어가지 않는 정액이 넘쳐 나온다
+				PRINTFORML 하지만 그런데도 어딘지 부족한 것인지, %조사처리(ANAME(대상),"는")% 피스톤을 반복해 새로운 정액을 요구해 갔다…
+			ENDIF
+			PRINTFORMW
+				;----------------------------------------
+		ENDIF
+			;A기승위
+	ELSE
+		PRINTFORML %조사처리(ANAME(대상),"는")% 끙끙 발기한 %ANAME(MASTER)%의 육봉을 기승위의 몸의 자세로 엉덩이 구멍에 삼킨다
+		IF RAND:5 == 0
+			PRINTFORML
+			PRINTFORML %ANAME(대상)%의 엉덩이 구멍에 %ANAME(MASTER)%의 페니스가 소리를 내 들어간다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 허리를 잡아 마음껏 밀어올렸다
+			PRINTFORML 「하아읏♥   , 와♥  ……갑자기 밀어올리지 말고……아앗♥♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 허리를 격렬하게 상하시키고 연속으로 %ANAME(대상)%의 엉덩이 구멍을 관철한다
+			PRINTFORML 「기, 기다려♥　%ANAME(MASTER)%♥……좀 더 천천히……아앗♥」
+			PRINTFORMW
+		ELSEIF RAND:4 == 0
+			PRINTFORML
+			PRINTFORML 「얏♥  , 아……안쪽까지, 닿고 있다아……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에 걸쳐 흐트러지고 허덕이고 있다
+			PRINTFORML 「%ANAME(MASTER)%의 것이, 뜨겁고, 딱딱해서……♥」
+			PRINTFORML 「응읏♥  ……아아읏♥  내♥♥  정액♥  내♥♥♥」
+			PRINTFORML 딱 S자 직장에 귀두가 맞는 감촉에 비명과 같은 소리로 %조사처리(ANAME(대상),"는")% 좋아해 뜨거운 질내사정을 요구해 갔다…
+			PRINTFORMW
+		ELSEIF RAND:3 == 0
+			PRINTFORML
+			PRINTFORML 「이 체위, 내가 리드할 수 있기에 상당히 좋아할지도……♥」
+			PRINTFORML 「이봐요, 이런 것은 어때? 으랴으랴♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 허리를 빙글빙글 회전시키기 시작한다
+			PRINTFORML 전후좌우, 상하와 불규칙하게 움직여, %ANAME(MASTER)%의 쾌감을 증대시킨다
+			PRINTFORML 「읏……후훗, 저기, 또 엉덩이 중(안)에서 커지고 있어요?」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 난폭한 숨결을 하면서 욕정해 버린 미소를 띄워, 스스로 허리를 움직여 육봉을 S자 직장에 맞혀 질내사정을 권한다
+			PRINTFORML 「하하앙, 좀 더 기분 좋게 시켜 주어요……♥」
+			PRINTFORML 과연 당하고 있을 뿐도 아니꼬운 것으로 아래로부터 밀어올려 주면, 기쁜듯이 허덕였다…
+			PRINTFORML 「하아읏♥  ♥  와♥  ……갑자기 밀어올리지 말고……아앗♥♥」
+			PRINTFORMW
+		ELSEIF RAND:2 == 0
+			PRINTFORML
+			PRINTFORML 「핫♥  아♥　%ANAME(MASTER)%……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 자신의 가슴과 클리토리스를 만지작거리면서 적극적으로 허리를 움직이고 있다
+			PRINTFORML 「아앗♥  ……기분이 좋은, %ANAME(MASTER)%……♥」
+			PRINTFORML %ANAME(대상)%마시자 다른 한쪽의 가슴에 손을 뻗어, 유두를 만지작거리면서 %ANAME(MASTER)%도 허리를 움직인다
+			PRINTFORML 「응아앗♥얏♥  안 돼, 기분 너무 좋아……이제(이미/벌써/더는/정말)♥  ……아아앗♥♥」
+			PRINTFORML 오슬오슬 신체를 진동시키는 %조사처리(ANAME(MASTER),"를")% 웃는 얼굴로 내려다 봐, 사정을 재촉해 갔다…
+			PRINTFORMW
+		ELSE
+			PRINTFORML
+			PRINTFORML 「앗♥  아♥　%ANAME(MASTER)%, 좋아해, 너무 좋아앗……♥」
+			PRINTFORML %ANAME(MASTER)% 위에서 흐트러지면서 사랑을 외쳐 오는 %ANAME(대상)%
+			PRINTFORML %ANAME(MASTER)%도 답례에 사랑을 속삭이면서 허리를 밀어올린다
+			PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 것 같은 감각에 욕정해, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 S자 직장으로 자극한다
+			PRINTFORML 「하, 아아읏♥  도, 이제, 안 돼, 가 버릴 것 같다……♥」
+			PRINTFORML 「핫♥  응♥  아아아앗……♥♥」
+			PRINTFORMW
+		ENDIF
+				;----------------------------------------
+		PRINTFORML
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% 그대로 %ANAME(대상)%의 직장으로 사정했다
+		IF RAND:6 == 0
+			PRINTFORMW 「하하앙, 또 엉덩이의 구멍에 냅니까…??」
+			PRINTFORMW 「어차피 평소의 일…」
+			PRINTFORML 「함께……♥?」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 그쳐라라는 듯이 간지 얼마 안된 애널을 한층 더 강하게 졸라, 사정과 동시에 다시 절정에 이르렀다……
+		ELSEIF RAND:6 == 0
+			PRINTFORMW 「하하앙, 또 엉덩이의 구멍에 냅니까…?」
+			PRINTFORML 「가도 좋아요…이 변태씨♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 그쳐라라는 듯이 애널을 한층 더 강하게 졸랐다……
+		ELSEIF RAND:6 == 0
+			PRINTFORML 「하…읏……! 당신의 탓으로 완전히 배가 달굴 수 있던듯 하네…♥」
+			PRINTFORMW %ANAME(대상)%의 엉덩이 구멍은 이미 문으로서의 역할을 방폐 해, 뻐끔 연 채로 정액을 흘려 보내고 있다……
+		ELSEIF RAND:6 == 0
+			PRINTFORML 「완전히, 아래의 입에서도 다 마실 수 있게 되어 버렸군요…♥」
+			PRINTFORMW %조사처리(ANAME(대상),"는")% 정액을 교반 해 소리를 내는 배를, 만족기분에 비비고 있다……
+		ELSEIF RAND:6 == 0
+			PRINTFORML 「아우…, 엉덩이에…힘이 들어가지 않는다………」
+			PRINTFORMW 애널섹스로 느슨해진 %ANAME(대상)%의 항문으로부터 정액이 흘러 떨어졌다……
+		ELSE
+			PRINTFORML 「하우……, 엉덩이 구멍이 달굴 수 있을 것 같다……」
+			PRINTFORMW %조사처리(ANAME(대상),"는")%, 점액이 장내를 채워 가는 감각에 쾌락을 느끼고 있는 것 같다……
+		ENDIF
+	ENDIF
+			;--------------------------------------------------------------------------------
+	PRINTFORML 
+			;정상위/후배위/대면좌위/배면좌위의 4개 랜덤(애널 넣으면 길어지는 것이라고 까다롭기 때문에 스르)
+			;정상위
+	IF RAND:4 == 0
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 쓰러트리고, %ANAME(대상)%의 비밀의 틈에 페니스를 찔러 넣고 허리를 움직였다…
+		IF RAND:5 == 0
+			PRINTFORML 
+			PRINTFORML 「이 자세라면……내가 당신을 좋아하게할 수 없기에, 조금 유감이구나」
+			PRINTFORML %ANAME(대상)%에 좋아하게 되는 것도 그건 그걸로 좋지만, 언제까지나 참치로 있을 수도 없다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 허리를 격렬하게 움직이기 시작한다
+			PRINTFORML 「응웃♥  대머리, 쉿♥  나♥」
+			PRINTFORML %조사처리(ANAME(대상),"가")% 손을 이쪽에 늘렸다
+			PRINTFORML 그 손을 잡아 주면 %ANAME(대상)%도 잡아 돌려주어 온다
+			PRINTFORML %ANAME(MASTER)%도 %조사처리(ANAME(대상),"와")% 연결되고 있는 행복을 악물면서 스퍼트를 걸쳤다
+			PRINTFORML 「응아앗♥　%ANAME(MASTER)%♥　%ANAME(MASTER)%♥」
+			PRINTFORML 「응아♥, 아 아～～～♥♥♥」
+			PRINTFORMW
+		ELSEIF RAND:5 == 0
+			PRINTFORML 
+			PRINTFORML 「읏♥……%ANAME(MASTER)%의 것이♥  들어가, 온닷♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 자신의 질내에서 %ANAME(MASTER)%의 페니스를 느끼고 있는 것 같다
+			PRINTFORML 「아핫♥, 굉장해……크고, 뜨거운……♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 페니스를 빠른 템포로 질내를 피스톤질 하면서, 비어있던 입으로 %ANAME(대상)%의 유두에 들러 붙는다
+			PRINTFORML 「후앗♥  응♥  응아♥  ♥  아는♥」
+			PRINTFORML 탐내도록(듯이) 유두를 들이마시는 %ANAME(MASTER)%에 쾌락 공격으로 되어 %조사처리(ANAME(대상),"는")% 좀 더 쾌락을 얻으려고 %ANAME(MASTER)%의 허리에 다리를 걸었다…
+			PRINTFORML 「저기, 움직여……당신을, 좀 더 느끼게 해……♥」
+			PRINTFORML %ANAME(대상)%의 말을 (들)물어 %조사처리(ANAME(MASTER),"는")% 엎드린 %ANAME(대상)%의 하반신을 들어 올려, %조사처리(ANAME(MASTER),"가")% 위로부터 쳐박도록(듯이) 스트로크 한다
+			PRINTFORML 「아♥  후~응♥  카, 칼리로, 후벼파진다앗♥」
+			PRINTFORML 「좋은 것♥  좀 더, 격렬하게 움직여♥  아아앗♥」
+			PRINTFORMW 
+		ELSEIF RAND:5 == 0
+			PRINTFORML 
+			PRINTFORML 「응앗♥  아, 앗♥  아♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 조금씩 피스톤 운동을 계속한다
+			PRINTFORML 애액으로 가득 찬 %ANAME(대상)%의 고기단지를, 덮어씌우는 %조사처리(ANAME(MASTER),"는")% 뜨거운 육봉으로 계속 범한다
+			PRINTFORML 「%ANAME(MASTER)%의……질내에서 자꾸자꾸 커져, 루♥」
+			PRINTFORML 「저기♥  슬슬 갈 것 같다……? 나도, 이제(이미/벌써/더는/정말) ♥」
+			PRINTFORML 그 말을 (들)물었던 %조사처리(ANAME(MASTER),"는")% 한층 더 깊게 안쪽으로 페니스를 찔러 넣었다
+			PRINTFORML 「꺄읏♥  가장 안쪽에, 당신의……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 살그머니 귓전으로 속삭이면서 질내사정을 간절히 바란다
+			PRINTFORML 응해 주려고 %조사처리(ANAME(MASTER),"는")% 나머지의 정액을 이식할 수 있도록 허리의 움직임을 빨리 했다
+			PRINTFORML 극한까지 높아져 가는 볼티지에 몸을 태우면서, 두 명은 끝날 때까지 성기를 서로 쳐박았다…
+			PRINTFORML 「이제(이미/벌써/더는/정말)♥  이제(이미/벌써/더는/정말)……안 돼애에엣♥♥♥♥」
+			PRINTFORMW 
+		ELSEIF RAND:5 == 0
+			PRINTFORML 
+			PRINTFORML %ANAME(대상)%에 마음껏 허리를 쳐박는 %ANAME(MASTER)%
+			PRINTFORML 「꺄웃♥」
+			PRINTFORML 허리를 쳐박은 후, 질내로부터 천천히 페니스가 빠지기 직전까지 허리를 당긴다
+			PRINTFORML 「하아, 하아……아……♥」
+			PRINTFORML %조사처리(ANAME(대상),"가")% 유감스러운 표정을 해 접합 부분을 응시한다
+			PRINTFORML 그 반응을 확인하면, 다시 마음껏 허리를 쳐박았다
+			PRINTFORML 「응아아읏♥  ……이제(이미/벌써/더는/정말), 글자등, 없고오……」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 애달픈 듯한 표정을 하고 있다
+			PRINTFORML 이번은 빠른 스트로크로 격렬하게 허리를 쳐박는다
+			PRINTFORML 「후아앗♥아, 응앗♥  앙읏♥」
+			PRINTFORML 「앗♥  벗길 수 있는 해……아, 야아아아읏♥」
+			PRINTFORMW 
+		ELSE
+			PRINTFORML 
+			PRINTFORML 「……후훗, 역시 이 몸의 자세, 안심할 수 있어요……」
+			PRINTFORML 「그렇지만, 당신의 모습을 바로 정면으로부터 볼 수 있는걸……」
+			PRINTFORML 그 말을 (들)물어 가슴이 덜컥 크게 울리는 %ANAME(MASTER)%
+			PRINTFORML 「읏♥  ……후훗♥  지금, 커진♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 부끄러워져 눈을 피한다
+			PRINTFORML 하면 %조사처리(ANAME(대상),"는")% 양팔을 목에 얽히게 할 수 있어 껴안아 왔다
+			PRINTFORML 「부끄러워하지 않아도 좋……네요, 움직여?」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 인내가 (듣)묻지 않게 되어, 허리를 격렬하게 움직였다
+			PRINTFORML 「아♥  , 응아앗♥  , 하아아읏♥」
+			PRINTFORML 「%ANAME(MASTER)%♥   응♥  너무 좋아……아아읏♥」
+			PRINTFORMW
+		ENDIF
+			;후배위
+	ELSEIF RAND:4 == 0
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 쓰러트리고, 네발로 엎드림의 %ANAME(대상)%의 비밀의 틈에 백으로부터 페니스를 찔러 넣고 허리를 움직였다…
+		IF RAND:7 == 0
+			PRINTFORML
+			PRINTFORML  백으로부터 %ANAME(대상)%의 질내를 격렬하게 왕복한다
+			PRINTFORML 「아아읏♥  아♥  좋은, %ANAME(MASTER)%……♥」
+			PRINTFORML 「질내에서♥  당신의 것이♥  날뛰어……아앗♥」
+			PRINTFORML %ANAME(대상)%의 엉덩이와 꼬리가 사랑스럽게 흔들리고 있다
+			PRINTFORML 허리를 움직이면서 꼬리를 상냥한 손놀림으로 어루만져 준다
+			PRINTFORML 「응꺄앗!?」
+			PRINTFORML 돌연 어루만질 수 있어 놀란 것 같은, 질내가 페니스를 꽉꽉과 단단히 조여 온다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 사정해 버릴 것 같게 되었지만 이성을 총동원해 억눌렀다
+			PRINTFORML 그리고 다시 허리를 격렬하게 전후에 움직인다
+			PRINTFORML 「응앗♥  아♥  나, 가 버린다앗♥♥」
+			PRINTFORMW 
+		ELSEIF RAND:7 == 0
+			PRINTFORML
+			PRINTFORML 뒤로부터 %조사처리(ANAME(대상),"를")% 격분하는 육봉으로 범하는 %조사처리(ANAME(MASTER),"는")%, 비어있던 양팔로 %ANAME(대상)%의 가슴을 비비기 시작한다
+			PRINTFORML 「뒤로부터라고, 제일 기분이 좋은 곳에 스쳐……앗♥」
+			PRINTFORML 넘치는 기분 좋음에 질내가 단단히 조일 수 있어 더욱 더 칼리가 질벽을 자극한다
+			PRINTFORML 「굉장히♥  기분이 좋다……읏♥  후~♥」
+			PRINTFORML 「읏♥  구응♥  거기에……깊게까지 들어 와……아앗♥  히♥」
+			PRINTFORML 마치 정말로 범하고 있는 것 같아, %ANAME(MASTER)%의 육욕은 멈추는 일 없이, 방에는 성기를 쳐박는 소리와 교성이 계속 영향을 주었다…
+			PRINTFORMW 
+		ELSEIF RAND:7 == 0
+			PRINTFORML 
+			PRINTFORML 애액으로 가득 찬 %ANAME(대상)%의 꿀단지를 %ANAME(MASTER)%의 뜨거운 강직이 유린한다
+			PRINTFORML 꾸짖어 계속되어 팔로 상반신을 다 결릴 수 있지 않게 되어, 무력하게 침대에 쓰러져 엎어진다
+			PRINTFORML 「응웃♥  ……아, 하아읏♥」
+			PRINTFORML 「%ANAME(MASTER)%의 것이……안쪽에, 맞아……♥」
+			PRINTFORML 안쪽을 관철할 때마다 %조사처리(ANAME(대상),"가")% 달콤한 비명을 흘린다
+			PRINTFORML 그 사랑스러운 소리를 좀 더 (듣)묻고 싶어져, %조사처리(ANAME(MASTER),"는")% 허리의 속도를 재촉한다
+			PRINTFORML 「응아앗♥  , 는이나……앗♥  아♥  ♥」
+			PRINTFORML 쾌락에 타락해 사고가 전혀 돌지 않게 된 %조사처리(ANAME(대상),"를")%, %조사처리(ANAME(MASTER),"는")% 아직 부족하면 질내를 계속 범했다…
+			PRINTFORMW 
+		ELSEIF RAND:7 == 0
+			PRINTFORML 
+			PRINTFORML 「응♥  아♥  안쪽까지, 오고 있는 것……♥」
+			PRINTFORML 엉덩이만 올려 침대에 쓰러진 %ANAME(대상)%에 %조사처리(ANAME(MASTER),"는")% 덮어씌우도록(듯이)해 허리를 움직인다
+			PRINTFORML 후는 %조사처리(ANAME(MASTER),"로")%부터 주어 계속되는 쾌감에 몸을 바쳐 교성을 계속 발한다
+			PRINTFORML 씨뿌리기 하기 위해서 허리를 계속 흔드는 %ANAME(MASTER)%에, %조사처리(ANAME(대상),"는")% 암컷으로서의 행복감에 잠겨 있었다…
+			PRINTFORML 허리를 쳐박을 때마다 %ANAME(대상)%의 부드러운 것 같은 엉덩이가 부들부들 물결치고 있다
+			PRINTFORML %ANAME(대상)%의 엉덩이를 양손으로 어루만지면서, 허리를 시계 방향으로 빙글빙글 돌린다
+			PRINTFORML 「응아앗♥  질내, 휘젓지 마앗……♥」
+			PRINTFORML 다시 격렬하게 허리를 전후에 움직인다
+			PRINTFORML 「히읏♥  응 아♥  기분, 이, 싫어어어어엇♥」
+			PRINTFORMW 
+		ELSEIF RAND:7 == 0
+			PRINTFORML 
+			PRINTFORML 「이 자세라면……내가 당신을 좋아하게할 수 없기에, 조금 유감이구나」
+			PRINTFORML %ANAME(대상)%에 좋아하게 되는 것도 그건 그걸로 좋지만, 언제까지나 참치로 있을 수도 없다
+			PRINTFORML %ANAME(MASTER)%도 허리를 격렬하게 움직이기 시작한다
+			PRINTFORML 「응웃♥  대머리, 해……야아읏♥」
+			PRINTFORML %조사처리(ANAME(대상),"가")% 뒤에 손을 뻗었다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 엎드린 자세로 된 %ANAME(대상)%의 허리를 붙잡기 애액이 흩날릴 정도의 속도로 피스톤 한다
+			PRINTFORML %ANAME(MASTER)%도 %조사처리(ANAME(대상),"와")% 연결되고 있는 행복을 악물면서 스퍼트를 걸쳤다
+			PRINTFORML 「응아앗♥　%ANAME(MASTER)%♥　%ANAME(MASTER)%……♥」
+			PRINTFORML 「응아, 아 아～～～♥♥♥」
+			PRINTFORML 받는 %조사처리(ANAME(대상),"는")% 억제할 수 없는 볼티지에, 상반신을 크게 뒤로 젖히게 해 계속 허덕인다…
+			PRINTFORMW 
+		ELSEIF RAND:7 == 0
+			PRINTFORML 
+			PRINTFORML 「응앗아♥  아♥  아♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 조금씩 피스톤 운동을 계속한다
+			PRINTFORML 「%ANAME(MASTER)%의……질내에서 자꾸자꾸 커져, 루……♥」
+			PRINTFORML 「저기, 슬슬 갈 것 같다……? 나도, 이제(이미/벌써/더는/정말) ♥」
+			PRINTFORML 그 말을 (들)물었던 %조사처리(ANAME(MASTER),"는")% 한층 더 깊게 안쪽으로 페니스를 찔러 넣었다
+			PRINTFORML 「꺄읏♥  가장 안쪽에, 당신의……♥」
+			PRINTFORML 「이제(이미/벌써/더는/정말)♥  이제(이미/벌써/더는/정말)♥  아♥」
+			PRINTFORMW 
+		ELSE
+			PRINTFORML 
+			PRINTFORML 「응웃♥  구♥  는 아 응♥」
+			PRINTFORML 엉덩이만 올려 침대에 쓰러진 %ANAME(대상)%에 %조사처리(ANAME(MASTER),"는")% 덮어씌우도록(듯이)해 허리를 움직인다
+			PRINTFORML 「응웃♥  대머리, 해……야아읏♥」
+			PRINTFORML 후는 %조사처리(ANAME(MASTER),"로")%부터 주어 계속되는 쾌감에 몸을 바쳐 교성을 계속 발한다
+			PRINTFORML %ANAME(대상)%의 한쪽 팔을 끌어 들여, 더욱 허리를 쳐박는다
+			PRINTFORML 「응아앗!? 이 자세, 안쪽까지……아웃♥」
+			PRINTFORML 「굉장한♥  닿고 있다, 안쪽에……♥♥♥」
+			PRINTFORML 씨뿌리기 하기 위해서 허리를 계속 흔드는 %ANAME(MASTER)%에, %조사처리(ANAME(대상),"는")% 암컷으로서의 행복감에 잠겨 있었다…
+			PRINTFORMW 
+		ENDIF
+			;대면좌위
+	ELSEIF RAND:4 == 0
+		PRINTFORML %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"를")% 껴안으면서 허리를 내려, 비밀의 틈으로 %ANAME(MASTER)%의 페니스를 삼켰다…
+		IF RAND:5 == 0
+			PRINTFORML 
+			PRINTFORML 「읏♥  ♥  ……앗, 하아읏♥」
+			PRINTFORML 이번은 %ANAME(대상)%의 가슴에 달라붙어, 유두를 혀로 데굴데굴과 굴린다
+			PRINTFORML 「응하앗♥」
+			PRINTFORML 기분 좋았던 것일까, %ANAME(대상)%의 몸이 새우 휘어진 상태가 된다
+			PRINTFORML 가슴에의 애무를 계속하면서 허리의 움직임을 재개한다
+			PRINTFORML 「하, 앗♥  ……%ANAME(MASTER)%……♥」
+			PRINTFORMW
+		ELSEIF RAND:4 == 0
+			PRINTFORML 
+			PRINTFORML 「후훗♥  응……이것은 어때? 기분이 좋아?」
+			PRINTFORML 그렇게 말해 %조사처리(ANAME(대상),"는")% 허리를 동글동글 돌려 온다
+			PRINTFORML 페니스에게 줄 수 있는 불규칙한 쾌감에 %조사처리(ANAME(MASTER),"는")% 무심코 얼굴을 찡그린다
+			PRINTFORML 「후후, 기분 좋은 것 같구나……읏♥  아……♥」
+			PRINTFORML 허리를 움직이고 있는 %ANAME(대상)%자신도 상당히 느껴 오고 있는 것 같다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 허리를 앞에 내민다
+			PRINTFORML 「응웃♥  후~♥  응, 야아앗……♥」
+			PRINTFORMW
+		ELSEIF RAND:3 == 0
+			PRINTFORML 
+			PRINTFORML 「흠………, 응츗………♥」
+			PRINTFORML 두 명은 침대 위에서 농후한 키스를 반복해, 얼싸안으면서 서로를 서로 요구하는 신체를 겹친다
+			PRINTFORML 「응웃♥  , 하앗♥」
+			PRINTFORML 혀로 서로의 입안을 범하면서, 성기에서도 체액을 분비해 질리지 않고 피스톤질을 계속 한다
+			PRINTFORML %조사처리(ANAME(대상),"는")% %조사처리(ANAME(MASTER),"로")%부터 주어지는 쾌감에 몸부림치고 있다
+			PRINTFORML 「읏♥  구, 하앗……♥」
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(대상),"를")% 껴안아 허리의 움직임을 재촉했다
+			PRINTFORML 「%ANAME(MASTER)%♥  나, 와 버린다앗……♥」
+			PRINTFORML 움직임은 서서히 격렬해져, 추잡한 허리자세로 두 명은 움직여 갔다…
+			PRINTFORML 「후아♥  아 응♥」
+			PRINTFORMW
+		ELSEIF RAND:2 == 0
+			PRINTFORML
+			PRINTFORML 「읏♥  ……쿳, 하앗♥」
+			PRINTFORML %ANAME(MASTER)%의 페니스의 길이에 맞추어 허리를 흔드는폭을 조정해, 템포 자주(잘) 질벽으로 발기하는 남근을 탐낸다
+			PRINTFORML 「좀 더, 와……♥  좀 더, 격렬하게……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 다리를 걸어 와 한층 더 격렬함을 요구한다
+			PRINTFORML 질내가 꽉 꼭 죄여 %ANAME(MASTER)%의 페니스를 압박한다
+			PRINTFORML 지지 않으려고허리의 속도를 올리는 %ANAME(MASTER)%
+			PRINTFORML 팡팡 추잡한 소리가 울리는 가운데%조사처리(ANAME(대상),"는")% 얻을 수 있는 쾌감에 몸을 비틀면서, 가벼운 키스를 해 헌신적으로 허리를 튀게 해 갔다…
+			PRINTFORML 「아, 앗♥　%ANAME(MASTER)%♥  응응♥」
+			PRINTFORMW
+		ELSE
+			PRINTFORML
+			PRINTFORML 천천히 %ANAME(대상)%의 질내에 페니스를 출납을 한다
+			PRINTFORML 하지만, 그것이라면 어딘지 부족한 것인지, %조사처리(ANAME(대상),"는")% 자신으로부터 허리를 흔들어 온다
+			PRINTFORML 「후훗……사양하지 않아도 괜찮은 것이에요? 좀 더……♥」
+			PRINTFORML 서로 손발로 서로 강하게 껴안아, 쾌락에 끓어오르는 신체를 튀게 해 간다
+			PRINTFORML 「격렬하게……움직여? ……응뭇♥」
+			PRINTFORML 상하에 움직일 때에 질벽에 해당되는 칼리의 쾌감에, 서로 신체를 작게 경련시킨다
+			PRINTFORML 접합부로부터 영향을 주는 추잡한 물소리에 흥분하면서, %조사처리(ANAME(MASTER),"는")% 사정이 가까운 육봉으로 자궁입구를 두드리기 시작했다…
+			PRINTFORML 「응아앗♥  그렇게, 좀 더♥  움직여엇♥  는 아 응♥」
+			PRINTFORMW
+		ENDIF
+			;배면좌위
+	ELSE
+		PRINTFORML %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 신체를 배후로부터 안아 올리면, 비밀의 틈을 관철해 애무하면서 허리를 밀어올렸다…
+		IF RAND:5 == 0
+			PRINTFORML
+			PRINTFORML 「응아아웃♥  , 후아아읏♥」
+			PRINTFORML %ANAME(대상)%의 질내가 꽉 꼭 죄여, 페니스의 삽입을 거절하려고 한다
+			PRINTFORML 배면좌위로 격렬한 스트로크 하면서, %조사처리(ANAME(대상),"는")% 목을 이쪽에 향하게 해 키스를 졸라댄다
+			PRINTFORML 하지만 결국은 역효과가 되어, %ANAME(MASTER)%의 페니스는 더욱 딱딱함을 늘린다
+			PRINTFORML 「!? 춋……아직, 크고……!?」
+			PRINTFORML 흥분이 높아질 때에 그라인드도 추잡하게 되어 가, 피치(속도)도 짧게 되어 간다
+			PRINTFORML 「야, 하아읏♥  ♥  이런 건♥  이상하고…낫, ♥♥」
+			PRINTFORML 강요하는 절정에 이를 수 있도록, 두 명은 발정한 짐승과 같이 피스톤을 격렬하게 해 갔다…
+			PRINTFORMW
+		ELSEIF RAND:4 == 0
+			PRINTFORML
+			PRINTFORML 「읏♥  아♥  기분, 좋앗……♥」
+			PRINTFORML 「앗♥  응♥  ……응, 여기도……말야♥」
+			PRINTFORML 움직이는 것을 %ANAME(대상)%에 맡겨, %조사처리(ANAME(MASTER),"는")% 융기 하는 %ANAME(대상)%의 유두를 손가락으로 집었다
+			PRINTFORML 「읏♥  , 하아읏……♥」
+			PRINTFORML 흠칫 신체를 뛰게 하는 %조사처리(ANAME(대상),"를")% 한층 더 자극해 주기 위해서(때문에) 유두를 가볍게 이끌었다
+			PRINTFORML 「꺗♥  있고, 갑자기 격렬하게  하지 말아줫……♥」
+			PRINTFORML 여유가 없어진 %ANAME(대상)%의 움직임은 격렬하게 대담한 것이 되어 가 그 자극으로 %ANAME(MASTER)%도 사정감을 높여 갔다…
+			PRINTFORML 「읏쿠우♥  후~아 응♥」
+			PRINTFORMW
+		ELSEIF RAND:3 == 0
+			PRINTFORML
+			PRINTFORML %ANAME(대상)%의 체중을 느끼면서 허리를 움직인다
+			PRINTFORML 「응앗♥  후~♥  ……응, 이번은 내가 움직이기 때문에…♥」
+			PRINTFORML 그렇게 말하면 %조사처리(ANAME(대상),"는")% 허리를 상하에 움직이기 시작했다
+			PRINTFORML 「아앗♥  당신의 것이♥  질내에서……♥」
+			PRINTFORML 「%ANAME(MASTER)%♥  응♥　%ANAME(MASTER)%……♥」
+			PRINTFORMW
+		ELSEIF RAND:2 == 0
+			PRINTFORML
+			PRINTFORML 「읏♥  벗길 수 있는 해♥  아♥」
+			PRINTFORML 성기를 서로 쳐박을 때 마다 흩뿌려지는 애액에 욕정하면서, %조사처리(ANAME(MASTER),"는")% 피스톤을 빨리 했다
+			PRINTFORML 「굉장한, 있고♥♥♥  ……안쪽에, 맞고 있는……♥」
+			PRINTFORML %ANAME(MASTER)%의 목에 팔을 돌려 오는 %ANAME(대상)%
+			PRINTFORML 「앗♥  아♥……히우우우읏♥」
+			PRINTFORML 요염한 소리로 허덕이는 %조사처리(ANAME(대상),"는")%, 탐내도록(듯이) 스스로도 허리를 추잡하게 움직여 간다…
+			PRINTFORMW
+		ELSE
+			PRINTFORML 
+			PRINTFORML %ANAME(대상)%의 뒤로부터 가슴을 비비는 %ANAME(MASTER)%
+			PRINTFORML 「얏♥  젖가슴……비비지 말고, 느껴 버리기 때문에……♥」
+			PRINTFORML %ANAME(대상)%의 가슴의 감촉을 즐기면서 허리를 계속 조금씩 거절한다
+			PRINTFORML 「야♥  안 돼애♥♥  질내와♥  젖가슴 동시에♥  는……♥♥♥」
+			PRINTFORML 「앗♥  ……♥」
+			PRINTFORMW
+		ENDIF
+	ENDIF
+			;----------------------------------------
+			;파이널 사정
+	IF TALENT:대상:임신
+		PRINTFORML
+				;----------------------------------------
+		IF !RAND:10
+			PRINTFORML 「질내……스치고…♥……아앗…앗앗앗하아읏♥」
+		ELSEIF !RAND:9
+			PRINTFORML 「…읏…햣…좋앗……우아앗! ……♥」
+		ELSEIF !RAND:8
+			PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+		ELSEIF !RAND:7
+			PRINTFORML 「하웃…♪……읏…앗……기분…잇……♥」
+		ELSEIF !RAND:6
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+		ELSEIF !RAND:5
+			PRINTFORML 「…우앗…앗…질내에서…딱 …라고……♥」
+		ELSEIF !RAND:4
+			PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+		ELSEIF !RAND:3
+			PRINTFORML 「응아앗……핫……이…잇…있고……방편…는…♪」
+		ELSEIF !RAND:2
+			PRINTFORML 「후앗! ……읏…읏앗……아…아핫♥」
+		ELSE
+			PRINTFORML 「…읏기분……앗…너무 좋고…♥……가…햐아아앗♥」
+		ENDIF
+				;----------------------------------------
+		IF RAND:3 == 0
+			PRINTFORML 「응읏…!? 아니, 조금 배의 아이가 깜짝 놀란 것 같은 것으로…」
+			PRINTFORML %조사처리(ANAME(대상),"는")% 배를 비비고 있다……
+		ELSEIF RAND:2 == 0
+			PRINTFORML 「이봣, 임신중 정도 참아 주세요」
+			PRINTFORML %조사처리(ANAME(대상),"는")%, 조금 화낸 모습으로 뺨을 부풀리고 있다……
+		ELSE
+			PRINTFORML 「후웃…, 멈추어와…말했는데……」
+			PRINTFORML %조사처리(ANAME(대상),"는")%, 신체를 진동시켜 질내사정의 여운에 잠겨 있다……
+		ENDIF
+		PRINTFORMW
+				;----------------------------------------
+				;음호
+	ELSEIF GETBIT(TALENT:대상:음란계, 소질_음란_음호)
+		PRINTFORML
+				;----------------------------------------
+		IF RAND:23
+			PRINTFORML 「질내에서…나와…♥……아앗…아카…쨩……♥」
+		ELSEIF RAND:22
+			PRINTFORML 「…임신…♥……해 버리는 것………♥」
+		ELSEIF RAND:21
+			PRINTFORML 「읏…♥! 안에 나오고 있는…이것은 ”생겼다”일지도 모르네요…♥?」
+		ELSEIF RAND:20
+			PRINTFORML 「가득 냈어요…♥♥」
+		ELSEIF RAND:19
+			PRINTFORML 「후웃…, 뜨거웟……녹을 것 같다……♥」
+		ELSEIF RAND:18
+			PRINTFORML 「………♥…아앗…많이…유전자…흐…흘러…왔닷♥」
+		ELSEIF RAND:17
+			PRINTFORML 「…수정………해 버린 것……같다………♥」
+		ELSEIF RAND:16
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+		ELSEIF RAND:15
+			PRINTFORML 「…오늘은…앗…위험…날………가득…내♥」
+		ELSEIF RAND:14
+			PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+		ELSEIF RAND:13
+			PRINTFORML 「…아앗……나오고 있다아……이…씨뿌리기……되어 버렸다…아읏…♪」
+		ELSEIF RAND:12
+			PRINTFORML 「…읏……아핫♥……가득 나왔다아……」
+		ELSEIF RAND:11
+			PRINTFORML 「자궁에……♥……가득…줘♥」
+		ELSEIF RAND:10
+			PRINTFORML 「자궁에……당신의 질척질척 정액…♥……가득…사정햇♥」
+		ELSEIF RAND:9
+			PRINTFORML 「…지…질내에…♥……사정해…………아앗…♥」
+		ELSEIF RAND:8
+			PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+		ELSEIF RAND:7
+			PRINTFORML 「좋은 것………아앗………기분…좋은………♥!」
+		ELSEIF RAND:6
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+		ELSEIF RAND:5
+			PRINTFORML 「…우앗…앗…질내에서…딱 …라고……♥」
+		ELSEIF RAND:4
+			PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+		ELSEIF RAND:3
+			PRINTFORML 「응아앗……핫……이…잇…있고……방편…는…♪」
+		ELSEIF RAND:2
+			PRINTFORML 「이봐요……읏…나를……아…빼앗아 보엿♥」
+		ELSE
+			PRINTFORML 「…읏기분……앗……♥……가…햐아아앗♥」
+		ENDIF
+				;----------------------------------------
+		IF RAND:16 == 0
+			PRINTFORML 사정을 시작하려고 하는 %ANAME(MASTER)%의 허리에 다리를 걸어, %조사처리(ANAME(대상),"는")% 질내사정을 강요시킨다
+			PRINTFORML 한계까지 부풀어 오른 육봉으로부터 발해지는 정액으로, 자궁을 범해지는 쾌락에 %조사처리(ANAME(대상),"는")% 떨렸다
+			PRINTFORML 임신하게 되어지는 암컷의 기쁨에 잠기면서, %조사처리(ANAME(대상),"는")% 유전자로 가득 찬 배를 사랑스러운 듯이 문질렀다…
+			PRINTFORML 「아읏…♥…질내에서 냈어요♥…이것은 ”생겼다”일지도 모릅니다…?」
+		ELSEIF RAND:16 == 0
+			PRINTFORML 녹진녹진의 고기단지에 파악할 수 있었던 페니스를 격렬한 그라인드로 허리를 흔드는
+			PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 것 같은 감각에 욕정해, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극한다
+			PRINTFORML 내려 오는 자궁을 느끼면서, 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+			PRINTFORML %조사처리(ANAME(대상),"는")% 정액으로 채워진 하복부를 비비고 있다……
+		ELSEIF RAND:16 == 0
+			PRINTFORML 「…이지만, 이 정도로 만족하지 않을 것입니다?」
+			PRINTFORML 추잡하게 허리를 흔드는 %ANAME(대상)%에 맞추도록(듯이), %ANAME(MASTER)%도 아래로부터 육봉을 찌른다
+			PRINTFORML 딱 자궁입구에 귀두가 맞는 감촉에 비명과 같은 소리로 %조사처리(ANAME(대상),"는")% 좋아한다
+			PRINTFORML 임신의 위험 따위 상관없이, %ANAME(대상)%의 질은 뜨거운 질내사정을 요구해 갔다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML 좁은 질내에서 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+			PRINTFORML 수컷의 유전자를 갖고 싶어하는 자궁에 응하도록(듯이), 그 피치(속도)도 짧고 격렬해진다
+			PRINTFORML 오슬오슬 신체를 진동시키는 %조사처리(ANAME(MASTER),"를")% 웃는 얼굴로 내려다 봐, 사정을 재촉해 갔다…
+			PRINTFORML %조사처리(ANAME(대상),"는")% 눈을 넋을 잃고가늘게 하면 비밀의 틈으로부터 흘러나온 백탁액을 손가락으로 떠올리면, 그대로 빨고 취했다……
+		ELSEIF RAND:16 == 0
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 교미의 최종 목적인 씨뿌리기를 할 수 있도록, 귀두로 자궁입구를 비틀어 열어 유전자를 토해냈다
+			PRINTFORML 정자들은 당사자들의 생각에 응할 수 있도록, 필사적으로 난자에 향하여 헤엄 낸다
+			PRINTFORML 아이를 가지기를 바라는 %조사처리(ANAME(대상),"는")%, 사랑하는 사람의 종이 무사히 수정하는 것을 빌었다…
+			PRINTFORML 「후웃…, 나와…루우……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")%, 신체를 진동시켜 질내사정의 여운에 잠겨 있다……
+		ELSEIF RAND:16 == 0
+			PRINTFORML 욕망인 채 발해진 %ANAME(MASTER)%의 유전자를, %조사처리(ANAME(대상),"는")% 발정한 암컷과 같이 자궁으로 받아 들인다
+			PRINTFORML 유린하지만과 같이 자궁의 안을 나는 일은와 채우는 감각에 %ANAME(대상)%도 또한 쾌감에 잠긴다
+			PRINTFORML 사정이 끝날 때까지의 사이, 두 명은 경련하면서 신체를 서로 강압했다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML 임신의 리스크를 수반한다는데, %조사처리(ANAME(대상),"는")% 일절의 저항 없게 질내사정을 받아 들였다
+			PRINTFORML 작은 자궁에 다스려져 자르지 않는 백탁액은, 넘쳐나 질내를 더럽히기 시작한다
+			PRINTFORML 잠시의 사이 %조사처리(ANAME(대상),"는")% 자궁의 뜨거움에 떨려, 사정의 여운에 잠긴 %조사처리(ANAME(MASTER),"를")% 껴안았다…
+			PRINTFORML 「후훗……수고 하셨습니다…♥」
+		ELSEIF RAND:16 == 0
+			PRINTFORML 덮어씌운 채로 허리를 격렬하게 피스톤시켜, 높은 칼리에 빠득빠득 후벼파지는 질벽의 쾌감에 %ANAME(대상)%도 계속 참지 못하고 교성을 올린다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 삐걱삐걱 흔들리는 침대에 몸을 맡겨, %ANAME(MASTER)%의 목에 팔을 돌려 연인같이 모두를 맡긴다
+			PRINTFORML 쳐박아지는 감열에 의해 격렬하게 흐트러져, 올리는 여력도 없어진 팔로 시트를 잡아, %ANAME(MASTER)%의 허리에 다리를 걸어 질내사정을 재촉한다…
+			PRINTFORML 「…가득♥……행복…」
+		ELSEIF RAND:16 == 0
+			PRINTFORML %조사처리(ANAME(대상),"를")% 엎드린 자세로 시키면, %조사처리(ANAME(MASTER),"는")% 그대로질내를 관철하도록(듯이) 허리를 쳐박기 시작했다
+			PRINTFORML 짐승의 교미와 같은 몸의 자세에 암컷의 본능이 눈을 떴는지, %ANAME(대상)%의 소리는 이성을 잃어 요염한 것이 되어 간다.
+			PRINTFORML 방에 울리는 고기를 뽑는 소리에 흥분을 높이면서, 두 명의 행위는 서서히 속도를 빨리 해 갔다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML %조사처리(ANAME(대상),"는")%, 답례라는 듯이 기승위로 허리를 추잡하게 움직이기 시작했다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 소리를 거칠게 하면서도 %ANAME(MASTER)%의 육봉을 기억하도록(듯이), 근원까지 삼킬 때에 질내의 형태를 %ANAME(MASTER)%의 것으로 맞추어 간다
+			PRINTFORML 심에서는 %ANAME(MASTER)%에 사과하면서, 신체는 궁합이 좋은 %조사처리(ANAME(MASTER),"를")% 선택해 버려, 한층 더 쾌락을 추구해 허리를 흔들어 빼앗았다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML 서로 한계가 가깝다. 연결된 두 명은 아무것도 말하지 않고 얼싸안아 라스트 파트를 걸친다
+			PRINTFORML 자궁입구는 벌써 입을 열고 있어 그 무방비인 자궁에 향해 육욕 투성이가 된 정액국물을 털어 놓았다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 한층 큰 교성을 올려 몸을 진동시키면, 질벽을 좁게 시켜 페니스로부터 한 방울 남김없이 정액을 짜내려고 한다
+			PRINTFORML 사정이 끝날 때까지 두 명은 자연히(과) 입맞춤을 주고 받아, 기분 좋은 여운에 잠겨 있었다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML 절정 직전의 %조사처리(ANAME(MASTER),"는")% 뒤로부터 %ANAME(대상)%의 팔을 이끌어, 방금전보다 격렬하게 육봉을 계속 쳐박는다
+			PRINTFORML 귀두로 자궁입구를 비틀어 열어 가는 감촉에 최고조의 흥분을 느끼면서, 쾌락에 빠지고 추잡한 암컷화한 %ANAME(대상)%에 씨뿌리기를 완수했다
+			PRINTFORML 근본까지 삽입되고 팽창한 육봉. 절정에서 수축하는 질벽. 토해내진 정자들은 유일한 도망갈 장소인 자궁으로 눈사태를 쳐 비집고 들어간다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 자궁이 채워져 가는 감각을 기억해, 여자로서 최고의 쾌감과 행복을 맛보았다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML 이제(이미/벌써/더는/정말) 사정이 가깝다고 말하는데%조사처리(ANAME(대상),"는")% 주도권을 잡은 채로, 바츄바츄와 소리를 내면서 요염한 허리자세로 허리를 계속 흔든다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 계속 참지 못하고 그대로질내에 사정했지만, 하지만 %조사처리(ANAME(대상),"는")% 움직임을 멈추지 않는다
+			PRINTFORML 앉을 때에 절정에서 에러를 친 귀두가 대량의 정액을 밀어 올려, 자궁내로 보낸다
+			PRINTFORML 가득하지 않으면 만족 할 수 없는 %조사처리(ANAME(대상),"는")%, 사정이 끝난 뒤도 정액을 짜내려고 피스톤을 속행했다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML …몇 번째인가의 사정을 자궁으로 받아 들여, 나와 있는 동안에도 %조사처리(ANAME(대상),"는")% 움직임을 멈추는 일은 없다
+			PRINTFORML 좁은 질내에서 사정하고 있는 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+			PRINTFORML 탐욕에 윤택을 요구하는 자궁에 따라, 자꾸자꾸 피치(속도)도 짧고 격렬하게 추잡하게 된다
+			PRINTFORML 너무 강한 쾌락에 몇 번이나 사정하는 %조사처리(ANAME(MASTER),"를")% %조사처리(ANAME(대상),"는")% 웃는 얼굴로 내려다 봐, 한층 더 사정을 재촉해 갔다…
+		ELSEIF RAND:16 == 0
+			PRINTFORML …%ANAME(대상)%의 질내가 너무나 기분이 좋은 것인지, %조사처리(ANAME(MASTER),"는")% 끊임없이 사정을 반복한다
+			PRINTFORML 정액과 애액으로 녹진녹진의 고기단지에 파악할 수 있었던 페니스를, 아직도 갖고 싶으면 격렬한 그라인드로 허리를 계속 흔든다
+			PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 상황에 황홀의 미소를 띄워, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극.
+			PRINTFORML 이미 내리고 있는 자궁을 귀두의 접촉으로 느끼면서, 새로운 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+		ELSE
+			PRINTFORML …길게 행위를 계속해, 절정을 몇 번이나 한 둘이서는 있지만, 멈추는 기색은 전혀 없고 %조사처리(ANAME(대상),"는")% 허리를 계속 흔든다
+			PRINTFORML 눈앞에서 추잡하게 허리를 흔드는 %ANAME(대상)%에 매료되어 %조사처리(ANAME(MASTER),"는")% 되는 대로 페니스로부터 사정을 차례차례로 토해내 간다
+			PRINTFORML 한 번 신체를 내릴 때에 둔한 물소리가 되어, 접합부로부터는 다 들어가지 않는 정액이 넘쳐 나온다
+			PRINTFORML 하지만 그런데도 어딘지 부족한 것인지, %조사처리(ANAME(대상),"는")% 피스톤을 반복해 새로운 정액을 요구해 갔다…
+		ENDIF
+		PRINTFORMW
+				;----------------------------------------
+	ELSE
+		PRINTFORML
+				;----------------------------------------
+		IF RAND:20
+			PRINTFORML 「질내에서…나와…♥……아앗…아카…쨩……♥」
+		ELSEIF RAND:19
+			PRINTFORML 「…임신…♥……해 버리는 것………♥」
+		ELSEIF RAND:18
+			PRINTFORML 「………♥…아앗…많이…유전자…흐…흘러…왔닷♥」
+		ELSEIF RAND:17
+			PRINTFORML 「…수정………해 버린 것……같다………♥」
+		ELSEIF RAND:16
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+		ELSEIF RAND:15
+			PRINTFORML 「…오늘은…앗…위험…날………가득…내♥」
+		ELSEIF RAND:14
+			PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+		ELSEIF RAND:13
+			PRINTFORML 「…아앗……나오고 있다아……이…씨뿌리기……되어 버렸다…아읏…♪」
+		ELSEIF RAND:12
+			PRINTFORML 「…읏……아핫♥……가득 나왔다아……」
+		ELSEIF RAND:11
+			PRINTFORML 「자궁에……♥……가득…줘♥」
+		ELSEIF RAND:10
+			PRINTFORML 「자궁에……당신의 질척질척 정액…♥……가득…사정햇♥」
+		ELSEIF RAND:9
+			PRINTFORML 「…지…질내에…♥……사정해…………아앗…♥」
+		ELSEIF RAND:8
+			PRINTFORML 「아핫♥……핫…읏……쿠앗…♥」
+		ELSEIF RAND:7
+			PRINTFORML 「좋은 것………아앗………기분…좋은………♥!」
+		ELSEIF RAND:6
+			PRINTFORML 「앗앗앗아앗……응아앗! …♥」
+		ELSEIF RAND:5
+			PRINTFORML 「…우앗…앗…질내에서…딱 …라고……♥」
+		ELSEIF RAND:4
+			PRINTFORML 「당…라고…♥…아아앗! …아읏…하아아앗! ♥」
+		ELSEIF RAND:3
+			PRINTFORML 「응아앗……핫……이…잇…있고……방편…는…♪」
+		ELSEIF RAND:2
+			PRINTFORML 「이봐요……읏…나를……아…빼앗아 보엿♥」
+		ELSE
+			PRINTFORML 「…읏기분……앗……♥……가…햐아아앗♥」
+		ENDIF
+				;----------------------------------------
+		IF RAND:13 == 0
+			PRINTFORML 사정을 시작하려고 하는 %ANAME(MASTER)%의 허리에 다리를 걸어, %조사처리(ANAME(대상),"는")% 질내사정을 강요시킨다
+			PRINTFORML 한계까지 부풀어 오른 육봉으로부터 발해지는 정액으로, 자궁을 범해지는 쾌락에 %조사처리(ANAME(대상),"는")% 떨렸다
+			PRINTFORML 임신하게 되어지는 암컷의 기쁨에 잠기면서, %조사처리(ANAME(대상),"는")% 유전자로 가득 찬 배를 사랑스러운 듯이 문질렀다…
+			PRINTFORML 「아읏…♥…질내에서 냈어요♥…이것은 ”생겼다”일지도 모릅니다…?」
+		ELSEIF RAND:13 == 0
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 교미의 최종 목적인 씨뿌리기를 할 수 있도록, 귀두로 자궁입구를 비틀어 열어 유전자를 토해냈다
+			PRINTFORML 정자들은 당사자들의 생각에 응할 수 있도록, 필사적으로 난자에 향하여 헤엄 낸다
+			PRINTFORML 아이를 가지기를 바라는 %조사처리(ANAME(대상),"는")%, 사랑하는 사람의 종이 무사히 수정하는 것을 빌었다…
+			PRINTFORML 「후웃…, 나와…루우……♥」
+			PRINTFORML %조사처리(ANAME(대상),"는")%, 신체를 진동시켜 질내사정의 여운에 잠겨 있다……
+		ELSEIF RAND:13 == 0
+			PRINTFORML 욕망인 채 발해진 %ANAME(MASTER)%의 유전자를, %조사처리(ANAME(대상),"는")% 발정한 암컷과 같이 자궁으로 받아 들인다
+			PRINTFORML 유린하지만과 같이 자궁의 안을 나는 일은와 채우는 감각에 %ANAME(대상)%도 또한 쾌감에 잠긴다
+			PRINTFORML 사정이 끝날 때까지의 사이, 두 명은 경련하면서 신체를 서로 강압했다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML 임신의 리스크를 수반한다는데, %조사처리(ANAME(대상),"는")% 일절의 저항 없게 질내사정을 받아 들였다
+			PRINTFORML 작은 자궁에 다스려져 자르지 않는 백탁액은, 넘쳐나 질내를 더럽히기 시작한다
+			PRINTFORML 잠시의 사이 %조사처리(ANAME(대상),"는")% 자궁의 뜨거움에 떨려, 사정의 여운에 잠긴 %조사처리(ANAME(MASTER),"를")% 껴안았다…
+			PRINTFORML 「후훗……수고 하셨습니다…♥」
+		ELSEIF RAND:13 == 0
+			PRINTFORML 덮어씌운 채로 허리를 격렬하게 피스톤시켜, 높은 칼리에 빠득빠득 후벼파지는 질벽의 쾌감에 %ANAME(대상)%도 계속 참지 못하고 교성을 올린다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 삐걱삐걱 흔들리는 침대에 몸을 맡겨, %ANAME(MASTER)%의 목에 팔을 돌려 연인같이 모두를 맡긴다
+			PRINTFORML 쳐박아지는 감열에 의해 격렬하게 흐트러져, 올리는 여력도 없어진 팔로 시트를 잡아, %ANAME(MASTER)%의 허리에 다리를 걸어 질내사정을 재촉한다…
+			PRINTFORML 「…가득♥……행복…」
+		ELSEIF RAND:13 == 0
+			PRINTFORML %조사처리(ANAME(대상),"를")% 엎드린 자세로 시키면, %조사처리(ANAME(MASTER),"는")% 그대로질내를 관철하도록(듯이) 허리를 쳐박기 시작했다
+			PRINTFORML 짐승의 교미와 같은 몸의 자세에 암컷의 본능이 눈을 떴는지, %ANAME(대상)%의 소리는 이성을 잃어 요염한 것이 되어 간다.
+			PRINTFORML 방에 울리는 고기를 뽑는 소리에 흥분을 높이면서, 두 명의 행위는 서서히 속도를 빨리 해 갔다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML %조사처리(ANAME(대상),"는")%, 답례라는 듯이 기승위로 허리를 추잡하게 움직이기 시작했다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 소리를 거칠게 하면서도 %ANAME(MASTER)%의 육봉을 기억하도록(듯이), 근원까지 삼킬 때에 질내의 형태를 %ANAME(MASTER)%의 것으로 맞추어 간다
+			PRINTFORML 심에서는 %ANAME(MASTER)%에 사과하면서, 신체는 궁합이 좋은 %조사처리(ANAME(MASTER),"를")% 선택해 버려, 한층 더 쾌락을 추구해 허리를 흔들어 빼앗았다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML 서로 한계가 가깝다. 연결된 두 명은 아무것도 말하지 않고 얼싸안아 라스트 파트를 걸친다
+			PRINTFORML 자궁입구는 벌써 입을 열고 있어 그 무방비인 자궁에 향해 육욕 투성이가 된 정액국물을 털어 놓았다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 한층 큰 교성을 올려 몸을 진동시키면, 질벽을 좁게 시켜 페니스로부터 한 방울 남김없이 정액을 짜내려고 한다
+			PRINTFORML 사정이 끝날 때까지 두 명은 자연히(과) 입맞춤을 주고 받아, 기분 좋은 여운에 잠겨 있었다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML 절정 직전의 %조사처리(ANAME(MASTER),"는")% 뒤로부터 %ANAME(대상)%의 팔을 이끌어, 방금전보다 격렬하게 육봉을 계속 쳐박는다
+			PRINTFORML 귀두로 자궁입구를 비틀어 열어 가는 감촉에 최고조의 흥분을 느끼면서, 쾌락에 빠지고 추잡한 암컷화한 %ANAME(대상)%에 씨뿌리기를 완수했다
+			PRINTFORML 근본까지 삽입되고 팽창한 육봉. 절정에서 수축하는 질벽. 토해내진 정자들은 유일한 도망갈 장소인 자궁으로 눈사태를 쳐 비집고 들어간다
+			PRINTFORML %조사처리(ANAME(대상),"는")% 자궁이 채워져 가는 감각을 기억해, 여자로서 최고의 쾌감과 행복을 맛보았다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML 이제(이미/벌써/더는/정말) 사정이 가깝다고 말하는데%조사처리(ANAME(대상),"는")% 주도권을 잡은 채로, 바츄바츄와 소리를 내면서 요염한 허리자세로 허리를 계속 흔든다
+			PRINTFORML %조사처리(ANAME(MASTER),"는")% 계속 참지 못하고 그대로질내에 사정했지만, 하지만 %조사처리(ANAME(대상),"는")% 움직임을 멈추지 않는다
+			PRINTFORML 앉을 때에 절정에서 에러를 친 귀두가 대량의 정액을 밀어 올려, 자궁내로 보낸다
+			PRINTFORML 가득하지 않으면 만족 할 수 없는 %조사처리(ANAME(대상),"는")%, 사정이 끝난 뒤도 정액을 짜내려고 피스톤을 속행했다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML …몇 번째인가의 사정을 자궁으로 받아 들여, 나와 있는 동안에도 %조사처리(ANAME(대상),"는")% 움직임을 멈추는 일은 없다
+			PRINTFORML 좁은 질내에서 사정하고 있는 육봉을 꽉 졸라, %조사처리(ANAME(대상),"는")% 긴 스트로크로 허리를 세로에 흔들어 간다
+			PRINTFORML 탐욕에 윤택을 요구하는 자궁에 따라, 자꾸자꾸 피치(속도)도 짧고 격렬하게 추잡하게 된다
+			PRINTFORML 너무 강한 쾌락에 몇 번이나 사정하는 %조사처리(ANAME(MASTER),"를")% %조사처리(ANAME(대상),"는")% 웃는 얼굴로 내려다 봐, 한층 더 사정을 재촉해 갔다…
+		ELSEIF RAND:13 == 0
+			PRINTFORML …%ANAME(대상)%의 질내가 너무나 기분이 좋은 것인지, %조사처리(ANAME(MASTER),"는")% 끊임없이 사정을 반복한다
+			PRINTFORML 정액과 애액으로 녹진녹진의 고기단지에 파악할 수 있었던 페니스를, 아직도 갖고 싶으면 격렬한 그라인드로 허리를 계속 흔든다
+			PRINTFORML %조사처리(ANAME(MASTER),"를")% 범하고 있는 상황에 황홀의 미소를 띄워, %조사처리(ANAME(대상),"는")% 한층 더 육봉을 질내에서 자극.
+			PRINTFORML 이미 내리고 있는 자궁을 귀두의 접촉으로 느끼면서, 새로운 농후한 씨뿌리기를 요구해 피스톤을 계속했다…
+		ELSE
+			PRINTFORML …길게 행위를 계속해, 절정을 몇 번이나 한 둘이서는 있지만, 멈추는 기색은 전혀 없고 %조사처리(ANAME(대상),"는")% 허리를 계속 흔든다
+			PRINTFORML 눈앞에서 추잡하게 허리를 흔드는 %ANAME(대상)%에 매료되어 %조사처리(ANAME(MASTER),"는")% 되는 대로 페니스로부터 사정을 차례차례로 토해내 간다
+			PRINTFORML 한 번 신체를 내릴 때에 둔한 물소리가 되어, 접합부로부터는 다 들어가지 않는 정액이 넘쳐 나온다
+			PRINTFORML 하지만 그런데도 어딘지 부족한 것인지, %조사처리(ANAME(대상),"는")% 피스톤을 반복해 새로운 정액을 요구해 갔다…
+		ENDIF
+	ENDIF
+	PRINTFORMW
+	RESETCOLOR
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORMW ·
+	PRINTFORML
+	IF !RAND:5
+		PRINTFORML 「………아침…?」
+	ELSEIF !RAND:4
+		PRINTFORML 「…………츗♥」
+	ELSEIF !RAND:3
+		PRINTFORML 「………안녕%ANAME(MASTER)%♥」
+	ELSEIF !RAND:2
+		PRINTFORML 「………♥」
+	ELSE
+		PRINTFORML 「…………후훗♥」
+	ENDIF
+			;----------------------------------------
+	IF RAND:2 == 0
+		PRINTFORML 서로 졸음으로부터 눈을 뜨고 자르면, 평소의 일의 준비를 하기 위해서 두 명은 옷을 벌 시작한다
+		PRINTFORMW 준비를 끝낸 %조사처리(ANAME(대상),"는")% 갑자기%ANAME(MASTER)%에 가볍게 입맞추고 하면, 웃는 얼굴로 한발 앞서 퇴출 해 갔다…
+	ELSEIF RAND:4
+		PRINTFORML 문득 입술에 부드러운 감촉이 했으므로, 자고 있었던 %조사처리(ANAME(MASTER),"는")% 눈시울을 연다
+		PRINTFORML 희미해지고 기색의 시야에는, 지금 확실히 입술을 거듭하고 있는 %ANAME(대상)%의 얼굴이 비쳤다
+		PRINTFORMW %조사처리(ANAME(MASTER),"가")% 눈을 떴는데 깨달으면, %조사처리(ANAME(대상),"는")% 부끄러운 듯이 미소지었다…
+	ELSEIF RAND:4
+		PRINTFORML 타액을 교환할 정도의 농후한 키스를 끝내, %ANAME(대상)%의 얼굴을 보면 아무래도 스윗치가 들어가 버린 것 같다
+		PRINTFORMW 일의 준비도 있으므로 발정한 %조사처리(ANAME(대상),"를")% 인내 시킨 후, 팔에 껴안은 %조사처리(ANAME(대상),"와")% 함께 방을 나왔다…
+	ELSE
+		PRINTFORML 모닝 키스로 눈을 뜬 %조사처리(ANAME(대상),"는")% 콧노래 섞임으로 갈아입고를 끝내, %ANAME(MASTER)%의 팔에 응석부리도록(듯이) 껴안는다
+		PRINTFORMW 그 후, 기분이 탄 두 명은 빠듯한 시간까지 러브러브 계속 했다…
+	ENDIF
+	CFLAG:대상:종속도 += 200
+	CALL FUCK(대상, "Ｃ, Ｖ, Ｂ, 욕망, 봉사, 성교, 성기술, 정애, 고통쾌락, 마조, 펠라티오, Ｖ성교", "키스상실, 처녀상실, 질내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 \@ RAND:2 ? 페니스 # 입술\@", ANAME(MASTER), "", "조교")
+	PRINTFORMW
+	KDVAR:대상:도레미_오늘은나부터 = 1
+ENDIF
+
+RETURN 1
+
+
+

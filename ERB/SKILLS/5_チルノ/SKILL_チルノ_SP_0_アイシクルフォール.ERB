@@ -1,0 +1,130 @@
+﻿;-----------------------------------
+;빙부 「아이시클 폴」
+;치르노의 3 능력 합계로 위력·발동율이 변동한다
+;LUNATIC는 강력하지만, HARD가 해금될 정도로 치르노가 자라는 무렵에는 이제(이미/벌써/더는/정말) 게임이 끝나 있다.
+;로망기술이다.
+;-----------------------------------
+@SKILL_5_SP_0_EXIST
+RETURN 1
+
+@SKILL_5_SP_0_NAME
+SELECTCASE SKILL_5_SP_0_CHECK_POWER()
+	CASE 1
+		RESULTS = 아이시클 폴 -EASY-
+	CASE 2
+		RESULTS = 아이시클 폴 -NORMAL-
+	CASE 3
+		RESULTS = 아이시클 폴 -HARD-
+	CASE 4
+		RESULTS = 아이시클 폴 -LUNATIC-
+	CASEELSE
+		RESULTS = 아이시클 폴 -EASY-
+ENDSELECT
+
+;능력 나름으로 레벨을 변동시킨다
+;2-5
+@SKILL_5_SP_0_LEVEL
+RETURN SKILL_5_SP_0_CHECK_POWER() + 1
+
+;대상 선택
+@SKILL_5_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+;적부대 대상
+RETURN 1
+
+;발동 판정
+@SKILL_5_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_5_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+SELECTCASE SKILL_5_SP_0_CHECK_POWER()
+	CASE 0, 1
+		LOCAL:3 = 0
+		LOCAL:4 = 0
+	CASE 2
+		LOCAL:3 = 6
+		LOCAL:4 = 500
+	CASE 3
+		LOCAL:3 = 12
+		LOCAL:4 = 1500
+	CASE 4
+		LOCAL:3 = 20
+		LOCAL:4 = 2500
+ENDSELECT
+PRINTFORML 적부대에 데미지!
+SIF GROUPMATCH(SKILL_5_SP_0_CHECK_POWER(), 0, 1)
+	PRINTFORML ……이지만, 정면이 안전지대였어!
+CALL DECREASE_SOLDIER(대상세력, 대상부대, MAX(GET_SOLDIER(대상세력, 대상부대) * LOCAL:3 / 100, LOCAL:4), 1)
+
+
+@SKILL_5_SP_0_EXPLANATION
+RESULTS = 적부대에 데미지.
+
+@SKILL_5_SP_0_CANT_TELL
+
+@SKILL_5_SP_0_CHECK_POWER
+#FUNCTION
+#DIM 치르노
+치르노 = NAME_TO_CHARA("치르노")
+SIF 치르노 == -1
+	RETURNF 0
+SELECTCASE ABL:치르노:무투 + ABL:치르노:지략 + ABL:치르노:정치 + ABL:치르노:방위
+	CASE IS < 150
+		RETURNF 1
+	CASE IS < 250
+		RETURNF 2
+	CASE IS < 300
+		RETURNF 3
+	CASEELSE
+		RETURNF 4
+ENDSELECT
+
+@SKILL_5_SP_0_IS_RATE_VARIABLE
+RETURN 1
+
+@SKILL_5_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN (150 + SKILL_5_SP_0_CHECK_POWER() * 20)
+
+

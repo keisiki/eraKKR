@@ -1,0 +1,157 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K41_DAISYOUGI_RATE(대상)
+#DIM 대상
+RETURN 40
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K41_DAISYOUGI_DECISION(대상)
+#DIM 대상
+
+;하타테와 니토리는 안 돼
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("하타테"), NAME_TO_CHARA("니토리"))
+	RETURN 0
+
+;3회 이기면 발동하지 않는다
+SIF KDVAR:대상:모미지_대장기_승리회수 >= 3
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K41_DAISYOUGI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K41_DAISYOUGI(대상)
+#DIM 대상
+
+IF KDVAR:대상:모미지_대장기 == 0
+	KDVAR:대상:모미지_대장기 = 1
+	PRINTFORML %조사처리(ANAME(대상),"가")% 보였다
+	PRINTFORMW 지면에 둔 큰 나무의 판을 노려보고 있지만……?
+	PRINTFORMW 「아아, %ANAME(MASTER)%씨」
+	PRINTFORMW 「이것입니까?   대장기예요. 통상의 장기보다 말도 반도 복잡한 장기입니다. 텐구나 갓파의 사이에 인기입니다」
+	PRINTFORMW 「그렇다, 모처럼이기 때문에 한 판 어떻습니까, 나와?」
+	PRINTFORML ……눈앞의 나무의 판은, 장기판이라고는 도저히 생각되지 않는 것 같은 사이즈를 하고 있다
+	PRINTFORML 해 볼까……
+ELSEIF KDVAR:대상:모미지_대장기_승리회수 == 2
+	PRINTFORML %조사처리(ANAME(대상),"가")% 보였다
+	PRINTFORMW 장기판을 안고 있지만……
+	PRINTFORMW 「%ANAME(MASTER)%씨. 당신에게는 대단히 쓰라림을 빨게 되어졌습니다
+	PRINTFORMW 「그렇지만, 나도 이번에라는 이번에는 지지 않아요」
+	PRINTFORMW 「충분히 공부해, 텐구의 명수들과 하국도 싸워 왔습니다. 이것으로 지면, 뭐든지 해 주어도 괜찮아요」
+	PRINTFORMW 「자, 승부입니다!」
+ELSEIF KDVAR:대상:모미지_대장기 == 1 && !KDVAR:대상:모미지_대장기_전회승리
+	PRINTFORML %조사처리(ANAME(대상),"가")% 보였다
+	PRINTFORML 또 장기를 하고 있는 것 같지만……
+	PRINTFORMW 「아아, %ANAME(MASTER)%씨」
+	PRINTFORMW 「어떻습니까?   대장기」
+ELSE
+	PRINTFORML %조사처리(ANAME(대상),"가")% 보였다
+	PRINTFORML 또 장기를 하고 있는 것 같지만……
+	PRINTFORMW 「아아, %ANAME(MASTER)%씨」
+	PRINTFORMW 「어떻습니까?   대장기」
+	PRINTFORMW 「나도 공부해 왔으니까, 이번이야말로는 지지 않아요」
+ENDIF
+PRINTL
+CALL ASK_YN("한다", "그만둔다")
+IF RESULT == 1
+	PRINTFORMW 「그렇습니까?   그것은 유감」
+	PRINTFORMW 「그럼, 다음 기회에라도」
+	KDVAR:대상:모미지_대장기_전회승리 = 0
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「해 줍니까. 그럼, 관대히」
+SIF KDVAR:대상:모미지_대장기_전회승리
+	PRINTFORMW 「전과 같이 간다고 생각하면 큰 실수예요?」
+
+FOR LOCAL, 0, 5
+	PRINTFORML ·
+NEXT
+
+IF MAX(ABL:MASTER:지략 - ABL:대상:지략, 15) <= RAND:100
+	KDVAR:대상:모미지_대장기_전회승리 = 0
+	PRINTFORML ……막힘이다
+	PRINTFORMW %ANAME(MASTER)%도 선전은 했지만, 나머지 한 방법 미치지 않았다……
+	PRINTFORML 「후후후, 나의 승리군요」
+	PRINTFORMW 「즐거웠던 것입니다. 교제해 주셔, 감사합니다」
+	CALL COLOR_PRINTW(@"두를 사용했기 때문에, %ANAME(대상)%의 지략을 약간 단련할 수 있었습니다", 칼라_주의)
+	CALL PRINT_ADD_EXP(대상, "지략경험치", 5, 1)
+	CALL TRAIN_AUTO_ABLUP(대상)
+	RETURN 1
+ENDIF
+
+KDVAR:대상:모미지_대장기_전회승리 = 1
+KDVAR:대상:모미지_대장기_승리회수 ++
+PRINTFORML ……장군이다
+PRINTFORMW 만만치 않았지만, 어떻게든%조사처리(ANAME(대상),"를")% 막히게 할 수가 있었다……
+PRINTFORMW 「……무무, 갔습니다」
+PRINTFORMW 「나도, 좀 더 공부하지 않으면 안 됩니다……」
+PRINTFORMW 「교제해 주셔, 감사합니다」
+CALL COLOR_PRINTW(@"두를 사용했기 때문에, %ANAME(MASTER)%의 지략을 약간 단련할 수 있었습니다", 칼라_주의)
+CALL PRINT_ADD_EXP(MASTER, "지략경험치", 5, 1)
+CALL TRAIN_AUTO_ABLUP(MASTER)
+IF KDVAR:대상:모미지_대장기_승리회수 == 3
+	PRINTFORMW ……「뭐든지 해 주어도 괜찮다」라고 그녀는 말했다
+	PRINTFORMW 그 약속을 지켜 받을까……?
+	CALL ASK_MULTI_JUDGE("무장으로서 노력해 받는다", 1, "돈을 요구한다", 1, "신체를 요구한다", HAS_PENIS(MASTER))
+	SELECTCASE RESULT
+		CASE 0
+			PRINTFORMW 「수행을 쌓아라?   그런 일로 좋다면, 얼마든지」
+			PRINTFORMW 「도움이 될 수 있는 곳을, 보여 드려요」
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"는")% 수행을 증가시켰다", 칼라_주의)
+			CALL COLOR_PRINTW(@"%ANAME(대상)%의 무투, 지략, 정치가 5씩 올랐습니다", 칼라_주의)
+			ABL:대상:무투 += 5
+			ABL:대상:지략 += 5
+			ABL:대상:정치 += 5
+		CASE 1
+			PRINTFORMW 「돈……입니까」
+			PRINTFORMW 「응, 나도 그렇게 가지고 있지 않습니다만……이 정도로 용서해 줍니까?」
+			PRINTFORMW 「하아, 이번달 절약하지 않으면……」
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"로")%부터 금 10000을 뿌렸습니다", 칼라_주의)
+			MONEY += 10000
+		CASE 2
+			IF TALENT:대상:합의
+				PRINTFORMW 「신체……는」
+				PRINTFORMW 「그런 것, 이제 와서 거절하거나 하지 않아요」
+				PRINTFORMW 「그렇게 말하는 것이 하고 싶으면 최초부터 말하면 좋은데……」
+			ELSE
+				PRINTFORMW 「로부터……, 에!   어!?」
+				PRINTFORMW 「그, 그 거, 저것입니까, 남녀가 침실을 같이 한다는……그, 저것이군요」
+				PRINTFORMW 「에, 엣……?」
+				PRINTFORMW 「……우, 우우, 알았습니다. 한 번 말한 앞, 뒤엎거나는 할 수 없기에……」
+				PRINTFORMW 「그렇지만 그……관대히 부탁드릴게요?」
+			ENDIF
+			PRINTFORMW 조속히, %조사처리(ANAME(대상),"를")% 침실에 데리고 들어갔다……
+			CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"와")% 즐거운 시간을 보냈습니다", 칼라_주의)
+			SIF !TALENT:대상:합의
+				CALL COLOR_PRINTW(@"%ANAME(대상)%의 합의를 얻었습니다", 칼라_주의)
+			CALL FUCK(대상, "욕망, 봉사, 성기술, Ｃ, Ｖ, Ｂ, Ｍ, 성교, 정애, 사정, 키스, 펠라티오, Ｖ성교", "키스상실, 처녀상실, 질내사정, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER), "", "화간")
+			CFLAG:대상:호감도 += 500
+			CFLAG:대상:종속도 += 500
+			CFLAG:대상:의존도 += 100
+			TALENT:대상:쵸로인 = 1
+			TALENT:대상:합의 = 1
+	ENDSELECT
+ENDIF
+
+RETURN 1
+

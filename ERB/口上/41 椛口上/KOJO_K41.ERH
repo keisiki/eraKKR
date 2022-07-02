@@ -1,0 +1,4 @@
+﻿#DIM CONST 모미지_대장기 = 0
+#DIM CONST 모미지_대장기_전회승리 = 1
+#DIM CONST 모미지_대장기_승리회수 = 2
+#DIM CONST 모미지_위안담당 = 3

@@ -1,0 +1,260 @@
+﻿;─────────────────────────────────────── 
+;●「침실호출」의 개시시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_START_A2_K10
+#DIM 레밀리아_대상
+#DIM 레밀리아
+
+레밀리아_대상 = MASTER
+레밀리아 = NAME_TO_CHARA("레밀리아")
+
+;레밀리아 구상의 사용 가부 설정과 초기화
+SIF CFLAG:레밀리아:400 == 0
+	CALL KOJO_ASK_RESET_K10
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:레밀리아:400 == 1
+	RETURN 0
+
+SETCOLOR 레밀리아_구상칼라
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+IF CFLAG:레밀리아:201 == 0
+
+	;침실호출 구상 첫회 호출 플래그 온
+	CFLAG:레밀리아:201 = 1
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:레밀리아:공허
+		PRINTFORML 「우……응응……」
+		PRINTFORMDL 어떻게든 데려 왔지만, %ANAME(레밀리아)%는 주저앉아 버렸다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상  양은 소질적으로 곧 화내시므로, 경고를 사이에 두는 것을
+	;───────────────────────────────────── 
+	IF IS_MALE(레밀리아_대상)
+		LOCALS:0 '= "신사"
+	ELSE
+		LOCALS:0 '= "숙녀"
+	ENDIF
+	;레밀리아 군주
+	IF GET_COUNTRY_BOSS(CFLAG:레밀리아:소속) == NAME_TO_CHARA("레밀리아")
+		IF KDVAR:레밀리아:레밀리아_레밀리아로부터의권유
+			PRINTFORML 「안녕히. %CALLNAME_K10(레밀리아_대상)%. 재차, 어서 오십시오 나의 관에. 환영해요」
+			PRINTFORMW 「나는 이 성의 주인 %NAME_FORMAL(레밀리아)%. 긍지 높은 흡혈귀」
+			PRINTL 
+			PRINTFORML 「즉시 초대 받아, 약속대로 왔어요」
+			PRINTFORML 「여자도 자유롭게 준다고는 말했지만, 나를 부른다니 대담하구나」
+			PRINTFORML 「상관없지만……나, 그다지 익숙해지지 않은거야. 갑자기%조사처리(LOCALS:0,"가")% 아닌 것을 해서는 싫어요?」
+		ELSE
+			PRINTFORML 「안녕히. %CALLNAME_K10(레밀리아_대상)%. 불러 주셔, %NAME_FORMAL(레밀리아)%가 왔어요」
+			PRINTFORML 「기대해 왔어요. 그렇지만 나, 그다지 익숙해지지 않은거야. 갑자기%조사처리(LOCALS:0,"가")% 아닌 것을 해서는 싫어요?」
+			PRINTFORML 「싫증만은, 시키지 않도록요」
+		ENDIF
+	;당신 군주
+	ELSEIF GET_COUNTRY_BOSS(CFLAG:레밀리아:소속) == 레밀리아_대상
+		PRINTFORML 「안녕히. %CALLNAME_K10(레밀리아_대상)%. 불러 주셔, %NAME_FORMAL(레밀리아)%가 왔어요」
+		PRINTFORML 「협력 해 주고, 놀아도 준다. 그렇지만 나, 그다지 익숙해지지 않은거야」
+		PRINTFORML 「갑자기%조사처리(LOCALS:0,"가")% 아닌 것을 해서는 싫어요?   싫증만은, 시키지 않도록요」
+	;친한 아는 사람
+	ELSEIF CHECK_K10("홍마관", 레밀리아_대상)
+		PRINTFORML 「안녕히. %CALLNAME_K10(레밀리아_대상)%. 불러 주셔, %NAME_FORMAL(레밀리아)%가 왔어요」
+		PRINTFORML 「즐거운 밤이 될 것 같다. 그렇지만 나, 그다지 익숙해지지 않은거야」
+		PRINTFORML 「갑자기%조사처리(LOCALS:0,"가")% 아닌 것을 해서는 싫어요?   싫증만은, 시키지 않도록요」
+	;외
+	ELSE
+		PRINTFORML 「안녕히. %CALLNAME_K10(레밀리아_대상)%. 불러 주셔, %NAME_FORMAL(레밀리아)%가 왔어요」
+		PRINTFORML 「매우 즐거움이예요. 그렇지만 나, 그다지 익숙해지지 않은거야. 갑자기%조사처리(LOCALS:0,"가")% 아닌 것을 해서는 싫어요?」
+		PRINTFORML 「싫증만은, 시키지 않도록요」
+	ENDIF
+	IF CHECK_K10("함락", 레밀리아_대상)
+		PRINTFORMDL 흰 뺨을 핑크색으로 물들인 %ANAME(레밀리아)%는 우아한 카테시로 인사한 후
+		PRINTFORMDL 진기한 듯이 근처를 바라봐, 할 일 없이 따분함에 우왕좌왕 걸어 다니기 시작했다
+	ELSE
+		PRINTFORMDL %ANAME(레밀리아)%는 우아한 카테시의 뒤, 두리번두리번근처를 바라봐 걸어 다니기 시작했다
+	ENDIF
+	;공통 묘사（의상 실장 후는 착의 스타트가 될 것 같은 것으로 코멘트 아웃）
+	;PRINTFORMDL %ANAME(레밀리아)%는 스스로 침대에 올라 모브캐프를 제외해, 드레스와 드로워즈를 벗어 간다
+	;PRINTFORMDL 령 500년이라는 흡혈귀의 어리고 부드러운 고기, 부푼 곳 처음의 유방,
+	;PRINTFORMDL 음모가 없는 깔끔한 균열이 %ANAME(레밀리아_대상)%의 전에 노출되었다
+
+;─────────────────────────────────────── 
+;○2회째 이후
+;─────────────────────────────────────── 
+ELSE
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:레밀리아:공허
+		PRINTFORML 「우……응응……」
+		PRINTFORMDL 어떻게든 데려 왔지만, %ANAME(레밀리아)%는 주저앉아 버렸다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	PRINTDATAL
+		DATAFORM 「안녕히. 몹시 기다려 졌어요」
+		DATAFORM 「즐거운 밤이 될 것 같구나」
+		DATAFORM 「오늘은 달이 붉기 때문에, 즐거운 밤이 될 것 같구나」
+		DATAFORM 「기다리게 했군요. 기다리고 있어 준 것이지요?」
+	ENDDATA
+	IF CHECK_K10("함락", 레밀리아_대상)
+		PRINTDATADL
+			DATAFORM %ANAME(레밀리아)%는 웃는 얼굴로, 흰 뺨이 핑크색으로 물들고 있다
+			DATAFORM 인사한 %ANAME(레밀리아)%의 소리는 이미 신음소리같이 달콤하고, 호흡도 흐트러지고 있다
+		ENDDATA
+	ELSE
+		PRINTDATADL
+			DATAFORM %ANAME(레밀리아)%는 %조사처리(ANAME(레밀리아_대상),"를")% 기다리도록(듯이) 미소지어 잠시 멈춰서고 있다
+			DATAFORM %ANAME(레밀리아)%는 할 일 없이 따분함 그렇게 낙낙하게 실내를 걸어 다니고 있다
+		ENDDATA
+	ENDIF
+	;DATAFORM %ANAME(레밀리아)%는 스스로 침대에 올라, 드레스와 드로워즈를 벗어 간다
+	;DATAFORM 어리고 부드러운 고기, 부풀어 올라 초의 유방, 음모가 전혀 없는 균열이 %ANAME(레밀리아_대상)%의 전에 노출되었다
+	;DATAFORM %ANAME(레밀리아)%는 스스로 드레스를 벗어, 도기같이 흰 피부를 쬐기 시작했다
+ENDIF
+
+WAIT
+RESETCOLOR
+RETURN 0
+
+;─────────────────────────────────────── 
+;●「침실호출」의 종료시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_END_A2_K10
+#DIM 레밀리아_대상
+#DIM 레밀리아
+#DIMS 레밀리아기분
+
+레밀리아_대상 = MASTER
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:레밀리아:400 == 1
+	RETURN 0
+
+SETCOLOR 레밀리아_구상칼라
+
+PRINTL 
+
+;─────────────────────────────────────── 
+;행동불능
+;─────────────────────────────────────── 
+IF TALENT:레밀리아:공허
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(레밀리아)%는 뿌옇게 하고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:레밀리아:53 == 1
+	PRINTFORML 「……우우-……이제(이미/벌써/더는/정말)……음……히」
+	PRINTFORMDL %ANAME(레밀리아)%는 무너져 버렸다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:레밀리아:52 || BASE:레밀리아:기력 <= 300
+	PRINTFORML 「……아?   ……」
+	PRINTFORMDL %ANAME(레밀리아)%입는 충분한 손발을 가끔 실룩거리게 해, 황홀과 미소짓고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:레밀리아:51
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(레밀리아)%는 완전히 지쳐 버린 얼굴로 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;불쾌함
+레밀리아기분 = %TOSTR_EMOTION(레밀리아)%
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		PRINTFORML 「피는 마시지 않고 두어 주기 때문에, 빨리 돌아오는 길」
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	CASE "암울", "슬픔", "우울"
+		PRINTFORML 「재미없다면 돌아가?」
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	CASE  "광기", "공포", "겁냄"
+		PRINTFORML 「…………」
+		WAIT
+		RESETCOLOR
+		RETURN 0
+ENDSELECT
+
+;기성 사실 획득 후·일회뿐
+IF CFLAG:레밀리아:200 < 4 && TALENT:합의
+	CFLAG:레밀리아:200 = 4
+	PRINTFORML 「우-……응. 이런 느껴인 거네」
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+IF CHECK_K10("함락", 레밀리아_대상)
+	PRINTDATAL
+		DATAFORM 「밤은 아직 지금부터겠지?   새벽녘까지는 있게 해 받아요」
+		DATAFORM 「이제 돌아가지 않으면 안 되는거야?   재미없어요」
+		DATAFORM 「새벽에는 아직 사이가 있어요. 좀 더 여기에 있어요」
+		DATAFORM 「하늘에는 아직 달과 별 뿐이야. 벌써 자 버리는 거야?」
+		DATAFORM 「묵어 가고 싶어요. 낮은 일어나고 있다면, 내가 여기에 있어도 좋지요」
+	ENDDATA
+	WAIT
+	RESETCOLOR
+	RETURN 0
+
+ELSEIF CFLAG:레밀리아:호감도 >= 800
+	PRINTDATAL
+		DATAFORM 「밤은 아직 지금부터겠지. 새벽녘까지는 있게 해 받아요」
+		DATAFORM 「이제 돌아가지 않으면 안 되는거야?   재미없어요」
+		DATAFORM 「새벽에는 아직 사이가 있어요. 좀 더 여기에 있어요」
+		DATAFORM 「하늘에는 아직 달과 별 뿐이야. 벌써 자 버리는 거야?」
+		DATAFORM 「묵어 가고 싶어요. 낮은 일어나고 있다면, 내가 여기에 있어도 좋지요」
+	ENDDATA
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ELSE
+	PRINTDATAL
+		DATAFORM 「어두운 동안에 돌아가요」
+		DATAFORM 「또 놀러 와 준다」
+		DATAFORM 「심심풀이가 되었어요」
+	ENDDATA
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●종료
+;─────────────────────────────────────── 
+RESETCOLOR
+RETURN 0
+

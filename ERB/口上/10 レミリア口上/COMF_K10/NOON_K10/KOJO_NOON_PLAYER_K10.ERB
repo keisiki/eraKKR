@@ -1,0 +1,428 @@
+﻿;─────────────────────────────────────── 
+;■일상_실행_실행전
+;─────────────────────────────────────── 
+@KOJO_K10_NOON_BEFORE_PLAYER(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;─────────────────────────────────────── 
+;●기분이 나쁘면 통상의 커맨드 구상은 말하지 않는다
+;─────────────────────────────────────── 
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		IF PALAM:레밀리아:로주 <= PALAM:레밀리아:로외
+			PRINTDATAL
+				DATAFORM 「뭔가 안절부절 하고 있었어. 들러붙고 있어」
+				DATAFORM 「안절부절 하고 있어. %CALLNAME_K10(레밀리아_대상)%에 화나 있는 것과는 달라요. (들)물어 줄래?」
+				DATAFORM 「마음에 들지 않는 것이 있는거야. (들)물어」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「기분에 필요없어요」
+				DATAFORM 「양보해 주는 기분이 아니야」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		IF PALAM:레밀리아:액주 <= PALAM:레밀리아:액외
+			PRINTDATAL
+				DATAFORM 「왠지 슬픈 기분이었어요. 들러붙고 있어」
+				DATAFORM 「재미없었어. 함께 놀아」
+				DATAFORM 「가득 껴안아도 좋아?   슬픈 일이 있었어」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「그런 것, 재미없어요」
+				DATAFORM 「무엇이 그렇게 기분에 필요없는거야?」
+				DATAFORM 「…………」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		IF PALAM:레밀리아:포주 <= PALAM:레밀리아:포외
+			PRINTDATAL
+				DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 나 이런 것 몰라요」
+				DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 분명하게 어루만져」
+				DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 나를 도와 줄래?」
+			ENDDATA
+		ELSE
+		PRINTDATAL
+			DATAFORM 「…………」
+			DATAFORM 「싫어요」
+			DATAFORM 「잘 몰라요」
+			DATAFORM 「그런 기분이 아니에요」
+			DATAFORM 「이상해요」
+		ENDDATA
+		ENDIF
+		RETURN 0
+	CASEELSE
+ENDSELECT
+
+;─────────────────────────────────────── 
+;●동일 커맨드
+;─────────────────────────────────────── 
+IF SELECTCOM == PREVCOM && RAND:10 == 0
+	;레밀리아에 주도권 없음
+	IF !IS_INITIATIVE(레밀리아)
+		PRINTDATAL
+			DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶을 것입니다」
+			DATAFORM 「좀 더?   그렇구나. 좋아요」
+			DATAFORM 「아직?   좋아요. %KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%짊어진다」
+			DATAFORM 「%CALLNAME_K10(레밀리아_대상)% 이외에 주도권은 절대로 잡게 하지 않아요」
+		ENDDATA
+	;레밀리아에 주도권 있어
+	ELSE
+		PRINTDATAL
+			DATAFORM 「좀 더%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%짊어진다」
+			DATAFORM 「좀 더」
+			DATAFORM 「주도권은 잡게 하지 않아요」
+			DATAFORM 「좀 더%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶을 것입니다?」
+		ENDDATA
+	ENDIF
+;─────────────────────────────────────── 
+;●동일 커맨드가 아니다
+;─────────────────────────────────────── 
+ELSEIF RAND:10 == 0
+	;레밀리아에 주도권 없음
+	IF !IS_INITIATIVE(레밀리아)
+		PRINTDATAL
+			DATAFORM 「%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶은거네. 좋아요」
+			DATAFORM 「그렇구나. %KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%짊어진다. 알고 있지 않아」
+		ENDDATA
+	;레밀리아에 주도권 있어
+	ELSE
+		PRINTDATAL
+			DATAFORM 「%KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%짊어진다. 좋네요?」
+			DATAFORM 「%KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶을 것입니다?」
+		ENDDATA
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●스킨쉽·등을 씻는다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 320, 358)
+	;레밀리아에 주도권 없음
+	IF !IS_INITIATIVE(레밀리아)
+		PRINTDATAL
+			DATAFORM 「이렇게?   ……낯간지러운거야?   이 정도 참아주세요」
+			DATAFORM 「이러하구나. ……침착해요」
+			DATAFORM 「이런 느낌일까요」
+		ENDDATA
+	;레밀리아에 주도권 있어
+	ELSE
+		PRINTDATAL
+			DATAFORM 「낯간지러운거야?   이 정도 참아주세요」
+			DATAFORM 「좀 더 옆에 와」
+			DATAFORM 「좀 더 들러붙어 주세요」
+			DATAFORM 「멀어요. 좀 더 여기야」
+			DATAFORM 「인형씨 놀아 시켜」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●머리를쓰다듬는다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 321)
+	;레밀리아에 주도권 없음
+	IF !IS_INITIATIVE(레밀리아)
+		PRINTDATAL
+			DATAFORM 「좋아요. 좀 더 구부러져?」
+			DATAFORM 「후후. 잘 할 수 있었군요. 훌륭해요」
+			DATAFORM 「좋아요. 칭찬해 준다. 좋은 아이야」
+			DATAFORM 「그래. 훌륭했지요」
+		ENDDATA
+	;레밀리아에 주도권 있어
+	ELSE
+		PRINTDATAL
+			DATAFORM 「좀 더 구부러져?   어루만지기 어려워요」
+			DATAFORM 「칭찬해 준다. 좋은 아이, 훌륭해요」
+			DATAFORM 「노력한 거네. 훌륭했지요」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●머리카락을 빗는·빗으로빗어준다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 322, 323)
+	;첫회 또한 대머리라면 마사지의 흐름을 만들어 둔다
+	;IS_COM_FIRST(1)는 타겟측의 확인을 위해 플래그를 준비/1회 한정인 것으로 클릭 있어
+	IF !레밀리아_미용사나무첫회 && TALENT:레밀리아_대상:머리길이 < 25
+		IF !IS_INITIATIVE(레밀리아)
+			PRINTFORML 「닦았으면 좋은거야? 　%CALLNAME_K10(레밀리아_대상)%, 깎고 있지 않아」
+			PRINTFORMDW %ANAME(레밀리아)%는 어이를 상실하고 있다
+			PRINTL 
+			PRINTFORML 「빗어 줄 수 없어요. 어루만져 준다」
+		ELSE
+			PRINTFORML 「머리를 빗어 주고……없었어요, 재미없다」
+			PRINTFORMDW %ANAME(레밀리아)%는 고개를 갸웃해 골똘히 생각하고 있다
+			PRINTL 
+			PRINTFORML 「그렇구나. 어루만져 준다」
+			PRINTFORMDL 이윽고 납득이 간 것처럼 하나 수긍해, %ANAME(레밀리아_대상)%에 손을 뻗었다
+		ENDIF
+	;첫회가 아닌 or첫회이지만 대머리는 아니다
+	ELSE
+		;대머리
+		IF TALENT:레밀리아_대상:머리길이 == 1
+			IF !IS_INITIATIVE(레밀리아)
+				PRINTFORML 「이제(이미/벌써/더는/정말) 그 농담은 좋아요. 좋아요. 풀어 준다」
+			ELSE
+				PRINTFORML 「피곤할까요?   풀어 주어요」
+			ENDIF
+			PRINTDATAL
+				DATAFORM 「어때?   기분이 좋을 것입니다. ……너무 강했어?」
+				DATAFORM 「어때?   기분이 좋을 것입니다」
+				DATAFORM 「에이……똑똑. 이러한가?」
+			ENDDATA
+		;대머리는 아니다
+		ELSE
+			IF !IS_INITIATIVE(레밀리아)
+				PRINTFORML 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")%, %KOJO_HAIR_NAME(레밀리아_대상)%군요」
+				PRINTFORMDW %조사처리(ANAME(레밀리아_대상),"는")% %ANAME(레밀리아)%에 부탁해, 머리카락을 빗고 빌려주어 받았다
+			ELSE
+				PRINTFORML 「%KOJO_HAIR_NAME(레밀리아_대상)%군요. 손대고 있어 기분이 좋은거야」
+				PRINTFORMDW %ANAME(레밀리아)%는 %ANAME(레밀리아_대상)%의 머리카락을 빗고 빌려주었다
+			ENDIF
+			PRINTDATAL
+				DATAFORM 「인형을 갖고 싶지만, 움직이지 않는 것은 싫어. 시시하지요」
+				DATAFORM 「세가닥 땋기로 해 봐도 괜찮아?   다음에 풀어도 괜찮으니까」
+				DATAFORM 「자르기도 해 보고 싶어요」
+			ENDDATA
+		ENDIF
+	ENDIF
+
+	PRINTFORMD %ANAME(레밀리아)%는 %ANAME(레밀리아_대상)%의
+	;대머리
+	IF TALENT:레밀리아_대상:머리길이 == 1
+		PRINTDATADL
+			DATAFORM 목을 중요한 것 같게 주물러 풀고 있다
+			DATAFORM 귀청을 간질여 행복하게 미소짓고 있다
+			DATAFORM 목덜미에 손가락을 미끄러지게 하고 은밀한 미소를 흘리고 있다
+			DATAFORM 목덜미를 살그머니 풀도록(듯이) 비비고 있다
+			DATAFORM 어깨를 똑똑 두드리고 있다
+			DATAFORM 견갑골을 훨씬 잡아 주물러 풀고 있다
+		ENDDATA
+	;길다
+	ELSEIF TALENT:레밀리아_대상:머리길이 >= 5
+		PRINTDATADL
+			DATAFORM 모속을 손에 들어 살그머니 키스를 하고 있다
+			DATAFORM 머리카락을 사랑하도록(듯이) 어루만지고 있다
+			DATAFORM 머리카락을 손가락에 걸어 희롱하고 있다
+			DATAFORM 머리카락을 세가닥 땋기로 해 놀기 시작하고 있다
+			DATAFORM 귀청을 간질여 행복하게 미소짓고 있다
+			DATAFORM 목덜미에 손가락을 미끄러지게 하고 은밀한 미소를 흘리고 있다
+			DATAFORM 지연털을 집어 츤츤 당겨 놀고 있다
+			DATAFORM 머리카락에 손가락을 통해 공기를 포함하게 하고 있다
+		ENDDATA
+	;중간
+	ELSE
+		PRINTDATADL
+			DATAFORM 털끝을 손에 들어 살그머니 키스를 하고 있다
+			DATAFORM 머리카락을 사랑하도록(듯이) 어루만지고 있다
+			DATAFORM 귀청을 간질여 행복하게 미소짓고 있다
+			DATAFORM 목덜미에 손가락을 미끄러지게 하고 은밀한 미소를 흘리고 있다
+			DATAFORM 머리카락을 한줄기 집어 츤츤 당겨 놀고 있다
+			DATAFORM 머리카락에 손가락을 통해 공기를 포함하게 하고 있다
+		ENDDATA
+	ENDIF
+
+	;플래그 주역이 아직이라면 플래그를 세워 둔다
+	;IS_COM_FIRST()는 타겟측의 확인을 위해 플래그 준비
+	IF !레밀리아_미용사나무첫회
+		레밀리아_미용사나무첫회 = 1
+	ENDIF
+
+	;묘사 오프
+	RETURN 1
+ENDIF
+
+;─────────────────────────────────────── 
+;●응시하는·달콤한 말
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 324, 325)
+	PRINTDATAL
+		DATAFORM 「귀여워하고 있어요」
+		DATAFORM 「…………. 후후」
+		DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"를")% 마음에 들어요」
+		DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% 제일 마음에든다야」
+	ENDDATA
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●훈련계  무투 86  방위 59  지략 43  정치 68  가창 23  요리 11
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 301, 302, 303, 304, 305, 306, 307)
+	SELECTCASE SELECTCOM
+		CASE 301
+			PRINTFORML 「술래잡기 합시다. 내가 오니군요. 흡혈 『오니』이니까」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「하지만-―. %CALLNAME_K10(레밀리아_대상)%～. 먹어 버리겠어―!  아하하 하」
+			ENDIF
+		CASE 302
+			PRINTFORML 「상대의 힘을 이용하는거네요. 재미있을 것 같구나」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「%CALLNAME_K10(레밀리아_대상)%의 힘을 이용해, 쓰러트려 보고 싶어요」
+			ENDIF
+		CASE 303
+			PRINTFORML 「대도서관에 갑시다. 가끔씩은 책을 읽고 싶어요」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「전략적인 일도 조금은 모르면, %CALLNAME_K10(레밀리아_대상)%의 이야기를 따라갈 수 없는 거네」
+			ENDIF
+		CASE 304
+			PRINTFORML 「일짓거리를 해. 대도서관에 갑시다」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「내용의 확인은 나의 일이 아니에요」
+				PRINTFORML 「서류는 시시하고, 쓸데없게 아야장이 긴 것」
+				PRINTFORML 「정리한 이야기를 들어, 날인하는 것이 나의 일이야」
+			ENDIF
+		CASE 305
+			PRINTFORML 「좀, 나간다. 환상향 둘러싸 해」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「데이트야. 좋을 것입니다」
+			ENDIF
+		CASE 306
+			PRINTFORML 「지루하구나. 노래해요. 나도 노래하기 때문에」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「어머니가 나를 죽여♪  아버지가 나를 먹고 있다♪」
+				PRINTFORML 「……머더 구스는 싫어?」
+			ENDIF
+		CASE 307
+			PRINTFORML 「지루하구나. 요리를 해 봅시다. 뭔가 재미있는 것을 만들어」
+			IF CHECK_K10("함락",레밀리아_대상)
+				PRINTFORML 「나는 안 돼요. 먹는 역. 아기가 양상추의 어디에 있는지 모르는 것」
+			ENDIF
+	ENDSELECT
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●배의 소리
+;─────────────────────────────────────── 
+IF SELECTCOM == 326
+	PRINTFORML 「여기에 인간이 있는 거야?   양상추가 아니고」
+	RETURN 0
+
+ENDIF
+
+;─────────────────────────────────────── 
+;●그 외
+;─────────────────────────────────────── 
+PRINTDATAL
+	DATAFORM 「내가 주역. 기억해 두세요」
+	DATAFORM 「간단하게 당해 주지 않을까」
+	DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 이것 해 봐」
+	DATAFORM 「나를 깔보면 어떤 꼴을 당할까 가르쳐 두지 않으면」
+	DATAFORM 「이렇게 (해) 버리면 좋은거야」
+	DATAFORM 「자, 얌전하게 하는거야」
+	DATAFORM 「잘 알고 있어요. 그래서, 좋은거야」
+ENDDATA
+RETURN 0
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+
+
+
+;─────────────────────────────────────── 
+;■일상_실행_실행 후
+;─────────────────────────────────────── 
+@KOJO_K10_NOON_AFTER_PLAYER(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;─────────────────────────────────────── 
+;●기분이 나쁘면 통상의 커맨드 구상은 말하지 않는다
+;─────────────────────────────────────── 
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		RETURN 0
+
+	CASEELSE
+
+ENDSELECT
+
+;─────────────────────────────────────── 
+;●머리카락을 빗는·빗으로빗어준다
+;─────────────────────────────────────── 
+IF GROUPMATCH(SELECTCOM, 322, 323)
+	;묘사 오프
+	RETURN 1
+ENDIF
+
+;─────────────────────────────────────── 
+;●Ｍ절정
+;─────────────────────────────────────── 
+IF NOWEX:레밀리아:Ｍ절정 > NOWEX:레밀리아:Ｃ절정 && NOWEX:레밀리아:Ｍ절정 > NOWEX:레밀리아:Ｂ절정 && NOWEX:레밀리아:Ｍ절정 > NOWEX:레밀리아:Ａ절정 && NOWEX:레밀리아:Ｍ절정 > NOWEX:레밀리아:Ｖ절정 && NOWEX:레밀리아:Ｍ절정 > NOWEX:레밀리아:사정
+	IF NOWEX:레밀리아:Ｍ절정 > 0
+		PRINTFORM 「
+
+		PRINTDATA
+			DATAFORM 응
+			DATAFORM 
+			DATAFORM 후~
+			DATAFORM 
+			DATAFORM 
+			DATAFORM 낳는, 푸
+		ENDDATA
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+		PRINTDATA
+			DATAFORM , 응쿠웃
+			DATAFORM 짠다
+			DATAFORM , 읏
+			DATAFORM ～……
+			DATAFORM 
+			DATAFORM 
+		ENDDATA
+		PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+
+		PRINTDATA
+			DATAFORM 응구
+			DATAFORM 
+			DATAFORM 
+			DATAFORM 
+			DATAFORM 우우
+			DATAFORM 응응응
+		ENDDATA
+		PRINTFORM %BREAK_K10("말", 레밀리아_대상)%
+
+		PRINTFORML 」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

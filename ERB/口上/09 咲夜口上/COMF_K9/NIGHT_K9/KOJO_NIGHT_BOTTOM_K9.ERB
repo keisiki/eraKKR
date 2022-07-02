@@ -1,0 +1,822 @@
+﻿;─────────────────────────────────────── 
+;■침실_접수_실행전
+;  범용 대사 「KOJO_K9_공_침실_수_범용. ERB」를 호출하기 전에
+;  특수한 커맨드를 개별적으로 표시해 RETURN 한다
+;─────────────────────────────────────── 
+@KOJO_K9_NIGHT_BEFORE_BOTTOM(사쿠야_대상)
+#DIM 사쿠야
+#DIM 사쿠야_대상
+#DIMS 사쿠야기분
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야기분 '= TOSTR_EMOTION(사쿠야)
+
+;이 정도는 전용 구상을 갖고 싶지만 사전에 무엇으로 판단해야할 것인가
+;퍼스트 키스상실
+;처녀상실
+;Ａ처녀상실
+
+;─────────────────────────────────────── 
+;◆실행이 접수（주도권에 의하는 것도 있다）
+;─────────────────────────────────────── 
+;졸라대는·하게 한다
+IF SELECTCOM == 111
+	;주도권이 없으면 마지못해이지만 함락 하고 있으면 내켜하는 마음, 위안이라면 아무것도 말하지 않는다
+	IF !IS_INITIATIVE(사쿠야) && FLAG:조교모드 != 조교_위안
+		IF CHECK_K9("함락", 사쿠야_대상)
+			IF CHECK_K9("경어", 사쿠야_대상)
+				PRINTDATAL
+					DATAFORM 「%CALLNAME_K9(사쿠야_대상)%에라면 언제라도 안기고 싶다고 생각하고 있습니다 %BREAK_K9("중", 사쿠야_대상)%……좀 더 천한 말입니까?」
+					DATAFORM 「알고 있어 말하고 계시겠지요?   심술쟁이입니다 %BREAK_K9("말", 사쿠야_대상)%」
+					DATAFORM 「조르기를 하지 않으면, 해 주실 수 없군요. ……웃지 말아 주세요%BREAK_K9("말", 사쿠야_대상)%」
+					DATAFORM 「잘 알았습니다……%CALLNAME_K9(사쿠야_대상)%에 마음에 들어 받을 수 있도록(듯이), 보기 흉하게 웁니다 %BREAK_K9("말", 사쿠야_대상)%」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「달콤한 말을 (듣)묻고 싶을 것은 아닌거네. 추잡한 일?」
+					DATAFORM 「%CALLNAME_K9(사쿠야_대상)%에라면 해 주었으면 한 것에 정해져 있는데……심술쟁이예요%BREAK_K9("말", 사쿠야_대상)%」
+					DATAFORM 「언제나 졸라대고 있을 생각이 드는 것이지만……그런 일이 아닌거네」
+					DATAFORM 「평소의가 아니고?   좀 더 추잡한 일인 거네. 생각해 봐요. ……으음, 그렇구나」
+				ENDDATA
+			ENDIF
+		ELSE
+			IF CHECK_K9("경어", 사쿠야_대상)
+				PRINTDATAL
+					DATAFORM 「어, 어째서 그런?   하지 않으면 안 되는 것일까요」
+					DATAFORM 「잘 알았습니다. 배운 대로 합니다」
+					DATAFORM 「조르기, 입니까……잘 알았습니다」
+					DATAFORM 「어째서 그런 일을 하지 않으면 안 될 것입니다……아니요 잘 알았습니다」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「어, 어째서 그런 일을 하지 않으면 안 되는 것……하는, 하지만」
+					DATAFORM 「조르기이라니. 하지 않으면 안 되는 것일까……해요. 기억하고 있어요」
+					DATAFORM 「조르기?   후~……뭐, 좋아요. 무엇이었을까요」
+					DATAFORM 「어째서 내가 그런 일을 내가 하지 않으면 안 되는거야. ……아, 알았어요」
+					DATAFORM 「따르는 것은 익숙해져 있지만, 침대에서도는……이상해요%BREAK_K9("말", 사쿠야_대상)%」
+				ENDDATA
+			ENDIF
+		ENDIF
+	ENDIF
+	IF HAS_PENIS(사쿠야_대상)
+		IF RAND:2 == 0
+			PRINTFORM 「%ANAME(사쿠야)%의
+			PRINTDATA
+				DATAFORM 추잡함
+				DATAFORM 상스럽다
+				DATAFORM 음란한
+				DATAFORM 욕구해 꾸중의
+				DATAFORM 음란
+				DATAFORM 느끼고 있을 뿐의
+			ENDDATA
+			PRINTDATA
+				DATAFORM %CALL_DIRTY_K9("Ｖ")%
+				DATAFORM %CALL_DIRTY_K9("Ａ")%
+				DATAFORM %CALL_DIRTY_K9("Ｂ")%
+				DATAFORM %CALL_DIRTY_K9("Ｃ")%
+			ENDDATA
+			PRINTDATA
+				DATAFORM 를 귀여워해 주세요
+				DATAFORM 를 괴롭혀 주세요
+				DATAFORM 를 기분 좋게 해 주세요
+				DATAFORM 를 만지작거려 주세요
+				DATAFORM 를 안 되게 해 주세요
+				DATAFORM 로 놀아 주세요
+				DATAFORM 를 %CALL_DIRTY_K9("Ｐ")%로 범해 주세요
+				DATAFORM 에 %CALL_DIRTY_K9("Ｐ")%를 주세요
+				DATAFORM 를 정액 투성이로 해 주세요
+			ENDDATA
+		ELSE
+			PRINTDATA
+				DATAFORM 「%CALL_DIRTY_K9("Ｐ")%를 주세요
+				DATAFORM 「씨뿌리기 해 주세요
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 노예로 해 주세요
+				DATAFORM 「%CALL_DIRTY_K9("Ｐ", "")%%BREAK_K9("중", 사쿠야_대상)%%CALL_DIRTY_K9("Ｐ", "")%
+				DATAFORM 「나는 %CALLNAME_K9(사쿠야_대상)%의 성노예입니다
+				DATAFORM 「넣어 주세요%BREAK_K9("중", 사쿠야_대상)%%CALL_DIRTY_K9("Ｐ", "")%
+				DATAFORM 「섹스 해 주세요
+				DATAFORM 「%CALL_DIRTY_K9("Ｐ", "")%%BREAK_K9("중", 사쿠야_대상)%……아, 아니
+				DATAFORM 「%CALL_DIRTY_K9("Ｐ", "")%를 넣어 주세요
+				DATAFORM 「부디 아기를 씨뿌리기 해 주세요
+			ENDDATA
+		ENDIF
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ELSE
+		IF RAND:2 == 0
+			PRINTFORM 「%ANAME(사쿠야)%의
+			PRINTDATA
+				DATAFORM 추잡함
+				DATAFORM 상스럽다
+				DATAFORM 음란한
+				DATAFORM 욕구해 꾸중의
+				DATAFORM 음란
+				DATAFORM 느끼고 있을 뿐의
+			ENDDATA
+			PRINTDATA
+				DATAFORM %CALL_DIRTY_K9("Ｖ")%
+				DATAFORM %CALL_DIRTY_K9("Ａ")%
+				DATAFORM %CALL_DIRTY_K9("Ｂ")%
+				DATAFORM %CALL_DIRTY_K9("Ｃ")%
+			ENDDATA
+			PRINTDATA
+				DATAFORM 를 귀여워해 주세요
+				DATAFORM 를 괴롭혀 주세요
+				DATAFORM 를 기분 좋게 해 주세요
+				DATAFORM 를 만지작거려 주세요
+				DATAFORM 를 안 되게 해 주세요
+				DATAFORM 로 놀아 주세요
+			ENDDATA
+		ELSE
+			PRINTDATA
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 노예로 해 주세요
+				DATAFORM 「아아, 괴로운, 가고 싶은 것
+				DATAFORM 「나는 %CALLNAME_K9(사쿠야_대상)%의 성노예입니다
+				DATAFORM 「가게해 주세요
+				DATAFORM 「부디 기분 좋게 해 주세요
+				DATAFORM 「나의 추잡한 몸을 귀여워해 주세요
+				DATAFORM 「기분 좋게 해 주세요
+			ENDDATA
+		ENDIF
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	ENDIF
+	PRINTFORM %SPLIT_R("아::구:히:아니:아, 안 돼:끈다 :우아")%
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	IF CHECK_K9("함락", 사쿠야_대상)
+		PRINTDATAL
+			DATAFORM 도, 더는 안 돼%BREAK_K9("말", 사쿠야_대상)%」
+			DATAFORM %POLITE_K9("부끄러운, 와", "우우", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+			DATAFORM ……이제(이미/벌써/더는/정말)%BREAK_K9("말", 사쿠야_대상)% 머리가 이상해질 것 같다」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM , 어째서 이런, 나……」
+			DATAFORM 아, 아아. 나……」
+			DATAFORM ……이런 일은……」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;도게자하는·하게 한다
+IF SELECTCOM == 110
+	IF !IS_INITIATIVE(사쿠야) && FLAG:조교모드 != 조교_위안
+		IF CHECK_K9("함락", 사쿠야_대상)
+			PRINTDATAL
+				DATAFORM 「%POLITE_K9("그러한 것, 큰 흥분 할까. ……좋아요", "잘 알았습니다……", 사쿠야_대상)%」
+				DATAFORM 「%POLITE_K9(@"%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 그러한다면, 해 봐요", @"%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 그렇게 말씀하시는 것이라면, 뭐든지 합니다", 사쿠야_대상)%」
+				DATAFORM 「%POLITE_K9("무엇을 사과하면 좋은거야?   ……졸라대면 좋은 것일까?", "입장을 가르쳐 주시는 것이군요. 잘 알았습니다", 사쿠야_대상)%」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「도……도게자라니이」
+				DATAFORM 「어째서, 이런……아아……」
+				DATAFORM 「어째서 내가……아앗」
+				DATAFORM 「어째서……쿠, 우. 앗」
+			ENDDATA
+		ENDIF
+	ENDIF
+	PRINTDATA
+		DATAFORM 「죄송합니다
+		DATAFORM 「부탁합니다
+		DATAFORM 「용서해 주세요
+		DATAFORM 「부, 부디
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTDATA
+		DATAFORM 신분을 분별하지 않고 거만함을 말씀드린 %ANAME(사쿠야)%를 용서해 주세요
+		DATAFORM 성심성의 봉사 하기 때문에, %ANAME(사쿠야)%를 사용해 주세요
+		DATAFORM 어리석은 %ANAME(사쿠야)%를 예의 범절 주세요
+		DATAFORM %ANAME(사쿠야)%를 %CALLNAME_K9(사쿠야_대상)%의 성처리에 사용해 주세요
+		DATAFORM %ANAME(사쿠야)%를 %CALLNAME_K9(사쿠야_대상)%의 완구로 해 주세요
+		DATAFORM %CALLNAME_K9(사쿠야_대상)%의 재미있게, %ANAME(사쿠야)%를 사용해 주세요
+		DATAFORM 지금부터는 힘껏 명령에 따릅니다. 버리시지 않고 예의범절을 가르쳐 주세요
+	ENDDATA
+	IF CHECK_K9("함락", 사쿠야_대상)
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+	ELSE
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		PRINTFORM %SPLIT_R("먹는다 :구:우우:쿳, 우")%
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+	ENDIF
+	RETURN 0
+ENDIF
+
+;안면승마 당하는 Ａ안면승마 당한다（주도권이 없으면 실행이 접수）
+IF SELECTCOM == 101 || SELECTCOM == 102
+	IF IS_MPLY(사쿠야) && !IS_INITIATIVE(사쿠야)
+		PRINTDATAL
+			DATAFORM 「아앗……이런 일%BREAK_K9("중", 사쿠야_대상)%부끄러워요」
+			DATAFORM 「얼굴 위에 걸치다니 실례인 일……미안해요」
+			DATAFORM 「그렇게 상스러운 것, 나」
+			DATAFORM 「아, 안 돼요%BREAK_K9("중", 사쿠야_대상)%……」
+		ENDDATA
+	ENDIF
+ENDIF
+
+;자위 당하는·된다（주도권 소유가 공격）
+IF SELECTCOM == 100 || SELECTCOM == 211
+	IF IS_MPLY(사쿠야) && !IS_INITIATIVE(사쿠야)
+		IF !IS_SLAVE(사쿠야) && FLAG:조교모드 != 조교_위안
+			PRINTDATAL
+				DATAFORM 「어째서 %POLITE_K9("인거야", "입니까", 사쿠야_대상)%。%조사처리(CALLNAME_K9(사쿠야_대상),"와")% 함께인데, 혼자로 하다니……이제(이미/벌써/더는/정말)」
+				DATAFORM 「스스로 손대는 곳……은, 보고 싶은 것%POLITE_K9("일까", "입니까", 사쿠야_대상)%. 부끄러워요」
+			ENDDATA
+		ENDIF
+		IF CHECK_K9("함락", 사쿠야_대상)
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에라면 %POLITE_K9("상관없지만", "보여 받고 싶을지도 모릅니다", 사쿠야_대상)%」
+		ENDIF
+
+		PRINTDATA
+			DATAFORM 「앗……%조사처리(CALLNAME_K9(사쿠야_대상),"로")% 보여져……하
+			DATAFORM 「혼자서, 하고 있어……%CALLNAME_K9(사쿠야_대상)%. 봐……%POLITE_K9("줘", "주세요", 사쿠야_대상)%
+			DATAFORM 「봐%POLITE_K9("줘", "주세요", 사쿠야_대상)%……%CALLNAME_K9(사쿠야_대상)%……
+		ENDDATA
+
+		IF SELECTCOM == 211
+			PRINTDATA
+				DATAFORM 촉수로는……
+				DATAFORM 촉수가
+				DATAFORM 미끈미끈은
+			ENDDATA
+		ENDIF
+
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+
+	ELSEIF  IS_MTAR(사쿠야) && !IS_INITIATIVE(사쿠야)
+		IF CHECK_K9("함락", 사쿠야_대상)
+			PRINTDATAL
+				DATAFORM 「%POLITE_K9("……그, 그런 당당히. 여기가 부끄러워", "저, 그렇게……좋습니까?", 사쿠야_대상)%」
+				DATAFORM 「%POLITE_K9("눈 둘 곳이 곤란한 것이지만, 그런 식으로 하는 거네", @"%CALLNAME_K9(사쿠야_대상)%의 기분이 좋은 곳, 봉사에 활용할 수 있도록 공부합니다", 사쿠야_대상)%」
+				DATAFORM 「%POLITE_K9("그, 부끄러운 것이지만. 요염해", "……두근두근 합니다", 사쿠야_대상)%」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「그, 그만둬……」
+				DATAFORM 「시, 싫엇……」
+				DATAFORM 「우웃」
+			ENDDATA
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;배설 지시
+IF GROUPMATCH(SELECTCOM, 130, 131, 132, 150, 151) && IS_MPLY(사쿠야) && !IS_INITIATIVE(사쿠야)
+	IF GROUPMATCH(SELECTCOM, 130, 131, 132)
+		LOCALS:0 = 오줌
+	ELSE
+		LOCALS:0 = 방귀
+	ENDIF
+	PRINTDATAL
+		DATAFORM 「싫어엇……그런. 더럽혀 버리는, 내, 내가」
+		DATAFORM 「그만둬어……%POLITE_K9("안돼", "할수 없습니다", 사쿠야_대상)%. 그런 일, 내, 내가 더럽히다닛」
+		DATAFORM 「그런!   , 아, 아」
+		DATAFORM 「%POLITE_K9("안 됏", "안됩니닷", 사쿠야_대상)%. 더럽혀%POLITE_K9("졋", "져 버립니닷", 사쿠야_대상)%. 아아」
+		DATAFORM 「아앗……더러워져, %POLITE_K9("버려", "버립니다", 사쿠야_대상)%……」
+		DATAFORM 「싫어요!   그렇게 부끄러운 일, 할 수 없어요. 아아, 아……」
+		DATAFORM 「그만둬어……%POLITE_K9("안돼", "할수 없습니다", 사쿠야_대상)%. 그런, 남의 앞에서 %조사처리(LOCALS:0,"는")%」
+		DATAFORM 「히이……이, 이런……미, 미안해요」
+		DATAFORM 「아아, 이런 일……미안해요」
+	ENDDATA
+	LOCALS:0 = 
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;◆불쾌함
+;─────────────────────────────────────── 
+;위안이라면 인내
+IF FLAG:조교모드 != 조교_위안
+	사쿠야기분 = %TOSTR_EMOTION(사쿠야)%
+	SELECTCASE 사쿠야기분
+		CASE "원한", "분노", "분개"
+			IF PALAM:사쿠야:로주 <= PALAM:사쿠야:로외
+				PRINTDATAL
+					DATAFORM 「조금 안절부절 하고 있어……응석부리고 싶은 %POLITE_K9("것", "기분입니다", 사쿠야_대상)%」
+					DATAFORM 「%CALLNAME_K9(사쿠야_대상)%에 화나 있는 것은 아닌 것……미안해요」
+					DATAFORM 「조금 싫은 일이 있던 것……껴안아 %POLITE_K9("줄까", "주시겠습니까", 사쿠야_대상)%?」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「쿳……어째서?」
+					DATAFORM 「아니……아」
+					DATAFORM 「춋……뭐 할까?」
+					DATAFORM 「웃……어째서……」
+					DATAFORM 「아, 아니……싫어요」
+					DATAFORM 「……심해요」
+				ENDDATA
+			ENDIF
+
+		CASE "암울", "슬픔", "우울"
+			IF PALAM:사쿠야:로주 <= PALAM:사쿠야:로외
+				PRINTDATAL
+					DATAFORM 「조금 정신이 없었%POLITE_K9("어", "습니다", 사쿠야_대상)%……응석을 %POLITE_K9("부려 줄까?", "부려도 좋을까요?", 사쿠야_대상)%」
+					DATAFORM 「우울한 얼굴을 하고 있었%POLITE_K9("나", "습니까", 사쿠야_대상)%……%POLITE_K9("미안해, 이런 때에", "죄송합니다. 이런 때에", 사쿠야_대상)%」
+					DATAFORM 「조금 싫은 일이 있어서……%CALLNAME_K9(사쿠야_대상)%(와)과 있으면 곧 건강하게 %POLITE_K9("될거야", "될겁니다", 사쿠야_대상)%?」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「쿳……어째서?」
+					DATAFORM 「아니……아」
+					DATAFORM 「춋……뭐 할까?」
+					DATAFORM 「웃……어째서……」
+					DATAFORM 「아, 아니……싫어요」
+					DATAFORM 「……심해요」
+				ENDDATA
+			ENDIF
+
+		CASE  "광기", "공포", "겁냄"
+			IF PALAM:사쿠야:로주 <= PALAM:사쿠야:로외
+				PRINTDATAL
+					DATAFORM 「조금 무섭고……응석부리고 싶은 %POLITE_K9("것", "기분입니다", 사쿠야_대상)%」
+					DATAFORM 「괜찮%POLITE_K9("아", "습니다", 사쿠야_대상)%……%조사처리(CALLNAME_K9(사쿠야_대상),"가")% 곁에 %POLITE_K9("있으니까", "계셔 주시고 있을테니까요", 사쿠야_대상)%」
+					DATAFORM 「조금 무섭고……껴안아 %POLITE_K9("줄까", "주시겠습니까", 사쿠야_대상)%?」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「이제(이미/벌써/더는/정말) 싫엇. 어째서 그런……무서웟……아」
+					DATAFORM 「시……심해요……」
+					DATAFORM 「아아……아. 나, 하……」
+					DATAFORM 「우아……아, 아」
+					DATAFORM 「시……싫어요!   그런……힛」
+					DATAFORM 「…………」
+				ENDDATA
+			ENDIF
+	ENDSELECT
+ENDIF
+
+;─────────────────────────────────────── 
+;◆기분이 나빠도 여유가 없는 행위
+;─────────────────────────────────────── 
+;─────────────────────────────────────── 
+;●포로계
+;─────────────────────────────────────── 
+IF SELECTCOM >= 80 && SELECTCOM <= 99
+	;위협한다（주도권이 없으면 선택 할 수 없는 커맨드）
+	IF SELECTCOM == 80
+		IF IS_SLAVE(사쿠야) || FLAG:조교모드 != 조교_위안
+			PRINTDATAL
+				DATAFORM 「아, 아앗……용서해 주세요」
+				DATAFORM 「용서해 주세요……부, 부디」
+				DATAFORM 「히잇……아, 아아」
+				DATAFORM 「미안해요, 미안해요」
+			ENDDATA
+		ELSEIF IS_LOVER(사쿠야)
+			PRINTDATAL
+				DATAFORM 「뭐, 뭐야……위협적인 태도를 취해도 무섭지 %POLITE_K9("않아", "않습니다", 사쿠야_대상)%。%CALLNAME_K9(사쿠야_대상)%인걸」
+				DATAFORM 「%조사처리(CALLNAME_K9(사쿠야_대상),"는")% 연인에게 그렇게 심한 일을 %POLITE_K9("해", "합니까", 사쿠야_대상)%?」
+				DATAFORM 「그만둬%POLITE_K9("줘", "주세요", 사쿠야_대상)%……모처럼 얼싸안겨지고 있을 때, 위협하다니」
+				DATAFORM 「무슨 %POLITE_K9("일이야", "일입니까", 사쿠야_대상)%……좋아%POLITE_K9("", "요", 사쿠야_대상)%?   심술 부리지 %POLITE_K9("마", "마세요", 사쿠야_대상)%」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「……%POLITE_K9("뭐야", "무엇입니까", 사쿠야_대상)%. 그런 일로 따른다고 생각하는 %POLITE_K9("것일까", "것입니까", 사쿠야_대상)%」
+				DATAFORM 「시끄%POLITE_K9("러워", "럽습니다", 사쿠야_대상)%. 한다면 빨리 하면 좋은 %POLITE_K9("것 아냐", "것 아닙니까", 사쿠야_대상)%」
+				DATAFORM 「따르지 %POLITE_K9("않아", "않습니다", 사쿠야_대상)%」
+				DATAFORM 「낭비%POLITE_K9("야", "입니다", 사쿠야_대상)%」
+			ENDDATA
+		ENDIF
+	;바늘·피어스·문신（피어스·문신은 선택 후에 실행）
+	ELSEIF SELECTCOM == 83 || SELECTCOM == 91 || SELECTCOM == 92
+		IF SELECTCOM == 83
+			LOCALS:0 = 바늘
+		ELSEIF SELECTCOM == 91
+			LOCALS:0 = 피어스
+		ELSE
+			LOCALS:0 = 문신
+		ENDIF
+		IF IS_INITIATIVE(사쿠야)
+			IF IS_SLAVE(사쿠야) || FLAG:조교모드 != 조교_위안
+				PRINTDATAL
+					DATALIST
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 것인 표를, 식……아, 앗」
+						DATAFORM 「%ANAME(사쿠야)%에 %조사처리(LOCALS:0,"로")% 구멍을 뚫어……를 장식해 주세요%BREAK_K9("말", 사쿠야_대상)%」
+					ENDLIST
+					DATALIST
+						DATAFORM 「%ANAME(사쿠야)%에, 표, 표를 %BREAK_K9("중", 사쿠야_대상)%%CALLNAME_K9(사쿠야_대상)%의 표를 장식해 주세욧」
+						DATAFORM 「%ANAME(사쿠야)%에 %조사처리(LOCALS:0,"로")% 표를……%CALLNAME_K9(사쿠야_대상)%의 표를 장식해 주세요%BREAK_K9("말", 사쿠야_대상)%」
+					ENDLIST
+					DATALIST
+						DATAFORM 「포, 포……아앗. %LOCALS:0%, 핫. 힛」
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 것인 표를, 식……아, 아 %BREAK_K9("말", 사쿠야_대상)%」
+						DATAFORM 「%ANAME(사쿠야)%를 장식해 주세요%BREAK_K9("말", 사쿠야_대상)%」
+					ENDLIST
+				ENDDATA
+			ELSEIF IS_LOVER(사쿠야)
+				PRINTDATAL
+					DATALIST
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%%BREAK_K9("중", 사쿠야_대상)%%LOCALS:0%……%조사처리(LOCALS:0,"를")%, 장식했으면 좋겠%POLITE_K9("어", "습니다", 사쿠야_대상)%」
+						DATAFORM 「아프게 해엣」
+					ENDLIST
+					DATALIST
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 졸라대도 되는 것 %POLITE_K9("일까", "입니까", 사쿠야_대상)%」
+						DATAFORM 「%ANAME(사쿠야)%의 몸을, %POLITE_K9("장식해? 　", "장식해 주세요.", 사쿠야_대상)% %조사처리(LOCALS:0,"를")% 갖고 싶은거야」
+					ENDLIST
+					DATALIST
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 졸라대도 되는 것 %POLITE_K9("일까", "입니까", 사쿠야_대상)%」
+						DATAFORM 「%ANAME(사쿠야)%의 몸을, %POLITE_K9("장식해? 　", "장식해 주세요.", 사쿠야_대상)% %조사처리(LOCALS:0,"를")% 갖고 싶은거야」
+					ENDLIST
+					DATALIST
+						DATAFORM 「포, 포……아앗. %LOCALS:0%, 하, 힛」
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 것인 표를, 장식해 %BREAK_K9("중", 사쿠야_대상)%아, 앗」
+						DATAFORM 「%ANAME(사쿠야)%를 장식해 %POLITE_K9("줘엇", "주세욧", 사쿠야_대상)%」
+					ENDLIST
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATALIST
+						DATAFORM 「좋아하게……하면 좋아요. %조사처리(LOCALS:0,"를")% 찔러 기분이 풀린다면」
+					ENDLIST
+					DATALIST
+						DATAFORM 「그 %조사처리(LOCALS:0,"로")% 기분이 풀린다면, 빨리 붙여 준다면 좋아요」
+					ENDLIST
+					DATALIST
+						DATAFORM 「자신의 것이라고 생각하면 만족한다면, 하면 좋지 않아」
+						DATAFORM 「그 %조사처리(LOCALS:0,"를")% 찔러 끝내 준다면 좋아요」
+					ENDLIST
+				ENDDATA
+			ENDIF
+		ELSE
+			IF IS_SLAVE(사쿠야) || FLAG:조교모드 != 조교_위안
+				PRINTDATAL
+					DATALIST
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 것인 표를, 식……아, 앗」
+						DATAFORM 「%ANAME(사쿠야)%를 장식해 주세요%BREAK_K9("중", 사쿠야_대상)%……우」
+					ENDLIST
+					DATALIST
+						DATAFORM 「%LOCALS:0%……%LOCALS:0%?   ……」
+					ENDLIST
+					DATALIST
+						DATAFORM 「아아……%CALLNAME_K9(사쿠야_대상)%의 표……」
+					ENDLIST
+					DATALIST
+						DATAFORM 「포, 포……아앗. %LOCALS:0%, 하, 힛」
+						DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 것인 표를, 식……아, 앗」
+						DATAFORM 「%ANAME(사쿠야)%를 장식해 주세요%BREAK_K9("중", 사쿠야_대상)%」
+					ENDLIST
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「%LOCALS:0%……?   히……」
+					DATAFORM 「사, 사람의 몸에 구멍을 뚫다니」
+					DATAFORM 「그런 곳에……장식은, %POLITE_K9("필요없어", "필요 없어요", 사쿠야_대상)%」
+					DATAFORM 「그만둬%POLITE_K9("줘엇", "주세욧", 사쿠야_대상)%!   싫%POLITE_K9("어", "습니다", 사쿠야_대상)%!   그런 곳에 %조사처리(LOCALS:0,"는")%……!」
+				ENDDATA
+			ENDIF
+		ENDIF
+	;코걸이
+	ELSEIF SELECTCOM == 93
+		IF IS_INITIATIVE(사쿠야)
+			PRINTDATAL
+				DATAFORM 「이런 보기 흉한 얼굴로……해, 뭐라는. 나, 변태%POLITE_K9("네", "군요", 사쿠야_대상)%」
+				DATAFORM 「브우……?   인, 뭐라는, 말%POLITE_K9("하지 않을게", "하지 않겠습니다", 사쿠야_대상)%」
+				DATAFORM 「나……지금, 돼지얼굴을 보이고 있는%POLITE_K9("거네", "거군요", 사쿠야_대상)%。%CALLNAME_K9(사쿠야_대상)%에」
+			ENDDATA
+		ELSE
+			;분노
+			IF GROUPMATCH(사쿠야기분, "원한")
+				PRINTDATAL
+					DATAFORM 「이런 보기 흉한 흉내를……%POLITE_K9("잘도", "시키다니", 사쿠야_대상)%」
+					DATAFORM 「%POLITE_K9("크……돼지가 좋으면 돼지에 상대를 시키면 좋지 않아", "크……사람을 돼지로 할 정도라면 돼지에 상대를 근무하게 하면 어떻습니까", 사쿠야_대상)%」
+					DATAFORM 「%POLITE_K9("실례군욧. 서툼을 비웃을 수 있는 것 같은 얼굴 하고 있을까", "해, 실례군요. 우웃……돼지가 아닙니다", 사쿠야_대상)%」
+					DATAFORM 「코가 구부러지면 %POLITE_K9("어떻게 해 주는거야", "어떻게 해 준다", 사쿠야_대상)%」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「이런 보기 흉한 일……아아」
+					DATAFORM 「후, 우쿳……코, 가. 그만둬……%POLITE_K9("줘", "주세요", 사쿠야_대상)%」
+					DATAFORM 「아니……이런 얼굴, 보지 말아%POLITE_K9("줘", "주세요", 사쿠야_대상)%……」
+				ENDDATA
+			ENDIF
+		ENDIF
+	;눈가리개
+	ELSEIF SELECTCOM == 84
+		LOCALS:0 '= ""
+		IF IS_INITIATIVE(사쿠야)
+			PRINTDATAL
+				DATAFORM 「두근두근%POLITE_K9("해", "합니다", 사쿠야_대상)%」
+				DATAFORM 「눈을 막고 있으면, 가깝게 느껴%POLITE_K9("져", "집니다", 사쿠야_대상)%」
+				DATAFORM 「안개에 휩싸여지고 있는 %POLITE_K9("것 같아서 침착해", "것 같아서 침착합니다", 사쿠야_대상)%」
+			ENDDATA
+			LOCALS:0 '= "에서도"
+		ENDIF
+		PRINTDATAL
+			DATAFORM 「%LOCALS:0% 눈가리개가 있으면, 어둡%POLITE_K9("네", "습니다", 사쿠야_대상)%」
+			DATAFORM 「%LOCALS:0% 어두워요……어디에 있%POLITE_K9("어?", "습니까?", 사쿠야_대상)%　%CALLNAME_K9(사쿠야_대상)%」
+			DATAFORM 「%LOCALS:0% 안보이면, 어느새인가 한사람이 되어 있는 것 같아서 무%POLITE_K9("서워", "섭습니다", 사쿠야_대상)%」
+			DATAFORM 「%LOCALS:0% 접하고 있어%POLITE_K9("줘", "주세요", 사쿠야_대상)%」
+		ENDDATA
+	;주지육림
+	ELSEIF SELECTCOM == 51
+		IF CHECK_K9("함락", 사쿠야_대상)
+			PRINTDATAL
+				DATAFORM 「싫어어엇! 　%CALLNAME_K9(사쿠야_대상)%. 용, 용서해 주세요……아아아앗!」
+				DATAFORM 「힛……%CALLNAME_K9(사쿠야_대상)%, 도와, 응, 후긋, 응풋」
+				DATAFORM 「안 돼앳!   원, 나는 %조사처리(CALLNAME_K9(사쿠야_대상),"와")% 만―-아아앗!」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「히있고?   전부 차 %BREAK_K9("중", 사쿠야_대상)%%CALLNAME_K9(사쿠야_대상)%」
+				DATAFORM 「전부!   !   전부구멍%BREAK_K9("중", 사쿠야_대상)%아니, 이런, 하아아앗」
+				DATAFORM 「히아앗. %CALL_DIRTY_K9("Ｐ","")%%BREAK_K9("중", 사쿠야_대상)%전부」
+				DATAFORM 「%CALL_DIRTY_K9("Ｐ")%!   굉장하다아 %BREAK_K9("중", 사쿠야_대상)%아. 도와줘어!」
+			ENDDATA
+			PRINTDATAL
+				DATAFORM 「아……아아-……」
+				DATAFORM 「콜록. 아, 우우……무구, 후긋……우……」
+				DATAFORM 「응하아아……히아, 에, 아아……」
+			ENDDATA
+		ELSE
+			PRINTFORML 「싫어어어엇!   그만둬, 누군가 도와……!」
+			PRINTDATAL
+				DATAFORM 「아하아앙%BREAK_K9("중", 사쿠야_대상)%, 응앗」
+				DATAFORM 「전부 차……%BREAK_K9("중", 사쿠야_대상)%응, 후긋, 응풋」
+				DATAFORM 「전부!   !   전부구멍%BREAK_K9("중", 사쿠야_대상)%후~응」
+				DATAFORM 「히아앗. %CALL_DIRTY_K9("Ｐ", "")%%BREAK_K9("중", 사쿠야_대상)%전부」
+				DATAFORM 「%CALL_DIRTY_K9("Ｐ")%!   굉장하다아 %BREAK_K9("중", 사쿠야_대상)%아」
+			ENDDATA
+		ENDIF
+	;밧줄
+	ELSEIF SELECTCOM == 85
+		IF IS_INITIATIVE(사쿠야)
+			PRINTDATAL
+				DATALIST
+					DATAFORM 「나를 묶어 %POLITE_K9("주지 않을까", "주시지 않습니까", 사쿠야_대상)%」
+					DATAFORM 「이것으로 날뛰고 싶어도 날뛸 수 %POLITE_K9("없어", "없습니다", 사쿠야_대상)%。%POLITE_K9("이상하게 안심하는거네요", "꾸중을 받는 것 같은 일을, 하지 않아도 될 것 같습니다", 사쿠야_대상)%」
+				ENDLIST
+				DATAFORM 「이것으로 %조사처리(CALLNAME_K9(사쿠야_대상),"가")% 좋아하게 %POLITE_K9("되어 버리는 거네. 오슬오슬 해요", "해 받을 수 있군요. ……기쁩니다", 사쿠야_대상)%」
+				DATAFORM 「이것으로 무엇을 되어도 움직일 수 %POLITE_K9("없을거야", "없겠군요", 사쿠야_대상)%……아아」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「반점이 되어 버릴 것 같%POLITE_K9("은데", "습니다", 사쿠야_대상)%」
+				DATAFORM 「개……%POLITE_K9("좀 더 손대중 해 주지 않을까", "부디 손대중을……부탁합니다", 사쿠야_대상)%」
+				DATAFORM 「먹혀들어 아%POLITE_K9("파", "픕니다", 사쿠야_대상)%……아아」
+			ENDDATA
+		ENDIF
+	;그 이외
+	ELSE
+		PRINTDATAL
+			DATAFORM 「토, 통……」
+			DATAFORM 「우웃. 나……아앗」
+			DATAFORM 「쿳……우」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●스카
+;─────────────────────────────────────── 
+IF SELECTCOM >= 130 && SELECTCOM <= 159
+	;접수
+	IF !IS_INITIATIVE(사쿠야)
+		;140이뇨제를 먹게 된다
+		IF SELECTCOM == 140
+			PRINTDATAL
+				DATAFORM 「그 약은……이뇨제, %POLITE_K9("야", "입니까", 사쿠야_대상)%?   어째서 그런 약을 사용하는 %POLITE_K9("것일까", "것이지요", 사쿠야_대상)%」
+				DATAFORM 「이뇨제……%POLITE_K9("야", "입니까", 사쿠야_대상)%?   어째서 그런 약을」
+			ENDDATA
+		;141관장을 된다
+		ELSEIF SELECTCOM == 141
+			PRINTDATAL
+				DATAFORM 「아 그만둬%POLITE_K9("줘엇", "주세욧", 사쿠야_대상)%!   다, 안 돼, 인내……!   있고, 싫어엇」
+				DATAFORM 「싫어어어!   아니!   야……」
+			ENDDATA
+		;142관장＆플러그 된다　
+		ELSEIF SELECTCOM == 142
+			PRINTDATAL
+				DATAFORM 「히이……화, 화장실에 가게 해%POLITE_K9("줘엇", "주세욧", 사쿠야_대상)%」
+				DATAFORM 「안 돼애!   배가……. 허락해엣」
+			ENDDATA
+		;불명
+		ELSE
+			PRINTDATAL
+				DATAFORM 「더럽히지 말아%POLITE_K9("줘엇", "주세욧", 사쿠야_대상)%」
+				DATAFORM 「싫어어엇」
+			ENDDATA
+		ENDIF
+	;권유 접수
+	ELSE
+		;140이뇨제를 먹이게 한다
+		IF SELECTCOM == 140
+			PRINTDATAL
+				DATAFORM 「부탁%POLITE_K9("이야", "드립니다", 사쿠야_대상)%%BREAK_K9("중", 사쿠야_대상)% 흘리게 %POLITE_K9("시켜 줘", "시켜 주세욧", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+				DATAFORM 「오줌을 흘리면서 %POLITE_K9("가 꾸중듣고 싶어", "가는 나를 꾸짖어 주세욧", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+			ENDDATA
+		;141관장을 시킨다
+		ELSEIF SELECTCOM == 141
+			PRINTDATAL
+				DATAFORM 「아 부탁%POLITE_K9("이야", "드립니다", 사쿠야_대상)%%BREAK_K9("중", 사쿠야_대상)% 관장%POLITE_K9("을 갖고 싶어", "해 주세욧", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+				DATAFORM 「배 가득해 괴로워져, 보기 흉하고 흘림 하는 나를 %POLITE_K9("꾸짖었으면 해", "꾸짖어 주세욧", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+			ENDDATA
+		;142관장＆플러그를 시킨다　
+		ELSEIF SELECTCOM == 142
+			PRINTDATAL
+				DATAFORM 「부탁%POLITE_K9("이야", "드립니다", 사쿠야_대상)%?   관장%POLITE_K9("을 갖고 싶어", "해 주세욧", 사쿠야_대상)%」
+				DATAFORM 「흘림의 상스러운 엉덩이에 마개를 해 %POLITE_K9("꾸짖었으면 해", "꾸짖어 주세욧", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+			ENDDATA
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●촉수（자위 이외）
+;─────────────────────────────────────── 
+IF SELECTCOM >= 200 && SELECTCOM <= 219
+	IF !IS_INITIATIVE(사쿠야)
+		PRINTDATAL
+			DATAFORM 「촉수……아, 그, 그런」
+			DATAFORM 「아니……그런 것, 무서워요. 어, 어째서? 　%CALLNAME_K9(사쿠야_대상)%에 손대었으면 좋은데%BREAK_K9("말", 사쿠야_대상)%」
+			DATAFORM 「촉수는……그런」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM 「촉수……아, 아, 겨우 또……아아읏」
+			DATAFORM 「그%POLITE_K9("거", "게", 사쿠야_대상)%, 그것을 갖고 싶%POLITE_K9("어", "습니다", 사쿠야_대상)%%BREAK_K9("말", 사쿠야_대상)%」
+			DATAFORM 「촉수는, 아아 %BREAK_K9("중", 사쿠야_대상)%어째서 이렇게 갖고 싶은 것」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;◆기분이 나쁘면 말하지 않는 행위
+;─────────────────────────────────────── 
+;기분이 안좋은 상태로 이야기할 수 있는 것은 여기까지
+IF GROUPMATCH(사쿠야기분, "원한", "분노", "분개", "암울", "슬픔", "우울", "광기", "공포", "겁냄")
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●전회와 동일 커맨드
+;─────────────────────────────────────── 
+IF SELECTCOM == PREVCOM && RAND:10 == 0
+	IF RAND:10 == 0 && !IS_INITIATIVE(사쿠야) && CHECK_K9("함락", 사쿠야_대상) && CHECK_K9("활력", 사쿠야_대상) && (( IS_MPLY(사쿠야) && MPLY_NUM == 1 )||( IS_MTAR(사쿠야) && MTAR_NUM == 1 ))
+		PRINT 「
+		PRINTDATA
+			DATAFORM %POLITE_K9("부탁해요, 여어", "부탁해요, 합니다아", 사쿠야_대상)%
+			DATAFORM %POLITE_K9("해", ", 부디", 사쿠야_대상)%
+		ENDDATA
+		PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+		PRINTFORM %SPLIT_R("좀 더 :이대로:거기:아직")%
+		;실행이 접수의 커맨드
+		IF GROUPMATCH(SELECTCOM, 101, 102, 100, 111, 130, 131, 132, 150, 151, 211)
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			PRINTFORM %KOJO_COM_NAME_PLAYER_K9(SELECTCOM, 사쿠야_대상)% 싶%POLITE_K9("어어", "습니다아", 사쿠야_대상)%
+		ELSE
+			PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+			PRINTFORM %KOJO_COM_NAME_TARGET_K9(SELECTCOM, 사쿠야_대상)% 싶%POLITE_K9("어어", "습니다아", 사쿠야_대상)%
+		ENDIF
+		PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●페니스밴드장착시
+;─────────────────────────────────────── 
+IF SELECTCOM == 50
+	PRINTFORM 「
+	PRINTFORM %SPLIT_R("아:그런")%
+	PRINTFORM %SPLIT_R("……:……")%
+	PRINTFORM %SPLIT_R("그런 것:이런 건")%
+	PRINTFORM %SPLIT_R("가 나 있다니 추잡해요:하지만 들어가 버리군요:들어가지 않아요")%
+	PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+	;범용 접수를 말하지 않는다
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;●로션·미약·배란유발제·절륜환·족 빨고
+;─────────────────────────────────────── 
+IF SELECTCOM >= 70 && SELECTCOM <= 73 || SELECTCOM == 104
+	PRINTFORM 「
+	PRINTFORM %SPLIT_R("응……:응후……:응쿠……:하아……:응우……")%
+	PRINTFORM %SPLIT_R("응::후아")%
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+	PRINTFORM %SPLIT_R("는::응")%
+	PRINTFORML %BREAK_K9("말", 사쿠야_대상)%」
+	;범용 접수를 말하지 않는다
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;◆범용 접수（커맨드 번호에 관련되지 않고 소스를 본다）
+;─────────────────────────────────────── 
+CALL MOAN_K9(사쿠야_대상)
+
+;─────────────────────────────────────── 
+;◆돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+
+;─────────────────────────────────────── 
+;■침실_수_실행 후
+;  선택지 후에 실행하는 커맨드나 실금등에 대응
+;─────────────────────────────────────── 
+@KOJO_K9_NIGHT_AFTER_BOTTOM(사쿠야_대상)
+#DIM 사쿠야
+#DIM 사쿠야_대상
+#DIMS 사쿠야기분
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야기분 '= TOSTR_EMOTION(사쿠야)
+
+;─────────────────────────────────────── 
+;●선택 후에 실행
+;─────────────────────────────────────── 
+;바늘·피어스·문신
+IF SELECTCOM == 83 || SELECTCOM == 91 || SELECTCOM == 92
+	IF SELECTCOM == 83
+		LOCALS:0 = 바늘
+	ELSEIF SELECTCOM == 91
+		LOCALS:0 = 피어스
+	ELSE
+		LOCALS:0 = 문신
+	ENDIF
+	;주도권이 없으면 노예만이 기뻐한다
+	IF !IS_INITIATIVE(사쿠야)
+		IF IS_SLAVE(사쿠야) || FLAG:조교모드 != 조교_위안
+			PRINTDATAL
+				DATAFORM 「우쿠우우……!   먹는, 후우, 후-……」
+				DATAFORM 「힛……앗!   ……우, 우우, 토, 통……쿳」
+				DATAFORM 「%CALLNAME_K9(사쿠야_대상)%에, 표, 표를 붙여 받을 수 있어, 기, 기쁜……입니다」
+				DATAFORM 「아픈, 아프다아앗!   아!   아프다아아앗」
+				DATAFORM 「히우우웃, 아, 히아, 아, 앗. 기……기쁜, 기쁜, 기쁘다」
+				DATAFORM 「히우, 아, 아 아 아―-」
+			ENDDATA
+			RETURN 0
+		ELSE
+			PRINTDATAL
+				DATAFORM 「……우!   아아」
+				DATAFORM 「아―-」
+				DATAFORM 「아프다아앗!   아, 앗……」
+				DATAFORM 「아니―-. ……히, 히웃」
+			ENDDATA
+			RETURN 0
+		ENDIF
+	;주도권이 있으면 노예와 연인은 기뻐한다
+	ELSE
+		IF IS_SLAVE(사쿠야) || FLAG:조교모드 != 조교_위안
+			PRINTDATAL
+				DATAFORM 「우쿠우우……!   먹는, 후우, 후-……」
+				DATAFORM 「힛……앗!   ……우, 우우, 토, 통……쿳」
+				DATAFORM 「아픈, 아프다아앗!   아!   아프다아아앗」
+				DATAFORM 「히우우웃, 아, 히아, 아, 앗. 기……기쁜, 기쁜, 기쁘다」
+				DATAFORM 「히우, 아, 아 아 아―-」
+			ENDDATA
+			RETURN 0
+		ELSEIF IS_LOVER(사쿠야)
+			PRINTDATAL
+				DATAFORM 「아, 아……아―-!   히……히앗」
+				DATAFORM 「힛……앗!   ……우, 우우, 토, 통……쿳. 아, 는?   멋져어」
+				DATAFORM 「아픈, 아프다아앗!   아!   아프다아아앗」
+				DATAFORM 「히우우웃, 아, 히아, 아, 앗. 기……기쁜, 기쁜, 기쁘다」
+				DATAFORM 「히우, 아, 아 아 아―-」
+			ENDDATA
+			RETURN 0
+		ELSE
+			PRINTDATAL
+				DATAFORM 「쿠우, 후우, 후-……」
+				DATAFORM 「힛……앗!   ……우, 우우」
+				DATAFORM 「히우, 아, 아 아 아―-」
+			ENDDATA
+			RETURN 0
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●실금 후
+;─────────────────────────────────────── 
+SELECTCASE TCVAR:0
+	;소변욕이 있는 상태로 절정 강도의 합계가 4이상
+	CASE 1
+		PRINTFORMW 「히이……다,, 째?   새어서는……읏. 봐서는, 싫어요……」
+		PRINTFORMW 「기분, 너무 좋아, 도, 아아……?   아……?」
+	;소변욕이 높은 상태로 절정
+	CASE 2
+		PRINTFORMW 「히이……다,, 째?   새어서는……읏. 봐서는, 싫어요」
+		PRINTFORMW 「기분, 좋아서, 이, 인내……히아아……」
+	;소변욕의 한계
+	CASE 3
+		PRINTFORMW 「이제(이미/벌써/더는/정말), 안 돼애……!   새어 버리는, 흘려 버려요, 싫어엇」
+		PRINTFORMW 「보지 말고……한계, 인 것……우, 아, 아」
+	;공포에 의한 실금
+	CASE 4
+		PRINTFORMW 「무서웟……아, 앗!   거짓말……이런……싫어어. 거짓말이야」
+ENDSELECT
+
+;─────────────────────────────────────── 
+;◆돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

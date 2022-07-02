@@ -1,0 +1,315 @@
+﻿;─────────────────────────────────────── 
+;●「포로 역조교」개시시
+;─────────────────────────────────────── 
+@KOJO_TRAIN_START_C_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;사쿠야 구상의 사용 가부 설정과 초기화
+SIF CFLAG:사쿠야:400 == 0
+	CALL KOJO_ASK_RESET_K9
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+;─────────────────────────────────────── 
+;○첫회
+;─────────────────────────────────────── 
+IF CFLAG:사쿠야:204 == 0
+
+	;역조교구상 첫회 호출 플래그 온
+	CFLAG:사쿠야:204 = 1
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		PRINTFORML 「……우……우우……응……」
+		PRINTFORMDL %ANAME(사쿠야)%는 공허한 눈동자로 가까워져 왔다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	IF IS_SLAVE(사쿠야)
+		PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%, 용서해 주세요……아니요 역시 무리일까요」
+		PRINTFORML 「꾸중은 다음에, %CALLNAME_K9(사쿠야_대상)%의 기분이 풀릴 때까지 받겠습니다」
+
+	ELSEIF CHECK_K9("경어") && IS_LOVER(사쿠야)
+		PRINTFORML 「묶어 있으면, 화가 나 놓칠 걱정도 없고, 애태움걱정도 없네요」
+		PRINTFORML 「하는 것은 이제 와서지요?   멋진 일입니다. 속박되는 것이 기호라면 잡아늘여 주세요」
+		PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"라")%면 나는 질릴 것 같게 없기에」
+
+	ELSEIF CHECK_K9("경어")
+		PRINTFORML 「묶어 있으면, 화가 나 놓칠 걱정도 없고, 애태움걱정도 없네요」
+		PRINTFORML 「하는 것은 이제 와서지요? 　%CALLNAME_K9(사쿠야_대상)%」
+		PRINTFORML 「속박되는 것이 좋아하면, 접히지 않고 잡아늘여 주세요」
+
+	ELSEIF IS_LOVER(사쿠야)
+		PRINTFORML 「묶어 있으면, 화가 나 놓칠 걱정도 없고, 애태움걱정도 없네요」
+		PRINTFORML 「하는 것 같은거 이제 와서네. 속박되는 것을 좋아하면 잡아늘여도 괜찮은거야」
+		PRINTFORML 「%조사처리(CALLNAME_K9(사쿠야_대상),"라")%면 나도 즐거운 하구나」
+
+	ELSEIF TALENT:사쿠야:합의
+		PRINTFORML 「뭐든지 목숨이 제일이라고는 생각하지 않을까?」
+		PRINTFORML 「뭐 좋아요. %조사처리(CALLNAME_K9(사쿠야_대상),"라")%면 나도 즐거운 하고」
+		PRINTFORML 「하는 것 같은거 이제 와서네. 언제까지나 속박되고 있고 싶으면 잡아늘여도 괜찮은거야」
+
+	ELSE
+		PRINTFORML 「뭐든지 목숨이 제일이라고는 생각하지 않을까?   ……랄까, 죽고 싶은거야?」
+		PRINTFORML 「이런 일, 좋아로 할 리가 없잖아! 　%CALLNAME_K9(사쿠야_대상)%에는 죽기를 원하지 않는 것뿐」
+		PRINTFORML 「무의미한 저항은 그만두어, 빨리 충성을 맹세하면 좋은거야」
+
+	ENDIF
+
+;─────────────────────────────────────── 
+;○2회째 이후
+;─────────────────────────────────────── 
+ELSE
+
+	;───────────────────────────────────── 
+	;▼공허
+	;───────────────────────────────────── 
+	IF TALENT:사쿠야:공허
+		PRINTFORML 「……우……우우……응……」
+		PRINTFORMDL %ANAME(사쿠야)%는 공허한 눈동자로 가까워져 왔다……
+		WAIT
+		RESETCOLOR
+		RETURN 0
+	ENDIF
+
+	;───────────────────────────────────── 
+	;▼통상
+	;───────────────────────────────────── 
+	IF IS_SLAVE(사쿠야)
+		PRINTDATAL
+			DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 용서해 주세요……아니요 역시 무리일까요」
+			DATAFORM 「꾸중은 다음에, %CALLNAME_K9(사쿠야_대상)%의 기분이 풀릴 때까지 받습니다」
+			DATAFORM 「%CALLNAME_K9(사쿠야_대상)%, 미안해요」
+		ENDDATA
+
+	ELSEIF CHECK_K9("경어") && IS_LOVER(사쿠야)
+		PRINTDATA
+			DATAFORM 「조교의 시간입니다.
+			DATAFORM 「벌 하도록 해 받아요.
+			DATAFORM 「즐거움의 시간입니다.
+			DATAFORM 「암캐의 시간입니다.
+		ENDDATA
+		PRINTDATAL
+			DATAFORM %CALLNAME_K9(사쿠야_대상)%도 무엇을 되는지는 아시는 바지요?」
+			DATAFORM %CALLNAME_K9(사쿠야_대상)%의 야비한 모습을 폭로하는 것은 나의 기쁨이기 때문에」
+			DATAFORM 어머, 기다리게 해버려서 있었습니까?」
+			DATAFORM 로? 　%CALLNAME_K9(사쿠야_대상)%. 조르기는 왜 그러는 것입니까」
+			DATAFORM 애견이기 때문에 귀여워해요. 그르밍은 중요하겠지요?」
+		ENDDATA
+
+	ELSEIF CHECK_K9("경어")
+		PRINTDATA
+			DATAFORM 「조교의 시간입니다.
+			DATAFORM 「벌 하도록 해 받아요.
+			DATAFORM 「즐거움의 시간입니다.
+			DATAFORM 「암캐의 시간입니다.
+		ENDDATA
+		PRINTDATAL
+			DATAFORM 안심해 주세요. 이것도 봉사이기 때문에」
+			DATAFORM 평소에는 시중드는 나이니까야말로, %조사처리(CALLNAME_K9(사쿠야_대상),"를")% 깎아내릴 수 있겠지요」
+			DATAFORM 이상해요. %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 개였던 것입니까?」
+			DATAFORM 로? 　%CALLNAME_K9(사쿠야_대상)%. 조르기는 왜 그러는 것입니까」
+		ENDDATA
+
+	ELSEIF CFLAG:사쿠야:호감도 >= 800
+		PRINTDATA
+			DATAFORM 「조교의 시간이야.
+			DATAFORM 「벌의 시간이야.
+			DATAFORM 「즐거움의 시간이야.
+			DATAFORM 「암캐의 시간이야.
+		ENDDATA
+		PRINTDATAL
+			DATAFORM 후후. 시작할까요」
+			DATAFORM 이상해요. %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 개였을까요?」
+			DATAFORM 로? 　%CALLNAME_K9(사쿠야_대상)%. 조르기는 어떻게 되었을까」
+		ENDDATA
+
+	ELSE
+		PRINTDATAL
+			DATAFORM 「그러면, 오늘이야말로 잘 부탁해?」
+			DATAFORM 「아주 말해 주자마자 끝나는거야?」
+		ENDDATA
+
+	ENDIF
+
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+
+;─────────────────────────────────────── 
+;●「포로 역조교(통상)」종료
+;─────────────────────────────────────── 
+@KOJO_TRAIN_END_C_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야_대상 = MASTER
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;구상을 사용하지 않는 설정이라면 돌아온다
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+PRINTL 
+
+;─────────────────────────────────────── 
+;행동불능
+;─────────────────────────────────────── 
+;이탈이 끝난 상태
+IF TCVAR:사쿠야:53 > 1
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+IF TALENT:사쿠야:공허
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 %조사처리(ANAME(사쿠야_대상),"가")% 떠나려고 하고 있는 일을 알아차리지 않는 것 같다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:사쿠야:53 == 1
+	PRINTFORML 「응하아……이제(이미/벌써/더는/정말) 앙돼……기분이 좋아요?」
+	PRINTFORMDL %ANAME(사쿠야)%는 곤드레만드레가 되어 홍안을 히쭉거리게 하면서 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:사쿠야:52 || BASE:사쿠야:기력 <= 300
+	PRINTFORML 「응우……?   아……」
+	PRINTFORMDL %ANAME(사쿠야)%입는 충분한 손발을 가끔 실룩거리게 해, 황홀과 미소짓고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:사쿠야:51
+	PRINTFORML 「우……응응……」
+	PRINTFORMDL %ANAME(사쿠야)%는 완전히 지쳐 버린 얼굴로 자고 있다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;주인공의 행동불능
+;─────────────────────────────────────── 
+IF TALENT:사쿠야_대상:공허
+	PRINTFORML 「시시하네요. 반응이 둔하면……뭐 좋아요. 그 안 익숙해지겠죠」
+	PRINTFORMDL %ANAME(사쿠야)%는 %ANAME(사쿠야_대상)%의 공허한 눈동자에 한숨을 토해, 떠났다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;술에 취함에 의한 행동불능
+IF TCVAR:사쿠야_대상:53
+	PRINTFORML 「아아, 더 이상은 일어나 버릴 것 같구나……좋아요. 다음으로 합시다」
+	PRINTFORMDL %ANAME(사쿠야)%는 취해 무너진 %ANAME(사쿠야_대상)%의 간호를하기 시작했다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;쾌감인 나머지 기절
+IF TCVAR:사쿠야_대상:52 || BASE:사쿠야_대상:기력 <= 300
+	PRINTFORML 「언제까지 천국에 가고 있을 생각일까?   빨리 돌아와 또 우세요」
+	PRINTFORML 「사용할 수 없는 완구는 망가뜨려 버려요?   이봐요, 이봐요?   일어나 주세요!」
+	PRINTFORML 「……일어나지 않아요. 혼잣말이라면 부끄러워져 와요. 잘 자요」
+	PRINTFORMDL %ANAME(사쿠야)%는 실신하고 있는 %ANAME(사쿠야_대상)%에 한숨을 토해 떠났다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;피로에 의한 행동불능
+IF TCVAR:사쿠야_대상:51
+	PRINTFORML 「이봐요 이봐요. 아직도 기분 좋게 될 수 있을까요?   단단히 하세요」
+	PRINTFORML 「……안 되구나. 좋아요. 조금 쉬게 해 준다」
+	PRINTFORMDL %ANAME(사쿠야)%는 완전히 지쳐 버린 %ANAME(사쿠야_대상)%에 한숨을 토해 떠났다
+	WAIT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+
+IF IS_SLAVE(사쿠야)
+	PRINTDATAL
+		DATAFORM 「잘 자십시오. 수고 하셨습니다지요. 천천히 휴가 주세요」
+		DATAFORM 「잘 자십시오, %CALLNAME_K9(사쿠야_대상)%」
+		DATAFORM 「내립니다. 잘 자십시오」
+		DATAFORM 「오늘 밤도 %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 멋졌습니다. 잘 자십시오」
+		DATAFORM 「감사합니다. 잘 자십시오. ……아라. 자 주세요. 그것까지 여기에 있습니다」
+	ENDDATA
+
+ELSEIF CHECK_K9("경어") && IS_LOVER(사쿠야)
+	PRINTDATAL
+		DATAFORM 「잘 자십시오. 수고 하셨습니다지요. 천천히 휴가 주세요. 후훗」
+		DATAFORM 「후훗. 돌아가는 것 아까워요……잘 자십시오, %CALLNAME_K9(사쿠야_대상)%」
+		DATAFORM 「내립니다. 잘 자십시오」
+		DATAFORM 「아라. 벌써 이런 시간……조금 멈추어도 좋을까요?   후후……」
+		DATAFORM 「오늘 밤도 %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 멋졌습니다. 잘 자십시오」
+		DATALIST
+			DATAFORM 「감사합니다. 잘 자십시오」
+			DATAFORM 「……아라. 자 주세요. 그것까지 여기에 있습니다」
+		ENDLIST
+	ENDDATA
+
+ELSEIF CHECK_K9("경어")
+	PRINTDATAL
+		DATAFORM 「잘 자십시오. 수고 하셨습니다지요. 천천히 휴가 주세요. 후훗」
+		DATAFORM 「감사합니다. 그럼, 내립니다. 잘 자십시오」
+		DATAFORM 「아라. 벌써 이런 시간……잘 자십시오」
+		DATAFORM 「오늘 밤도 %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 멋졌습니다. 잘 자십시오」
+		DATAFORM 「감사합니다. 잘 자십시오」
+		DATAFORM 「잘 자십시오. %CALLNAME_K9(사쿠야_대상)%」
+	ENDDATA
+
+ELSEIF CFLAG:사쿠야:호감도 >= 800
+	PRINTDATAL
+		DATAFORM 「잘 자요」
+		DATAFORM 「슬슬 만족했어요. 잘 자요」
+		DATAFORM 「아라. 벌써 이런 시간……좋아요. 쉬게 해 줍시다」
+		DATAFORM 「슬슬 일까. 뭐 좋아요. 다음은 또 이번이군요. 잘 자요」
+		DATAFORM 「이런 것일까. 잘 자십시오」
+		DATAFORM 「잘 자요, %CALLNAME_K9(사쿠야_대상)%」
+	ENDDATA
+
+ELSE
+	PRINTDATAL
+		DATAFORM 「그러면, 잘 자요」
+		DATAFORM 「후우, 졸려요. 잘 자요%CALLNAME_K9(사쿠야_대상)%」
+	ENDDATA
+
+ENDIF
+
+;종료
+WAIT
+RESETCOLOR
+RETURN 0
+

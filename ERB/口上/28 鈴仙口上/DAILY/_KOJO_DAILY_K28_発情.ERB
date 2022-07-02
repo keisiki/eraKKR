@@ -1,0 +1,107 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K28_ESTRUS_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K28_ESTRUS_DECISION(대상)
+#DIM 대상
+#DIM 에이린
+에이린 = NAME_TO_CHARA("에이린")
+
+
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("테위"), NAME_TO_CHARA("카구야"))
+	RETURN 0
+
+SIF CFLAG:대상:호감도 < 500 && CFLAG:대상:의존도 < 500
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CHECK_KOJO_DAILY_HAPPEN(에이린, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K28_ESTRUS_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K28_ESTRUS(대상)
+#DIM 대상
+
+
+IF KDVAR:대상:레이센_발정 == 0
+	PRINTFORML 심야. %조사처리(ANAME(MASTER),"가")% 순찰을 하고 있으면, %ANAME(대상)%에 손짓함 되었다
+	PRINTFORML 권해지는 대로 %PRONOUN(대상)%의 방에 향한다. %PRONOUN(대상)%의 얼굴은 어딘가 홍 밀려들고 있었다
+	PRINTFORMW 호흡도 난폭한 것 같고, 감기라도 걸렸을 것인가……
+	PRINTFORMW 「%ANAME(MASTER)%, 실은 부탁이 있어……」
+	PRINTFORMW 「나, 언제나 스승님에게 약을 내 받고 있어. 그……토끼는, 발정이 굉장하기 때문에, 그것을 억제하는 약」
+	PRINTFORMW 「그렇지만, 지금은 스승님이 없고, 저것은 자신은 조제 할 수 없기에……멈출 수 없어서」
+	PRINTFORMW 「그래서, 점심부터 쭉 방에 틀어박혀 혼자서 시 비치는데, 전혀 부족해……이니까 그, 부탁」
+	PRINTFORML 「부탁」라는 것은, 즉 침실의 상대를 해 주었으면 한다는 것일 것이다
+	SIF !TALENT:대상:합의
+		PRINTFORMW ……이런 계기로 이루어 무너뜨려 목표에 관계를 가져 버려도 괜찮을까……
+ELSE
+	PRINTFORMW %ANAME(대상)%에, 방에 초대되었다
+	PRINTFORMW 「저……나쁘지만, 또 부탁하고 싶은거야……」
+	PRINTFORMW 「……안 돼?」
+ENDIF
+PRINTL
+CALL ASK_YN("껴안는다", "냉정하게 되어라!")
+
+IF RESULT == 0
+	PRINTFORMW 「앗……그, 권해 두어이지만……」
+	PRINTFORMW　「상냥하게……해？」
+	PRINTFORMW 차린 밥상 먹지 않는 피부,. %조사처리(ANAME(대상),"를")% 껴안아, 침대에 쓰러트렸다……
+	CVARSET CFLAG, 6, 0
+	;강제 역조교플래그를 온
+	FLAG:턴엔드조교 = 1
+ELSE
+	PRINTFORML 괴로운 것은 알지만, 이런 형태로 관계를 가지는 것은 역시 좋지 않다
+	PRINTFORMW %조사처리(ANAME(대상),"를")% 설득했다……
+	PRINTFORMW 「……냉정하게……」
+	PRINTFORMW 「……될 수 없기에, 이런 부탁하고 있어!」
+	PRINTFORMW 안정해 주었는지라고 생각했지만, %조사처리(ANAME(대상),"는")% 이쪽을 쓰러트렸다……!
+	IF KDVAR:대상:레이센_발정
+		PRINTFORMW 「%조사처리(ANAME(MASTER),"가")% 시라고 주지 않는 것이 나쁘기 때문에……!」
+	ELSE
+		PRINTFORMW 「나도, 누구에게라도 이런 일 말할 것이 아니기 때문에!   상대라도 선택하고, %조사처리(ANAME(MASTER),"가")% 아니었으면 이런 일……!」
+		PRINTFORMW 「아 이제(이미/벌써/더는/정말), 어쨌든!   냉정하게 된다든가 참는다든가 이제 무리여! 　%조사처리(ANAME(MASTER),"가")% 상대 해 주지 않으면, 무리하게 할 뿐(만큼)이니까!」
+	ENDIF
+	PRINTFORMW %ANAME(MASTER)% 위를 탄 채로, 그녀는 옷을 기축, 아름다운 피부를 드러내 간다
+	PRINTFORMW 아무래도 체념할 수밖에 없는 것 같다……
+	FLAG:턴엔드조교 = 2
+ENDIF
+
+CVARSET CFLAG, 6, 0
+
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:호감도 += 200
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+;플래그
+KDVAR:대상:레이센_발정 = 1
+
+RETURN 1
+

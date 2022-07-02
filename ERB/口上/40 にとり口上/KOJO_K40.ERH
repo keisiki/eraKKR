@@ -1,0 +1,3 @@
+﻿#DIM CONST 니토리_신병기개발 = 0
+#DIM CONST 니토리_강매 = 1
+#DIM CONST 니토리_강매누계액 = 2

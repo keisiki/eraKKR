@@ -1,0 +1,81 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_52_SP_0_EXIST
+RETURN 1
+
+@SKILL_52_SP_0_NAME
+RESULTS = 무념 무상의 경지
+
+;레벨은 1-5까지
+@SKILL_52_SP_0_LEVEL
+RETURN 5
+
+;대상 선택
+@SKILL_52_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+#DIM 능력, 3
+VARSET 능력
+COMBAT_SKILL_TARGET = 발동번호
+RETURN 1
+
+;발동 판정
+@SKILL_52_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_52_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML %ANAME(발동자)%의 방위가 증가했다!
+TIMES BATTLE_방위파워:발동측:COMBAT_SKILL_TARGET, 2.0
+RETURN 1
+
+;
+@SKILL_52_SP_0_EXPLANATION
+RESULTS = 자신의 방위를 증가시킨다.
+
+
+
+
+@SKILL_52_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 150

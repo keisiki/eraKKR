@@ -1,0 +1,3 @@
+﻿#DIM CONST 메이링_태극권 = 0
+#DIM CONST 메이링_백탁 = 1
+#DIM CONST 메이링_태보해 = 2

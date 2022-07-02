@@ -1,0 +1,258 @@
+﻿;절규 지속적으로 강렬한 고통을 수반하는 것  87 피스트 88Ａ피스트 94목목조르기97배빵
+@KOJO_K9_SHOUT(사쿠야_대상)
+#DIM 사쿠야
+#DIM 사쿠야_대상
+#DIMS 사쿠야기분
+
+IF !사쿠야_대상
+	사쿠야_대상 = MASTER
+ENDIF
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야기분 '= TOSTR_EMOTION(사쿠야)
+
+;목조르기
+IF SELECTCOM == 94 || IS_EQUIP_TARGET(사쿠야, 94)
+	;재갈 때
+	IF SELECTCOM == 86 || IS_EQUIP_TARGET(사쿠야, 86)
+		PRINTDATA
+			DATAFORM 「응부웃!   , 응……!   ……!」
+			DATAFORM 「―-……!   응～!   응……!」
+			DATAFORM 「응구……엣……!   ……!   ……읏」
+			DATAFORM 「……응!   ～……읏!」
+		ENDDATA
+	ELSE
+		;이번 이 커맨드로 사쿠야씨에게 주도권이 있으면 조르는 대사. 요구해 왔을 때의 위화감 저감
+		IF IS_INITIATIVE(사쿠야) && SELECTCOM == 94
+			PRINTDATA
+				DATAFORM 「이런 일 부탁하는 건 마음이 내키지 %POLITE_K9("않지만", "않습니다만", 사쿠야_대상)%……목을, 졸라 %POLITE_K9("주지 않을까", "주지 않겠습니까", 사쿠야_대상)%」
+				DATAFORM 「이상%POLITE_K9("하네", "하군요", 사쿠야_대상)%. 나, %CALLNAME_K9(사쿠야_대상)%에 생명이 지배되어 %POLITE_K9("보고 싶은거야", "있는 것을 실감하고 싶어진 것입니다", 사쿠야_대상)%」
+				DATAFORM 「죽고 싶은 %POLITE_K9("게 아니야   ……앗", "건 아닙니다. ……앗", 사쿠야_대상)%」
+			ENDDATA
+		ENDIF
+		PRINTDATAL
+			DATAFORM 「……아, 갓!   ……인가, 훈!   ―……」
+			DATAFORM 「히……!   도……!   벗긴다!   ……」
+			DATAFORM 「……엣……!   ……!   히……읏」
+		ENDDATA
+	ENDIF
+	RETURN 0
+ENDIF
+
+;배빵
+IF SELECTCOM == 97 || IS_EQUIP_TARGET(사쿠야, 97)
+	;재갈 때
+	IF SELECTCOM == 86 || IS_EQUIP_TARGET(사쿠야, 86)
+		PRINTDATAL
+			DATAFORM 「응-……!   ……붓!」
+			DATAFORM 「응!   ……붓……!!   ……」
+			DATAFORM 「읏, 게웃!   , 긋!   , 부……!」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM 「게엣!   , 아가!   ……」
+			DATAFORM 「!   ……앗……!!   벗긴다……」
+			DATAFORM 「앗, 게핫!   는, 갓!   ……!」
+		ENDDATA
+		;이번 이 커맨드로, 사쿠야가 주도권을 가지지 않고, 마조는 아니고, 가치 끊어지고 하고 있어, 사쿠야_대상이 주인공이 아닌가 주인공에게 함락 하고 있지 않는 경우, 저확률로 폭발해 입이 더럽게 매도한다（구무렵 성분）
+		IF SELECTCOM == 97 && RAND:50 == 0 && !IS_INITIATIVE(사쿠야) && GETBIT(TALENT:사쿠야:음란계, 소질_음란_마조) && 사쿠야기분 == "원한" && !CHECK_K9("함락", 사쿠야_대상)
+			IF IS_MALE(사쿠야_대상)
+				PRINTFORML 「구우……!   그만두세요 이 썩을 수 있는 좆밥 자식!   믿을 수 없어요」
+				PRINTFORML 「뇌수까지 그 냄새 자지국물로 해 흘려 보내 버렸을까?」
+				PRINTFORML 「범하는 여자의 배를 때리거나 하면……″!   인가는……!   」
+				PRINTFORML 「두엽을, 비율, 우리 아이의 영혼에……탈이 날 수 있는 하세요!   --」
+			ELSE
+				PRINTFORML 「구우……!   그만두세요 이 썩을 수 있는 돈혈녀!   믿을 수 없어요」
+				PRINTFORML 「뇌수까지 그 냄새 보짓물로 해 흘려 보내 버렸을까?」
+				PRINTFORML 「범하게 하고 있는 여자의 배를 때리거나 하면……″!   인가는……!   」
+				PRINTFORML 「두엽을, 비율, 미즈코의 영혼에……탈이 날 수 있는 하세요!   --」
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;팔
+IF SELECTCOM == 87 || SELECTCOM == 88
+	;재갈 때
+	IF SELECTCOM == 86 || IS_EQUIP_TARGET(사쿠야, 86)
+		IF CHECK_K10("함락")
+			PRINTDATAL
+				DATAFORM 「응푸우……웃!   ?   ……!」
+				DATAFORM 「!   !   , 후우우!   ?」
+				DATAFORM 「응구우우!   ?   ,!   응～!   !」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「응푸우……웃!   !   ……!」
+				DATAFORM 「!   !   , 후우우!   !」
+				DATAFORM 「응구우우!   !   ,!   응～!   !」
+			ENDDATA
+		ENDIF
+	ELSE
+		IF IS_INITIATIVE(사쿠야)
+			;노예
+			IF IS_SLAVE(사쿠야)
+				PRINTDATAL
+					DATAFORM 「저……%CALLNAME_K9(사쿠야_대상)%의 손으로……%POLITE_K9("저기……저것, 해 주었으면 해. 그……부탁이야", "그, 해 주었으면 합니다", 사쿠야_대상)%」
+					DATAFORM 「저……%CALLNAME_K9(사쿠야_대상)%의 손으로, %POLITE_K9("저기, 해 주었으면 해", "범해 주셨으면 좋겠습니다", 사쿠야_대상)%」
+				ENDDATA
+				PRINTDATAL
+					DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 팔이 아?   아, 아아앗!   굵다아앗」
+					DATAFORM 「아가, 응, 기잇!   히, 아, 굉장햇?   아아」
+					DATAFORM 「힘들닷! 　%CALLNAME_K9(사쿠야_대상)%의 팔?   아, 힘들다아앗」
+					DATAFORM 「아아―-!   망가진닷!   좀 더!   굉장햇」
+				ENDDATA
+			;연인
+			ELSEIF IS_LOVER(사쿠야)
+				PRINTDATAL
+					DATAFORM 「저……%CALLNAME_K9(사쿠야_대상)%의 손으로……%POLITE_K9("저기……저것, 해 주었으면 해. 그……부탁이야", "그, 해 주었으면 합니다", 사쿠야_대상)%」
+					DATAFORM 「저……%CALLNAME_K9(사쿠야_대상)%의 손으로, %POLITE_K9("저기, 해 주었으면 해", "범해 주셨으면 좋겠습니다", 사쿠야_대상)%」
+				ENDDATA
+				PRINTDATAL
+					DATAFORM 「굵다아……! 　%CALLNAME_K9(사쿠야_대상)%의 팔네!   히있고?   느슨해져 버린닷」
+					DATAFORM 「아가, 응,?   힘들닷!   히, 아가」
+					DATAFORM 「힘들닷!   아, 빠득빠득 한다앗!   를 좋아하는 사람」
+					DATAFORM 「아아―-!   아!   괴?   히좋다」
+				ENDDATA
+			;그 이외
+			ELSE
+				PRINTDATAL
+					DATAFORM 「팔이……!   거짓말이야. 이런……야 아―-」
+					DATAFORM 「아가, 응, 기잇!   히, 아가」
+					DATAFORM 「힘들닷!   아, 힘들다아앗!   야 아」
+					DATAFORM 「아아―-!   망가진닷!   그만두어엇!   망가진다앗」
+				ENDDATA
+			ENDIF
+		ELSE
+			IF IS_SLAVE(사쿠야)
+				PRINTDATAL
+					DATAFORM 「%CALLNAME_K9(사쿠야_대상)%의 팔이 아?   아, 아아앗!   굵다아앗」
+					DATAFORM 「아가, 응, 기잇!   히, 아, 용서해, 아아아앗」
+					DATAFORM 「힘들닷!   아, 힘들다아앗!   용서해 %CALLNAME_K9(사쿠야_대상)%」
+					DATAFORM 「아아―-!   망가진닷!   용서해엣!   망가진다앗」
+				ENDDATA
+			ELSEIF IS_LOVER(사쿠야)
+				PRINTDATAL
+					DATAFORM 「팔이……!   거짓말. 이런……느슨해져 버린닷!   안 돼앳」
+					DATAFORM 「아가, 응, 기잇!   힘들닷!   히, 아가」
+					DATAFORM 「힘들닷!   아, 빠득빠득 한다앗!   야 아」
+					DATAFORM 「아아―-!   그만해%POLITE_K9("애", "해 주세요오", 사쿠야_대상)%!   어째서, 아앗!   망가진다앗」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「팔이……!   거짓말이야. 이런……야 아―-」
+					DATAFORM 「아가, 응, 기잇!   히, 아가」
+					DATAFORM 「힘들닷!   아, 힘들다아앗!   야 아」
+					DATAFORM 「아아―-!   망가진닷!   그만두어엇!   망가진다앗」
+				ENDDATA
+			ENDIF
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;그 외
+PRINT 「
+;재갈 때
+IF SELECTCOM == 86 || IS_EQUIP_TARGET(사쿠야, 86)
+	PRINTDATA
+		DATAFORM 응″
+		DATAFORM 응응
+		DATAFORM 우우
+		DATAFORM 우응
+		DATAFORM 흐응
+		DATAFORM 흣, 후구
+		DATAFORM 흡!  응″
+		DATAFORM 하으읍
+		DATAFORM 응아
+		DATAFORM 흐, 흡
+		DATAFORM 후읍
+		DATAFORM 응, 쿠우
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+	PRINTDATA
+		DATAFORM 응″～! 　
+		DATAFORM 응″--! 　
+		DATAFORM 응―-! 　
+		DATAFORM 흐, 흡! 　
+		DATAFORM 응, 응～! 　
+		DATAFORM 흡, 흐으! 　
+		DATAFORM 응! 　
+		DATAFORM 흐응～! 　
+		DATAFORM 읏―-! 　
+		DATAFORM 흐, 읏―-! 　
+		DATAFORM 응″―-! 　
+		DATAFORM 흐, 흥～! 　
+	ENDDATA
+	PRINTDATA
+		DATAFORM 응″
+		DATAFORM 응, ″
+		DATAFORM 가우
+		DATAFORM 쿠, 구우
+		DATAFORM 하응
+		DATAFORM 읍, 응구
+		DATAFORM 히
+		DATAFORM 흐읍
+		DATAFORM 하앙
+		DATAFORM 응, 쿠우
+		DATAFORM 흡, 후에
+		DATAFORM 우, 아
+	ENDDATA
+	PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+ELSE
+	PRINTDATA
+		DATAFORM 앙앙
+		DATAFORM 하으응
+		DATAFORM 흐아앙
+		DATAFORM 하응, 으우
+		DATAFORM 히이잇
+		DATAFORM 힉, 흐앙
+		DATAFORM 히
+		DATAFORM 힉
+		DATAFORM 아아앙
+		DATAFORM 아″
+		DATAFORM 아응
+		DATAFORM 히아아
+	ENDDATA
+	PRINTFORM %BREAK_K9("중", 사쿠야_대상)%
+
+	PRINTDATA
+		DATAFORM 응아″아 아―-! 　
+		DATAFORM 히 좋아앗―-! 　
+		DATAFORM 응아―-! 　
+		DATAFORM 앙, 아긋! 　
+		DATAFORM 나, 아 아～! 　
+		DATAFORM 는,～! 　
+		DATAFORM 히～! 　
+		DATAFORM 가는 우우～! 　
+		DATAFORM 우우―-! 　
+		DATAFORM 흣,흐～! 　
+		DATAFORM 히이, 아―-! 　
+		DATAFORM 흐아앙, 아～! 　
+	ENDDATA
+	PRINTDATA
+		DATAFORM 앙″
+		DATAFORM 히익″
+		DATAFORM 하아악
+		DATAFORM 하윽, 후
+		DATAFORM 앙앙
+		DATAFORM 아으읏, 흐읏
+		DATAFORM 히
+		DATAFORM 간다
+		DATAFORM 하으응
+		DATAFORM 응, 앙
+		DATAFORM 아앙, 앙
+		DATAFORM 하응, 아
+	ENDDATA
+	PRINTFORM %BREAK_K9("말", 사쿠야_대상)%
+ENDIF
+
+PRINTL 」
+
+;─────────────────────────────────────── 
+;●돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

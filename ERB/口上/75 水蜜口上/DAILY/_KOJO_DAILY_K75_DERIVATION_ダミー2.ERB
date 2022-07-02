@@ -1,0 +1,29 @@
+﻿;---------------------
+;대응하는 데일리의 DISABLE를 돌려준다. 설정하지 않는 경우, 이벤트는 발생하지 않는다.
+;---------------------
+@KOJO_DAILY_K75_DERIVATION_DUMMY2_DISABLE(대상)
+#DIM 대상
+RETURN KOJO_DAILY_GET_DISABLE_CONFIG(대상, "FROM_THE_DEEP")
+
+;---------------------
+;발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K75_DERIVATION_DUMMY2_DECISION(대상)
+#DIM 대상
+
+;개시 이벤트전, 종료 이벤트 후라면 안 돼
+SIF GROUPMATCH(KDVAR:대상:미나미츠_측어두운물의바닥으로부터, 0, 2)
+	RETURN 0
+KDVAR:대상:미나미츠_물밑체재카운트 --
+
+RETURN 0
+
+
+;---------------------
+;본체
+;---------------------
+@KOJO_DAILY_K75_DERIVATION_DUMMY2(대상)
+#DIM 대상
+;아무것도하지않는다
+RETURN 1

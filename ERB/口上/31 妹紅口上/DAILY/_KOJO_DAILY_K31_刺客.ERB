@@ -1,0 +1,167 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K31_DIE_KAGUYA_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K31_DIE_KAGUYA_DECISION(대상)
+#DIM 대상
+#DIM 카구야
+#DIM 판정치
+카구야 = NAME_TO_CHARA("카구야")
+
+
+;한 번 송곳
+SIF	KDVAR:대상:모코우_자객
+	RETURN 0
+
+;대상이 군주라면 안 돼
+SIF GET_COUNTRY_BOSS(CFLAG:대상:소속) == 대상
+	RETURN 0
+
+;안 돼 캐릭터 리스트
+SIF GROUPMATCH(MASTER, NAME_TO_CHARA("테위"), NAME_TO_CHARA("레이센"), NAME_TO_CHARA("카구야"), NAME_TO_CHARA("에이린"), NAME_TO_CHARA("케이네"))
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0) && CHECK_KOJO_DAILY_HAPPEN(카구야, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K31_DIE_KAGUYA_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K31_DIE_KAGUYA(대상)
+#DIM 대상
+#DIM 카구야
+#DIM 판정치
+카구야 = NAME_TO_CHARA("카구야")
+
+PRINTFORMW 「%ANAME(카구야)%!   죽이러 와 주었어!」
+PRINTFORML 거점에서 일을 하고 있으면, 대단하고 뒤숭숭한 노성이 들려 왔다
+PRINTFORML 무슨 일일까하고 생각해 표에 나오면, 전신에 불길을 감긴 소녀가 습격에 와 있었다
+PRINTFORML 위병들은 무엇을 하고 있는지……라고 생각했는데, %PRONOUN(대상)%의 주위에 쓰러져 엎어지고 있다
+PRINTFORML 가녀린 본 째에 비해서, 상당한 실력자인 것 같다
+PRINTFORMW 「거기의 너! 　%ANAME(카구야)%는 어디다, 일부러 숨기면 용서하지 않아!」
+PRINTFORMW 「%조사처리(ANAME(대상),"가")% 왔다고 전해라!   그렇게 하면 나올 것이다!」
+PRINTFORML 습격자의 소녀의 목적은 %ANAME(카구야)%인것 같다. 죽인다고 한 근처, 자객이나 뭔가일 것이다
+PRINTFORML 봉래인인 %ANAME(카구야)%를 그렇게 항상 죽일 수 있다고도 생각되지 않겠지만
+PRINTFORML 왜 그러는 것인가……
+PRINTFORML 
+CALL ASK_YN("되돌려 보낸다", "통한다")
+
+IF RESULT == 1
+	PRINTFORMW 「토……통해 준다……아니 고맙지만, 에에……?」
+	PRINTFORMW 「보통 거기는 방해 하지……?   아니 뭐, 괜찮지만 말야」
+	PRINTFORMW 그 후, %조사처리(ANAME(대상),"가")% %ANAME(카구야)%와 좋은 승부를 해, 양쪽 모두 죽어 소생했다는 이야기를 들었다
+	PRINTFORMW 아무래도 %ANAME(대상)%도 봉래인이었던 것 같다……
+	CALL ADD_COOLTIME(대상, 3)
+	CALL ADD_COOLTIME(카구야, 3)
+	KDVAR:대상:모코우_자객 = 1
+	RETURN 1
+ENDIF
+
+
+PRINTFORML 네 그렇습니까 하고 통할 수는 없다
+PRINTFORMW 되돌려 보내기로 했다……
+PRINTFORMW 「후응?   좋은 담력 하고 있지 않아」
+PRINTFORMW 「그러면……너도 영원의 고륜에 고민하는 것이 좋다!」
+PRINTFORMW 
+PRINTFORMW 
+PRINTFORMW 
+;유우기식
+판정치 = (ABL:MASTER:무투 + 10 - ABL:대상:무투) * 5
+
+
+
+IF RAND:100 > 판정치
+	PRINTFORMW 「, 이런 것일까」
+	PRINTFORMW ……%조사처리(ANAME(대상),"는")% 강했다
+	PRINTFORML 라는지, 공격을 더해도 눈 깜짝할 순간에 회복해 버린다
+	PRINTFORMW %PRONOUN(대상)%도 봉래인이었던 것이다……
+	PRINTFORMW 「그러면, 다음은 %ANAME(카구야)%……라고 말하고 싶은 곳이지만, 조금 지쳤다」
+	PRINTFORMW 「오늘은 돌아가 준다, 그러면」
+	PRINTFORMW 날뛴다만 날뛰어, %조사처리(ANAME(대상),"는")% 떠나 갔다……
+	CALL ADD_COOLTIME(MASTER, 3)
+	KDVAR:대상:모코우_자객 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「우구구……젠장……!」
+PRINTFORML 어떻게든 된……빠듯이였지만
+PRINTFORML %PRONOUN(대상)%도 봉래인이었던 것 같다, 공격을 해도 곧바로 회복해 버린다
+PRINTFORML 가, 체력은 창의일까 오셔 있고. 한동안 싸우고 있으면, 멋대로 스태미너 조각을 일으켜 넘어졌다
+PRINTFORMW 여하튼, 이쪽의 승리다……
+PRINTFORMW 「흥……본의가 아니지만, 패배는 패배인가」
+PRINTFORMW 「알았다, 이번은 내가 져, 마음대로 하면 된다」
+PRINTFORMW %조사처리(ANAME(대상),"는")% 도망칠려고도 하지 않고, 지면에 엎드리고 있다. 맑은 타입인 것 같다
+PRINTFORML 자, 그럼, 어떻게 하지……
+PRINTL
+CALL ASK_MULTI_JUDGE("부하로 한다", 1, "투옥한다", 1, "봉래인 상대에게 처형은 무의미할 것이다", 0, "가진 돈을 빼앗는다", 1, "카구야에게 데려 간다", 1, "범한다", HAS_PENIS(MASTER))
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORMW 「하?   부하?   나를?」
+		PRINTFORMW 「농담이 아니다, 그 거%ANAME(카구야)%의 동료가 되어라는 것이겠지」
+		PRINTFORMW 확실히 겉모습은 그렇지만, 누구든지 아군에게는 방심하는 것이다
+		PRINTFORMW 자고 있는 사람의 목을 각에는 최적인 것은?   ……그처럼 설득했다
+		PRINTFORMW 「과연……일리 있을지도 몰라」
+		PRINTFORMW 「알았다. %ANAME(MASTER)%던가?   당신의 부하가 되어 준다」
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 부하가 되었습니다", 칼라_주의)
+		CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+		CFLAG:대상:호감도 += 500
+		KDVAR:대상:모코우_자객 = 1
+	CASE 1
+		PRINTFORMW 「뭐, 그것은 그런가, 그토록 날뛰면 말야」
+		PRINTFORMW 「마음대로 하면 좋아」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 병사들에게 연행되어 갔다……
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 포로로 했습니다", 칼라_주의)
+		CALL CAPTURE(대상, CFLAG:MASTER:소속)
+		KDVAR:대상:모코우_자객 = 1
+	CASE 3
+		PRINTFORMW 「아, 지, 지갑은 용서해 주지 않을까……」
+		PRINTFORMW 「안 돼?   그런……」
+		CALL COLOR_PRINTW(@"금 30000을 얻었습니다", 칼라_주의)
+		MONEY += 30000
+		KDVAR:대상:모코우_자객 = 1
+	CASE 4
+		PRINTFORMW 「……하?   네?   무엇으로 이제 와서?」
+		PRINTFORMW 「그렇다면 싸울 필요없었었잖아……에에……뭐야……」
+		PRINTFORMW 「아니, 어느 쪽으로 하든 오늘은 좋아, 이제(이미/벌써/더는/정말) 스태미너 조각이고, 이런 것은 서로 죽일 수 없고」
+		PRINTFORMW 「그러면」
+		PRINTFORMW %조사처리(ANAME(대상),"는")% 떠나 갔다……
+		KDVAR:대상:모코우_자객 = 1
+	CASE 5
+		PRINTFORMW 「에, 아, 춋, 시, 싫다……!」
+		PRINTFORMW 찢어진 옷으로부터 들여다 보는 흰 피부, 돋우는 것이 있다
+		PRINTFORMW %ANAME(대상)%에 덮어씌워, 그 호리호리한 몸매의 몸을 다 맛보기로 했다……
+		PRINTFORML
+		CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+		CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+		PRINTFORML 
+		PRINTFORMW 「우앗, 아, 아앗……♥」
+		PRINTFORMW 처음은 싫어하고 있었던 %ANAME(대상)%도, %조사처리(ANAME(MASTER),"가")% 만족하는 무렵에는, 요염한 허덕임을 주게 되어 있었다
+		PRINTFORMW 쾌락의 여운에 잠긴 %조사처리(ANAME(대상),"를")%, 거점의 밖에 내쫓았다……
+		KDVAR:대상:모코우_자객 = 2
+ENDSELECT
+
+
+RETURN 1
+

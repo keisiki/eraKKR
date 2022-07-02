@@ -1,0 +1,200 @@
+﻿;_KOJO_SYSTEM.ERB로부터 불리는 구상용 함수
+;실행전·실행 후·제삼자 실행전·제삼자 실행 후에 불리는 커맨드 구상의 함수
+;같은 카테고리 분기를 지나므로 카테고리 분기를 하부의@KOJO_COM_CHECK_K9에 정리했다
+;─────────────────────────────────────── 
+;●실행전
+;─────────────────────────────────────── 
+@KOJO_COM_BEFORE_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+;사쿠야 구상비표시를 체크하기 전에 사쿠야를 취해 둔다
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+;사쿠야 구상비표시
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+;구상 칼라세트
+SETCOLOR 사쿠야_구상칼라
+
+;평상시는 주인공이 대상
+사쿠야_대상 = MASTER
+
+;카테고리를 결정해 각 구상을 호출한다
+CALL KOJO_COM_CHECK_K9("전", 사쿠야_대상)
+
+;구상 칼라의 리셋트
+RESETCOLOR
+
+;묘사의 온 오프를 건네준다
+RETURN RESULT
+
+;─────────────────────────────────────── 
+;●실행 후
+;─────────────────────────────────────── 
+@KOJO_COM_AFTER_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+사쿠야_대상 = MASTER
+
+CALL KOJO_COM_CHECK_K9("후", 사쿠야_대상)
+
+RESETCOLOR
+
+RETURN RESULT
+
+;─────────────────────────────────────── 
+;●제삼자 실행전
+;─────────────────────────────────────── 
+@KOJO_COM_THIRD_BEFORE_K9
+#DIM 사쿠야_대상
+#DIM 사쿠야
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+;잠정으로 메인 상대를 주도권 소유자로 결정
+사쿠야_대상 = FLAG:주도권소유자
+;주도권자가 사쿠야 본인 혹은 없으면 
+IF 사쿠야_대상 == 사쿠야 || 사쿠야_대상 == -1
+	;사쿠야가 실행 때 대상
+	IF IS_MPLY(사쿠야)
+		사쿠야_대상 = MTAR:0
+	;그렇지 않으면 실행
+	ELSE
+		사쿠야_대상 = MPLY:0
+	ENDIF
+ENDIF
+
+SIF 사쿠야_대상 == -1
+	RETURN 0
+
+CALL KOJO_COM_CHECK_K9("전", 사쿠야_대상)
+
+RESETCOLOR
+
+RETURN RESULT
+
+;─────────────────────────────────────── 
+;●제삼자 실행 후
+;─────────────────────────────────────── 
+@KOJO_COM_THIRD_AFTER_K9
+#DIM 사쿠야
+#DIM 사쿠야_대상
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+
+SIF CFLAG:사쿠야:400 == 1
+	RETURN 0
+
+SETCOLOR 사쿠야_구상칼라
+
+사쿠야_대상 = FLAG:주도권소유자
+;주도권자가 사쿠야 본인 혹은 없으면 
+IF 사쿠야_대상 == 사쿠야 || 사쿠야_대상 == -1
+	IF IS_MPLY(사쿠야)
+		사쿠야_대상 = MTAR:0
+	ELSE
+		사쿠야_대상 = MPLY:0
+	ENDIF
+ENDIF
+
+SIF 사쿠야_대상 == -1
+	RETURN 0
+
+CALL KOJO_COM_CHECK_K9("후", 사쿠야_대상)
+
+RESETCOLOR
+
+RETURN RESULT
+
+;─────────────────────────────────────── 
+;●카테고리 분기
+;  전후 =실행전이나 실행 후인가
+;  사쿠야_대상 =평상시는 MASTER 제삼자라면 상대를 건네주어 둔다
+;─────────────────────────────────────── 
+@KOJO_COM_CHECK_K9(전후, 사쿠야_대상)
+#DIMS 전후
+#DIM 사쿠야_대상
+#DIM 사쿠야
+#DIMS 사쿠야구상카테고리
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야구상카테고리 '= ""
+
+;화내 슬픔에 의한 이탈이 끝난 상태
+;IF TCVAR:사쿠야:53 > 1
+;ENDIF
+
+;공허붕괴
+IF TALENT:사쿠야:공허 || TALENT:사쿠야:붕괴
+	사쿠야구상카테고리 '= "공허"
+
+;쾌락 실신 or술취수면이나 이탈 상태（KOJO_SYSTEM.ERB로, TCVAR:52 || TCVAR:53이라면 구상이 억제되기 (위해)때문에, 체력 부족 이외는 죽어 분기）
+ELSEIF TCVAR:사쿠야:51 || TCVAR:사쿠야:52 || TCVAR:사쿠야:53 == 1
+	사쿠야구상카테고리 '= "실신"
+
+;타겟이라면 말할 수 없는 고통계 커맨드 87 피스트 88Ａ피스트 94목조르기 97배빵
+ELSEIF ( IS_MTAR(사쿠야) && GROUPMATCH(SELECTCOM, 87, 88, 94, 97) ) || IS_EQUIP_TARGET(사쿠야, 87, 88, 94, 97)
+	사쿠야구상카테고리 '= "절규"
+
+;키스등의 말할 수 없는 커맨드（단발 계속）
+ELSEIF GROUPMATCH(SELECTCOM, 20, 340, 341, 342) || IS_EQUIP(사쿠야, 20, 340, 341, 342)
+	사쿠야구상카테고리 '= "재갈"
+
+;타겟이라면 말할 수 없는 커맨드 86 재갈 90 이라마치오 101 안면승마 102Ａ안면승마 105Ｗ안면승마 132 입안방뇨 210 촉수펠라
+ELSEIF ( IS_MTAR(사쿠야) && GROUPMATCH(SELECTCOM, 86, 90, 101, 102, 105, 132, 210) ) || IS_EQUIP_TARGET(사쿠야, 86, 90, 101, 102, 105, 132, 210)
+	사쿠야구상카테고리 '= "재갈"
+
+;플레이어라면 말할 수 없는 커맨드 2 쿤닐링구스 8 애널핥기 9 유두빨기 11 페라 104족 빨고 330 일상 페라
+ELSEIF ( IS_MPLY(사쿠야) && GROUPMATCH(SELECTCOM, 2, 8, 9, 11, 20, 104, 107, 330) ) || IS_EQUIP_PLAYER(사쿠야, 2, 8, 9, 11, 20, 104, 107, 330)
+	사쿠야구상카테고리 '= "재갈"
+
+;네야 커맨드
+ELSEIF SELECTCOM >= 0 && SELECTCOM <= 299
+	사쿠야구상카테고리 '= "침실"
+
+;일상 커맨드（진척되어 맡김 미만）
+ELSEIF SELECTCOM >= 300 && SELECTCOM < 393
+	사쿠야구상카테고리 '= "일상"
+
+ENDIF
+
+;카테고리에 의한 분기
+IF 전후 == "전"
+	IF 사쿠야구상카테고리 == "공허"
+		CALL KOJO_K9_HOLLOW(사쿠야_대상)
+	ELSEIF 사쿠야구상카테고리 == "실신"
+		CALL KOJO_K9_SYNCOPE(사쿠야_대상)
+	ELSEIF 사쿠야구상카테고리 == "절규"
+		CALL KOJO_K9_SHOUT(사쿠야_대상)
+	ELSEIF 사쿠야구상카테고리 == "재갈"
+		CALL KOJO_K9_CANNOT_TALK(사쿠야_대상)
+	ELSEIF 사쿠야구상카테고리 == "침실"
+		CALL KOJO_K9_NIGHT(사쿠야_대상,"전")
+	ELSEIF 사쿠야구상카테고리 == "일상"
+		CALL KOJO_K9_NOON(사쿠야_대상,"전")
+	ENDIF
+ELSE
+	IF 사쿠야구상카테고리 == "침실"
+		CALL KOJO_K9_NIGHT(사쿠야_대상,"후")
+	ELSEIF 사쿠야구상카테고리 == "일상"
+		CALL KOJO_K9_NOON(사쿠야_대상,"후")
+	ENDIF
+ENDIF
+
+RETURN RESULT
+

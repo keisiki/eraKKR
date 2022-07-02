@@ -1,0 +1,86 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_18_SP_0_EXIST
+RETURN 1
+
+@SKILL_18_SP_0_NAME
+RESULTS = 루나사·솔로 라이브
+
+;레벨은 1-5까지
+@SKILL_18_SP_0_LEVEL
+RETURN 4
+
+;대상 선택
+@SKILL_18_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+#DIM 능력, 3
+VARSET 능력
+
+RETURN 1
+
+;발동 판정
+@SKILL_18_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_18_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML 울적함의 소리를 들은 적부대 전원 무투가 저하했다!
+
+FOR LOCAL, 0, BATTLE_COMMANDER_NUM:대상측
+	TIMES BATTLE_무투파워:대상측:LOCAL, 0.90
+NEXT
+
+
+RETURN 1
+
+;
+@SKILL_18_SP_0_EXPLANATION
+RESULTS = 적전원 무투를 저하시킨다.
+
+
+
+
+@SKILL_18_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 80

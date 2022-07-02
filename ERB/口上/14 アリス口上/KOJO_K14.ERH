@@ -1,0 +1,4 @@
+﻿#DIM CONST 앨리스_흐트러짐 = 0
+#DIM CONST 앨리스_부적 = 1
+#DIM CONST 앨리스_러브돌 = 2
+#DIM CONST 앨리스_인형극의전에 = 3

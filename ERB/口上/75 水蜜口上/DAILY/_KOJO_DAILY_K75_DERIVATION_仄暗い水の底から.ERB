@@ -1,0 +1,86 @@
+﻿;---------------------
+;대응하는 데일리의 DISABLE를 돌려준다. 설정하지 않는 경우, 이벤트는 발생하지 않는다.
+;---------------------
+@KOJO_DAILY_K75_DERIVATION_FROM_THE_DEEP_DISABLE(대상)
+#DIM 대상
+RETURN KOJO_DAILY_GET_DISABLE_CONFIG(대상, "FROM_THE_DEEP")
+
+
+;---------------------
+;발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K75_DERIVATION_FROM_THE_DEEP_DECISION(대상)
+#DIM 대상
+
+;개시 이벤트전, 종료 이벤트 후라면 안 돼
+SIF GROUPMATCH(KDVAR:대상:미나미츠_측어두운물의바닥으로부터, 0, 2)
+	RETURN 0
+;체재 카운트 남아도 안 돼
+SIF KDVAR:대상:미나미츠_물밑체재카운트 > 0
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;본체
+;---------------------
+@KOJO_DAILY_K75_DERIVATION_FROM_THE_DEEP(대상)
+#DIM 대상
+PRINTFORMW 「다녀 왔습니다」
+PRINTFORMW 행방불명이 되어 있었던 %조사처리(ANAME(대상),"가")%, 훌쩍 돌아왔다
+PRINTFORMW 「갑자기 미안해요, 이제 괜찮기 때문에」
+PRINTFORMW 행방불명이 되기 전의 초췌는 어디 갔는지, 뭔가 반들반들 해조차 있다
+PRINTFORMW 어디에 가고 있었는지라고 물어도, %조사처리(ANAME(대상),"는")% 목을 옆에 흔들었다
+IF ABL:대상:욕망 + (TALENT:대상:쾌감에솔직 * 5) + (TALENT:대상:정조관념없음 * 10) > RAND:32 + (TALENT:대상:처녀 * 20)
+	PRINTFORMW （말할 수 있을 리가 없잖아……?   스스로 소프에 가라앉았다니）
+	PRINTFORMW （하지만, 돈을 벌어 온 일이고, 여기는 그래서）
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 직장 복귀했습니다", 칼라_주의)
+	CALL COLOR_PRINTW(@"%ANAME(대상)%의 능력·소질이 변화했습니다", 칼라_주의)
+	PRINTFORML 
+	FOR LOCAL, 0, 6
+		CALL FUCK(대상, "욕망, 성기술, 성지식, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ확장, 성교, 정애, 사정, Ｖ성교, Ａ성교, 펠라티오, 키스, 매춘", "키스상실, 처녀상실, Ａ처녀상실, 질내사정, 장내사정", GET_SPERM_ID("창관의손님"), "", "창관의손님", "", "")
+	NEXT
+	TALENT:대상:남성혐오 = 0
+	TALENT:대상:보수적 = 0
+	TALENT:대상:정조관념 = 0
+	TALENT:대상:해방 = 1
+	TALENT:대상:쾌감에솔직 = 1
+	PRINTFORML 
+	CALL COLOR_PRINTW(@"국고에 어디에선가 5000의 입금이 있었습니다", 칼라_주의)
+	MONEY:(CFLAG:MASTER:소속) += 5000
+ELSE
+PRINTFORMW （말할 수 있을 리가 없잖아……?   피연못지옥에 가라앉아 와 아픈 응이라고）
+PRINTFORMW （저기라면 나라도 『뜰 수 없다』해 『빠진다』해……어느 쪽도, 보통 물은 할 수 없는 것이고）
+PRINTFORMW （누구에게도, 스트레스 해산의 방법 정도 있지요 하고 일로, 하나）
+
+CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 직장 복귀했습니다", 칼라_주의)
+CALL COLOR_PRINTW(@"%ANAME(대상)%의 능력·소질이 변화했습니다", 칼라_주의)
+
+CALL SKILL_LEARN_BY_NAME(대상, 스킬_장르_SP, NO:대상, "유령선 영구 정박")
+SIF RESULT
+	CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 스킬＜유령선 영구 정박＞을 습득했습니다", 칼라_주의)
+
+
+ABL:대상:무투 += 10
+ABL:대상:방위 += 10
+ABL:대상:지략 += 10
+TALENT:대상:요술지식 = 1
+ABL:대상:요술 += 5
+
+TALENT:대상:남성혐오 = 0
+TALENT:대상:해방 = 1
+TALENT:대상:Ｓ기질 = 1
+TALENT:대상:Ｍ기질 = 1
+ENDIF
+
+CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속)
+
+
+KDVAR:대상:미나미츠_측어두운물의바닥으로부터 = 2
+
+RETURN 1
+
+
+
+

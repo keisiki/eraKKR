@@ -1,0 +1,132 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K77_DEPRAVED_MONK_RATE(대상)
+#DIM 대상
+RETURN 1000
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K77_DEPRAVED_MONK_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:뱌쿠렌_파계승
+	RETURN 0
+
+SIF !IS_SLAVE(대상)
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF TALENT:대상:처녀 || TALENT:대상:애널처녀
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K77_DEPRAVED_MONK_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K77_DEPRAVED_MONK(대상)
+#DIM 대상
+
+PRINTFORML 심야……
+PRINTFORML %조사처리(ANAME(대상),"가")%, %ANAME(MASTER)%의 침실을 방문해 왔다
+PRINTFORMW 라는 것보다, 방문하도록(듯이) 명령해 있던 것이지만
+PRINTFORMW 「……네, 말씀하신 대로, 해 왔습니다」
+PRINTFORML 말한대로 보냈는지 물으면, %조사처리(ANAME(대상),"는")% 작게 수긍했다
+PRINTFORMW 보여 보라고 %조사처리(ANAME(MASTER),"가")% 명할 것도 없이, 스스로 스커트를 싶게 완성한다
+PRINTFORML 거기에, 속옷의 종류는 없었다
+PRINTFORML %STR_BODY("질", 대상)%와 %STR_BODY("애널", 대상)%는 바이브를 깊숙히 물어, 군침을 늘어뜨리고 있다
+PRINTFORMW 한층 더 먹혀든 밧줄이, 흰 피부에 붉은 자국을 남기고 있었다
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% %STR_BODY("질", 대상)%에 쑤셔 넣어진 바이브를 완만하게 만지작거리면서, %ANAME(대상)%에 보고를 요구한다
+PRINTFORMW 「응응……♥　%ANAME(MASTER)%님이 (들)물은 대로, 오늘은 이것을 댄 채로 보냈습니다」
+PRINTFORMW 「근행의 사이에……{RAND(3, 6)}회, 자위 했습니다.{RAND(10, 16)}번째로부터는, 몇번행물자 기억하고 있지 않습니다……」
+PRINTFORML 흥분했는지?   라고 물으면, %조사처리(ANAME(대상),"는")% 말을 막히게 한다
+PRINTFORMW 무엇을 이제 와서 숨기는 일이 있으면, 벌로서 바이브를 격렬하게 움직여 주면, %조사처리(ANAME(대상),"는")% 간신히 솔직해졌다
+PRINTFORMW 「했습니닷!   누군가에게 보여질지도 모른다고, 보여지면 끝나 버릴 것이라고 생각하면, 굉장히!」
+PRINTFORMW 「나, 나, %조사처리(NAME_FORMAL(대상),"는")%, 그렇게 흥분하는 변태입니닷……아하♥」
+PRINTFORML 스스로 말하는 느껴 적시는 것은 주선은 없을 것이다
+PRINTFORMW 예의 범절이 되지 않은 암컷에 벌이라면 %STR_BODY("엉덩이:감촉", 대상)%에 손바닥을 먹이면, %조사처리(ANAME(대상),"는")% 아파하기는 커녕 달콤한 소리를 지른다
+PRINTFORMW 「아아……%ANAME(MASTER)%님, 주인님, 부디 자비를」
+PRINTFORMW 「계율을 거역해 쾌감을 탐내는 이 파계승의 몸을, 부디 사용해 주십시오……♥」
+PRINTFORML 감격했는지, %조사처리(ANAME(대상),"는")% 스스로 벽에 손을 찔러, %조사처리(ANAME(MASTER),"가")% 만지작거리기 쉽게 엉덩이를 내밀었다
+PRINTFORMW 양구멍의 바이브를 뽑아 내 주면, 각각 삽입을 요구해 흠칫흠칫 야비하게 수축한다
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(대상)%의 허리를 단단하게 잡아 도망가지 않도록 해, 파계승의 단정치못한 암컷구멍을 관철했다……
+CALL FUCK(MASTER, "Ｃ, Ｖ삽입, Ａ삽입, 새드, 성교, 욕망, 성기술", "동정상실, 키스상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "조교")
+CALL FUCK(대상, "Ｃ, Ｖ, Ｂ, Ａ, Ｍ, 욕망, 봉사, 성기술, 성교, 노출, 자위, Ｖ성교, Ａ성교, 키스, 펠라티오, 고통쾌락, 긴박, 마조", "키스상실, 처녀상실, Ａ처녀상실, 질내사정, 장내사정", GET_ID(MASTER), @"%ANAME(대상)%의 페니스", ANAME(MASTER), "", "조교")
+PRINTFORML 
+PRINTFORMW 「응훗, 쥬루, 응후웃, 응무, 응우우♥」
+PRINTFORMW 「쥬풋, 후, 응쿠웃, 응므우웃……」
+PRINTFORML ……결국, %ANAME(대상)%의 신체로 아침까지 즐겨 버렸다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 양구멍으로부터 충분히 백탁을 흘리면서, 당신을 「예의범절을 가르쳐 주셨다」물건에 달라 붙으며 청소하고 있다
+PRINTFORMW 여자로서의 행복에 녹은 얼굴에도, %ANAME(MASTER)%의 정액이 씻어도 취할 수 없을 정도 부착하고 있다
+PRINTFORMW 「응훗, 후우……♥」
+PRINTFORML 충분히 몇 분간의 청소의 후, 간신히 %조사처리(ANAME(대상),"는")% 입을 떼어 놓았다
+PRINTFORMW 백탁과 %ANAME(대상)%의 애액 투성이가 되어 있던 페니스는, 완전히 예쁘게 되어 있었다
+PRINTFORML 당신의 비참함에 만취하는 %ANAME(대상)%의 머리카락을 잡아, 너는 무엇이다, 라고 물어 본다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 눈동자에 도취를 띄워, 열중한 것 같은 어조로 답한다
+PRINTFORMW 「나, %조사처리(NAME_FORMAL(대상),"는")%, 불도에 있으면서 육욕에 빠지는 파계승입니다」
+PRINTFORMW 「그리고 %ANAME(MASTER)%님의, 충실한 나로 해 성노예이기도 합니다」
+PRINTFORMW 「부디%조사처리(ANAME(대상),"를")% 귀여워해 주십시오……♥」
+PRINTFORML 그렇게 말해 %조사처리(ANAME(대상),"는")%, 깊숙히 고개를 숙여, 마루에 이마를 문지른다
+PRINTFORML 처음은 다부진 %ANAME(대상)%도, 지금은 완전히 노예에게 전락했다
+PRINTFORML 정숙하게 보였다고 해도, 본성은 이런 것이라는 일이다
+PRINTFORML 기분을 자주(잘) 한 %조사처리(ANAME(MASTER),"는")%, %ANAME(대상)%에 뭔가 충성의 증거라도 줄까하고 생각한다……
+PRINTFORML 
+CALL ASK_MULTI_JUDGE("피어스를 통한다", CAN_PIERCE_ANYWHERE(대상), "문신을 넣는다", CAN_TATTOO_ANYWHERE(대상), "목걸이를 입는다", 1, "별로 좋은가", 1)
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORML 노예가 증거로 삼아, 피어스를 통해 준다
+		PRINTFORMW 그렇게 고하면, %조사처리(ANAME(대상),"는")%싫어한다는 커녕, 희색을 띄워 보였다
+		PRINTFORMW 「영광입니다, 감사합니다, %ANAME(MASTER)%님」
+		PRINTFORMW 「앞으로도 오래도록, %조사처리(ANAME(대상),"를")% 사용해 주세요」
+		PRINTFORMW 감사하는 %ANAME(대상)%에, 피어스를 끼워 주었다……
+		CALL SET_PIERCE_RANKED(대상, 1, 피어스_음순, 피어스_페니스, 피어스_클리토리스, 피어스_유두, 피어스_배꼽, 피어스_귀, 피어스_혀, 피어스_코)
+	CASE 1
+		PRINTFORML 노예가 증거로 삼아, 문신을 넣어 준다
+		PRINTFORMW 그렇게 고하면, %조사처리(ANAME(대상),"는")%싫어한다는 커녕, 희색을 띄워 보였다
+		PRINTFORMW 「영광입니다, 감사합니다, %ANAME(MASTER)%님」
+		PRINTFORMW 「앞으로도 오래도록, %조사처리(ANAME(대상),"를")% 사용해 주세요」
+		PRINTFORMW 감사하는 %ANAME(대상)%에, 문신을 새겼다……
+		CALL SET_TATTOO_RANKED(대상, "성노예", 1, 문신_비부, 문신_엉덩이, 문신_뺨, 문신_이마, 문신_어깨, 문신_가슴, 문신_등, 문신_배, 문신_넙적다리, 문신_발목)
+	CASE 2
+		PRINTFORML 노예가 증거로 삼아, 목걸이를 준다
+		PRINTFORMW 그렇게 고하면, %조사처리(ANAME(대상),"는")%싫어한다는 커녕, 희색을 띄워 보였다
+		PRINTFORMW 「영광입니다, 감사합니다, %ANAME(MASTER)%님」
+		PRINTFORMW 「앞으로도 오래도록, %조사처리(ANAME(대상),"를")% 사용해 주세요」
+		PRINTFORMW 감사하는 %ANAME(대상)%에, 목걸이를 입어 주었다……
+	CASE 3
+		PRINTFORML 그런 것 따위 없어도, %조사처리(ANAME(대상),"는")% 이미 %ANAME(MASTER)%의 것이다
+		PRINTFORMW 응석부리도록(듯이) 다가서 오는 %PRONOUN(대상)%의 %STR_BODY("가슴:애무", 대상)%를 희롱하면서, 그 입술을 빼앗아 주었다……
+ENDSELECT
+
+CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 충성을 맹세했습니다", 칼라_주의)
+
+
+CFLAG:대상:종속도 += 5000
+CFLAG:대상:의존도 += 3000
+TALENT:대상:꿋꿋함 = 0
+TALENT:대상:Ｍ기질 = 1
+TALENT:대상:도착적 = 1
+TALENT:대상:쾌감에솔직 = 1
+TALENT:대상:정조관념 = 0
+TALENT:대상:합의 = 1
+TALENT:대상:쵸로인 = 1
+KDVAR:대상:뱌쿠렌_파계승 = 1
+RETURN 1

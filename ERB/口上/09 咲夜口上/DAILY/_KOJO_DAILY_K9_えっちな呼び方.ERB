@@ -1,0 +1,315 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K9_ASK_DIRTY_NAME_RATE(대상)
+#DIM 대상
+RETURN 500
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K9_ASK_DIRTY_NAME_DECISION(대상)
+#DIM 대상
+;사쿠야 구상 데일리 입력계 사용의 설정이 「사용한다」는 아니면 돌아온다
+SIF 사쿠야_구상데일리입력계사용 != 2
+	RETURN 0
+
+;노예도 연인도 아닌, 또는 합의가 없으면 돌아온다
+SIF ( !IS_SLAVE(대상) && !IS_LOVER(대상) ) || !TALENT:대상:합의
+	RETURN 0
+
+;일회뿐
+SIF KDVAR:대상:사쿠야_엣치한호분
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K9_ASK_DIRTY_NAME_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K9_ASK_DIRTY_NAME(대상)
+#DIM 대상
+#DIM 사쿠야_대상
+#DIMS BEFORE_DIRTY_P
+#DIMS BEFORE_DIRTY_V
+#DIMS BEFORE_DIRTY_A
+#DIMS BEFORE_DIRTY_C
+#DIMS BEFORE_DIRTY_B
+#DIMS NOW_DIRTY_P
+#DIMS NOW_DIRTY_V
+#DIMS NOW_DIRTY_A
+#DIMS NOW_DIRTY_C
+#DIMS NOW_DIRTY_B
+
+;리셋트
+사쿠야_대상 = MASTER
+
+
+
+SETCOLOR 사쿠야_구상칼라
+
+;로드 데이터용의 초기화
+사쿠야_음어빈도 = 0
+사쿠야_음어Ｐ '= "그것"
+사쿠야_음어Ｖ '= "(안)중"
+사쿠야_음어Ｃ '= "거기"
+사쿠야_음어Ａ '= "거기"
+사쿠야_음어Ｂ '= "거기"
+
+;리셋트
+BEFORE_DIRTY_P '= 사쿠야_음어Ｐ
+BEFORE_DIRTY_V '= 사쿠야_음어Ｖ
+BEFORE_DIRTY_A '= 사쿠야_음어Ａ
+BEFORE_DIRTY_C '= 사쿠야_음어Ｃ
+BEFORE_DIRTY_B '= 사쿠야_음어Ｂ
+NOW_DIRTY_P '= 사쿠야_음어Ｐ
+NOW_DIRTY_V '= 사쿠야_음어Ｖ
+NOW_DIRTY_A '= 사쿠야_음어Ａ
+NOW_DIRTY_C '= 사쿠야_음어Ｃ
+NOW_DIRTY_B '= 사쿠야_음어Ｂ
+
+IF CHECK_K9("경어")
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%, 조금 시간을 받을 수 없습니까?」
+	PRINTFORMDW 거점의 순찰을 하고 있으면, %조사처리(ANAME(대상),"가")% 빠른 걸음으로 접근해 왔다
+	PRINTL 
+	PRINTFORML 「만남 할 수 있어 안심했습니다. 저, 질문하고 싶은 것이 있어」
+	PRINTFORMDW %조사처리(ANAME(대상),"는")% 뺨을 긴장시키고 있다
+	PRINTL 
+	PRINTFORML 「가르쳐 받고 싶습니다만……밤의 상대를 맡는 것에 해당되어, 그」
+	PRINTFORML 「몸을, 어떻게 부르면 좋은 것인지 몰라서 고민하고 있던 것입니다」
+	PRINTFORMDW 약간 입 틀어박혔지만, 정무에 힘쓰는 모습과 같은 정도 진지한 눈동자다
+	PRINTL 
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에는, 최대한 즐겨 받고 싶다고 생각하고 있습니다」
+	PRINTFORML 「기뻐하고 있는 것조차 전해지지 않는 것 같은 것은, 미안해서……」
+	PRINTFORMW 「다만, 너무 적극적으로 흐트러져도 식어 버려질지도 모르고」
+	PRINTL 
+	PRINTFORMW 「그래서, 괜찮으시면……%CALLNAME_K9(사쿠야_대상)%의 마음에 드신 부르는 법을 가르쳐 받고 싶습니다」
+ELSE
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%, 지금은 좋을까」
+	PRINTFORMDW 거점의 순찰을 하고 있으면, %조사처리(ANAME(대상),"가")% 빠른 걸음으로 접근해 왔다
+	PRINTL 
+	PRINTFORML 「조금 이상한 일 묻고 싶지만」
+	PRINTFORMDW %조사처리(ANAME(대상),"는")% 뺨을 붉히고 시선을 피하고 있다
+	PRINTL 
+	PRINTFORML 「진지한 이야기이니까, 웃지 말아줘」
+	PRINTFORML 「이봐요, 함께 자면 여러 가지 일을 하는 것이지요?」
+	PRINTFORMW 「의사소통도 중요하다고 생각하는 것이지만, 몸을 어떻게 부르면 좋은 것인지 몰라서」
+	PRINTL 
+	PRINTFORML 「입다문 채로 헤아렸으면 좋다니, 페어가 아닌 것……%조사처리(CALLNAME_K9(사쿠야_대상),"를")% 곤란하게 해 버리네요」
+	PRINTFORML 「그렇지만, 너무 멋없는 말을 하면 미움받아 버릴까」
+	PRINTFORMDW %ANAME(대상)%의 소리는 자꾸자꾸 작아져 갔다
+	PRINTL 
+	PRINTFORML 「이제(이미/벌써/더는/정말)!   이상한 일로 고민하고 있는 것은 알고 있는거야」
+	PRINTFORMW 「그러니까, 그, %조사처리(CALLNAME_K9(사쿠야_대상),"가")% 좋아하는 부르는 법을 가르쳐 주셨으면 하는거야. 부탁이야」
+ENDIF
+
+LOCAL:0 = LINECOUNT
+$SHOW_LOOP
+RESETCOLOR
+CALL SINGLE_DRAWLINE
+CALL ICPRINT("<가르치고 싶은 명칭을><전각 가명><으로 입력·또는 결정한다（히라가나·가타카나는 어디라도 가능）>", "L", 칼라_선택불가, 칼라_오렌지, 칼라_선택불가)
+PRINTL 
+PRINTFORM   Ｐ호칭 : 
+RESETCOLOR
+PRINTFORM %NOW_DIRTY_P, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력Ｐ"
+PRINTL 
+PRINTFORM   Ｖ호칭 : 
+RESETCOLOR
+PRINTFORM %NOW_DIRTY_V, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력Ｖ"
+PRINTL 
+PRINTFORM   Ｃ호칭 : 
+RESETCOLOR
+PRINTFORM %NOW_DIRTY_C, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력Ｃ"
+PRINTL 
+PRINTFORM   Ａ호칭 : 
+RESETCOLOR
+PRINTFORM %NOW_DIRTY_A, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력Ａ"
+PRINTL 
+PRINTFORM   Ｂ호칭 : 
+RESETCOLOR
+PRINTFORM %NOW_DIRTY_B, 20, LEFT%
+PRINTBUTTON "  [입력]", "입력Ｂ"
+
+PRINTBUTTON "  [결정]", "결정"
+PRINTL 
+CALL SINGLE_DRAWLINE
+
+;초기치 지정 입력
+INPUTS 결정
+
+IF RESULTS == "결정"
+	사쿠야_음어Ｐ '= NOW_DIRTY_P
+	사쿠야_음어Ｖ '= NOW_DIRTY_V
+	사쿠야_음어Ａ '= NOW_DIRTY_A
+	사쿠야_음어Ｃ '= NOW_DIRTY_C
+	사쿠야_음어Ｂ '= NOW_DIRTY_B
+	CLEARLINE LINECOUNT - LOCAL:0
+	PRINTL 
+
+ELSEIF RESULTS == "입력Ｐ"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTL Ｐ호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_DIRTY_P
+		INPUTS %NOW_DIRTY_P%
+		LOCALS:0 = %RESULTS%
+		;반각을 1자와 세어 LOCALS:0의 0자눈으로부터 20자눈까지를 자른다
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_DIRTY_P '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSEIF RESULTS == "입력Ｖ"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTL Ｖ호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_DIRTY_V
+		INPUTS %NOW_DIRTY_V%
+		LOCALS:0 = %RESULTS%
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_DIRTY_V '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSEIF RESULTS == "입력Ａ"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTL Ａ호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_DIRTY_A
+		INPUTS %NOW_DIRTY_A%
+		LOCALS:0 = %RESULTS%
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_DIRTY_A '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSEIF RESULTS == "입력Ｃ"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTL Ｃ호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_DIRTY_C
+		INPUTS %NOW_DIRTY_C%
+		LOCALS:0 = %RESULTS%
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_DIRTY_C '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSEIF RESULTS == "입력Ｂ"
+	CLEARLINE 1
+	SETCOLOR 칼라_선택불가
+	PRINTL Ｂ호칭 입력중
+	RESETCOLOR
+	IF RESULTS != NOW_DIRTY_B
+		INPUTS %NOW_DIRTY_B%
+		LOCALS:0 = %RESULTS%
+		SUBSTRING LOCALS:0, 0, 20
+		NOW_DIRTY_B '= LOCALS:0
+	ENDIF
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+
+ELSE
+	CLEARLINE LINECOUNT - LOCAL:0
+	GOTO SHOW_LOOP
+ENDIF
+
+SETCOLOR 칼라_선택불가
+PRINTFORML ? Ｐ호칭 : %사쿠야_음어Ｐ%
+PRINTFORML   Ｖ호칭 : %사쿠야_음어Ｖ%
+PRINTFORML   Ａ호칭 : %사쿠야_음어Ａ%
+PRINTFORML   Ｃ호칭 : %사쿠야_음어Ｃ%
+PRINTFORML   Ｂ호칭 : %사쿠야_음어Ｂ%
+PRINTL 
+
+SETCOLOR 사쿠야_구상칼라
+
+IF NOW_DIRTY_P == BEFORE_DIRTY_P && NOW_DIRTY_V == BEFORE_DIRTY_V && NOW_DIRTY_A == BEFORE_DIRTY_A && NOW_DIRTY_C == BEFORE_DIRTY_C && NOW_DIRTY_B == BEFORE_DIRTY_B
+	PRINTFORMDW %조사처리(ANAME(사쿠야_대상),"는")% %ANAME(대상)%에 모두 이것까지 대로에 불렀으면 좋겠다고 전했다
+	PRINTL 
+	IF CHECK_K9("경어")
+		PRINTFORML 「안심했습니다. 바꾸지 않아도, 분명하게 전해지고 있군요」
+		PRINTFORMW 「상담에 응해 주셔서 감사합니다?」
+		PRINTL 
+		PRINTFORMDL %조사처리(ANAME(대상),"는")% 깊게 인사를 해, 튀는 발걸음으로 떠났다
+	ELSE
+		PRINTFORML 「그래. 바꾸지 않아도 전해지고 있는 거네. 기뻐요」
+		PRINTFORML 「(들)물어 주어 고마워요. 좋아해요, %CALLNAME_K9(사쿠야_대상)%❤」
+		PRINTFORMDL %조사처리(ANAME(대상),"는")% %ANAME(사쿠야_대상)%의 뺨에 키스를 하며, 튀는 발걸음으로 떠났다
+	ENDIF
+ELSE
+	PRINTFORMDW %조사처리(ANAME(사쿠야_대상),"는")% %ANAME(대상)%에 부르는 법을 전했다
+	PRINTL 
+	IF CHECK_K9("경어")
+		PRINTFORML 「감사합니다. 수고를 끼쳐 죄송합니다」
+		PRINTFORML 「그것은 그……많이 부른 (분)편이 기분이 전해지는 것입니까?」
+	ELSE
+		PRINTFORML 「고, 고마워요. 성실하게 대답해 주어 기뻐요」
+		PRINTFORML 「그 거 역시, 많이 부른 (분)편이 기분이 전해질까?」
+	ENDIF
+	CALL KOJO_ASK("그 대로", "그렇지도 않다")
+	IF RESULT == 0
+		IF CHECK_K9("경어")
+			PRINTFORML 「알았습니다. 각오가 생겼습니다」
+			PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%에 기뻐해 받을 수 있도록(듯이), 노력합니까?」
+			PRINTFORML 「상담에 응해 주셔서 감사합니다」
+			PRINTFORMDL %조사처리(ANAME(대상),"는")% 깊게 인사를 해, 튀는 발걸음으로 떠났다
+		ELSE
+			PRINTFORML 「그래, 각오가 정해졌어요. %CALLNAME_K9(사쿠야_대상)%에 기뻐해 받고 싶은 거네」
+			PRINTFORML 「(들)물어 주어 고마워요. 좋아해요, %CALLNAME_K9(사쿠야_대상)%❤」
+			PRINTFORMDL %조사처리(ANAME(대상),"는")% %ANAME(사쿠야_대상)%의 뺨에 키스를 하며, 튀는 발걸음으로 떠났다
+		ENDIF
+		사쿠야_음어빈도 = 2
+	ELSE 
+		IF CHECK_K9("경어")
+			PRINTFORML 「섬세한 것이군요. 잘 알았습니다」
+			PRINTFORMW 「%CALLNAME_K9(사쿠야_대상)%에 만족하실 수 있도록, 노력합니까?」
+			PRINTL 
+			PRINTFORML 「긴 서서 이야기가 되어 버려 죄송합니다」
+			PRINTFORML 「상담에 응해 주셔, 감사합니다」
+			PRINTFORMDL %조사처리(ANAME(대상),"는")% 깊게 인사를 해, 튀는 발걸음으로 떠났다
+		ELSE
+			PRINTFORML 「그렇게……어려운 것인 거네」
+			PRINTFORML 「그렇지만, 기뻐했으면 좋은 것. 해 봐요」
+			PRINTFORML 「(들)물어 주어 고마워요, %CALLNAME_K9(사쿠야_대상)%❤」
+			PRINTFORMDL %조사처리(ANAME(대상),"는")% %ANAME(사쿠야_대상)%의 뺨에 키스를 하며, 튀는 발걸음으로 떠났다
+		ENDIF
+		사쿠야_음어빈도 = 1
+	ENDIF
+ENDIF
+WAIT
+RESETCOLOR
+CFLAG:대상:호감도 = CFLAG:대상:호감도 + 100
+CFLAG:대상:의존도 = CFLAG:대상:의존도 + 100
+CFLAG:대상:종속도 = CFLAG:대상:종속도 + 100
+KDVAR:대상:사쿠야_엣치한호분 = 1
+
+RETURN 1
+

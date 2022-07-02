@@ -1,0 +1,84 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_23_BASE_1_EXIST
+RETURN 1
+
+@SKILL_23_BASE_1_NAME
+RESULTS = 백만귀야행
+
+;레벨은 1-5까지
+@SKILL_23_BASE_1_LEVEL
+RETURN 5
+
+;대상 선택
+@SKILL_23_BASE_1_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+;자부대 대상
+RETURN 1
+
+;발동 판정
+@SKILL_23_BASE_1_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_23_BASE_1_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+BATTLE_RATE_ATC:발동측 += 40
+CALL COLOR_PRINTL(@"스이카 「우리 군대는 백귀야행, 오니의 아츠무 만소에 인간도 요괴도 있을 수 있는 것인가!」", 칼라_오렌지) 
+PRINTFORML 자부대의 준 피해가 초증가했다!
+
+@SKILL_23_BASE_1_EXPLANATION
+RESULTS = 자부대의 준 피해를 증가시킨다.
+
+;이하의 3개, 스킬을습득으로 구입시키지 않기 위한 처리
+@SKILL_23_BASE_1_NO_LEARN_INIT
+@SKILL_23_BASE_1_CANT_LEARN_FROM_SHOP
+@SKILL_23_BASE_1_CANT_TELL
+
+;발동율이 변동하는 경우에 필요한 처리
+@SKILL_23_BASE_1_IS_RATE_VARIABLE
+RETURN 1
+
+@SKILL_23_BASE_1_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN (50 + (ABL:발동자:무투) * 2)

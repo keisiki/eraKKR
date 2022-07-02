@@ -1,0 +1,907 @@
+﻿;─────────────────────────────────────── 
+;■침실_공격_실행전
+;  범용 대사 「KOJO_K10_공_침실_공_범용. ERB」를 호출하기 전에
+;  특수한 커맨드를 개별적으로 표시해 RETURN 한다
+;─────────────────────────────────────── 
+@KOJO_K10_NIGHT_BEFORE_TOP(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;─────────────────────────────────────── 
+;◆위안중의 공격은 부추기지 않고 애매하게 봉사
+;─────────────────────────────────────── 
+IF FLAG:조교모드 == 조교_위안
+	PRINTFORM 「
+	IF RAND:5 == 0
+		PRINTFORM %CALLNAME_K10(레밀리아_대상)%
+		PRINTFORM %SPLIT_R("……:,:.")%
+		PRINTFORM %SPLIT_R("여기, 가:이런, 느낌으로:하, 후")%
+		PRINTFORM %SPLIT_R("……기분 좋아지는 거야? :……좋은거야? :……기뻐해 줄래?")%
+	ENDIF
+	PRINTFORM %SPLIT_R(", 아:―:응:응우")%
+	PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+	PRINTFORM %SPLIT_R("응……:응후……:응쿠……:하아……:응우……:응::후아")%
+	PRINTFORM %BREAK_K10("말", 레밀리아_대상)%
+	PRINTFORML 」
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;◆불쾌함시
+;─────────────────────────────────────── 
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		IF PALAM:레밀리아:로주 <= PALAM:레밀리아:로외
+			PRINTDATAL
+				DATAFORM 「뭔가 안절부절 하고 있었어. 잠시 엉뚱한 화풀이 해 버려도 괜찮아?」
+				DATAFORM 「%CALLNAME_K10(레밀리아_대상)%에 화나 있는 것과는 다르지만, 괴롭히고 싶은 기분이예요」
+				DATAFORM 「나쁜 일 하고 싶은 기분이야. 좋지요?」
+				DATAFORM 「괴롭히거나 해 버리고 싶어요. %CALLNAME_K10(레밀리아_대상)%, 교제해 줄래?」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「가축의 주제에」
+				DATAFORM 「후회하면 좋아요」
+				DATAFORM 「나의 명령에 따르세요」
+				DATAFORM 「기분에 필요없어요」
+				DATAFORM 「벌을 갖고 싶어?   그렇게」
+				DATAFORM 「양보해 주는 기분이 아니야」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE "암울", "슬픔", "우울"
+		IF PALAM:레밀리아:액주 <= PALAM:레밀리아:액외
+			PRINTDATAL
+				DATAFORM 「왠지 슬픈 기분이었어요. %조사처리(CALLNAME_K10(레밀리아_대상),"를")%이다 넘게 해」
+				DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"가")% 싫을 것이 아니지만, 마음이 내키지 않는거야」
+				DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"가")% 분명하게 꾸욱 시켜 주면 건강하게 되어요」
+				DATAFORM 「가득 껴안아도 좋아?   어쩐지 슬펐어」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「이제(이미/벌써/더는/정말). 얌전하게 해」
+				DATAFORM 「나의 말하는 것이 (들)물을 수 없는거야?」
+				DATAFORM 「나를 무엇이라고 생각하고 있어」
+				DATAFORM 「그런 것, 재미없어요」
+				DATAFORM 「무엇이 그렇게 기분에 필요없는거야?」
+				DATAFORM 「…………」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASE  "광기", "공포", "겁냄"
+		IF PALAM:레밀리아:포주 <= PALAM:레밀리아:포외
+			PRINTDATAL
+				DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 나 이런 것 몰라요」
+				DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"가")% 분명하게 어루만져 주지 않으면, 무섭게 되기 때문에」
+				DATAFORM 「그건 무엇이 일어나고 있는 거야? 　%CALLNAME_K10(레밀리아_대상)%, 분명하게 들러붙어 주세요」
+				DATAFORM 「어째서 저런 일을 할까? 　%조사처리(CALLNAME_K10(레밀리아_대상),"는")% 어떻게 생각해?」
+			ENDDATA
+		ELSE
+		PRINTDATAL
+			DATAFORM 「…………」
+			DATAFORM 「싫어요」
+			DATAFORM 「잘 몰라요」
+			DATAFORM 「그런 기분이 아니에요」
+			DATAFORM 「이상해요」
+		ENDDATA
+		ENDIF
+		RETURN 0
+
+	CASEELSE
+ENDSELECT
+
+;─────────────────────────────────────── 
+;◆기분이 안좋다고 말하지 않는다
+;─────────────────────────────────────── 
+IF !GROUPMATCH(레밀리아기분, "원한", "분노", "분개", "암울", "슬픔", "우울", "광기", "공포", "겁냄")
+	IF SELECTCOM == PREVCOM
+		IF RAND:10 == 0 && IS_INITIATIVE(레밀리아) && CHECK_K9("활력", 레밀리아_대상) && (( IS_MPLY(레밀리아) && MPLY_NUM == 1 )||( IS_MTAR(레밀리아) && MTAR_NUM == 1 ))
+			PRINTDATA
+				DATAFORM 「응응우……
+				DATAFORM 「이봐요
+				DATAFORM 「이러하구나
+				DATAFORM 「좀 더
+				DATAFORM 「이대로
+				DATAFORM 「좀 더
+				DATAFORM 「쭉
+			ENDDATA
+			;실행 역전의 커맨드
+			IF GROUPMATCH(SELECTCOM, 111, 101, 102, 100, 211, 130, 131, 132, 150, 151)
+				PRINTDATAL
+					DATAFORM %KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶은거야」
+					DATAFORM %KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶다고 응석부려?」
+				ENDDATA
+				LOCAL:0 = COM_EXP:(레밀리아):(SELECTCOM+1000)
+			;실행 역전의 커맨드 이외
+			ELSE
+				PRINTDATAL
+					DATAFORM %KOJO_COM_NAME_PLAYER_K10(SELECTCOM)%싶어요」
+					DATAFORM %KOJO_COM_NAME_TARGET_K10(SELECTCOM)%싶다고 응석부려?」
+				ENDDATA
+				LOCAL:0 = COM_EXP:(레밀리아):(SELECTCOM)
+			ENDIF
+			;성벽 설정을 참조해 해당 커맨드경험 회수를 체크
+			;NTR계로 경험을 벌고 있는 경우에 위화감이 나오기 때문에 왜 그러는 것인가
+			IF RAND:5 == 0
+				IF LOCAL:0 > 100
+					PRINTFORM 「이제(이미/벌써/더는/정말) 몇백회도
+					PRINTDATAL
+						DATAFORM 예의 범절 한 것이니까
+						DATAFORM 한 것이니까
+						DATAFORM 귀여워하고 있기에
+						DATAFORM 반복하고 있기에
+					ENDDATA
+					PRINTFORM %BREAK_K10("중", 레밀리아_대상)%
+					PRINTDATAL
+						DATAFORM %CALLNAME_K10(레밀리아_대상)%도 과연 익숙해졌네요?」
+						DATAFORM %조사처리(CALLNAME_K10(레밀리아_대상),"라")%도 좋아하네요?」
+						DATAFORM 하지 않으면 안된 몸이 되어 주었네요?」
+						DATAFORM 어떻게 응하면 좋은가, 기억하고 있네요?」
+						DATAFORM 앞으로 몇만회 할 수 있을까 흥미가 있네요?」
+					ENDDATA
+				ELSEIF LOCAL:0 > 35
+					PRINTFORML 「몇 십회나 한 것이니까, 이미 익숙해져 있네요」
+				ELSE
+					PRINTFORML 「아직{LOCAL:0}회 밖에 하고 있지 않기 때문에, 좀 더 많이 가르쳐 주지 않으면」
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●레밀리아_대상이 공격（주도권에 의하는 것도 있다）
+;─────────────────────────────────────── 
+;졸라대지는·시킨다
+IF SELECTCOM == 111
+	IF IS_MALE(MASTER)
+		LOCALS:0 '= "정액 짜 주세요"
+		LOCALS:1 '= "희다"
+	ELSE
+		LOCALS:0 '= "만날 수 나무 긁어내 주세요"
+		LOCALS:1 '= "투명"
+	ENDIF
+	PRINTDATAL
+		DATAFORM 「%LOCALS:0%, 겠지」
+		DATAFORM 「피를 마셨으면 좋네요? 　%LOCALS:1%의 것을」
+		DATAFORM 「나의 것이라고 말하세요」
+		DATALIST
+			DATAFORM 「%CALLNAME_K10(레밀리아_대상)%의 피는 전부 내가 마음대로 해도 좋은 피군요」
+			DATAFORM 「붉은 것도, 흰 것도, 투명한도」
+		ENDLIST
+	ENDDATA
+	RETURN 0
+ENDIF
+
+;안면승마 Ａ안면승마 하는·시킨다（타겟은 말할 수 없다）
+IF SELECTCOM == 101 || SELECTCOM == 102
+	IF IS_MPLY(레밀리아)
+		PRINTDATA
+			DATAFORM 「포상이야. 나의 피도 나누어 준다」
+			DATAFORM 「기분 좋게 하세요. 제대로 하지 않으면 벌이야」
+			DATALIST
+				DATAFORM 「털?   ……없지만. 거치지 않는?   별로 보통이겠지」
+				DATAFORM 「여동생도 이런 곳, 그렇게 나지 않아요?」
+			ENDLIST
+			DATAFORM 「예의 범절을 하지 않으면. 숨을 끊어 준다」
+		ENDDATA
+		RETURN 0
+	ENDIF
+ENDIF
+
+;자위하는·시킨다（촉수도）
+IF SELECTCOM == 100 || SELECTCOM == 211
+	;레밀리아가 한다
+	IF IS_MPLY(레밀리아)
+		PRINTDATAL
+			DATAFORM 「%CALLNAME_K10(레밀리아_대상)%, 어떻게 하면 내가 기뻐할까 기억하세요」
+			DATAFORM 「잘 보고 있으세요」
+			DATAFORM 「이봐요……이러해요. %CALLNAME_K10(레밀리아_대상)%」
+		ENDDATA
+		PRINTDATAL
+			DATAFORM 「읏……후아앗」
+			DATAFORM 「하아아아……. 보여져……하는 것, 좋아?」
+			DATAFORM 「응쿠우……기분 좋아……앗」
+		ENDDATA
+	;레밀리아가 레밀리아_대상으로 시킨다
+	ELSE
+		;페니스 있어
+		IF HAS_PENIS(레밀리아_대상)
+			PRINT 「그
+			;작다
+			IF GET_PENISSIZE(레밀리아_대상) < 0
+				;양성
+				IF IS_FEMALE(레밀리아_대상)
+					PRINTDATAL
+						DATAFORM 정액이 나오는 %CALL_DIRTY_K10("Ｃ")%
+						DATAFORM 큰%CALL_DIRTY_K10("Ｃ")%
+						DATAFORM 여자아이 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 사랑스러운 %CALL_DIRTY_K10("Ｐ")%
+					ENDDATA
+				;산등성이 쇼타
+				ELSEIF TALENT:레밀리아_대상:체격 == 체격_아이 || TALENT:레밀리아_대상:유치 || TALENT:레밀리아_대상:유아
+					PRINTDATAL
+						DATAFORM 어린이 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 포경%CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 작은 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 사랑스러운 %CALL_DIRTY_K10("Ｐ")%
+					ENDDATA
+				;따져지고 싶은 파
+				ELSE
+					PRINTDATAL
+						DATAFORM 가죽 덮어 쓰는 것%CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 작은 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 아이 같은 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 허술한 %CALL_DIRTY_K10("Ｐ")%
+					ENDDATA
+				ENDIF
+			;크다
+			ELSEIF GET_PENISSIZE(레밀리아_대상) > 0
+				;양성
+				IF IS_FEMALE(레밀리아_대상)
+					PRINTDATAL
+						DATAFORM 추잡함%CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 큰%CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 붉은 피도 흰 피도, 가득한 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 언제나 큰 변태%CALL_DIRTY_K10("Ｐ")%
+					ENDDATA
+				;산등성이 쇼타
+				ELSEIF TALENT:레밀리아_대상:체격 == 체격_아이 || TALENT:레밀리아_대상:유치 || TALENT:레밀리아_대상:유아
+					PRINTDATAL
+						DATAFORM 거기만 큰%CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 거기만 자라 버린 %CALL_DIRTY_K10("Ｐ")%
+					ENDDATA
+				;위협하고 싶은 파
+				ELSE
+					PRINTDATAL
+						DATAFORM 박력이 있는 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 붉은 피도 흰 피도, 가득한 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 큰거야
+						DATAFORM 무서운 %CALL_DIRTY_K10("Ｐ")%
+						DATAFORM 무서울 정도큰%CALL_DIRTY_K10("Ｐ")%
+					ENDDATA
+				ENDIF
+			;보통
+			ELSE
+				PRINTFORM %CALL_DIRTY_K10("Ｐ")%
+			ENDIF
+			PRINTDATAL
+				DATAFORM , 단단히 다뤄 나에게 대접해」
+				DATALIST
+					DATAFORM 는 나의 것이야」
+					DATAFORM 「흰 피를 짜내세요. 가축이 되어」
+				ENDLIST
+				DATALIST
+					DATAFORM , 노력해 잡아당기는거야」
+					DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% 가축으로, 짜내는 것 이외로 존재 가치가 없다고 마음 먹어」
+				ENDLIST
+				DATAFORM , 자신이 가축이라고 마음 먹으면서 필사적으로 자위 하세요」
+				DATAFORM 텅 비어서 나오지 않게 되어도 계속 켜는거야」
+				DATALIST
+					DATAFORM , 노력해 잡아당기지 않으면 버려진다 라고 무서워하세요」
+					DATAFORM 「그 정도가 아니면 재미있지 않아요」
+				ENDLIST
+			ENDDATA
+		;페니스 없음
+		ELSE
+			PRINTDATAL
+				DATAFORM 「그 %CALL_DIRTY_K10("Ｃ")%, 단단히 다뤄 나에게 녹진녹진을 대접해」
+				DATALIST
+					DATAFORM 「%CALLNAME_K10(레밀리아_대상)%의 %CALL_DIRTY_K10("Ｖ")%는 나의 것」
+					DATAFORM 「투명의 피를 짜내세요. 가축이 되어」
+				ENDLIST
+				DATALIST
+					DATAFORM 「노력해 %CALL_DIRTY_K10("Ｖ")%로부터 애액을 긁어내세요」
+					DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"는")% 나의 가축으로, 그 밖에 존재 가치가 없다고 마음 먹어」
+				ENDLIST
+				DATALIST
+					DATAFORM 「버려지는 것을 무서워하면서, 가도 %CALL_DIRTY_K10("Ｖ")%를 계속 후비는거야」
+					DATAFORM 「그 정도가 아니면 재미있지 않아요」
+				ENDLIST
+			ENDDATA
+		ENDIF
+		IF SELECTCOM == 211
+			PRINTDATAL
+				DATAFORM 「이봐요, 좀 더 격렬하게 비비게 해 주세요」
+				DATAFORM 「움직임이 늦어요. 분명하게 조종하고 있는 거야?   좀 더 격렬하게 해 보여 줘」
+			ENDDATA
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;배설 지시
+IF GROUPMATCH(SELECTCOM, 130, 131, 132, 150, 151) && IS_MTAR(레밀리아) && IS_INITIATIVE(레밀리아)
+	LOCALS:0 '= ""
+	IF GROUPMATCH(SELECTCOM, 130, 131, 132)
+		LOCALS:0 '= "오줌"
+	ELSE
+		LOCALS:0 '= "방귀"
+	ENDIF
+	;레밀리아가 레밀리아_대상으로 배설 지시
+	PRINTDATAL
+		DATAFORM 「이봐요 빨리, %조사처리(LOCALS:0,"를")% 실금 하세요」
+		DATAFORM 「보고 있어 주어요. 흘리세요」
+		DATAFORM 「자신의 배설로 느껴 버려라」
+		DATAFORM 「환기도 청소도 메이드가 해 주어요?   불평을 말하면서」
+		DATAFORM 「남의 앞에서 %조사처리(LOCALS:0,"를")% 흘리는 거네?   보기 흉해요」
+		DATAFORM 「조금 시간이 너무 걸리고. 예의 범절이 있을까」
+		DATAFORM 「늦어요. 빨리 하세요」
+		DATAFORM 「내가 명령하면 주저하는 것은 허락하지 않아요. 어떤 일이라도」
+	ENDDATA
+ENDIF
+
+;─────────────────────────────────────── 
+;●실행이 공격
+;─────────────────────────────────────── 
+;포로 역조교（80～99）
+IF SELECTCOM >= 80 && SELECTCOM <= 99
+	;목합계
+	IF SELECTCOM == 94
+		IF !IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「잡는 것보다 무는 편을 좋아해요」
+				DATAFORM 「죽고 싶은 것일까?   생각해 주어요」
+				DATAFORM 「괴로운 것을 좋아하면 죽는 직전까지 들이마셔 주는데」
+			ENDDATA
+		ENDIF
+		PRINTDATAL
+			DATAFORM 「정신을 잃을 때까지 이렇게 (해) 준다」
+			DATAFORM 「죽는 것을 좋아하는」
+			DATAFORM 「군침에서도 조금 배는 부풀어요」
+		ENDDATA
+		RETURN 0
+
+	;배빵
+	ELSEIF SELECTCOM == 97
+		IF IS_MALE(MASTER)
+			LOCALS:0 '= "빨리 사정하세요"
+		ELSE
+			LOCALS:0 '= "빨리 질척질척 적시세요"
+		ENDIF
+		IF !IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「여동생에게 주고 싶어질 정도로 마조군요. 주고 싶지 않지만」
+				DATAFORM 「변태. %LOCALS:0%」
+				DATAFORM 「이봐요, 포상!   기뻐?   이봐요」
+				DATAFORM 「자신으로부터 요구해 둬, 아파하는 거야? 　%CALLNAME_K10(레밀리아_대상)%」
+			ENDDATA
+		ELSE
+			PRINTDATAL
+				DATAFORM 「어리석은 자는 아픔으로 밖에 재주를 기억하지 않아요. %LOCALS:0%」
+				DATAFORM 「이것은 예의 범절이야. %LOCALS:0%」
+			ENDDATA
+		ENDIF
+		RETURN 0
+
+	;눈가리개
+	ELSEIF SELECTCOM == 84
+		IF !IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「어두운 편이 좋은 기분은 알아요」
+				DATAFORM 「어둠을 갖고 싶은거네」
+				DATAFORM 「밤을 좋아하는」
+			ENDDATA
+		ENDIF
+		PRINTDATAL
+			DATAFORM 「%CALLNAME_K10(레밀리아_대상)%에 밤을 준다」
+			DATAFORM 「내의 좋아하게 되세요」
+			DATAFORM 「연약한 인간은 무서워해 기다릴 뿐(만큼)의 어둠」
+		ENDDATA
+
+	;밧줄
+	ELSEIF SELECTCOM == 85
+		IF !IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「%CALLNAME_K10(레밀리아_대상)%도 지하 감옥에 갇혀 봐?   움직일 수 없는 것을 좋아하면」
+				DATAFORM 「손발을 마비 시켰으면 좋을 것이 아니네요?   손대중 하지 않으면」
+				DATAFORM 「너무 힘을 쓰지 않게 조심하지 않으면」
+			ENDDATA
+		ENDIF
+		PRINTDATAL
+			DATAFORM 「자, 할 수 있었다. 불쌍하고 사랑스러워요」
+			DATAFORM 「구속은 기분이 좋은거야?   좋다고 들어도 되고 싶지는 않지만」
+			DATAFORM 「이것으로 움직일 수 없어요」
+		ENDDATA
+
+	;그 이외
+	ELSEIF SELECTCOM >= 80 && SELECTCOM <= 99
+		IF !IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「%조사처리(CALLNAME_K10(레밀리아_대상),"가")% 바란 것이니까, 손대중은 필요없네요」
+				DATAFORM 「가축이 되고 싶었어?   변태」
+				DATAFORM 「부탁받아 하고 있으니까, 상냥함」
+				DATAFORM 「좋은거네」
+			ENDDATA
+		ENDIF
+		PRINTDATAL
+			DATAFORM 「아파?   기뻐하세요. 나의 주는 아픔을」
+			DATAFORM 「조금 너무 힘들어?   차라리 좋지요?」
+			DATAFORM 「예의범절을 가르쳐 주고 있어」
+			DATAFORM 「질질 흘림이 되세요」
+			DATAFORM 「이봐요 이봐요」
+		ENDDATA
+		RETURN 0
+	ENDIF
+ENDIF
+
+;스카계
+IF SELECTCOM >= 130 && SELECTCOM <= 159
+	;순공격
+	IF IS_INITIATIVE(레밀리아)
+		;130방뇨하는 131 오줌을 거는 132 입안방뇨한다
+		IF GROUPMATCH(SELECTCOM, 130, 131, 132)
+			PRINTDATAL
+				DATAFORM 「청소하는 것은 싫지만, 더럽히는 것은 즐거워요」
+				DATAFORM 「더럽혀 준다」
+			ENDDATA
+		;150방귀뀐다  151안면기승방귀뀐다
+		ELSEIF GROUPMATCH(SELECTCOM, 150, 151)
+			PRINTDATAL
+				DATAFORM 「잘 모르지만, 이렇게 하는 것 같아요」
+				DATAFORM 「개처럼, 냄새를 기억해 따르면 좋아요」
+			ENDDATA
+		;140이뇨제를 먹인다
+		ELSEIF SELECTCOM == 140
+			PRINTDATAL
+				DATAFORM 「단순한 이뇨제야. 실금 시켜 준다」
+				DATALIST
+					DATAFORM 「해가 있거나 중독 해 버리는 약이 아니기 때문에 무서워하지 않아도 좋아요」
+					DATAFORM 「이 약으로 중독에 걸린다면, 그것도 재미있지만」
+				ENDLIST
+			ENDDATA
+		;141관장한다
+		ELSEIF SELECTCOM == 141
+			PRINTDATAL
+				DATAFORM 「더럽히게 해 준다」
+				DATAFORM 「화장실도 관리가 필요하겠지?   나전용이고, 마음대로 해요」
+				DATAFORM 「산 인형으로 노는 것은 즐거워요」
+				DATAFORM 「특별히 깊고, 안쪽의 안쪽까지 흘러 들어가 준다」
+			ENDDATA
+		;142관장＆플러그 한다
+		ELSEIF SELECTCOM == 142
+			PRINTDATAL
+				DATAFORM 「이렇게 하지 않으면 멋대로 흘리겠죠?   굵은 마개를 선택해 주었기 때문에 안심해」
+				DATAFORM 「보기 흉하게 더럽혀 준다」
+				DATALIST
+					DATAFORM 「마개를 밀어 내려고 해, 흠칫흠칫 움직여 불쌍하구나」
+					DATAFORM 「쓸데없는 노력하는 %CALL_DIRTY_K10("Ａ")%, 기특하고 사랑스러워요」
+				ENDLIST
+			ENDDATA
+		ELSE
+			PRINTFORML 「더럽혀 준다」
+		ENDIF
+	;봉사 공격
+	ELSE
+		;140이뇨제를 음당한다
+		IF SELECTCOM == 140
+			PRINTDATAL
+				DATAFORM 「흘림을 하고 싶은거야?   오줌누고 기뻐한다니 화장실마다 느껴 큰 일이구나」
+				DATAFORM 「참는 것을 좋아해?   연비가 좋은거네」
+			ENDDATA
+		;141관장 당한다
+		ELSEIF SELECTCOM == 141
+			PRINTDATAL
+				DATAFORM 「나는 청소계가 아닌거야?   봐 주지만」
+				DATAFORM 「이것을 갖고 싶은거야?   배가 아프고 괴로운 것이 좋아하게 되어 버린 거네」
+				DATAFORM 「좋아요. 특별히 깊고, 안쪽의 안쪽까지 흘러 들어가 준다」
+				DATAFORM 「좋아요. 청소계가 아니지만, 사랑스러운 애완동물이니까 관리 해 준다」
+			ENDDATA
+		;142관장＆플러그 당한다
+		ELSEIF SELECTCOM == 142
+			PRINTDATAL
+				DATAFORM 「나는 청소계가 아닌거야?   봐 주지만」
+				DATAFORM 「이것을 갖고 싶은거야?   배가 아프고 괴로운 것이 좋아하게 되어 버린 거네」
+				DATAFORM 「졸라대져 있고 아이이니까, 특별히 안쪽의 안쪽까지 흘러 들어가 준다」
+				DATAFORM 「좋아요. 청소계가 아니지만, 사랑스러운 애완동물이니까 관리 해 준다」
+				DATALIST
+					DATAFORM 「마개를 밀어 내려고 해, 흠칫흠칫 움직여 불쌍하구나」
+					DATAFORM 「쓸데없는 노력하는 %CALL_DIRTY_K10("Ａ")%, 기특하고 사랑스러워요」
+				ENDLIST
+			ENDDATA
+		ELSE
+			PRINTFORML 「더럽혀도 좋은거야」
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;촉수계
+IF SELECTCOM >= 200 && SELECTCOM <= 219
+	IF SELECTCOM >= 200
+		;순공격
+		IF IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「늘렸으면 좋지요?   저급 음마와 놀려 준다」
+				DATAFORM 「내가 조종하기 때문에, 놀아 주세요」
+				DATAFORM 「그 아이와 노세요. 내 준다」
+			ENDDATA
+		;봉사 공격
+		ELSE
+			PRINTDATAL
+				DATAFORM 「나의 애완동물이 마음에든다인 거네. 놀려 주어요」
+				DATAFORM 「전신 범해지고 싶은거네」
+				DATAFORM 「이 아이, %CALLNAME_K10(레밀리아_대상)%의 일 먹어 버릴 수 있는거야. 나와 같음」
+			ENDDATA
+		ENDIF
+	ELSE
+		;순공격
+		IF IS_INITIATIVE(레밀리아)
+			PRINTDATAL
+				DATAFORM 「익숙해지면 사랑스럽지요?   익숙해지세요」
+				DATAFORM 「싫어한다와 불쌍하겠지. 기분좋게해줘 주는데」
+				DATAFORM 「의지가 되는 아이이니까, 늘려 주어도 좋은거야. %CALLNAME_K10(레밀리아_대상)%의 배로 말야」
+			ENDDATA
+		;봉사 공격
+		ELSE
+			PRINTDATAL
+				DATAFORM 「나의 애완동물이 마음에든다인 거네. 놀려 주어요」
+				DATAFORM 「전신 범해지고 싶은거네」
+				DATAFORM 「그 아이, %CALLNAME_K10(레밀리아_대상)%의 일 먹어 버릴 수 있는거야. 나와 같음」
+			ENDDATA
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;기분이 안좋은 상태로 이야기할 수 있는 것은 여기까지
+IF GROUPMATCH(레밀리아기분, "원한", "분노", "분개", "암울", "슬픔", "우울", "광기", "공포", "겁냄")
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;◆기분이 나쁘면 말하지 않는다
+;─────────────────────────────────────── 
+;페니스밴드장착시는 범용 공격을 말하지 않는다
+IF SELECTCOM == 50
+	PRINT 「
+	PRINTDATA
+		DATAFORM %SPLIT_R("이:")%진짜를 빼닮은 %CALL_DIRTY_K10("Ｐ")%로
+		DATAFORM 굉장함%CALL_DIRTY_K10("Ｐ")%겠지?   이것으로
+		DATAFORM %SPLIT_R("이:")%굵은 완구로
+		DATAFORM %SPLIT_R("이:")%주름 상자의 완구로
+		DATAFORM %SPLIT_R("이:")%진동하는 완구로
+		DATAFORM %SPLIT_R("이:")%꾸불꾸불 움직이는 완구로
+		DATAFORM 이것 이상한 형태의 완구군요. 이것으로
+	ENDDATA
+	PRINTDATA
+		DATAFORM 범했으면 좋아?
+		DATAFORM 귀여워해 준다
+		DATAFORM 안아 준다
+		DATAFORM 좋은 와로 해 준다
+	ENDDATA
+	PRINTFORML 」
+	RETURN 0
+ENDIF
+
+;1대 1의 성교계
+IF ( IS_MPLY(레밀리아) && ( GROUPMATCH(SELECTCOM, 30, 31, 32, 33, 34, 35, 36)||GROUPMATCH(SELECTCOM, 40, 41, 42, 43, 44, 45, 46) ) ) || ( IS_EQUIP_PLAYER(레밀리아, 30, 31, 32, 33, 34, 35, 36) || IS_EQUIP_PLAYER(레밀리아, 40, 41, 42, 43, 44, 45, 46) )
+	IF HAS_PENIS(레밀리아)
+		LOCALS:0 '= CALL_DIRTY_K10("Ｐ")
+		LOCALS:1 '= ""
+	ELSE
+		LOCALS:0 '= "완구의" + CALL_DIRTY_K10("Ｐ")
+		LOCALS:1 '= "의 흉내를"
+	ENDIF
+	;주도권이 있다
+	IF IS_INITIATIVE(레밀리아)
+		;함락이 있다
+		IF CHECK_K10("함락", 레밀리아_대상)
+			;새드 소질로 이따금
+			IF GETBIT(TALENT:레밀리아:음란계, 소질_음란_새드) && RAND:10 == 0
+				IF IS_MALE(레밀리아_대상)
+					PRINTFORML 「여자에게 범해지는 것이 좋아?   변태」
+				ELSE
+					PRINTFORML 「%조사처리(LOCALS:0,"라")%면 뭐든지 좋은거야?   변태」
+				ENDIF
+			;새드 소질로 이따금
+			ELSEIF GETBIT(TALENT:레밀리아:음란계, 소질_음란_새드) && RAND:10 == 0
+				IF HAS_PENIS(레밀리아)
+					;Ａ삽입
+					IF GROUPMATCH(SELECTCOM, 40, 41, 42, 43, 44, 45, 46) || IS_EQUIP_PLAYER(레밀리아, 40, 41, 42, 43, 44, 45, 46)
+						PRINTFORML 「%CALL_DIRTY_K10("Ａ")%에 내 준닷」
+					;Ｖ삽입
+					ELSE
+						PRINTFORML 「%CALL_DIRTY_K10("Ｖ")%에 내 준다. 흡혈귀의 피를 받아 들이세요」
+					ENDIF
+				ENDIF
+			ELSE
+				PRINTDATAL
+					DATAFORM 「너는 나의 것이야. 기뻐하세요」
+					DATAFORM 「%조사처리(LOCALS:0,"를")% 좋아하는 것이지요?   심까지 나에게 떨어지세요」
+				ENDDATA
+			ENDIF
+		;함락이 없다
+		ELSE
+			;새드 소질로 이따금
+			IF GETBIT(TALENT:레밀리아:음란계, 소질_음란_새드) && RAND:10 == 0
+				IF IS_MALE(레밀리아_대상)
+					PRINTFORML 「여자에게 범해지는 것을 좋아한다 라고, 터무니 없는 암캐군요」
+				ELSE
+					PRINTFORML 「%CALL_DIRTY_K10("Ｐ")%라면 뭐든지 좋은 것일까?   터무니 없는 암캐군요」
+				ENDIF
+			ELSE
+				PRINTDATAL
+					DATAFORM 「이봐요 이봐요. %LOCALS:0%정말 좋아합니다는 우세요」
+					DATAFORM 「여기가 좋겠지요?   이봐요」
+					DATAFORM 「%조사처리(ANAME(레밀리아_대상),"는")% %조사처리(LOCALS:0,"를")% 잡아당기기 위한 구멍이라고 말하세요」
+					DATAFORM 「%조사처리(LOCALS:0,"로")% 씨뿌리기%LOCALS:1%해 주어요」
+				ENDDATA
+			ENDIF
+		ENDIF
+
+	;주도권이 없다
+	ELSE
+		PRINTDATAL
+			DATAFORM 「아앗. 기분이 좋다」
+			DATAFORM 「내자……! 　%CALLNAME_K10(레밀리아_대상, "")%……좋은?」
+		ENDDATA
+	ENDIF
+ENDIF
+
+;손가락 애무
+IF IS_MTAR(레밀리아) && GROUPMATCH(SELECTCOM, 0, 1, 3, 4, 10) || IS_EQUIP_TARGET(레밀리아, 0, 1, 3, 4, 10)
+	IF CHECK_K10("함락", 레밀리아_대상)
+		PRINTDATAL
+			DATAFORM 「나의 손가락으로 기뻐하세요」
+			DATAFORM 「나의 손가락으로 기쁘게 해 주어요」
+			DATAFORM 「이렇게 되는 것이 좋지요?   이렇게 해」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM 「손대어 기쁘게 해 주어요」
+			DATAFORM 「이렇게 되는 것이 좋지요?   이렇게 해」
+		ENDDATA
+	ENDIF
+ENDIF
+
+;다리 애무
+IF IS_MPLY(레밀리아) && GROUPMATCH(SELECTCOM, 14) || IS_EQUIP_PLAYER(레밀리아, 14)
+	IF CHECK_K10("함락", 레밀리아_대상)
+		PRINTDATAL
+			DATAFORM 「나의 다리에 비비어져 기뻐하세요」
+			DATAFORM 「발가락으로 기쁘게 해 주어요」
+			DATAFORM 「밟혀 몸부림치세요」
+			DATAFORM 「밟아 주어요」
+			DATAFORM 「구두를 신어?   힘든 편을 좋아하는 것이지요」
+			DATAFORM 「이렇게 되는 것이 좋지요?   이렇게 해」
+		ENDDATA
+	ELSE
+		PRINTDATAL
+			DATAFORM 「밟혀 기뻐하세요」
+			DATAFORM 「밟아 주어요」
+			DATAFORM 「이렇게 되는 것이 좋지요?   이렇게 해」
+		ENDDATA
+	ENDIF
+ENDIF
+
+;완구 애무
+IF IS_MTAR(레밀리아) && GROUPMATCH(SELECTCOM, 60, 61, 62, 63, 64, 65, 66) || IS_EQUIP_TARGET(레밀리아, 60, 61, 62, 63, 64, 65, 66)
+	PRINTDATAL
+		DATAFORM 「인형에게 완구, 어울려요. 사랑스럽지 않아」
+		DATAFORM 「이 나의 손가락보다 완구를 좋아해?   완구가 싫게 될 때까지 완구로 벌이야」
+		DATAFORM 「이 완구는 가축으로부터 피를 짜는 착유기 같은 것이군요」
+	ENDDATA
+ENDIF
+
+;─────────────────────────────────────── 
+;◆범용 공격（커맨드 번호에 관련되지 않고 소스를 본다）
+;─────────────────────────────────────── 
+CALL TEASE_K10(레밀리아_대상)
+
+;─────────────────────────────────────── 
+;◆돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+
+;─────────────────────────────────────── 
+;■침실_공격_실행 후
+;─────────────────────────────────────── 
+@KOJO_K10_NIGHT_AFTER_TOP(레밀리아_대상)
+#DIM 레밀리아
+#DIM 레밀리아_대상
+#DIMS 레밀리아기분
+#DIM 레밀리아_표시플래그
+#DIMS 레밀리아_최대부위칭
+
+IF !레밀리아_대상
+	레밀리아_대상 = MASTER
+ENDIF
+
+레밀리아 = NAME_TO_CHARA("레밀리아")
+레밀리아기분 '= TOSTR_EMOTION(레밀리아)
+
+;이 근처의 DIM는 SOURCE_K10계의 유용
+레밀리아_표시플래그 = 0
+레밀리아_최대부위칭 '= ""
+
+;─────────────────────────────────────── 
+;◆불쾌함
+;─────────────────────────────────────── 
+SELECTCASE 레밀리아기분
+	CASE "원한", "분노", "분개"
+		RETURN 0
+	CASE "암울", "슬픔", "우울"
+		RETURN 0
+	CASE  "광기", "공포", "겁냄"
+		RETURN 0
+ENDSELECT
+
+;─────────────────────────────────────── 
+;◆기분이 안좋지 않다
+;─────────────────────────────────────── 
+;●Ｐ절정
+IF NOWEX:레밀리아_대상:사정 > NOWEX:레밀리아_대상:Ｃ절정 && NOWEX:레밀리아_대상:사정 > NOWEX:레밀리아_대상:Ｂ절정 && NOWEX:레밀리아_대상:사정 > NOWEX:레밀리아_대상:Ａ절정 && NOWEX:레밀리아_대상:사정 > NOWEX:레밀리아_대상:Ｍ절정 && NOWEX:레밀리아_대상:사정 >NOWEX:레밀리아_대상:Ｖ절정
+	레밀리아_표시플래그 = 1
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｐ")
+;●Ｃ절정
+ELSEIF NOWEX:레밀리아_대상:Ｃ절정 >NOWEX:레밀리아_대상:Ｖ절정 && NOWEX:레밀리아_대상:Ｃ절정 > NOWEX:레밀리아_대상:Ｂ절정 && NOWEX:레밀리아_대상:Ｃ절정 > NOWEX:레밀리아_대상:Ａ절정 && NOWEX:레밀리아_대상:Ｃ절정 > NOWEX:레밀리아_대상:Ｍ절정 && NOWEX:레밀리아_대상:Ｃ절정 > NOWEX:레밀리아_대상:사정
+	레밀리아_표시플래그 = 1
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｃ")
+;●Ｖ절정
+ELSEIF NOWEX:레밀리아_대상:Ｖ절정 > NOWEX:레밀리아_대상:Ｃ절정 &&NOWEX:레밀리아_대상:Ｖ절정 > NOWEX:레밀리아_대상:Ｂ절정 && NOWEX:레밀리아_대상:Ｖ절정 > NOWEX:레밀리아_대상:Ａ절정 && NOWEX:레밀리아_대상:Ｖ절정 > NOWEX:레밀리아_대상:Ｍ절정 && NOWEX:레밀리아_대상:Ｖ절정 > NOWEX:레밀리아_대상:사정
+	레밀리아_표시플래그 = 1
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｖ")
+;●Ａ절정
+ELSEIF NOWEX:레밀리아_대상:Ａ절정 > NOWEX:레밀리아_대상:Ｃ절정 && NOWEX:레밀리아_대상:Ａ절정 > NOWEX:레밀리아_대상:Ｂ절정 && NOWEX:레밀리아_대상:Ａ절정 >NOWEX:레밀리아_대상:Ｖ절정 && NOWEX:레밀리아_대상:Ａ절정 > NOWEX:레밀리아_대상:Ｍ절정 && NOWEX:레밀리아_대상:Ａ절정 > NOWEX:레밀리아_대상:사정
+	레밀리아_표시플래그 = 1
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ａ")
+;●Ｂ절정
+ELSEIF NOWEX:레밀리아_대상:Ｂ절정 > NOWEX:레밀리아_대상:Ｃ절정 && NOWEX:레밀리아_대상:Ｂ절정 >NOWEX:레밀리아_대상:Ｖ절정 && NOWEX:레밀리아_대상:Ｂ절정 > NOWEX:레밀리아_대상:Ａ절정 && NOWEX:레밀리아_대상:Ｂ절정 > NOWEX:레밀리아_대상:Ｍ절정 && NOWEX:레밀리아_대상:Ｂ절정 > NOWEX:레밀리아_대상:사정
+	레밀리아_표시플래그 = 1
+	레밀리아_최대부위칭 '= CALL_DIRTY_K10("Ｂ")
+;●Ｍ절정
+ELSEIF NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ｃ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ｂ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:Ａ절정 && NOWEX:레밀리아_대상:Ｍ절정 >NOWEX:레밀리아_대상:Ｖ절정 && NOWEX:레밀리아_대상:Ｍ절정 > NOWEX:레밀리아_대상:사정
+	레밀리아_표시플래그 = 1
+	레밀리아_최대부위칭 '= "입"
+ENDIF
+
+;레밀리아에 주도권이 있으면, 레밀리아_대상이 어떠한 절정을 얻었을 경우에 코멘트 한다（우쭐해져서 부추긴다）
+IF IS_INITIATIVE(레밀리아) && 레밀리아_표시플래그 == 1
+	;레밀리아_대상으로Ｐ가 있어, 사정했을 경우
+	IF HAS_PENIS(레밀리아_대상) && NOWEX:레밀리아_대상:사정 > 0
+		;레밀리아_대상이 남성
+		IF IS_MALE(레밀리아_대상)
+			PRINTDATAL
+				DATAFORM 「%레밀리아_최대부위칭%로 가고 있는 거야?   아직 짜낼 수 있을 것 같구나」
+				DATAFORM 「%레밀리아_최대부위칭%로 가 나와 버린 거네」
+				DATAFORM 「%레밀리아_최대부위칭%말한 거네. 나를 위해서(때문에) 다 내세요」
+				DATAFORM 「좋은 냄새. 좀 더%레밀리아_최대부위칭%를을 괴롭히면 낼 수 있어?   이러하겠지」
+				DATAFORM 「아직 부족해요. 흰 피. 짜내세요」
+				DATAFORM 「그 피는 전부, 나의 것이야」
+				DATAFORM 「이 흰 피는 마를 때까지 들이마셔도 시체는 되지 않네요. 이봐요」
+				DATAFORM 「나왔다 나왔다……좀 더 내세요」
+				DATAFORM 「%레밀리아_최대부위칭%를 이렇게 하면 좀 더 나와?   좀 더 강하고 이렇게 하면」
+				DATAFORM 「맛있을 것 같은 피의 냄새. 이봐요 여승이다 내」
+				DATAFORM 「이 흰 피라면 흘려도 얼룩은 되지 않네요. 내도 좋아요」
+				DATAFORM 「%레밀리아_최대부위칭%를 만지작거리면 아직 짜낼 수 있는거네요?   라고 내세요」
+				DATAFORM 「나 소식하지만, 이 흰 피로 식사를 하면 전혀 부족한거야. 아직」
+				DATALIST
+					DATAFORM 「무슨 일이야?   조금 전까지 그렇게 기뻐하고 있던 것이겠지」
+					DATAFORM 「%레밀리아_최대부위칭%계속해 준다. 아직 부족한 것」
+				ENDLIST
+				DATAFORM 「여기로부터 나와 있는거죠?   짜 준다. 이봐요」
+			ENDDATA
+		;레밀리아_대상이 여성
+		ELSE
+			PRINTDATAL
+				DATAFORM 「%레밀리아_최대부위칭%로 가고 있는 거야?   아직 짜낼 수 있을 것 같구나」
+				DATAFORM 「%레밀리아_최대부위칭%로 가 사정한 거네」
+				DATAFORM 「%레밀리아_최대부위칭%말한 거네. 나를 위해서(때문에) 다 내세요」
+				DATAFORM 「좋은 냄새. 좀 더%레밀리아_최대부위칭%를을 괴롭히면 낼 수 있어?   이러하겠지」
+				DATAFORM 「여자아이인데 이렇게 내, 기분이 좋아?」
+				DATAFORM 「아직 부족해요. 흰 피. 여자아이 %레밀리아_최대부위칭%로부터 짜내세요」
+				DATAFORM 「그 피는 전부, 나의 것이야」
+				DATAFORM 「이 흰 피는 마를 때까지 들이마셔도 시체는 되지 않네요. 이봐요」
+				DATAFORM 「나왔다 나왔다……%레밀리아_최대부위칭%가 좋은거야?   좀 더 내세요」
+				DATAFORM 「%레밀리아_최대부위칭%를 이렇게 하면 좀 더 나와?   좀 더 강하고 이렇게 하면」
+				DATAFORM 「맛있을 것 같은 피의 냄새. 이봐요 여승이다 내」
+				DATAFORM 「이 흰 피라면 흘려도 얼룩은 되지 않네요. 내도 좋아요」
+				DATAFORM 「%레밀리아_최대부위칭%를 만지작거리면 아직 짜낼 수 있는거네요?   라고 내세요」
+				DATAFORM 「나 소식하지만, 이 흰 피로 식사를 하면 전혀 부족한거야. 아직」
+				DATALIST
+					DATAFORM 「무슨 일이야?   조금 전까지 그렇게 기뻐하고 있던 것이겠지」
+					DATAFORM 「%레밀리아_최대부위칭%계속해 준다. 아직 부족한 것」
+				ENDLIST
+			ENDDATA
+		ENDIF
+	;레밀리아_대상으로Ｐ가 있어, 사정하지 않았던 경우
+	ELSEIF HAS_PENIS(레밀리아_대상)
+		;레밀리아_대상이 남성
+		IF IS_MALE(레밀리아_대상)
+			PRINTDATAL
+				DATAFORM 「%레밀리아_최대부위칭%는 가 그런 것인데, 나오지 않네요」
+				DATAFORM 「이제(이미/벌써/더는/정말) 다 이제(이미/벌써/더는/정말) 내 버렸어?   말한 것 같은 것에, 나오지 않네요」
+				DATAFORM 「나오지 않는거야?   아직 부족해요. 흰 피. 짜내세요」
+				DATAFORM 「나오지 않게 되어 버렸어?   나의 밥은 벌써 끝나?」
+				DATAFORM 「나오지 않는거네. %레밀리아_최대부위칭%를 이렇게 하면 좀 더 나와?   좀 더 강하고 이렇게 하면?」
+				DATAFORM 「맛있을 것 같은 피의 냄새는 나는데, 나오지 않네요. 얇고……좀 더 노력해?」
+				DATAFORM 「내도 좋다고 말하고 있는데. 낼 수 없는거야?」
+				DATAFORM 「재미없네요. 말하고 있는데 나오지 않는다니. 사정하세요」
+				DATAFORM 「나오지 않아도 무리하게 짜내세요」
+				DATAFORM 「나오지 않아요. 무리하게 내게 하면 우려해?   희어도 나를 우려하는 인간의 피가 맛있어요」
+				DATAFORM 「흰 피를 낼 수 없으면, 붉은 피를 빨아들여요. 무서우면 사정하세요」
+				DATAFORM 「이제 남지 않은거야?」
+				DATAFORM 「내지 않고 말했어?   벌써 끝나?   아직 부족해요」
+				DATAFORM 「나오지 않는거야?   내지 않는 기분?   내가 손대어 주고 있는데」
+				DATAFORM 「재미없네요. 말해도 나오지 않는다니. 사정하세요」
+				DATALIST
+					DATAFORM 「무엇을 혼자서 기뻐하고 있는 거야?   분명하게 맛있는 것을 내세요」
+					DATAFORM 「그렇지 않으면, 추잡함%레밀리아_최대부위칭%에 바늘을 찔러 벌이야」
+				ENDLIST
+				DATALIST
+					DATAFORM 「무슨 일이야?   조금 전까지 그렇게 기뻐했었는데, 나오지 않아요」
+					DATAFORM 「%레밀리아_최대부위칭%계속해 준다. 아직 부족한 것」
+				ENDLIST
+			ENDDATA
+		;레밀리아_대상이 여성
+		ELSE
+			PRINTDATAL
+				DATAFORM 「%레밀리아_최대부위칭%는 가 그런 것인데, 나오지 않네요」
+				DATAFORM 「이제(이미/벌써/더는/정말) 다 이제(이미/벌써/더는/정말) 내 버렸어?   여자아이이니까 내지 않아도 괜찮다고 생각하고 있어?」
+				DATAFORM 「나오지 않는거야?   모처럼 붙어 있기에, 짜내세요」
+				DATAFORM 「나오지 않게 되어 버렸어?   나의 밥은 벌써 끝나?」
+				DATAFORM 「나오지 않는거네. %레밀리아_최대부위칭%를 이렇게 하면 좀 더 나와?   좀 더 강하고 이렇게 하면?」
+				DATAFORM 「맛있을 것 같은 피의 냄새는 나는데, 나오지 않네요. 얇고……좀 더 노력해?」
+				DATAFORM 「내도 좋다고 말하고 있는데. 낼 수 없는거야?」
+				DATAFORM 「재미없네요. 꿀의 냄새는 나는데, 흰 피가 나오지 않아요. 잘 나오고 하세요」
+				DATAFORM 「나오지 않아도 무리하게 짜내세요」
+				DATAFORM 「나오지 않아요. 무리하게 내게 하면 우려해?   희어도 나를 우려하는 인간의 피가 맛있어요」
+				DATAFORM 「흰 피를 낼 수 없으면, 붉은 피를 빨아들여요. 무서우면 사정하세요」
+				DATAFORM 「이제 남지 않은거야?」
+				DATAFORM 「내지 않고 말했어?   벌써 끝나?   아직 부족해요」
+				DATAFORM 「나오지 않는거야?   내지 않는 기분?   내가 손대어 주고 있는데」
+				DATAFORM 「재미없네요. 말해도 나오지 않는다니. 사정하세요」
+				DATALIST
+					DATAFORM 「무엇을 혼자서 기뻐하고 있는 거야?   분명하게 맛있는 것을 내세요」
+					DATAFORM 「그렇지 않으면, 추잡함%레밀리아_최대부위칭%에 바늘을 찔러 벌이야」
+				ENDLIST
+				DATALIST
+					DATAFORM 「무슨 일이야?   조금 전까지 그렇게 기뻐했었는데, 나오지 않아요」
+					DATAFORM 「%레밀리아_최대부위칭%계속해 준다. 아직 부족한 것」
+				ENDLIST
+			ENDDATA
+		ENDIF
+	;레밀리아_대상으로Ｐ가 없는 경우
+	ELSE
+		PRINTDATAL
+			DATAFORM 「%레밀리아_최대부위칭%로 갔어?   아직 긁어낼 수 있을 것 같구나」
+			DATAFORM 「%레밀리아_최대부위칭%로 가고 있는 거야?   밀의 양이 단번에 증가했어요. 이봐요, 좀 더 내」
+			DATAFORM 「계속해 가는 편이 투명한 피가 많이 나오겠죠. 아직 사세요」
+			DATAFORM 「좀 더%레밀리아_최대부위칭%새빨갛게 해 노력해. 깊게 가세요」
+			DATAFORM 「%레밀리아_최대부위칭%로 갔어?   좀 더 격렬하게 하지 않으면, 녹진녹진 의는 나오지 않는 것일까」
+			DATAFORM 「바보가 되어 버려도 좋아요. %레밀리아_최대부위칭%계속 사세요. 명령이야」
+			DATAFORM 「좀 더 질질 흘림이 되어. 맛있을 것 같은 냄새」
+			DATAFORM 「부족해요. 꿀은 얇은거야. %레밀리아_최대부위칭%좀 더 깊게 말해」
+			DATAFORM 「녹진녹진. 조금 진해요. 좀 더 꿀을 늘어뜨리세요」
+			DATAFORM 「맛있을 것 같은 피의 냄새」
+			DATAFORM 「%레밀리아_최대부위칭%를 만지작거리면 밀이 짜낼 수 있는 거네. 좀 더 늘어뜨리세요」
+			DATALIST
+				DATAFORM 「무엇을 혼자서 기뻐하고 있는 거야?   분명하게 맛있는 밀을 적시세요」
+				DATAFORM 「그렇지 않으면, 추잡함%레밀리아_최대부위칭%에 바늘을 찔러 벌이야」
+			ENDLIST
+			DATALIST
+				DATAFORM 「무슨 일이야?   조금 전까지 그렇게 기뻐하고 있던 것이겠지」
+				DATAFORM 「%레밀리아_최대부위칭%계속해 준다. 아직 부족한 것」
+			ENDLIST
+		ENDDATA
+	ENDIF
+	레밀리아_표시플래그 = 0
+ENDIF
+
+
+;─────────────────────────────────────── 
+;◆돌아온다
+;─────────────────────────────────────── 
+RETURN 0
+

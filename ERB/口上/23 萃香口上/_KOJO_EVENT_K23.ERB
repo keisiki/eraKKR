@@ -1,0 +1,2104 @@
+﻿;-------------------------------------------------
+;이벤트 구상
+;-------------------------------------------------
+
+;=================================================
+;●각종 이벤트
+;※ARG에 이벤트번호가 들어간다. 자세하게는 자료 폴더의 「era 연희 이벤트표」를 참조
+;※RETURN의 값을 0→1으로 바꾸면, Default의 메세지가 표시되지 않게 된다
+;=================================================
+@KOJO_EVENT_K23(ARG)
+
+;-------------------------------------------------
+;퍼스트 키스 실행
+;-------------------------------------------------
+IF ARG == 1
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		PRINTFORML 「응……, 후아……응후후♪ 나의 “처음”은 어때?」
+		PRINTFORMW 입술을 떼어 놓으면, %조사처리(ANAME(TARGET),"는")% 상냥한 표정으로 물어 왔다
+		PRINTFORML 「좋았어?  는, 좀 더…해 주고?」
+		PRINTFORMW 눈을 치켜 뜨고 봄의 사랑스러운 간원에 응해, 다시 입술을 거듭했다
+		PRINTFORML 「앙……♥」
+		PRINTFORMW 욕심쟁이인 작은 오니가 만족할 때까지, 몇 번이나 입맞춤을 반복했다 
+	;연인
+	ELSEIF TALENT:연인
+		PRINTFORML 「응……, 후아……」
+		PRINTFORMW 입술을 떼어 놓으면, %조사처리(ANAME(TARGET),"는")% 조금 어딘지 부족한 것 같은 표정을 띄웠다
+		PRINTFORML 「저기, 다시 한 번…시, 싫엇! 역시 아무것도 아니야!」
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% 얼굴을 붉히며 당황하고 있다
+		
+	;그 이외
+	ELSE
+		PRINTFORML 「…이 %ANAME(TARGET)%님의 입술을 빼앗는다고는」
+		PRINTFORMW 입술을 떼어 놓으면, %조사처리(ANAME(TARGET),"는")% 입술에 손가락을 대어, 조금 쑥스러운 듯이 하고 있다
+		PRINTFORMW 「나의 “처음”을 올린 것이다. 제대로 책임져?」
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;고백 성공
+;-------------------------------------------------
+IF ARG == 2
+SETCOLOR 칼라_오렌지
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		PRINTFORML 
+		PRINTFORMW 「…진심이야?」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%의 고백에 놀라고 있다
+		PRINTFORML 
+		PRINTFORMW 「…나는 일단, 무서운 오니다……바보…」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 가까워져, 허리에 손을 써 껴안아 왔다.
+		PRINTFORML 
+		PRINTFORMW 「그렇지만 너의 그러한, 무서운 것 알지 못하고곳, 싫지 않은…이라고 말할까…」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 올려보고 말했다
+		PRINTFORML 
+		PRINTFORMW 「……나도…좋아해…%ANAME(MASTER)%의 일…」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(MASTER),"를")% 올려보는 %ANAME(TARGET)%의 뺨은, 붉게 물들고 있었다.
+		PRINTFORML 
+		PRINTFORMW 「하핫♪  우리들, 서로 서로 좋아하고 있었다는 것 보람」
+		PRINTFORML 
+		PRINTFORMW 뺨을 붉게 한 채로, %조사처리(ANAME(TARGET),"는")% 만면의 미소를 띄웠다.
+		PRINTFORML 
+		PRINTFORMW 「그러면, 지금부터 우리는 연인끼리라는 것이다. 재차, 앞으로도 아무쪼록!」
+		PRINTFORML 
+		PRINTFORML 
+		PRINTFORMW 
+		PRINTFORMW 「아, 덧붙여서 나는 바람기가 어떻게라든지 신경쓰지 않기 때문에. 남자는 생활력이 큰 일이다♪」
+		PRINTFORML 
+		PRINTFORMW 「그러니까 자꾸자꾸 바람둥이좋은. 아, 레이무라든지 어때? 저 녀석은 좋은 여자가 되겠어―♪」
+		PRINTFORML 
+	;그 이외
+	ELSE
+		PRINTFORML 
+		PRINTFORMW 「내가 좋아한다고? 후흥, 꽤 보는 눈이 있네요, %조사처리(ANAME(MASTER),"는")%」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% 표주박에 들어간 술을 부추겼다. 잠깐의 침묵.
+		PRINTFORML 
+		PRINTFORMW 「……좋아, 그 이야기 응했다. 나도 너의 일, 싫지 않기도 하고.」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 한쪽 눈을 감아 보였다.
+		PRINTFORML 
+		PRINTFORMW 「그러면, 지금부터 우리는 연인끼리라는 것이다. 재차, 앞으로도 아무쪼록」 
+		PRINTFORML 
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;고백 실패
+;-------------------------------------------------
+IF ARG == 3
+SETCOLOR 칼라_오렌지
+	PRINTFORML 「…응, 나쁘다. 기분은 알았지만, 지금은 그러한 기분이 될 수 없어」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 잠깐 고민한 후, 그렇게 말했다.
+	PRINTFORML 「뭐 그렇지만, %조사처리(ANAME(MASTER),"은")% 싫은 것이 아니야. 사실이야」
+	PRINTFORMW 「좀 더%조사처리(ANAME(MASTER),"을")% 지켜보게 해 받는다. 그렇게 하면, 나도 기분이 바뀔지도 모르기 때문에」
+	RESETCOLOR
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(술에 취함의 영향·합의는 얻을 수 없다)
+;-------------------------------------------------
+IF ARG == 4
+	PRINTFORMW 「조, 조금 기다려요. 아직 마음의 준비라는 녀석이」
+	PRINTFORML …
+	PRINTFORML ……
+	PRINTFORMW ………
+	PRINTFORML (으음무, 사정사정해져 버렸다…)
+	PRINTFORMW （나로서도 밀기에 약하구나…너무 취했는지）
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 마지못해면서, 신체를 맡기고 있다
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(합의를 취득)
+;-------------------------------------------------
+IF ARG == 5
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		PRINTFORML 
+		PRINTFORML 「앗! ……나를 안는지?   …후후, 그러면 자신만큼이 아니고, 나도 기분 좋게 해 주어라♪」
+		PRINTFORMW 밀어 쓰러트려져도 %조사처리(ANAME(TARGET),"는")% 저항하지 않고, %ANAME(MASTER)%에 신체를 맡기고 있다
+		PRINTFORML 「조, 조금 부끄럽구나…. 나의 신체 같은거 봐 즐거운 것이 아닐 것이다?」
+		PRINTFORML 그렇지 않다. 확실히 여성다운 풍만한 육체라고는 할 수 없겠지만
+		PRINTFORMW 술술 성장한 슬렌더인 손발과 형태가 좋은 가슴과 엉덩이의 밸런스, 무엇보다 희미하게 주홍을 띠는 피부의 아름다움이 매우 요염함
+		PRINTFORML 「…후후. 이 신체의 일, 그런 식으로 말해 주다는……호기심인 것이니까…♥」
+		PRINTFORML %조사처리(ANAME(TARGET),"는")% 뺨을 물들이면서, %ANAME(MASTER)%의 옷에 손을 댄다
+		PRINTFORMW 「자, %ANAME(MASTER)%도 벗어요. 당신의 신체도 보여 받는다♪」
+		PRINTFORML 
+	;그 이외
+	ELSE
+		PRINTFORML 
+		PRINTFORML 「나, 나 같은 신체로 좋은 것인지?   스스로 말하는 것도이지만, 땅딸보다?」
+		PRINTFORMW 그러한 것도 싫지 않아. 오히려 페이바릿트!
+		PRINTFORML 「그, 그런가……. 하아, 어쩔 수 없구나. 그렇지만 내 쪽도 기분 좋게 해요?」
+		PRINTFORMW 수수께끼의 무서움에 밀린 %조사처리(ANAME(TARGET),"는")%, 단념한 것처럼 옷을 벗기 시작했다
+		PRINTFORML 
+	ENDIF
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 실패
+;-------------------------------------------------
+IF ARG == 6
+	PRINTFORML 「오옷!? 조, 조금 대……―!」
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(TARGET)%에 휙 던져졌다.
+	PRINTFORML 「가, 갑자기 뭐 하는거야, 완전히!」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 얼굴을 새빨갛게 해 화나 있다
+	PRINTFORML 「사물에는 순서라는 것이 있을 것이다! 나라도 일단 여자다!」
+	PRINTFORMW 아픔에 신음하면서도, %조사처리(ANAME(MASTER),"는")% 필사적으로 고개를 숙여 사과했다.
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(이미 합의 있어)
+;-------------------------------------------------
+IF ARG == 7
+	;친애 or 예속
+	IF TALENT:친애 || TALENT:예속
+		SELECTCASE RAND:9
+			CASE 0
+				PRINTFORML 「하핫♪그 말, 기다리고 있었어, 응-……츗♥」
+				PRINTFORMW 「여기의 준비는 만전이니까―♪」
+				PRINTFORML 「자, %조사처리(ANAME(MASTER),"를")% 위한 오니의 신체, 충분히 맛보는거야♥」
+				PRINTFORMW 허리를 구불거리게 되어지면서, %조사처리(ANAME(TARGET),"는")% 음미롭게 웃는다
+			CASE 1
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 옷을 벗으면, 당신에 강하게 껴안는다.
+				PRINTFORMW 「절실히 생각한다. 오니(정도)만큼 애정 깊고 격렬한 것은 없다란 말야」
+				PRINTFORML 「……당신에게로의 나의 사랑, 맛봐 가요♥」
+				PRINTFORMW 정욕과 애정 투성이가 되고 빛나는 눈동자로 %조사처리(ANAME(TARGET),"는")% 열정적이게 속삭였다
+			CASE 2
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 옷을 벗으면, %ANAME(MASTER)%에 껴안았다
+				PRINTFORMW 「오늘 밤도 사랑해 줄래?   정말로 기뻐♥」
+				PRINTFORMW 평평한 가슴을 %ANAME(MASTER)%에 강압하면서, %조사처리(ANAME(TARGET),"는")% 기쁜듯이 웃었다
+			CASE 3
+				PRINTFORML 「하는지? ……이 호색가째♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 스스로 옷을 풀어헤쳐, %ANAME(MASTER)%의 손을 자신의 가슴에 꽉 눌렀다.
+				PRINTFORML 「이런 작은 신체에서도 당신은 분명하게 사랑해 준다…, 정말로 기뻐」
+				PRINTFORMW 「그러니까. 나도 가득 사랑해 준다. 가득 기분 좋게 해 줄거니까♥」
+			CASE 4
+				PRINTFORML 「이번은 내가 벗겨 준다. 이봐요-힘을 빼―」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%의 옷을 벗김에 걸렸다
+				PRINTFORML 「하핫, 이제(이미/벌써/더는/정말) 아래쪽은 펄떡펄떡이구나♪  나에게 벗겨져 흥분해 버린 것이다♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 기대로 가득 찬 눈으로 %조사처리(ANAME(MASTER),"를")% 보고 있다
+			CASE 5
+				PRINTFORML 「……후후♥뭐야?   벗는 곳 보고 싶은 것인지♪」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 뺨을 물들이면서, %ANAME(MASTER)%의 (분)편을 향해 옷을 벗기 시작했다
+				PRINTFORMW 「초롱초롱 볼 수 있는 것, 아직 조금 부끄럽지만…, %ANAME(MASTER)%에 보여 받는 것, 좋아…♥」
+			CASE 6
+				PRINTFORML 「아♥……후후, 겨우 사♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 일절 저항하지 않고, %ANAME(MASTER)%에 신체를 맡긴다
+				PRINTFORML 「%ANAME(MASTER)%에 안겼던 것은, 쭉 기다리고 있었으니까♥」
+				PRINTFORMW 「그러면 오늘 밤도, 가득 사랑해 줘♥」
+			CASE 7
+				PRINTFORML 「아핫♥  기다리고 있었습니다―♪」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 스스로 적극적으로 옷을 벗어, %ANAME(MASTER)%에 껴안아 왔다
+				PRINTFORMW 「자, 오늘 밤도 나를 취하게 해 줘♥」
+			CASE 8
+				PRINTFORML 「아, 오늘도 시라고 주는지?   후후, 라면 많이 기분 좋게 해 주고…♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 저항하는 일 없이, %ANAME(MASTER)%에 신체를 맡기고 있다
+				PRINTFORML 「후후, 당신에게 벗겨지는 것만으로, 왠지 행복한 기분이 된다♪」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 얌전하게 여겨지는 대로. 그 피부는 은은하게 주홍을 띠고 앞으로의 행위를 애타게 기다리고 있는 것 같다
+				PRINTFORMW 「이봐요 이봐요, 멍하니 하지 않고. %ANAME(MASTER)%도 벗어요♥」
+		ENDSELECT
+	ELSEIF TALENT:연모 || TALENT:복종 
+		SELECTCASE RAND:9
+			CASE 0
+				PRINTFORML 「그 말, 기다리고 있었어, 응-……츗」
+				PRINTFORMW 「오늘의 나는 한가닥 다르다」
+				PRINTFORML 「응후……사람이 무서워한 오니의 신체, 충분히 맛보는거야♥」
+				PRINTFORMW 허리를 구불거리게 되어지면서, %조사처리(ANAME(TARGET),"는")% 음미롭게 웃는다
+			CASE 1
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 옷을 벗으면, 당신에 껴안는다
+				PRINTFORMW 「알고 있을까? 오니(정도)만큼, 애정 깊고 격렬한 것은 없는 거야」
+				PRINTFORML 「……마셔도 다하지 않는 오니의 사랑, 맛볼까?」
+				PRINTFORMW 정욕과 연모 투성이가 되고 빛나는 눈동자로 %조사처리(ANAME(TARGET),"는")% 열정적이게 속삭였다
+			CASE 2
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 옷을 벗으면, %ANAME(MASTER)%에 껴안았다
+				PRINTFORMW 「오늘도 사랑해 줄래?   기쁘다♥」
+				PRINTFORMW 평평한 가슴을 %ANAME(MASTER)%에 강압하면서, %조사처리(ANAME(TARGET),"는")% 기쁜듯이 웃었다
+			CASE 3
+				PRINTFORML 「하는지? ……이 호색가째♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 옷을 풀어헤쳐, %ANAME(MASTER)%의 손을 자신의 가슴에 꽉 눌렀다
+				PRINTFORML 「가슴이나 엉덩이도 작지만 말야, 상태의 좋은 점이라면, 다른 여자에게도 지지 않아?」
+				PRINTFORMW 「그러니까,. 가득 사랑해, 가득 안아 늦는거야♥」
+			CASE 4
+				PRINTFORML 「그러면, 이번은 내가 벗겨 준다. 이봐요-힘을 뺀다」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%의 옷을 벗김에 걸렸다
+				PRINTFORML 「하핫, 이제(이미/벌써/더는/정말) 아래쪽은 준비만반같다. 이런 작은 녀석에게 벗겨져 흥분해 버렸는지?」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 기대로 가득 찬 눈으로 %조사처리(ANAME(MASTER),"를")% 보고 있다
+			CASE 5
+				PRINTFORML 「……무엇, 부끄럽기 때문에 빤히 보지 말아요」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 얼굴을 붉히며, %ANAME(MASTER)%에 등을 돌리고 옷을 벗기 시작했다
+				PRINTFORMW 「젠장-, 완전히 홀딱 반해 버렸군. 옷을 벗는 것이 이렇게 부끄럽다니……」
+			CASE 6
+				PRINTFORML 「아……후후, 기다리고 있었어♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 일절 저항하지 않고, %ANAME(MASTER)%에 신체를 맡긴다
+				PRINTFORML 「%ANAME(MASTER)%에 안겼던 것은, 지금은 기뻐서 어쩔 수 없어♥」
+				PRINTFORMW 「그러면 오늘도, 가득 자주(잘) 해 주고♥」
+			CASE 7
+				PRINTFORML 「아핫♥  기다리고 있었습니다―♪」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 스스로 적극적으로 옷을 벗어, %ANAME(MASTER)%에 껴안아 왔다
+				PRINTFORMW 「자, 오늘도 나에 취해 가 줘♥」
+			CASE 8
+				PRINTFORML 「아……하는지?   후후, 그러면 자신만큼이 아니고, 나도 기분 좋게 해 주어라♪」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 저항하는 일 없이, %ANAME(MASTER)%에 신체를 맡기고 있다
+				PRINTFORML 「……왠지 기특하다는?   아줌마인가. 반한 약점이라는 녀석이야」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 뺨을 물들여, %ANAME(MASTER)%의 옷에 손을 대었다
+				PRINTFORMW 「자, 멍하니 하지 않고. %ANAME(MASTER)%도 벗은 벗었다♪」
+		ENDSELECT
+	;그 이외
+	ELSE
+		PRINTFORML 「후흥, 나를 안고 싶은 것인지? 어쩔 수 없다」
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%의 눈앞에서 옷을 벗어 간다
+		PRINTFORMW 「%ANAME(MASTER)%도, 이런 작은 것 상대에게 자주(잘) 한다. 뭐, 거기에 교제하는 나도이지만」
+	ENDIF
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;:체력 한계(통상)
+;-------------------------------------------------
+IF ARG == 11
+	PRINTFORMW 「……어―? 조금 과음 해 버렸는지……」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;기력 한계(통상)
+;-------------------------------------------------
+IF ARG == 12
+	PRINTFORMW 「……어―? 조금 과음 해 버렸는지……」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;분노의 한계에서 되돌려 보내진다
+;-------------------------------------------------
+IF ARG == 13
+	PRINTFORML 「--지금 기분이 안좋아 공연히 화를 내다. 나가」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 불쾌함 노출한 채 화나 있는 것 같다…
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;슬픔의 한계에서 되돌려 보내진다
+;-------------------------------------------------
+IF ARG == 14
+	PRINTFORML 「오응은혜 은혜 은혜, -응은혜 은혜 은혜」
+	PRINTFORMW 대울음 상태의 %ANAME(TARGET)%에 내쫓아졌다…
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;분노의 한계에서 멋대로 돌아간다
+;-------------------------------------------------
+IF ARG == 15
+	PRINTFORML 「--돌아간다」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 불쾌함 노출한 채 돌아갔다…
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;슬픔의 한계에서 멋대로 돌아간다
+;-------------------------------------------------
+IF ARG == 16
+	PRINTFORML 「오응은혜 은혜 은혜, -응은혜 은혜 은혜」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 대울음으로 돌아갔다…
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;체력 한계(포로 조교)
+;-------------------------------------------------
+IF ARG == 17
+	PRINTFORMW 「이제(이미/벌써/더는/정말)…히라고……」
+	RETURN 0
+ENDIF
+
+ ;-------------------------------------------------
+;기력 한계(포로 조교)
+;-------------------------------------------------
+IF ARG == 18
+	PRINTFORMW 「이제(이미/벌써/더는/정말)…인내해……」
+	RETURN 0
+ENDIF
+
+ ;-------------------------------------------------
+;포로 조교로 두드려 일으킨다
+;-------------------------------------------------
+IF ARG == 19
+	PRINTFORMW 「후우……」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;데이트중에 저쪽에서 키스
+;-------------------------------------------------
+IF ARG == 20
+	IF RAND:3 == 0
+		PRINTFORML 
+		PRINTFORML 「%ANAME(MASTER)%, 여기 향해―」
+		PRINTFORMW 데이트의 돌아가는 길. %조사처리(ANAME(TARGET),"가")% 뒤로부터 말을 건다
+		PRINTFORML 무엇일거라고 뒤돌아 보자마자, 굉장한 힘으로 얼굴을 끌어 들일 수 있었다
+		PRINTFORMW 무슨 일이라고 생각하는 사이도 없고, %ANAME(TARGET)%에 입술을 빼앗긴다
+		PRINTFORML 「응…츄우……」
+		PRINTFORMW 입술을 혀로 비틀어 열어, 강한 술을 입으로 먹여 온다
+		PRINTFORML ……한동안 해, 간신히 개방되었다
+		PRINTFORML 술의 강함과 키스의 뜨거움에 어질 어질한다…
+		PRINTFORMW 「나누어 줌이야. 맛있을 것이다♥」
+	ELSEIF RAND:2 == 0
+		PRINTFORML 
+		PRINTFORML 「%ANAME(MASTER)%-. 응-, 츗…」
+		PRINTFORML 데이트중, %조사처리(ANAME(MASTER),"는")% %ANAME(TARGET)%에 입맞추고 되었다
+		PRINTFORMW 갑작스러운 대담 행동에, 조금 당황해 버린다
+		PRINTFORML 「뭐야, 입 맞춤은 싫은가?」
+		PRINTFORMW 「아이같은 녀석으로부터이지만 말야, 조금은 기뻐해요」
+		PRINTFORMW 「아, 얼굴이 새빨갛게 되었다  아? 나도 빨강? ……그러면, 무승부구나♥」
+	ELSE
+		PRINTFORML 
+		PRINTFORML 「%ANAME(MASTER)%、%ANAME(MASTER)%-」
+		PRINTFORMW %조사처리(ANAME(MASTER),"를")% 부르는 소리에 거절하는 향하면, 당돌하게 입술을 채워졌다.
+		PRINTFORML 장본인인 %조사처리(ANAME(TARGET),"는")% 뺨을 물들여, 에에 하고 %ANAME(MASTER)%에 미소지었다.
+		PRINTFORMW 「오니의 입맞춤은 어땠어? , 좀처럼 세 것이 아니야. 조금은 기뻐한다!」
+	ENDIF
+	RETURN 1
+ENDIF	
+
+;-------------------------------------------------
+;데이트중에 저쪽에서 고백
+;-------------------------------------------------
+IF ARG == 21
+SETCOLOR 칼라_오렌지
+	PRINTFORML 
+	PRINTFORMW 「……기다려. 이야기가 있다」
+	PRINTFORML 
+	PRINTFORMW 데이트의 돌아갈 때, %조사처리(ANAME(TARGET),"가")% 뒤로부터 말을 걸어 왔다
+	PRINTFORML 
+	PRINTFORMW 무엇?   와 뒤돌아 본 순간---
+	WAIT
+	PRINTFORML 
+	PRINTFORMW %ANAME(MASTER)%의 가슴에 %조사처리(ANAME(TARGET),"가")% 껴안아, 얼굴을 묻고 있었다
+	PRINTFORML 
+	PRINTFORML 「……나, 너를 좋아한다. 좋아하게 되어 버린, 같다」
+	PRINTFORML 
+	PRINTFORMW 껴안은 %조사처리(ANAME(TARGET),"로")%부터, 심장의 고동이 전해져 온다. 매우 큰 고동이
+	PRINTFORML 
+	PRINTFORMW 「바보 같은 일 말하고 있다는 것은 알고 있다. 나는 오니다. 오니가 이런 일…바보래」
+	PRINTFORML 
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 붉어진 눈으로 %조사처리(ANAME(MASTER),"를")% 올려본다
+	PRINTFORML 
+	PRINTFORMW 「그렇지만 좋아하는 것이다!%조사처리(ANAME(MASTER),"를")% 좋아한다! 이 기분에 거짓말은 붙이지 않는다! 억제할 수 없다!」
+	PRINTFORML 
+	PRINTFORMW 「나, 덜렁대고, 땅딸보이고, 여자의 매력 같은거 없을지도 모른닷」
+	PRINTFORML 
+	PRINTFORMW 「그렇지만, %조사처리(ANAME(MASTER),"가")% 말한다면 노력해 바꾼다! 약속한다!」
+	PRINTFORML 
+	PRINTFORMW 「그러니까 나와………교제해…주세요!」
+	PRINTFORML 
+	PRINTFORMW %ANAME(MASTER)%에 껴안는 %조사처리(ANAME(TARGET),"는")%, 힘 없게 떨고 있었다
+	PRINTFORML 
+	PRINTFORMW 허약하게 껴안는 %ANAME(TARGET)%의 모습은, 평상시보다 고의로 작고, 덧없는 것으로 보였다…
+	PRINTFORML 
+
+	CALL ASK_YN("받아들인다", "거절한다")
+
+	;고백을 받아들인다
+	IF RESULT == 0
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(TARGET)%의 머리를 상냥하게 어루만지면, 사랑스럽게 껴안았다.
+		PRINTFORML 
+		PRINTFORMW 그리고 %ANAME(TARGET)%의 얼굴을 응시해, 고백을 받아들였다
+		PRINTFORML 
+		PRINTFORMW 그 대답을 (들)물어, %조사처리(ANAME(TARGET),"는")% 파안했다. 기쁨으로부터, 굵은 눈물이 흘러넘쳤다
+		PRINTFORML 
+		PRINTFORMW 「기쁘다……%조사처리(ANAME(MASTER),"와")% 지금부터, 쭉 함께 있고 싶다……」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(TARGET)%에, 자신도 같은 기분이다, 라고 속삭였다.
+		PRINTFORML 
+		PRINTFORMW 「고마워요……수줍지만 기뻐. 오니의 마음을 열게 하다니 굉장한 것이야…」
+		PRINTFORML 
+		PRINTFORMW 「나, 이제(이미/벌써/더는/정말)%조사처리(ANAME(MASTER),"를")% 떼어 놓지 않는다. 절대 임종때까지 부부가 되어 주니까요……!」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에, 지금까지 보인 적이 없는 만면의 미소를 띄웠다
+		PRINTFORML 
+		PRINTFORMW 두 명은, 그대로 한동안 얼싸안아 서로의 따듯해짐을 느끼고 있었다
+		PRINTFORML 
+		PRINTFORMW 그것은 매우 행복한 시간이었다……
+	;고백 성공시는 TFLAG:4에 1을 대입
+		TFLAG:4 = 1
+
+	;고백을 거절한다
+	ELSE
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% %ANAME(TARGET)%의 어깨에 손을 따, 신체를 떼어 놓았다. 그것이 대답이었다
+		PRINTFORML 
+		PRINTFORMW 자신에게는 받아들일 수 없다. 적어도 지금은. 라고 전했다
+		PRINTFORML 
+		PRINTFORMW 「! 읏…그렇게……, 그렇네요…」
+		PRINTFORML 
+		PRINTFORMW %ANAME(MASTER)%에 거절된 %ANAME(TARGET)%의 눈동자로부터, 굵은 눈물이 흘러 떨어졌다
+		PRINTFORML 
+		PRINTFORMW …%조사처리(ANAME(TARGET),"는")% 잠깐 흐느껴 울고 있었지만, 이윽고 침착성을 되찾아…
+		PRINTFORML 
+		PRINTFORMW 「%ANAME(MASTER)%의 기분은 알았어……에서도 나는 단념하지 않는다!」
+		PRINTFORML 
+		PRINTFORMW 울어 붓게 한 눈을 빛내, %조사처리(ANAME(TARGET),"는")% 아직도 무너지지 않는 %ANAME(MASTER)%에의 생각을 태웠다
+		PRINTFORML 
+		PRINTFORMW 「1회나 2회정도의 옥쇄 따위로, 나의 이 생각은 사라지지 않아!」
+		PRINTFORML 
+		PRINTFORMW 「그런 어설픈 기분으로 좋아하게 되었지 않으니까!」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에, 확하고이빨을 보여 웃었다
+		PRINTFORML 
+		PRINTFORMW 그 쾌활함은, 언제나 대로의 %조사처리(ANAME(TARGET),"였")%다
+		PRINTFORML 
+		PRINTFORMW 「좋아하는 남자는 전력으로 휩쓴다! …는 없음으로 해도, 나는 아직도 단념하지 않으니까」
+		PRINTFORML 
+		PRINTFORMW 「절대%조사처리(ANAME(MASTER),"를")% 뒤돌아 보게 해 보이기 때문에! 각오 해 두어～」
+		PRINTFORML 
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% 그렇게 말해, %ANAME(MASTER)%에 손을 흔들어 돌아갔다…
+		PRINTFORML 
+		PRINTFORMW …%조사처리(ANAME(TARGET),"는")%, 차였다고 해 패이는 것 같은 성질은 아니었던 것 같다
+		PRINTFORML 
+		PRINTFORMW 오히려, 지금까지 이상으로 %ANAME(MASTER)%에의 생각을 불타오르게 했다
+		;고백 성공시는 TFLAG:4에 0을 대입
+		TFLAG:4 = 0
+	ENDIF
+	PRINTFORML 
+	RESETCOLOR
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;상대로부터 밀어 쓰러트려진다
+;-------------------------------------------------
+;합의 없음
+IF ARG == 22
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(TARGET),"가")% 준비한 술을 함께 마시고 있었다
+	PRINTFORMW 잠시 뒤, 갑자기 %ANAME(TARGET)%에 밀어 쓰러트려졌다
+	PRINTFORML 「술도 좋지만, 이번은 %조사처리(ANAME(MASTER),"를")% 맛봐 보고 싶구나」
+	PRINTFORMW 그렇게 속삭이면서, %ANAME(MASTER)%에 신체를 겹쳤다
+	PRINTFORMW %ANAME(TARGET)%의 센 힘도 있어, 되물리칠 수 있을 것 같지 않다
+	PRINTFORML 「응후후, 싫어한다상대를 억지로는의 특이한 것이구나」
+	PRINTFORMW 「자자, 이대로라면 개원～있고 오니에 습격당해 버리겠어～♪」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 완전히 그럴 기분이 들어, %ANAME(MASTER)%의 옷을 벗겨 간다…
+	PRINTFORML 
+	RETURN 1
+;합의 이루어＆취한 기세
+ELSEIF ARG == 23
+	PRINTFORML %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(TARGET),"가")% 준비한 술을 함께 마시고 있었다
+	PRINTFORMW 잠시 뒤, 갑자기%ANAME(MASTER)%의 몸이 달아오르기 시작했다
+	PRINTFORML 「이런이런, 어떻게 했던가?」
+	PRINTFORMW 그렇게 속삭이면서, %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+	PRINTFORMW %ANAME(TARGET)%의 센 힘도 있지만, 원래 신체에 힘이 들어가지 않는다…
+	PRINTFORML 「응후후…과연, 확실히 효과는 뛰어나구나」
+	PRINTFORMW 「이건, 인간들이 이 손을 사용하는 것도 안다는 것이다♪」
+	PRINTFORML …아무래도, 술에 뭔가 사들여지고 있던 것 같다
+	PRINTFORMW 오니가 그러한 수단을 사용하는 것은, 조금 어떨까라고 생각하지만…
+	PRINTFORML 「뭐 그래, 우리들 오니들은 이 손으로 심하게 퇴치 되어 온 것이다. 그러니까……」
+	PRINTFORMW 「가끔씩은 당하는 측도 맛보게 해 받는다♪」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 입맛을 다심 해, %ANAME(MASTER)%의 옷을 벗겨 간다…
+	PRINTFORML 
+	RETURN 1
+;합의 있어
+ELSEIF ARG == 24 
+	;음란 있어
+	IF GETBIT(TALENT:음란계, 소질_음란_음란)
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트리고, 신체를 접맞추어 왔다
+				PRINTFORML 「심한 녀석이야……심하게 애태움이라고 주어 버려 말야」
+				PRINTFORMW 「이봐요 봐요…나의 코코, 이제(이미/벌써/더는/정말) 흠뻑흠뻑이야…」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"로")% 보이도록(듯이) 스커트를 걷어올렸다
+				PRINTFORMW 이미 속옷의 의미를 이루지 않을 정도(수록), 애액이 흘러넘치고 있다
+				PRINTFORML 「%조사처리(ANAME(MASTER),"와")% 있는 것만으로 이렇게 되어 버리는…이니까, 분명하게 안아요」
+				PRINTFORML 「그렇지 않으면, 내가 너를 먹어 주기 때문에……♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시의 모습과는 전혀 다른, 요염한 분위기를 휘감고 있다…
+				PRINTFORML 
+			CASE 1
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 가슴에 걸쳐 왔다
+				PRINTFORML 「이봐 이봐…이것으로 끝은, 그렇다면 없기에붉지 않은가」
+				PRINTFORMW 「이봐요 봐요…나의 코코, 벌써 이렇게 되어있는……♥」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 걸친 채로 속옷을 벗어 던져, 눈앞에서 스커트를 넘겼다
+				PRINTFORML 그 비밀스런 장소는 벌써, %ANAME(MASTER)%의 육봉을 애타게 기다려 꿀이 흘러넘치고 비밀의 틈이 실룩거리고 있다
+				PRINTFORMW 「%조사처리(ANAME(MASTER),"와")% 하고 싶어서…, 여기는 아침부터 참고 있던 것이야…」
+				PRINTFORML 「그러니까……시야♥」
+				PRINTFORMW 앞으로의 행위를 기대해, %ANAME(TARGET)%의 표정은 한층 더 추잡하게 녹는다……
+				PRINTFORML 
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 얼굴과 얼굴을 맞댔다
+				PRINTFORML 「아핫♥어디 가자고의 %ANAME(MASTER)%. 나의 신체를 이렇게 (해) 둬♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 솜씨 좋게 서로의 옷을 벗어 던져, 유두를 핑 세워 애무를 기다려 바라고 있다
+				PRINTFORML 「오늘은 %조사처리(ANAME(MASTER),"와")% 얄이라고 결정하고 있던 것이다♪  그·러·니·까……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 신체에 손가락을 기게 한다
+				PRINTFORMW 「이번은 얌전하고…나에게 먹혀져 버려♥」
+				PRINTFORML 
+			CASE 3
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 입술을 거듭해 왔다
+				PRINTFORML 「응응……, 푸하. 어디 가자고의 %ANAME(MASTER)%. 밤은 지금부터야♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 난폭하게 옷을 벗어 던져, 스스로의 달아오른 신체를 접맞추어 온다
+				PRINTFORML 「오늘은 %조사처리(ANAME(MASTER),"와")% 시 싶어서 견딜 수 없는 기분이다…  그·러·니·까」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 신체에 손가락을 기게 한다
+				PRINTFORMW 「오늘은 체념해……나에게 먹혀져 끝인♥」
+				PRINTFORML 
+		ENDSELECT 
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 얼굴과 얼굴을 맞댔다
+				PRINTFORML 「이봐 이봐, 어디 가자고의 %ANAME(MASTER)%. 밤은 지금부터야♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 솜씨 좋게 서로의 옷을 벗어 던져, 피부를 거듭해 왔다
+				PRINTFORML 「오늘은 %조사처리(ANAME(MASTER),"와")% 시 싶은 기분이다♪  그·러·니·까……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 신체에 손가락을 기게 한다
+				PRINTFORMW 「이번은 얌전하고…나에게 먹혀져 버려♥」
+				PRINTFORML 
+			CASE 1
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 가슴에 걸쳐 왔다
+				PRINTFORML 「조금―, 이것으로 끝은, 그렇다면 없기에붉지 않은가」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 걸친 채로 속옷을 벗어 던져, 눈앞에서 스커트를 넘겼다
+				PRINTFORML 눈앞에서 비밀스런 장소를 과시하는 음미로운 행위에, %ANAME(MASTER)%의 육봉은 뭉실뭉실 일어난다
+				PRINTFORMW 「아핫♪코코는 건강하게 된 것 같다」
+				PRINTFORML 「자……계속되어, 시야♥」
+				PRINTFORML 
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트리고, 신체를 접맞추어 왔다
+				PRINTFORML 「심한 녀석이야……심하게 애태움이라고 주어 버려 말야」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 덮어눌러, 얼굴을 맞댔다
+				PRINTFORML 「이제 인내 할 수 없어……, %ANAME(MASTER)%, 나를 안아요」
+				PRINTFORML 「그렇지 않으면, 내가 너를 먹어 주기 때문에……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시의 모습과는 다른, 요염한 분위기를 휘감고 있다…
+				PRINTFORML 
+		ENDSELECT 
+	ENDIF
+	RETURN 1
+
+;합의 있어＆취한 기세
+ELSEIF ARG == 25
+	;음란 있어
+	IF GETBIT(TALENT:음란계, 소질_음란_음란)
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트리고, 신체를 접맞추어 왔다
+				PRINTFORML 「심한 녀석이야……심하게 애태움이라고 주어 버려 말야」
+				PRINTFORMW 「이봐요 봐요…나의 코코, 이제(이미/벌써/더는/정말) 흠뻑흠뻑이야…」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"로")% 보이도록(듯이) 스커트를 걷어올렸다
+				PRINTFORMW 이미 속옷의 의미를 이루지 않을 정도(수록), 애액이 흘러넘치고 있다
+				PRINTFORML 「%조사처리(ANAME(MASTER),"와")% 있는 것만으로 이렇게 되어 버리는…이니까, 분명하게 안아요」
+				PRINTFORML 「그렇지 않으면, 내가 너를 먹어 주기 때문에……♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시의 모습과는 전혀 다른, 요염한 분위기를 휘감고 있다…
+				PRINTFORML 
+			CASE 1
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 가슴에 걸쳐 왔다
+				PRINTFORML 「이봐 이봐…이것으로 끝은, 그렇다면 없기에붉지 않은가」
+				PRINTFORMW 「이봐요 봐요…나의 코코, 벌써 이렇게 되어있는……♥」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 걸친 채로 속옷을 벗어 던져, 눈앞에서 스커트를 넘겼다
+				PRINTFORML 그 비밀스런 장소는 벌써, %ANAME(MASTER)%의 육봉을 애타게 기다려 꿀이 흘러넘치고 녹진녹진이 되어 있다
+				PRINTFORMW 「%조사처리(ANAME(MASTER),"와")% 하고 싶어서…, 여기는 아침부터 참고 있던 것이야…」
+				PRINTFORML 「그러니까……시야♥」
+				PRINTFORMW 앞으로의 행위를 기대해, %ANAME(TARGET)%의 표정은 한층 더 추잡하게 녹는다……
+				PRINTFORML 
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 얼굴과 얼굴을 맞댔다
+				PRINTFORML 「아핫♥어디 가자고의 %ANAME(MASTER)%. 나의 신체를 이렇게 (해) 둬♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 솜씨 좋게 서로의 옷을 벗어 던져, 유두를 핑 세워 애무를 기다려 바라고 있다
+				PRINTFORML 「오늘은 %조사처리(ANAME(MASTER),"와")% 얄이라고 결정하고 있던 것이다♪  그·러·니·까……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 신체에 손가락을 기게 한다
+				PRINTFORMW 「이번은 얌전하고…나에게 먹혀져 버려♥」
+				PRINTFORML 
+			CASE 3
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 입술을 거듭해 왔다
+				PRINTFORML 「응응……, 푸하. 어디 가자고의 %ANAME(MASTER)%. 밤은 지금부터야♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 난폭하게 옷을 벗어 던져, 스스로의 달아오른 신체를 접맞추어 온다
+				PRINTFORML 「오늘은 %조사처리(ANAME(MASTER),"와")% 시 싶어서 견딜 수 없는 기분이다…  그·러·니·까」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 신체에 손가락을 기게 한다
+				PRINTFORMW 「오늘은 체념해……나에게 먹혀져 끝인♥」
+				PRINTFORML 
+		ENDSELECT 
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 얼굴과 얼굴을 맞댔다
+				PRINTFORML 「이봐 이봐, 어디 가자고의 %ANAME(MASTER)%. 밤은 지금부터야♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 솜씨 좋게 서로의 옷을 벗어 던져, 피부를 거듭해 왔다
+				PRINTFORML 「오늘은 %조사처리(ANAME(MASTER),"와")% 시 싶은 기분이다♪  그·러·니·까……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 신체에 손가락을 기게 한다
+				PRINTFORMW 「이번은 얌전하고…나에게 먹혀져 버려♥」
+				PRINTFORML 
+			CASE 1
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트려 가슴에 걸쳐 왔다
+				PRINTFORML 「조금―, 이것으로 끝은, 그렇다면 없기에붉지 않은가」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 걸친 채로 속옷을 벗어 던져, 눈앞에서 스커트를 넘겼다
+				PRINTFORML 눈앞에서 비밀스런 장소를 과시하는 음미로운 행위에, %ANAME(MASTER)%의 육봉은 뭉실뭉실 일어난다
+				PRINTFORMW 「아핫♪흥분했어?」
+				PRINTFORML 「자……계속되어, 시야♥」
+				PRINTFORML 
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트리고, 신체를 접맞추어 왔다
+				PRINTFORML 「심한 녀석이야……심하게 애태움이라고 주어 버려 말야」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 덮어눌러, 얼굴을 맞댔다
+				PRINTFORML 「이제 인내 할 수 없어……, %ANAME(MASTER)%, 나를 안아요」
+				PRINTFORML 「그렇지 않으면, 내가 너를 먹어 주기 때문에……」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 평상시의 모습과는 다른, 요염한 분위기를 휘감고 있다…
+				PRINTFORML 
+		ENDSELECT 
+	ENDIF
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;상대로부터 졸라대진다
+;-------------------------------------------------
+;합의 없음
+IF ARG == 26
+	PRINTFORML 「차린 밥상 먹지 않는은 남자의 수치야?」
+	PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%인 만큼 보이도록(듯이) 스커트를 천천히 집어올려,
+	PRINTFORMW 흰 허벅지를 노출시켰다
+	RETURN 0
+;합의 이루어＆취한 기세
+ELSEIF ARG == 27
+	PRINTFORML 「차린 밥상 먹지 않는은 남자의 수치야?」
+	PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%인 만큼 보이도록(듯이) 스커트를 천천히 집어올려,
+	PRINTFORMW 흰 허벅지를 노출시켰다
+	RETURN 0
+;합의 있어
+ELSEIF ARG == 28
+	PRINTFORML 「저기…해…♥」
+	PRINTFORML %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"로")% 하고 눈사태 담당자
+	PRINTFORMW %조사처리(ANAME(MASTER),"로")% 보이도록, 블라우스를 이끌어 유두를 과시해 왔다
+	RETURN 0
+;합의 있어＆취한 기세
+ELSEIF ARG == 29
+	PRINTFORML 「저기…해…♥」
+	PRINTFORML %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"로")% 하고 눈사태 담당자
+	PRINTFORMW  %조사처리(ANAME(MASTER),"로")% 보이도록, 블라우스를 이끌어 유두를 과시해 왔다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;거점 페이즈 종료(소속국가가 같으면 항상 불린다)
+;-------------------------------------------------
+IF ARG == 30
+SETCOLOR 칼라_오렌지
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		SELECTCASE RAND:20
+			CASE 0
+				PRINTFORML %ANAME(TARGET)% 「%ANAME(MASTER)%, 또 다음에 말야-」
+			CASE 1
+				PRINTFORML %ANAME(TARGET)% 「갔다옵니까―」
+			CASE 2
+				PRINTFORML %ANAME(TARGET)% 「즐거운 시간은 끝인가―. 그러면 다음은 싸움을 즐길까!」
+			CASE 3
+				PRINTFORML %ANAME(TARGET)% 「다음은 전장에서 마실까」
+			CASE 4
+				PRINTFORML %ANAME(TARGET)% 「그런데, 싸움이다 싸움이다-♪」
+			CASE 5
+				PRINTFORML %ANAME(TARGET)% 「잘 다녀오세요」
+			CASE 6
+				PRINTFORML %ANAME(TARGET)% 「울분 풀러 갑니까」
+			CASE 7
+				PRINTFORML %ANAME(TARGET)% 「찬 바람 짓거리라도 해 올까―」
+				PRINTFORML ……또 레이무에 시바 원숙해지겠어
+			CASE 8
+				PRINTFORML %ANAME(TARGET)% 「오, %ANAME(MASTER)%. 함께 갈까?」
+			CASE 9
+				PRINTFORML %ANAME(TARGET)% 「싸움은 좋다. 오니의 피가 끓는다」
+			CASE 10
+				PRINTFORML %ANAME(TARGET)% 「%ANAME(MASTER)%, 돌아가면 가득 하자♪」
+			CASE 11
+				PRINTFORML %ANAME(TARGET)% 「%ANAME(MASTER)%, 재미없는 것으로 죽는 것이 아니야?」
+			CASE 12
+				PRINTFORML %ANAME(TARGET)% 「만약의 경우가 되면 나를 불러. 곧바로 달려 들어 줄테니까♪」
+			CASE 13
+				PRINTFORML %ANAME(TARGET)% 「이런 난세의 공기, 옛날을 생각해 낸다…」
+			CASE 14
+				PRINTFORML %ANAME(TARGET)% 「오니의 힘의 발휘할 장면이구나」
+			CASE 15
+				PRINTFORML %ANAME(TARGET)% 「불성실할지도 모르지만, 이런 세상도 싫지 않아. 날뛸 수 있으니까요」
+			CASE 16
+				PRINTFORML %ANAME(TARGET)% 「험한 동작은 나에게 맡기는거야. 자, 가겠어―!」
+			CASE 17
+				PRINTFORML %ANAME(TARGET)% 「환상향에 오니가 돌아왔다고 알리게 해 준다고 하자」
+			CASE 18
+				PRINTFORML %ANAME(TARGET)% 「빨리 끝내 연회와 갈까♪」
+			CASE 19
+				PRINTFORML %ANAME(TARGET)% 「%ANAME(MASTER)%-, 가기 전에 가득 교제해―♪」
+		ENDSELECT 
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전략 페이즈 종료(소속국가가 같으면 항상 불린다)
+;-------------------------------------------------
+IF ARG == 31
+SETCOLOR 칼라_오렌지
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		SELECTCASE RAND:20
+			CASE 0
+				PRINTFORML %ANAME(TARGET)% 「오-%ANAME(MASTER)%, 다음에 가득 하자―♪」
+			CASE 1
+				PRINTFORML %ANAME(TARGET)% 「오우. 어서 오세요%ANAME(MASTER)%」
+			CASE 2
+				PRINTFORML %ANAME(TARGET)% 「천천히 마시겠어―」
+			CASE 3
+				PRINTFORML %ANAME(TARGET)% 「%ANAME(MASTER)%, 괜찮아? 상처는 없는가?」
+			CASE 4
+				PRINTFORML %ANAME(TARGET)% 「어딘가에 맛있는 술은 없는 것일까요-」
+			CASE 5
+				PRINTFORML %ANAME(TARGET)% 「다녀 왔습니다―♪」
+			CASE 6
+				PRINTFORML %ANAME(TARGET)% 「하-, 날뛰어 산뜻한♪」
+			CASE 7
+				PRINTFORML %ANAME(TARGET)% 「찬 바람 짓거리 하고 있으면, 어딘가로부터 지폐가 날아 왔어」
+				PRINTFORML ……레이무씨, 수고 하셨습니다
+			CASE 8
+				PRINTFORML %ANAME(TARGET)% 「오, %ANAME(MASTER)%. 그쪽은 어땠어?」
+			CASE 9
+				PRINTFORML %ANAME(TARGET)% 「피가 끓은 뒤는, 마시는 것에 한정한다!」
+			CASE 10
+				PRINTFORML %ANAME(TARGET)% 「아, %ANAME(MASTER)%. 가득 해?」
+			CASE 11
+				PRINTFORML %ANAME(TARGET)% 「좋아, %ANAME(MASTER)%의 생환을 기념해 연회를……에? 안 돼?」
+			CASE 12
+				PRINTFORML %ANAME(TARGET)% 「오우, %ANAME(MASTER)%♪지금 돌아가? 함께 돌아가자」
+			CASE 13
+				PRINTFORML %ANAME(TARGET)% 「다녀 왔습니다, %ANAME(MASTER)%. 그쪽은 무사했던가?」
+			CASE 14
+				PRINTFORML %ANAME(TARGET)% 「날뛰고 부족했다…」
+			CASE 15
+				PRINTFORML %ANAME(TARGET)% 「언젠가는 이 난세도 끝나는 걸까요……」
+			CASE 16
+				PRINTFORML %ANAME(TARGET)% 「험한 동작 타임은 끝났고. -삼키겠어―♪」
+			CASE 17
+				PRINTFORML %ANAME(TARGET)% 「싸움의 뒤는 신체가 고조되네요……%ANAME(MASTER)%, 상대 해♥」
+			CASE 18
+				PRINTFORML %ANAME(TARGET)% 「끝났다 끝났다-, 연회와 갈까―♪」
+			CASE 19
+				PRINTFORML %ANAME(TARGET)% 「돌아온 곳이야, %ANAME(MASTER)%? 꼭 좋았다, 가득 교제해―♪」
+		ENDSELECT 
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;취기 한계에서 넘어진다
+;-------------------------------------------------
+IF ARG == 32
+	PRINTFORMW 「…언제…가…」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;임신 발각
+;-------------------------------------------------
+IF ARG == 40
+	;포로 조교
+	IF CFLAG:9 == CFLAG:MASTER:1
+		;종 친불명
+		IF CFLAG:23 == 0
+			IF ABL:출산 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공인 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_ID(MASTER)
+			IF TALENT:연모 || TALENT:복종 || TALENT:친구
+				PRINTFORMW （나에게 아이가……. %조사처리(ANAME(MASTER),"와")%의 아이네…♥）
+			ELSEIF TALENT:연인 || TALENT:낙인
+				PRINTFORMW （나에게 아이가……. %조사처리(ANAME(MASTER),"와")%의 아이네…♥）
+			ELSE
+				IF ABL:출산 >= 3
+					;PRINTFORMW 
+				ELSE
+					;PRINTFORMW 
+				ENDIF
+			ENDIF
+		;촉수의 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_SPERM_ID("촉수")
+			;PRINTFORMW 
+		;다른 사관인 아이를 임신했다
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;포로 조교 이외
+	ELSE
+		;종 친불명
+		IF CFLAG:23 == 0
+			IF ABL:출산 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공인 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_ID(MASTER)
+			IF TALENT:연모 || TALENT:복종 || TALENT:친구
+				PRINTFORMW （나에게 아이가……. %조사처리(ANAME(MASTER),"와")%의 아이네…♥）
+			ELSEIF TALENT:연인 || TALENT:낙인
+				PRINTFORMW （나에게 아이가……. %조사처리(ANAME(MASTER),"와")%의 아이네…♥）
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;촉수의 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_SPERM_ID("촉수")
+			;PRINTFORMW 
+		;다른 사관인 아이를 임신했다
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;임월에 접어들었다
+;-------------------------------------------------
+IF ARG == 41
+	PRINTFORMW 「후~～…우리 일이면서, 이런 식으로 되는 것이군」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;아이를 출산했다
+;-------------------------------------------------
+IF ARG == 42
+	;부친의 캐릭터 번호를 LOCAL:0에 취득
+	LOCAL:0 = ID_TO_CHARA(CFLAG:23)
+
+	;주인공의 아이의 경우
+	IF LOCAL:0 == MASTER
+		IF TALENT:연모 || TALENT:복종 || TALENT:친구
+			PRINTFORMW （나하고 %ANAME(MASTER)%의 아이……너는 나의 보물이야…）
+		ELSEIF TALENT:연인 || TALENT:낙인
+			PRINTFORMW （나하고 %ANAME(MASTER)%의 아이……너는 나의 보물이야…）
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;종 친불명의 경우
+	ELSEIF CFLAG:23 == 0
+		;PRINTFORMW 
+	;다른 관직에 오름의 아이의 경우
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공에게 자신의 자식을 낳게 했다
+;-------------------------------------------------
+IF ARG == 43
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수의 아이를 출산했다
+;-------------------------------------------------
+IF ARG == 44
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;충성을맹세하게한다/성공
+;-------------------------------------------------
+IF ARG == 50
+	PRINTFORMW 「…알았어. 하아, 오니를 따르게 한다고는 굉장한 녀석이야」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;충성을맹세하게한다/실패
+;-------------------------------------------------
+IF ARG == 51
+	PRINTFORMW 「오니를 따르게 하게 하고 싶었으면, 이 정도는 부족하다」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/성공
+;-------------------------------------------------
+IF ARG == 52
+	PRINTFORML 「응-…, 뭐, 그것도 재미있을까」
+	PRINTFORMW 「알았어. 지금부터 아무쪼록, %ANAME(MASTER)%」
+	PRINTFORMW %조사처리(ANAME(TARGET),"와")% 악수를 주고 받았다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/실패
+;-------------------------------------------------
+IF ARG == 53
+	PRINTFORML 「응-…, 그만두어」
+	PRINTFORMW 「어째서는?   네-와…귀찮다」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/성공(포로 회화의 경우)
+;-------------------------------------------------
+IF ARG == 54
+	PRINTFORML （…희롱해지고 계속하는 것보다는 좋은가…）
+	PRINTFORMW 「알았어. 지금부터 잘 부탁드립니다」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/실패(포로 회화의 경우)
+;-------------------------------------------------
+IF ARG == 55
+	PRINTFORML 「거절한다」
+	PRINTFORMW 「…이렇게 보여도 의리가 있어서, 간단하게는 꼬리 흔들지 않아」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;연모를 취득
+;-------------------------------------------------
+IF ARG == 60
+	SETCOLOR 칼라_오렌지
+	PRINTFORMW 「…내가 사랑은, 무늬가 아니구나…」
+	PRINTFORML 「그렇지만…이 기분에는 거짓말할 수 없다…」
+	PRINTFORMW （나는, %조사처리(ANAME(MASTER),"가")%……좋아한다）
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;친구를 취득
+;-------------------------------------------------
+IF ARG == 61
+	SETCOLOR 칼라_오렌지
+	PRINTFORMW 「오우! 마음의 친구야!」
+	PRINTFORML 「뭔가 곤란한 일이 있으면 나에게 말해」
+	PRINTFORMW 「이 %ANAME(TARGET)%님이, 뭐든지 도와 줄테니까!」 
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;친애를 취득
+;-------------------------------------------------
+IF ARG == 62
+	SETCOLOR 칼라_오렌지
+	PRINTFORML （응, %ANAME(MASTER)%. 나, 지금 행복해）
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 사랑하는 것 같은 미소로, %조사처리(ANAME(MASTER),"를")% 응시하고 있다
+	PRINTFORML （오니를…나를, 여기까지 사랑해 준 녀석은 지금까지 없었어요）
+	PRINTFORMW （앞으로도, 쭉 함께 있어 줘……%ANAME(MASTER)%）
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;복종을 취득
+;-------------------------------------------------
+IF ARG == 63
+	SETCOLOR 칼라_오렌지
+	PRINTFORML （내가, 누군가에게 시중드는 날이 온다고는…）
+	PRINTFORMW 「좋아…. 이 이부키 %ANAME(TARGET)%의 몸, 마음대로 해 줘…」
+	PRINTFORMW 이미 단념한 것처럼, %조사처리(ANAME(TARGET),"는")% 고했다
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;예속을 취득
+;-------------------------------------------------
+IF ARG == 64
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「째라고…♥…이제(이미/벌써/더는/정말), 거역하지 않기 때문에……♥」
+	PRINTFORMW 거듭되는 조교의 성과인가, %조사처리(ANAME(TARGET),"는")% 완전하게 마음이 접히고 %ANAME(MASTER)%에 굴복 했다
+	PRINTFORML 「나는…%조사처리(ANAME(TARGET),"는")%, %ANAME(MASTER)%님이, 충성을 맹세합니다아♥」
+	PRINTFORML 「%ANAME(MASTER)%의, 유익의, 암캐가 됩니다…  약속, 합니다아…♥」
+	PRINTFORMW 오니의 자랑은 부서져, %ANAME(TARGET)%의 눈동자로부터 빛이 사라진다
+	PRINTFORMW 그리고 대신에 정욕을 켠 눈동자로 %조사처리(ANAME(MASTER),"를")% 올려봐 왔다
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음란을 취득
+;-------------------------------------------------
+IF ARG == 65
+	SETCOLOR 칼라_오렌지
+	PRINTFORMW 「아하…섹스는…이렇게 좋은 것이었던 것이다♥♥」
+	PRINTFORML 신체와 마음에 새겨진 쾌감의 갖가지가, %조사처리(ANAME(TARGET),"를")% 쾌락에 다 녹은 한마리의 암컷으로 바꾸었다
+	PRINTFORMW 「하아, 하아…두껍다아…몸, 쑤셔 두껍다아…♥♥」
+	PRINTFORML 원래 교양은 있었을 것이다. 욕망인 채 쾌락에 빠지는 그녀의 모습은, 매우 음미롭고 아름다웠다
+	PRINTFORMW 「좀 더, 좀 더…기분 좋고 시테♥♥」
+	PRINTFORML 눈동자에♥를 떠오르게 해 한층 더 쾌감을 조르는 %ANAME(TARGET)%
+	PRINTFORMW 방울져 떨어지는 만큼 꿀물을 방울져 떨어지게 해 추잡한 향기를 뿌리는 모습은, 이미 소녀의 것은 아니다
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 여자의 기쁨을 받아들이고 향수하는, 음란한 암컷 그 자체가 되었다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음핵을 취득
+;-------------------------------------------------
+IF ARG == 66
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「클리가 쑤셔…괴로운 것…♥♥」
+	PRINTFORMW 「아앗♥♥좀 더♥♥좀 더 만지작거려♥♥클리, 좀 더 괴롭혀엇♥♥」
+	PRINTFORML 많은 쾌감에 의해 개발 된 %ANAME(TARGET)%의 클리토리스는
+	PRINTFORMW 심상치 않은 쾌락으로 뇌를 녹이는 문자 그대로의 “약점”이 되었다
+	PRINTFORML 「좀 더…좀 더…%ANAME(TARGET)%의 콩, 가득 괴롭혀…♥♥」
+	PRINTFORMW 스스로 허리를 흔들어 클리토리스를 문질러, 새로운 쾌락을 탐내고 있다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음호를 취득
+;-------------------------------------------------
+IF ARG == 67
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「아앗♥♥좀 더♥♥좀 더 찔럿♥♥좀 더 동글동글 해엣♥♥♥♥」
+	PRINTFORML 많은 쾌감에 의해 개발 된 %ANAME(TARGET)%의 암컷구멍은
+	PRINTFORMW 육봉을 물 수밖에 생각할 수 없는, 음호화했다
+	PRINTFORML 「자지…뽑아서는 싫어어♥♥좀 더 자지 줘♥♥♥♥♥」
+	PRINTFORMW 눈동자에♥를 떠오르게 해 다음을 조르는 %ANAME(TARGET)%.
+	PRINTFORMW 그녀는 이미, 육봉 없음의 생활 따위 생각할 수 없는 신체가 되었다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;항문광을 취득
+;-------------------------------------------------
+IF ARG == 68
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「아앗♥♥좀 더♥♥좀 더 후벼팟♥♥좀 더 쑤컹쑤컹 해엣♥♥♥♥」
+	PRINTFORML 본래 알 리가 없었던 쾌감에 계속 노출된 %ANAME(TARGET)%의 엉덩이 구멍은
+	PRINTFORMW 이미 왕자지여도 주저 없게 물어, 쾌락을 탐내는 성감대가 되었다
+	PRINTFORML 「후아앗♥♥엉덩이로 느끼는 것♥기분 좋은 좋은 있고♥♥♥♥」
+	PRINTFORMW 눈동자에♥를 떠오르게 해 녹은 표정을 보이는 %ANAME(TARGET)%.
+	PRINTFORMW 그녀는 이미, 훌륭한 항문광이 되었다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음유를 취득
+;-------------------------------------------------
+IF ARG == 69
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「아앗♥♥%ANAME(TARGET)%의 젖가슴♥좀 더 만지작거려♥♥가슴의 콩도 만지작거려엇♥♥」
+	PRINTFORML 많은 쾌감에 의해 개발 된 %ANAME(TARGET)%의 가슴은
+	PRINTFORMW 옷스침 정도의 자극으로 달하게 될 만큼, 민감한 음유가 되어 버렸다
+	PRINTFORML 「아우우…♥유두…♥기분이 좋아♥」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 스스로 신체를 구불거리게 되어져 가슴을 강압해, 새로운 쾌락을 탐내고 있다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;키스마을 취득
+;-------------------------------------------------
+IF ARG == 70
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「아우…♥응므우…♥푸핫…♥♥좀 더♥♥」
+	PRINTFORML 많은 쾌감에 의해 개발 된 %ANAME(TARGET)%의 입술은
+	PRINTFORMW 키스만으로 시달성감대 그 자체가 되었다
+	PRINTFORML 「아우우…♥키스 하는 것…♥기분이 좋아♥좀 더 츄우 해…♥」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 스스로 입맞춤을 졸라, 새로운 쾌감을 추구하고 있다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;새드를 취득
+;-------------------------------------------------
+IF ARG == 71
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「크후후…그렇게 꾸짖을 수 있는 것이 기분이 좋은가?   그것은 좋았다♪」
+	PRINTFORMW %ANAME(TARGET)%의 눈동자가 요염하게 빛난다. 그 안광은 포식자의 그것…오니의 가학성이 배어 나오고 있었다…
+	PRINTFORML 「그렇게 무서워하지 말라고. 충분히 귀여워해, 충분히 좋아하게 해 줄테니까…」
+	PRINTFORMW 「그러니까, 안심해 나에게 신체를 맡기는거야…♥」
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;마조를 취득
+;-------------------------------------------------
+IF ARG == 72
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「아읏♪하읏♪기분, 좋아♥좀 더 괴롭혀♥」
+	PRINTFORMW 꾸짖을 수 있었던 %ANAME(TARGET)%의 신체는, 아픔을 쾌감으로 바꾸게 되어 버렸다…
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;사정광을 취득
+;-------------------------------------------------
+IF ARG == 73
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;폭주가를 취득
+;-------------------------------------------------
+IF ARG == 74
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;오줌싸개을 취득
+;-------------------------------------------------
+IF ARG == 76
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;공허를 취득
+;-------------------------------------------------
+IF ARG == 78
+	SETCOLOR 칼라_오렌지
+	PRINTFORMW 「야아…히잇…아아아아아…!」
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;붕괴를 취득
+;-------------------------------------------------
+IF ARG == 79
+	SETCOLOR 칼라_오렌지
+	PRINTFORML （아, 망가지는…이제 곧 망가진다, 나）
+	PRINTFORML （이대로 부수어져, 장난감으로 된다…아하하…）
+	PRINTFORMW （오니의 힘으로도…무리한 때는 무리이네요…아하…하…아………）
+	;부활（상실로부터 복귀）
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;정액변소 취득
+;-------------------------------------------------
+IF ARG == 82
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;암캐 취득
+;-------------------------------------------------
+IF ARG == 83
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;창녀 취득
+;-------------------------------------------------
+IF ARG == 84
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;약물의존 취득
+;-------------------------------------------------
+IF ARG == 85
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;모판 취득
+;-------------------------------------------------
+IF ARG == 86
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;─────────────────────────────────────── 
+;노콘섹스중독 취득
+;─────────────────────────────────────── 
+IF ARG == 87
+	SETCOLOR 칼라_오렌지
+	PRINTFORML 「아핫♥  좀 더, 질척질척 돌입해♥♥」
+	PRINTFORMW 콘돔 없이 생으로 섹스를 반복한 %ANAME(TARGET)%의 고기단지에는, 생의 육봉을 무는 쾌감이 새겨졌다
+	PRINTFORML 이미 %조사처리(ANAME(TARGET),"는")%, 고무 첨부의 섹스 따위 생각할 수 없게 되어 버렸다……
+	PRINTFORMW 「얼마든지 내도 좋으니까♥아앗♥좀 더 안쪽에서 내♥」
+	RESETCOLOR
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;혼인의식(선택시)
+;-------------------------------------------------
+IF ARG == 90
+	SETCOLOR 칼라_오렌지
+	PRINTFORML
+	PRINTFORML 「……이것은……너, 진심으로?」
+	PRINTFORML
+	PRINTFORMW 거짓말은 토하지 않는다고 약속했다, 라고 %조사처리(ANAME(MASTER),"는")% %ANAME(TARGET)%에 말해, 왼손의 약지에 반지를 꼈다.
+	PRINTFORML
+	PRINTFORMW 「너……바보……바보야%조사처리(ANAME(MASTER),"는")%……」
+	PRINTFORML
+	PRINTFORMW 「오니의 나에게 진심으로 홀딱 반해 버려 말야……이……바보오」
+	PRINTFORML
+	PRINTFORML %조사처리(ANAME(TARGET),"는")% 눈물고인 눈으로 %ANAME(MASTER)%의 가슴에 껴안았다
+	PRINTFORML
+	PRINTFORMW …침착할 때까지, 한동안 얼싸안았다
+	PRINTFORML
+	PRINTFORMW 「……나는, 이렇게 보여 길게 살아 있기에, 지금까지 여러 가지 녀석들과 만나 왔어」
+	PRINTFORML
+	PRINTFORML %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%의 가슴에 머리를 묻은 채로, 더듬더듬 이야기 냈다
+	PRINTFORML
+	PRINTFORMW 「그런 가운데에…지금의 %ANAME(MASTER)%같이, 함께 되자고 해 준 남자들도 있었어…」
+	PRINTFORML
+	PRINTFORMW 「그렇지만, 모두 없게 된…나의 모르는 곳에서…죽어 버리거나 해, 나를 두고 가……」
+	PRINTFORML
+	PRINTFORML ……장수 고의, 사랑하는 것에 앞서지는 슬픔. %조사처리(ANAME(TARGET),"는")% 그것을 몇번 맛봐 왔을 것인가……
+	PRINTFORML
+	PRINTFORMW 「…함께 죽어 주라고 말하지 않아. 그렇지만 %조사처리(ANAME(MASTER),"는")% 적어도…」
+	PRINTFORML
+	PRINTFORMW 「나의 없는 곳으로 죽지 말고…나와 함께, 살아요…읏」
+	PRINTFORML
+	PRINTFORML …바라던 것이다. 약속한다.
+	PRINTFORML
+	PRINTFORMW 그것을 (들)물으면 %조사처리(ANAME(TARGET),"는")% 얼굴을 올렸다. 눈은 아직 붉지만, 웃는 얼굴을 띄우고 있었다
+	PRINTFORML
+	PRINTFORMW 「약속이야」
+	PRINTFORML
+	PRINTFORMW 「오늘부터……나는 %ANAME(MASTER)%의 것, %조사처리(ANAME(MASTER),"는")% 나의 것. 잊지 말아줘」
+	PRINTFORML
+	PRINTFORMW %조사처리(ANAME(MASTER),"는")% %조사처리(ANAME(TARGET),"와")% 얼싸안아, 잠시동안, 입술을 거듭해 맞추었다
+	PRINTFORML
+	RESETCOLOR
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;혼인의식(이벤트시)
+;-------------------------------------------------
+IF ARG == 91
+	SETCOLOR 칼라_오렌지
+	PRINTFORML
+	PRINTFORMW 결혼은 박영험이 있는 신사에서 행해졌다.
+	PRINTFORML
+	PRINTFORML 여기서 행해지고 있던 즐거운 연회…그것이 %조사처리(ANAME(TARGET),"가")% 환상향으로 돌아온 계기이기도 했다
+	PRINTFORML
+	PRINTFORMW 까닭에, 이 신사는 %ANAME(TARGET)%에 있어 깊은 생각이 깊은 장소였다
+	PRINTFORML
+	PRINTFORMW 「오래 기다리셨어요. …어, 어떨까…이상한 것이 아닐까…」
+	PRINTFORML
+	PRINTFORML 순백의 옷 모습의 %조사처리(ANAME(TARGET),"가")% 나타나면, 주위로부터 축복의 소리가 높아진다
+	PRINTFORML
+	PRINTFORMW 「우우…이런 것 입은 일 없기에, 조금 긴장하지 마…」
+	PRINTFORML
+	PRINTFORMW 「저기, 어울리고 있다, 일까?」
+	PRINTFORML
+	PRINTFORML 평상시와 다른 순백의 의상에 몸을 싼 %조사처리(ANAME(TARGET),"는")%, 평소보다 빛나 보였다
+	PRINTFORML
+	PRINTFORMW 매우 멋지다  와 솔직하게 전했다
+	PRINTFORML
+	PRINTFORMW 「아우…뭐, 거짓말이 아니면 좋지만 말야…」
+	PRINTFORML
+	PRINTFORMW 얼굴을 새빨갛게 하면서도, 기쁜듯이, 뺨을 벌어지게 했다
+	PRINTFORML 
+	PRINTFORMW 「저기, %ANAME(MASTER)%」
+	PRINTFORML 
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 곧바로 %조사처리(ANAME(MASTER),"를")% 응시해, 소리 높이 선언했다
+	PRINTFORML 
+	PRINTFORMW 「나는 당신을 사랑하고 있습니다」,
+	PRINTFORML 
+	PRINTFORMW 「부족한 몸입니다만, 오래도록, 아무쪼록 잘 부탁드립니다」
+	PRINTFORML 
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 자위(Ｃ)
+;-------------------------------------------------
+IF ARG == 100
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		PRINTFORMW 「안 된다……저 녀석의 일 생각하면, 멈춘데…♥…후앗♥」
+	;그 이외
+	ELSE
+		PRINTFORMW 「……아, 응읏……」
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 자위(Ａ)
+;-------------------------------------------------
+IF ARG == 101
+	PRINTFORMW 「내, 내가 이런 곳…아 안 됏, 멈춘데…♥…후앗♥」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 성교:현재 존재하지 않기 때문에 코멘트 아웃
+;-------------------------------------------------
+;IF ARG == 102
+	;PRINTFORMW 
+;	RETURN 0
+;ENDIF
+
+;-------------------------------------------------
+;조르기에게 「보류」를 선택
+;-------------------------------------------------
+IF ARG == 103
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORML 「엣」
+			PRINTFORML 거절당한다고 생각하지 않았던 것일까, %조사처리(ANAME(TARGET),"는")% 아연실색으로 하고 있었다
+			PRINTFORMW 「어, 어째서? 　%ANAME(MASTER)%어딘가 나쁜거야?」
+			PRINTFORML 울 것 같은 얼굴로 %ANAME(MASTER)%의 몸이 불편해서는, 이라고 걱정해 오는 %ANAME(TARGET)%의 모습에 마음이 상하지만
+			PRINTFORMW 오늘은 정말로 상황이 나쁘기 때문에 참고 받기로 했다
+			PRINTFORML 「～…알았어. 그렇지만 이번은 절대 안아 주어라! 약속이야!」
+			PRINTFORMW 아이가 놀이의 약속을 하는 것 같은 감각으로, 다음의 밤시중의 약속을 얻어내면 %조사처리(ANAME(TARGET),"는")% 마지못해면서 응해 주었다
+		CASE 1
+			PRINTFORML 「아～응, 가지 못하고」
+			PRINTFORMW %조사처리(ANAME(TARGET),"는")% 미련이 남는 듯%ANAME(MASTER)%의 소매를 이끌고 있다
+		CASE 2
+			PRINTFORML 「응～? 뭐야, 피곤한지?」
+			PRINTFORMW 「쳇, %조사처리(ANAME(MASTER),"로")% 하는 것, 기대했었는데…」
+			PRINTFORML %조사처리(ANAME(TARGET),"는")% 보기에도 심통이 나고 있다
+			PRINTFORMW 어떻게든 달래, 오늘은 납득해 받았다
+	ENDSELECT
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(취한 기세·합의는 얻을 수 없다)
+;-------------------------------------------------
+IF ARG == 104
+	PRINTFORML 「이런이런, 좋은 것인지～?   오니의 성욕, 빨아 아 안 돼?」
+	PRINTFORMW 「뭐, 이미 늦지만 말야♥」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+	PRINTFORML
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(합의를 취득)
+;-------------------------------------------------
+IF ARG == 105
+	;연모 or 복종
+	IF TALENT:연모 || TALENT:복종
+		PRINTFORML 「후후, 기쁘다  그쪽으로부터 권해 준다니 말야♪」
+		PRINTFORML 「아직 불러 주지 않았으면, 내쪽부터 덮치는 곳이었다」
+		PRINTFORMW 「그러면, 시 같은가♥」
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+		PRINTFORML
+	;그 이외
+	ELSE
+		PRINTFORML 「이런이런, 좋은 것인지～?   오니의 성욕, 빨아 아 안 돼?」
+		PRINTFORMW 「뭐, 이미 늦지만 말야♥」
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+		PRINTFORML
+	ENDIF
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;유혹 실패
+;-------------------------------------------------
+IF ARG == 106
+	PRINTFORML 「나쁘지만, 오늘은 그러한 기분이 아니어～」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 표주박의 술을 부추겨, 돌아갔다…
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(이미 합의 있어)
+;-------------------------------------------------
+IF ARG == 107
+	;친애 or 예속
+	IF TALENT:친애 || TALENT:예속
+		SELECTCASE RAND:9
+			CASE 0
+				PRINTFORML 「후후…오니를 유혹이라니, 나쁜 아이구나 %조사처리(ANAME(MASTER),"는")%♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트리고, 솜씨 좋게 옷을 벗어 떠났다
+				PRINTFORML 「뭐, 그렇게 나쁜 %조사처리(ANAME(MASTER),"를")% 아주 좋아하는♥  오늘도 가득 기분 좋게 시라고 주는♥」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 목덜미에 혀를 기게 한다
+				PRINTFORMW 「자, %ANAME(MASTER)%…먹어 버리는♥」
+				PRINTFORML 
+			CASE 1
+				PRINTFORML 「앙♥  후후, 그쪽도 그 기분이야♪」
+				PRINTFORML 「뭐, 권해 주지 않았으면 내쪽부터 덮치고 있던 곳이야. 그러면, 시 같은가♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %ANAME(MASTER)%에 껴안아 쓰러트렸다
+				PRINTFORML 
+			CASE 2
+				PRINTFORML 「후후, 기쁘구나, %조사처리(ANAME(MASTER),"로")%부터 권해 주다는♥」
+				PRINTFORML 「그러면, 가득 기분 좋은 일, 할까♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 3
+				PRINTFORML 「후후, 완전히 나의 신체가 마음에든다 같다♥」
+				PRINTFORML 「그러면, 그 마음에 드는 신체로…가득 기분 좋게 시라고 주는♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 4
+				PRINTFORML 「응후후～♪장황한 일 해 버려♥  나는 언제라도ＯＫ인데 말야♪」
+				PRINTFORML 「오늘은 나에게 습격당하고 싶은 것 같다♥  그러면 바래 대로로 해 주는♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 힘차게 껴안아 %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 5
+				PRINTFORML 「후훗, 오니의 성욕에도 지지 않는다는 것 굉장해 %조사처리(ANAME(MASTER),"는")%♥」
+				PRINTFORML 「그러면 오늘도, 철저히 사랑해 주니까요―♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+		ENDSELECT
+	ELSEIF TALENT:연모 || TALENT:복종 
+		SELECTCASE RAND:6
+			CASE 0
+				PRINTFORML 「후후…오니를 유혹하다니 나쁜 아이야%조사처리(ANAME(MASTER),"는")%♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트리고, 솜씨 좋게 옷을 벗어 떠났다
+				PRINTFORML 「소망 대로, 가득 기분 좋게 시라고 주는♥」
+				PRINTFORML %조사처리(ANAME(TARGET),"는")% 평상시와 전혀 다른, 요염한 곁눈질로 %ANAME(MASTER)%의 목덜미에 혀를 기게 한다
+				PRINTFORMW 「자, 체념해…나에게 먹혀져 끝인♥」
+				PRINTFORML 
+			CASE 1
+				PRINTFORML 「앙♥  야, 그쪽도 그 기분이야♪」
+				PRINTFORML 「기분이 서로 통하고 있어 기뻐. 그러면, 시 같은가♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 2
+				PRINTFORML 「후후, 기쁘다  그쪽으로부터 권해 준다니 말야♪」
+				PRINTFORML 「그러면, 기분 좋은 일, 할까♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 3
+				PRINTFORML 「후후, 뭐야? 오니의 신체가 마음에 들었는지♥」
+				PRINTFORMW 오니의, 라는 것보다 %ANAME(TARGET)%의 신체이기 때문이다  라고 고했다
+				PRINTFORML 「……기쁜 일 말해 주네요♥」
+				PRINTFORML 「그러면, 그 마음에 드는 신체로…가득 기분 좋게 시라는♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 4
+				PRINTFORML 「응후후～♪장황한 일 해 버려♥」
+				PRINTFORML 「그러면, 좋은 일 가득 해 버릴까♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% 힘차게 껴안아 %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+			CASE 5
+				PRINTFORML 「어머머. 좋은 것인지～?   오니의 성욕, 빨아 아 안 돼♥」
+				PRINTFORML 「뭐, 이미 늦지만 말야♪오늘도 각오 해라～♥」
+				PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+				PRINTFORML 
+		ENDSELECT 
+	;그 이외
+	ELSE
+		PRINTFORML 「이런이런, 좋은 것인지～?   오니의 성욕, 빨아 아 안 돼?」
+		PRINTFORML 「뭐, 이미 늦지만 말야♥」
+		PRINTFORMW %조사처리(ANAME(TARGET),"는")% %조사처리(ANAME(MASTER),"를")% 쓰러트렸다
+		PRINTFORML
+	ENDIF
+	RETURN 1
+ENDIF
+
+;-------------------------------------------------
+;취해 무너진 곳에서 장난
+;-------------------------------------------------
+IF ARG == 110
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공이 실신해도 조교 계속
+;-------------------------------------------------
+IF ARG == 111
+	PRINTFORML 「이봐요 이봐요, 절정에 달해도 멈추어 주지 않아♪」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 실신한 %조사처리(ANAME(MASTER),"를")% 한층 더 몰아세운다
+	PRINTFORMW 「오니의 성욕은 무섭다♪  각오 해라～♥」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공이 피로해도 조교 계속
+;-------------------------------------------------
+IF ARG == 112
+	PRINTFORML 「이봐요 이봐요, 무엇 녹초가 되고 있는 거야. 아직도 지금부터야♪」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 기진맥진의 %조사처리(ANAME(MASTER),"를")% 한층 더 몰아세운다
+	PRINTFORMW 「오니의 성욕은 무섭다♪  각오 해라～♥」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;커맨드 실행 실패
+;-------------------------------------------------
+IF ARG == 150
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장＆플러그를 실행 후, 플러그를 뽑아 낸다
+;-------------------------------------------------
+IF ARG == 151
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/일반
+;-------------------------------------------------
+;곁잠
+IF ARG == 200
+	SETCOLOR 칼라_오렌지
+	;연모나 복종
+	IF TALENT:연모 || TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「%ANAME(MASTER)%, 아직 일어나고 있을까?」
+				PRINTFORMW 「나도 잠들 수 없어서 말야-. ……곁잠이라든지, 해 줄까?」
+			CASE 1
+				PRINTFORMW 「뭔가 오늘, 으스스 춥지 않아?. 함께 자, 따뜻하게 해 준다♪」
+			CASE 2
+				PRINTFORMW 「뭔가 잘 수 없어서 말야…%조사처리(ANAME(MASTER),"와")% 함께라면 잘 수 있을까 하고」
+		ENDSELECT
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+;저녁 반주
+ELSEIF ARG == 201
+	SETCOLOR 칼라_오렌지
+	;연모나 복종
+	IF TALENT:연모 || TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「%ANAME(MASTER)%, 아직 일어나고 있을까?」
+				PRINTFORMW 「나도 잠들 수 없어서 말야-…괜찮다면, 조금 마시지 않아?」
+			CASE 1
+				PRINTFORMW 「자기 전에 한 잔 어때? 기분 좋게 잠들 수 있다, 반드시♪」
+			CASE 2
+				PRINTFORMW 「함께 마시지 않는가? 좋은 사카미붙인 것이다―♪」
+		ENDSELECT
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+;담소
+ELSEIF ARG == 202
+	SETCOLOR 칼라_오렌지
+	;연모나 복종
+	IF TALENT:연모 || TALENT:복종
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「%ANAME(MASTER)%, 아직 일어나고 있을까?」
+				PRINTFORMW 「나도 잠들 수 없어서 말야-…괜찮다면, 조금 수다를 떨지 않아?」
+			CASE 1
+				PRINTFORMW 「이야기해 부족해서 말야-. 좀 더 수다 하지 않는가?」
+			CASE 2
+				PRINTFORMW 「무엇인가, %ANAME(MASTER)%의 소리를 듣고 싶어져 말야……」
+			CASE 3
+				PRINTFORMW 「전언은 있던, 붉은 세면기를 머리에 태운 남자의 이야기. 계속되어 들려주어―, 신경이 쓰인다거야」
+		ENDSELECT
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/애무
+;-------------------------------------------------
+;꾸짖고(통상)
+IF ARG == 210
+	;PRINTFORMW 
+	RETURN 0
+;꾸짖고(가학)
+ELSEIF ARG == 211
+	;PRINTFORMW 
+	RETURN 0
+;받고(통상)
+ELSEIF ARG == 212
+	;PRINTFORMW 
+	RETURN 0
+;받고(피학)
+ELSEIF ARG == 213
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/성교
+;-------------------------------------------------
+;주인공이 이 캐릭터의Ｖ에 삽입
+IF ARG == 220
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 이 캐릭터의Ａ에 삽입
+ELSEIF ARG == 221
+	;PRINTFORMW 
+	RETURN 0
+;이 캐릭터가 주인공의Ｖ에 삽입
+ELSEIF ARG == 222
+	;PRINTFORMW 
+	RETURN 0
+;이 캐릭터가 주인공의Ａ에 삽입
+ELSEIF ARG == 223
+	;PRINTFORMW 
+	RETURN 0
+;레즈 관련
+ELSEIF ARG == 224
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+
+;-------------------------------------------------
+;밤이벤트/문병
+;-------------------------------------------------
+;주인공이 임월에 이 캐릭터가 확정 부친때
+IF ARG == 230
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 임월에 그 이외때
+ELSEIF ARG == 231
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 육아중에서 이 캐릭터가 확정 부친때
+ELSEIF ARG == 232
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 육아중에서 이 캐릭터가 그 이외때
+ELSEIF ARG == 233
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 중증때의 문병
+ELSEIF ARG == 234
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;아침 이벤트/스스로 성지식을 배운다
+;-------------------------------------------------
+IF ARG == 240
+	PRINTFORML 「호우호우, 과연…요즈음은 진행되고 있네요」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 얼굴을 붉게 하면서, 뭔가를 읽어 빠지고 있다
+	RETURN 0
+
+;-------------------------------------------------
+;아침 이벤트/스스로 성지식을 배운다(역조교)
+;-------------------------------------------------
+ELSEIF ARG == 241
+	PRINTFORML 「호우호우, 과연…요즈음은 상당히 과격한 것이구나」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 끊임없이 감탄 하면서, 뭔가를 읽어 빠지고 있다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전투 개시
+;-------------------------------------------------
+;야전
+IF ARG == 300
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:15
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「자자 물러난 물러났다! %ANAME(TARGET)%님의 대로야!」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「정리해 발로 차서 흩뜨려 줄까」
+		CASE 2
+			PRINTFORML %ANAME(TARGET)% 「나의 상대는 어느 놈이야?」
+		CASE 3
+			PRINTFORML %ANAME(TARGET)% 「오니의 상대가 감당해낼까?」
+		CASE 4
+			PRINTFORML %ANAME(TARGET)% 「수고 걸치게 하는 것이 아니야, 날아가!」
+		CASE 5
+			PRINTFORML %ANAME(TARGET)% 「빨리 끝낼까!」
+		CASE 6
+			PRINTFORML %ANAME(TARGET)% 「조금은 즐겁게 해요」
+		CASE 7
+			PRINTFORML %ANAME(TARGET)% 「대지의 비옥하게 하러로 해 준다!」
+		CASE 8
+			PRINTFORML %ANAME(TARGET)% 「이런 곳에서 오니를 당한다든가, 운이 좋지 않다 있고 너」
+		CASE 9
+			PRINTFORML %ANAME(TARGET)% 「삼키면서 싸워 준다」
+		CASE 10
+			PRINTFORML %ANAME(TARGET)% 「강한 녀석은 벼-가―!」
+		CASE 11
+			PRINTFORML %ANAME(TARGET)% 「격의 달라, 시험해 봐?」
+		CASE 12
+			PRINTFORML %ANAME(TARGET)% 「수를 찌르면 뱀이 나온다, 라고 하지만 너에게는 오니가 나온 것 같다」
+		CASE 13
+			PRINTFORML %ANAME(TARGET)% 「꼭 짬 하고 있던 곳이야. 조금 교제해 가는거야」
+		CASE 14
+			PRINTFORML %ANAME(TARGET)% 「잊고 떠나진 오니의 힘, 보여 주자!」
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+;방위전(침공측)
+ELSEIF ARG == 301
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:20
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「자자 물러난 물러났다! %ANAME(TARGET)%님의 대로야!」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「거리마다 바람에 날아가게 해 줄까! …에? 그것은 안 돼?」
+		CASE 2
+			PRINTFORML %ANAME(TARGET)% 「자자! 오니가 왔어!」
+		CASE 3
+			PRINTFORML %ANAME(TARGET)% 「격의 달라, 시험해 봐?」
+		CASE 4
+			PRINTFORML %ANAME(TARGET)% 「나의 백귀야행을 제지당할까나?」
+		CASE 5
+			PRINTFORML %ANAME(TARGET)% 「쳐날려지고 싶은 녀석으로부터 걸려 오는거야!」
+		CASE 6
+			PRINTFORML %ANAME(TARGET)% 「빨리 발로 차서 흩뜨려 연회라고 갈까」
+		CASE 7
+			PRINTFORML %ANAME(TARGET)% 「모래로 해 주어도 괜찮지만, 그러면 조금 흥을 깸이구나」
+		CASE 8
+			PRINTFORML %ANAME(TARGET)% 「강한 녀석은 벼-가―!」
+		CASE 9
+			PRINTFORML %ANAME(TARGET)% 「지키고 있는 곳으로부터는 강탈해 가는 것이 오니라는 것이야」
+		CASE 10
+			PRINTFORML %ANAME(TARGET)% 「조금은 즐겁게 해요」
+		CASE 11
+			PRINTFORML %ANAME(TARGET)% 「대장목은 어디야?」
+		CASE 12
+			PRINTFORML %ANAME(TARGET)% 「이 전을 안주로 해 준다!」
+		CASE 13
+			PRINTFORML %ANAME(TARGET)% 「야 야 나야말로는 %NAME_FORMAL(TARGET)%되어! 쳐날려지고 싶은 녀석으로부터 걸려 오는거야!」
+		CASE 14
+			PRINTFORML %ANAME(TARGET)% 「그런 식으로 지켜질 수 있으면……강탈해 주고 싶어지는군―」
+		CASE 15
+			PRINTFORML %ANAME(TARGET)% 「삼키면서 싸워 준다」
+		CASE 16
+			PRINTFORML %ANAME(TARGET)% 「서투르게 지키고 있기에 강탈하고 싶어지는거야. 빨리 항복하는거야」
+		CASE 17
+			PRINTFORML %ANAME(TARGET)% 「죽어 실속이 핀 것일까는. 술을 마실 수 없게 되는 일은 멈추어 둬」
+		CASE 18
+			PRINTFORML %ANAME(TARGET)% 「수를 찌르면 뱀…이라고 하지만, 여기를 찌르면 무엇이 나올 것이다」
+		CASE 19
+			PRINTFORML %ANAME(TARGET)% 「손대중 해 주기 때문에 진심으로 오는거야! ……라는 것은 누구의 대사던가」
+	ENDSELECT 
+	RESETCOLOR
+	RETURN 0
+;방위전(방위측)
+ELSEIF ARG == 302
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:20
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「자자 물러난 물러났다! %ANAME(TARGET)%님의 대로야!」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「지키는 것은 성을 만나지 않는다. 출마할까」
+		CASE 2
+			PRINTFORML %ANAME(TARGET)% 「자자, 나의 상대는 어느 놈이야!」
+		CASE 3
+			PRINTFORML %ANAME(TARGET)% 「싸움을 거는 상대를 오인했군요」
+		CASE 4
+			PRINTFORML %ANAME(TARGET)% 「그런데, 너희들은 오니 퇴치하고 할 수 있을까나?」
+		CASE 5
+			PRINTFORML %ANAME(TARGET)% 「쳐날려지고 싶은 녀석은 어느 놈이야?」
+		CASE 6
+			PRINTFORML %ANAME(TARGET)% 「빨리 정리해 연회라고 갈까」
+		CASE 7
+			PRINTFORML %ANAME(TARGET)% 「한가하고 있던 곳이야. 조금 교제해 가는거야」
+		CASE 8
+			PRINTFORML %ANAME(TARGET)% 「오니의 목을 잡힐까나?」
+		CASE 9
+			PRINTFORML %ANAME(TARGET)% 「오니가 있는 곳에 공격 붐비는 좋은 담력이다」
+		CASE 10
+			PRINTFORML %ANAME(TARGET)% 「조금은 즐겁게 해요」
+		CASE 11
+			PRINTFORML %ANAME(TARGET)% 「나의 목, 잡히는 것이라면 취해 보는거야!」
+		CASE 12
+			PRINTFORML %ANAME(TARGET)% 「돌아가는 장소가 있는 것의 의미를 알았기 때문에…여기는 떨어뜨리게 하지 않아」
+		CASE 13
+			PRINTFORML %ANAME(TARGET)% 「야 야 나야말로는 이부키 %ANAME(TARGET)%든지! 쳐날려지고 싶은 녀석으로부터 걸려 오는거야!」
+		CASE 14
+			PRINTFORML %ANAME(TARGET)% 「이런 식으로 공격받고 있으면 옛날을 생각해 내는구나―. 저것, 몇백 년전이던가?」
+		CASE 15
+			PRINTFORML %ANAME(TARGET)% 「삼키면서 싸워 준다」
+		CASE 16
+			PRINTFORML %ANAME(TARGET)% 「지키고 있는 곳으로부터는 강탈해 가고 싶어지는거네요. 안다」
+		CASE 17
+			PRINTFORML %ANAME(TARGET)% 「모모타로우같이 갈까나?」
+		CASE 18
+			PRINTFORML %ANAME(TARGET)% 「수를 찌르면 뱀이 나온다…라고 하지만, 여기를 찌르면 오니가 나오겠어」
+		CASE 19
+			PRINTFORML %ANAME(TARGET)% 「손대중 해 주기 때문에 진심으로 오는거야! ……라는 것은 누구의 대사던가」
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;특수 전술
+;-------------------------------------------------
+;계략 발동
+IF ARG == 310
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:4
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「나의 법식이 아니지만, 저돌적인 사람이라고 생각되는 것도 아니꼬우니까」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「이런 것도 자신있어. 좋아하지 않는 것뿐으로」
+		CASE 2
+			PRINTFORML %ANAME(TARGET)% 「나 혼자라면 정면돌파로 좋지만…, 군사가 있으면 그렇게도 안 된다」
+		CASE 3
+			PRINTFORML %ANAME(TARGET)% 「술주정꾼의 생각을 읽을 수 있을까?」
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+;반계
+ELSEIF ARG == 311
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「호호우, 여러가지 생각하고 있네요」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「나를 죽일 수 있는지, 해 보는거야!」
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+;관계(무력)
+ELSEIF ARG == 312
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「깜찍해, 바람에 날아감인!」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「오니를 화나게 하면 어떻게 되는지, 가르쳐 주자…!」
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+;관계(호감도)※ver1. 22 시점에서는 공수상
+ELSEIF ARG == 313
+SETCOLOR 칼라_오렌지
+	SELECTCASE RAND:2
+		CASE 0
+			PRINTFORML %ANAME(TARGET)% 「천개를 부수는 이 힘…받아 봐라!」
+		CASE 1
+			PRINTFORML %ANAME(TARGET)% 「산을 부수는 이 힘…받아 봐라!」
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 된다(부대 괴멸시)
+;-------------------------------------------------
+IF ARG == 330
+SETCOLOR 칼라_오렌지
+	IF RAND:2 == 0
+		PRINTFORML %ANAME(TARGET)% 「아챠-, 얼빠진 밟아 버렸어…」
+	ELSEIF RAND:1 == 0
+		PRINTFORML %ANAME(TARGET)% 「무서운 퇴치 되어 버렸는지―」
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 된다(멸망시)
+;-------------------------------------------------
+IF ARG == 331
+SETCOLOR 칼라_오렌지
+	PRINTFORMW %ANAME(TARGET)% 「무서운 퇴치 되어 버렸는지―」
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 되었을 때의 리액션
+;-------------------------------------------------
+;등용에 응한다
+IF ARG == 332
+SETCOLOR 칼라_오렌지
+	PRINTFORML 「응-…, 뭐, 그것도 재미있을까」
+	PRINTFORMW 「알았어. 지금부터 아무쪼록, %ANAME(MASTER)%」
+	PRINTFORMW %조사처리(ANAME(TARGET),"와")% 악수를 주고 받았다
+	RESETCOLOR
+	RETURN 0
+;등용을거부한다
+ELSEIF ARG == 333
+SETCOLOR 칼라_오렌지
+	PRINTFORML 「거절한다」
+	PRINTFORMW 「나는 이렇게 보여도 의리가 있어서」
+	RESETCOLOR
+	RETURN 0
+;해방된다
+ELSEIF ARG == 334
+SETCOLOR 칼라_오렌지
+	PRINTFORML 「에? 정말? 너호기구나―」
+	PRINTFORMW 「…이 은혜는 언젠가 돌려준다」
+	RESETCOLOR
+	RETURN 0
+;투옥된다
+ELSEIF ARG == 335
+SETCOLOR 칼라_오렌지
+	PRINTFORML 「그, 그 표주박만은, 술만은～!!」
+	PRINTFORMW ……%조사처리(ANAME(TARGET),"는")% 자신의 몸보다 술이 걱정스러운 것 같다……
+	RESETCOLOR
+	RETURN 0
+;처형된다
+ELSEIF ARG == 336
+SETCOLOR 칼라_오렌지
+	PRINTFORML 「무서운 퇴치의 완료, 축하합니다」
+	PRINTFORMW %조사처리(ANAME(TARGET),"는")% 웃는 얼굴로, 자신을 타도한 것을 칭찬했다
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전사시
+;-------------------------------------------------
+IF ARG == 337
+SETCOLOR 칼라_오렌지
+	;주인공과 동일 세력에 소속
+	IF CFLAG:1 >= 1 && CFLAG:1 == CFLAG:MASTER:1
+		IF TALENT:연모 || TALENT:복종 || TALENT:친구
+			PRINTFORML %ANAME(TARGET)%의 임종때, 뇌리에 떠오르는 것은 %ANAME(MASTER)%의 일(뿐)만이었다
+			PRINTFORMW （…내가 이런 나약한 일, 생각하다니…%ANAME(MASTER)%…）
+			PRINTFORMW %ANAME(TARGET)% 「…좀 더%조사처리(ANAME(MASTER),"와")%…함께 마시고 싶었어요…」
+		ELSE
+			PRINTFORMW %ANAME(TARGET)% 「좀 더…술꾼 싶었다…」
+		ENDIF
+	;주인공과 다른 세력에 소속
+	ELSE
+		PRINTFORMW %ANAME(TARGET)% 「싸움으로 죽는다면, 후회는 없어」
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;포로 조교의 메뉴
+;-------------------------------------------------
+;해방된다
+IF ARG == 340
+	PRINTFORMW 「진짜야? 마음이 후하다. ……일단 말해 두는, 고마워요」
+	RETURN 0
+;처형된다
+ELSEIF ARG == 341
+	IF TALENT:임신
+		PRINTFORMW （약한 엄마로 미안…. 그 세상으로 많이 놀아 주기 때문에, 용서해 보내라）
+	ELSE
+		PRINTFORMW 「운명 다했는지……」
+	ENDIF
+	RETURN 0
+;성노예화 된다
+ELSEIF ARG == 342
+	PRINTFORMW 「……목 떨어뜨려지는 (분)편이 좋다」
+	RETURN 0
+;촉수 처형된다
+ELSEIF ARG == 343
+	IF TALENT:임신
+		PRINTFORMW （약한 엄마로 미안…. 그 세상으로 만나면, 많이 사과하는……）
+	ELSE
+		PRINTFORMW 「…적어도 목을 잘라 주어라―…」
+	ENDIF
+	RETURN 0
+;임신중 처형에 자비를 걸 수 있다
+ELSEIF ARG == 344
+	;PRINTFORMW 
+	RETURN 0
+;임신중 촉수 처형에 자비를 걸 수 있다
+ELSEIF ARG == 345
+	;PRINTFORMW 
+	RETURN 0
+;퍼레이드
+ELSEIF ARG == 346
+	PRINTFORMW （이 %ANAME(TARGET)%님이, 이런 보기 흉함을 쬔다고는……）
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방랑 이벤트
+;-------------------------------------------------
+;등용에 응한다
+IF ARG == 350
+	PRINTFORML 「응-…, 뭐, 그것도 재미있을까」
+	PRINTFORMW 「알았어. 지금부터 아무쪼록, %ANAME(MASTER)%」
+	PRINTFORMW %조사처리(ANAME(TARGET),"와")% 악수를 주고 받았다
+	RETURN 0
+;등용을거부한다
+ELSEIF ARG == 351
+	PRINTFORML 「응-…, 그만두어」
+	PRINTFORMW 「어째서는?   네-와…귀찮다」
+	RETURN 0
+;투옥된다
+ELSEIF ARG == 352
+	PRINTFORMW 「우옷!?   뭐야 뭐얏!?」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;린노스케·란관계
+;-------------------------------------------------
+;[린노스케에 연모]를 취득
+IF ARG == 400
+	;PRINTFORMW 
+	RETURN 0
+;[린노스케의 연인]를 취득
+ELSEIF ARG == 401
+	;PRINTFORMW 
+	RETURN 0
+;[린노스케에 연모]를 상실
+ELSEIF ARG == 402
+	;PRINTFORMW 
+	RETURN 0
+;린노스케와 헤어지게 하는 것을 성공
+ELSEIF ARG == 403
+	;PRINTFORMW 
+	RETURN 0
+;린노스케와 헤어지게 하는 것을 실패
+ELSEIF ARG == 404
+	;PRINTFORMW 
+	RETURN 0
+;[란에 연모]를 취득
+ELSEIF ARG == 410
+	;PRINTFORMW 
+	RETURN 0
+;[란의 연인]를 취득
+ELSEIF ARG == 411
+	;PRINTFORMW 
+	RETURN 0
+;[란에 연모]를 상실
+ELSEIF ARG == 412
+	;PRINTFORMW 
+	RETURN 0
+;란과 헤어지게 하는 것을 성공
+ELSEIF ARG == 413
+	;PRINTFORMW 
+	RETURN 0
+;란과 헤어지게 하는 것을 실패
+ELSEIF ARG == 414
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;역조교시
+;-------------------------------------------------
+;주인공에게 충성을맹세하게한다
+IF ARG == 450
+	PRINTFORML 「슬슬 솔직해지기 시작했지 않은가?」
+	PRINTFORMW 「이제 고집을 부리지 않고……나에게 내려」
+	RETURN 0
+;주인공에게 충성을맹세하게한다/성공
+ELSEIF ARG == 451
+	PRINTFORML 「응후후-. 그래그래, 무슨 일도 솔직함이 제일이야♪」
+	PRINTFORMW 「안심해……앞으로도 충분히 귀여워해 줄게♥」
+	RETURN 0
+;주인공에게 충성을맹세하게한다/실패
+ELSEIF ARG == 452
+	PRINTFORMW 「고집이 있다―. 아직 괴롭혀지고 싶다」
+	RETURN 0
+ENDIF

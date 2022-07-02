@@ -1,0 +1,1719 @@
+﻿;-------------------------------------------------
+;이벤트 구상
+;-------------------------------------------------
+
+;=================================================
+;●각종 이벤트
+;※ARG에 이벤트번호가 들어간다. 자세하게는 자료 폴더의 「era 연희 이벤트표」를 참조
+;※RETURN의 값을 0→1으로 바꾸면, Default의 메세지가 표시되지 않게 된다
+;=================================================
+@KOJO_EVENT_K94(ARG)
+
+;-------------------------------------------------
+;퍼스트 키스 실행
+;-------------------------------------------------
+IF ARG == 1
+	;연모
+	IF TALENT:연모
+		PRINTFORMW 입술을 떼어 놓으면 달콤한 토 숨결이 닿았다
+		PRINTFORMW 넋을 잃은 표정의 카게로와 시선이 마주친다
+		PRINTFORMW 「후훗…퍼스트 키스야」
+		PRINTFORMW 부끄러움을 속이도록(듯이) 당신에 의지해 왔다
+		PRINTFORMW 꼬리가 살랑살랑 흔들리고 있다
+	;복종
+	ELSEIF TALENT:복종
+		PRINTFORMW 입술을 떼어 놓으면 달콤한 토 숨결이 닿았다
+		PRINTFORMW 넋을 잃은 표정의 카게로와 시선이 마주친다
+		PRINTFORMW 「아우…」
+		PRINTFORMW 가만히 응시하고 있으면 부끄러운 듯이 시선을 딴 데로 돌려 버렸다
+		PRINTFORMW 하지만 꼬리가 살랑살랑 흔들리고 있는 것을 간과하지 않았다
+	;그 이외
+	ELSE
+		PRINTFORMW 입술을 떼어 놓으면 달콤한 토 숨결이 닿았다
+		PRINTFORMW 넋을 잃은 표정의 카게로와 시선이 마주친다
+		PRINTFORMW 「무엇인가, 부끄럽네요…」
+		PRINTFORMW 가만히 응시하고 있으면 부끄러운 듯이 시선을 딴 데로 돌려 버렸다
+		PRINTFORMW 하지만 꼬리가 살랑살랑 흔들리고 있는 것을 간과하지 않았다
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;고백 성공
+;-------------------------------------------------
+IF ARG == 2
+	;연모
+	IF TALENT:연모
+		PRINTFORMW 당신은 오늘이야말로 그녀에게 생각을 전한다고 결정하고 있었다
+		PRINTFORMW 「…? 뭐%ANAME(MASTER)%?」
+		PRINTFORMW 그녀의 이름을 부르면 이쪽을 뒤돌아 본다
+		PRINTFORMW 그 얼굴을 보는 것만으로 얼굴이 상기 해 버려, 말해야 할 말이 나오지 않는다
+		PRINTFORMW 당신이 목으로부터 다음의 말을 짜내는데 고생하고 있으면
+		PRINTFORMW 고개를 갸웃해, 귀를 쫑긋쫑긋 움직이면서 당신을 들여다 봐 왔다
+		PRINTFORMW 여기서 나아가서는 남자가 쓸모없게 되면 뜻을 정하면
+	;복종
+	ELSEIF TALENT:복종
+		PRINTFORMW 당신은 오늘이야말로 그녀에게 생각을 전한다고 결정하고 있었다
+		PRINTFORMW 「…? 무엇입니까 주인님?」
+		PRINTFORMW 그녀의 이름을 부르면 이쪽을 뒤돌아 본다
+		PRINTFORMW 그 얼굴을 보는 것만으로 얼굴이 상기 해 버려, 말해야 할 말이 나오지 않는다
+		PRINTFORMW 당신이 목으로부터 다음의 말을 짜내는데 고생하고 있으면
+		PRINTFORMW 고개를 갸웃해, 귀를 쫑긋쫑긋 움직이면서 불안한 듯이 당신을 들여다 봐 왔다
+		PRINTFORMW 여기서 나아가서는 남자가 쓸모없게 되면 뜻을 정하면
+	;그 이외
+	ELSE
+		PRINTFORMW 당신은 오늘이야말로 그녀에게 생각을 전한다고 결정하고 있었다
+		PRINTFORMW 「…? 뭐일까?」
+		PRINTFORMW 그녀의 이름을 부르면 이쪽을 뒤돌아 본다
+		PRINTFORMW 그 얼굴을 보는 것만으로 얼굴이 상기 해 버려, 말해야 할 말이 나오지 않는다
+		PRINTFORMW 당신이 목으로부터 다음의 말을 짜내는데 고생하고 있으면
+		PRINTFORMW 고개를 갸웃해, 귀를 쫑긋쫑긋 움직이면서 당신을 들여다 봐 왔다
+		PRINTFORMW 여기서 나아가서는 남자가 쓸모없게 되면 뜻을 정하면
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;고백 실패
+;-------------------------------------------------
+IF ARG == 3
+		PRINTFORMW 당신은 오늘이야말로 그녀에게 생각을 전한다고 결정하고 있었다
+		PRINTFORMW 「…? 뭐일까?」
+		PRINTFORMW 그녀의 이름을 부르면 이쪽을 뒤돌아 본다
+		PRINTFORMW 그 얼굴을 보는 것만으로 얼굴이 상기 해 버려, 말해야 할 말이 나오지 않는다
+		PRINTFORMW 당신이 목으로부터 다음의 말을 짜내는데 고생하고 있으면
+		PRINTFORMW 고개를 갸웃해, 귀를 쫑긋쫑긋 움직이면서 당신을 들여다 봐 왔다
+		PRINTFORMW 여기서 나아가서는 남자가 쓸모없게 되면 뜻을 정하면
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(술에 취함의 영향·합의는 얻을 수 없다)
+;-------------------------------------------------
+IF ARG == 4
+	PRINTFORMW 슬슬 해가 지는 무렵이다
+	PRINTFORMW 당신은 근처에 있는 카게로의 상태를 보았다
+	PRINTFORMW 「후냐아…훌쩍…」
+	PRINTFORMW 아무래도 취기가 돌아 온 것 같아, 휘청휘청 하고 있다
+	PRINTFORMW 당신은 힐쭉 미소를 띄우면
+	PRINTFORMW 휘청휘청해 저항 할 수 없는 카게로를 연인같이 거느리면
+	PRINTFORMW 적당한 장소에 데리고 들어갔다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(합의를 취득)
+;-------------------------------------------------
+IF ARG == 5
+	;연모
+	IF TALENT:연모
+		PRINTFORMW 슬슬 해가 지는 무렵이다
+		PRINTFORMW 당신은 근처에 있는 카게로의 상태를 보았다
+		PRINTFORMW 「…?」
+		PRINTFORMW 카게로와 시선이 마주친다
+		PRINTFORMW 어떻게든 했는지와 얼굴을 접근해 오는 그녀의 어깨에 손을 댄다
+		PRINTFORMW 「앗…」
+		PRINTFORMW 카게로는 일순간 당황한 것 같은 표정을 보였지만
+		PRINTFORMW 곧바로 당신의 의도를 헤아렸는지, 얼굴을 새빨갛게 해 당신을 응시해 왔다
+		PRINTFORMW 그대로 천천히쓰러트린다가, 당신을 받아들인 것처럼 되는 대로다
+		PRINTFORMW 카게로에 덮어씌우는 자세로, 그녀와 서로 응시한다
+		PRINTFORMW 「응…에헤헤…해?」
+		PRINTFORMW 뺨을 물들이면서 미소짓는 카게로의 옷을 천천히 벗겼다
+	;복종
+	ELSEIF TALENT:복종
+		PRINTFORMW 슬슬 해가 지는 무렵이다
+		PRINTFORMW 당신은 근처에 있는 카게로의 상태를 보았다
+		PRINTFORMW 「…?」
+		PRINTFORMW 카게로와 시선이 마주친다
+		PRINTFORMW 어떻게든 했는지와 얼굴을 접근해 오는 그녀의 어깨에 손을 댄다
+		PRINTFORMW 「앗…」
+		PRINTFORMW 카게로는 일순간 당황한 것 같은 표정을 보였지만
+		PRINTFORMW 곧바로 당신의 의도를 헤아렸는지, 눈을 치켜 뜨고 당신을 응시해 왔다
+		PRINTFORMW 그대로 천천히쓰러트린다가, 희미하게 신체를 진동시키면서도 되는 대로다
+		PRINTFORMW 카게로에 덮어씌우는 자세로, 그녀와 서로 응시한다
+		PRINTFORMW 「…저…상냥하게, 해 주세요…」
+		PRINTFORMW 카게로의 옷에 손을 대면, 흠칫 신체를 진동시켰다
+	;그 이외
+	ELSE
+		PRINTFORMW 슬슬 해가 지는 무렵이다
+		PRINTFORMW 당신은 근처에 있는 카게로의 상태를 보았다
+		PRINTFORMW 「…?」
+		PRINTFORMW 카게로와 시선이 마주친다
+		PRINTFORMW 어떻게든 했는지와 얼굴을 접근해 오는 그녀의 어깨에 손을 댄다
+		PRINTFORMW 「앗…」
+		PRINTFORMW 카게로는 일순간 당황한 것 같은 표정을 보였지만
+		PRINTFORMW 곧바로 당신의 의도를 헤아렸는지, 얼굴을 새빨갛게 해 당신을 응시해 왔다
+		PRINTFORMW 그대로 천천히쓰러트린다가, 당신을 받아들인 것처럼 되는 대로다
+		PRINTFORMW 카게로에 덮어씌우는 자세로, 그녀와 서로 응시한다
+		PRINTFORMW 「응…좋아…」
+		PRINTFORMW 희미하게 소리를 진동시키면서 미소짓는 카게로의 옷을 천천히 벗겼다
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 실패
+;-------------------------------------------------
+IF ARG == 6
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 근처에 사람의 그림자가 없는 것을 확인해
+		PRINTFORMW 카게로의 옷에 손을 걸려고 손을 뻗으면
+		PRINTFORMW 휙 피할 수 있었다
+		PRINTFORMW 「…지금은, 그런 기분이 아니야」
+		PRINTFORMW 그 만큼 고하면 카게로는 빨리 떠나 가 버렸다
+	;그 이외
+	ELSE
+		PRINTFORMW 근처에 사람의 그림자가 없는 것을 확인해
+		PRINTFORMW 카게로의 옷에 손을 걸려고 손을 뻗으면
+		PRINTFORMW 불끈 한 표정으로 뿌리칠 수 있었다
+		PRINTFORMW 「…손대지 말라고 말한 것이겠지」
+		PRINTFORMW 그 만큼 고하면 카게로는 빨리 떠나 가 버렸다
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(이미 합의 있어)
+;-------------------------------------------------
+IF ARG == 7
+	;연모
+	IF TALENT:연모
+		SELECTCASE RAND:5
+			CASE 0
+			PRINTFORMW 「에헤헤,…할까?」
+			PRINTFORMW 암컷의 표정으로 이쪽을 들여다 봐 오는 카게로에, 참지 못하고 쓰러트렸다
+			CASE 1
+			PRINTFORMW 「응, 가득 해」
+			PRINTFORMW 어깨에 손을 대면, 기쁜듯이 꼬리를 흔들었다
+			CASE 2
+			PRINTFORMW 「가득 기분 좋게, 해」
+			PRINTFORMW 껴안으면, 응석부리도록(듯이) 당신에 몸을 맡겨 왔다
+			CASE 3
+			PRINTFORMW 「응…」
+			PRINTFORMW 녹은 것 같은 표정으로 당신을 응시하고 있는 카게로를 상냥하게 쓰러트렸다
+			CASE 4
+			PRINTFORMW 「앙, 네에…또 하는 거네…」
+			PRINTFORMW 난폭하게 카게로를 쓰러트리고 기쁜듯이 되는 대로 되어 있다
+		ENDSELECT
+	;복종
+	ELSEIF TALENT:복종
+		SELECTCASE RAND:5
+			CASE 0
+			PRINTFORMW 「아우…」
+			PRINTFORMW 어깨에 손을 대면, 힘이 빠진 것처럼 당신으로 되는 대로 되어 있다
+			CASE 1
+			PRINTFORMW 「네, 주인님…」
+			PRINTFORMW 밤시중을 명하면, 숨을 거칠게 하고 꼬리를 흔들면서 옷을 벗었다
+			CASE 2
+			PRINTFORMW 「쿠응…」
+			PRINTFORMW 난폭하게 쓰러트리고 복종의 포즈를 취하면서 응석부린 소리를 흘렸다
+			CASE 3
+			PRINTFORMW 「또, 안아 받을 수 있군요」
+			PRINTFORMW 당신의 가슴에 응석부리도록(듯이) 의지해 왔다
+			CASE 4
+			PRINTFORMW 「가득, 귀여워해 주세요」
+			PRINTFORMW 암컷의 표정으로 이쪽을 들여다 봐 오는 카게로에, 참지 못하고 쓰러트렸다
+		ENDSELECT
+	;그 이외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+			PRINTFORMW 「아이참-…엣치…」
+			PRINTFORMW 입으로는 그렇게 말하면서도, 그렇지만도 않은 것 같다
+			CASE 1
+			PRINTFORMW 「앗…응…」
+			PRINTFORMW 껴안으면, 뺨을 물들이면서 당신에 의지해 왔다
+			CASE 2
+			PRINTFORMW 「또, 하는 거야…?」
+			PRINTFORMW 쓰러트리고 안절부절 침착하지 않은 모습으로 당신을 응시해 왔다
+		ENDSELECT
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;데이트중에 저쪽에서 키스
+;-------------------------------------------------
+IF ARG == 20
+	PRINTFORMW 데이트중, 배후로부터 카게로가 말을 걸려졌다
+	PRINTFORMW 무슨 일인지 있었어? 라고 되돌아 보면, 갑자기
+	PRINTFORMW 츗
+	PRINTFORMW 와 입술에 뭔가가 접한 감촉이 했다
+	PRINTFORMW 무엇이 일어났는지 일순간 몰랐지만
+	PRINTFORMW 눈앞에서 못된 장난한 듯이 쑥스러운 듯이 웃는 카게로를 봐 키스 된 것이라고 알았다
+	PRINTFORMW 하지만 돌연의 일에 당신이 횡설수설하게 되어 있으면 그녀는 빨리 걸어가 버렸다
+	PRINTFORMW 감쪽같이 속은 것 같았지만 꼬리가 살랑살랑 흔들리고 있는 것을 봐, 당신도 그렇지만도 않게 되었다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;데이트중에 저쪽에서 고백
+;-------------------------------------------------
+IF ARG == 21
+	;PRINTFORMW 
+
+	;CALL ASK_YN("받아들인다", "거절한다")
+
+	;고백을 받아들인다
+	;IF RESULT == 0
+	;	PRINTFORMW 
+	;
+	;	;고백 성공시는 TFLAG:4에 1을 대입
+	;	TFLAG:4 = 1
+
+	;고백을 거절한다
+	;ELSE
+	;	PRINTFORMW 
+	;
+	;	;고백 성공시는 TFLAG:4에 0을 대입
+	;	TFLAG:4 = 0
+	;ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;상대로부터 밀어 쓰러트려진다
+;-------------------------------------------------
+;합의 없음
+IF ARG == 22
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 「주인님이 나쁘기 때문에! 나, 나를, 이렇게 될 때까지, 방치해…!」
+		PRINTFORMW 마치 발정한 개처럼 숨을 거칠게 하면서 당신에 걸쳐, 옷을 벗기 시작했다
+	;그 이외
+	ELSE
+		PRINTFORMW 「%조사처리(ANAME(MASTER),"가")% 나쁘기 때문에! 나, 나를, 이렇게 될 때까지, 방치해…!」
+		PRINTFORMW 마치 발정한 개처럼 숨을 거칠게 하면서 당신에 걸쳐, 옷을 벗기 시작했다
+	ENDIF
+	RETURN 0
+;합의 이루어＆취한 기세
+ELSEIF ARG == 23
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 「주인님! 오늘은, 돌려보내지 않는다! 안아 줄 때까지, 떼어 놓지 않기 때문에…!」
+		PRINTFORMW 취한 기세인가, 발정했는지같이 격렬하게 숨을 거칠게 하면서 당신에 걸쳐, 옷을 벗기 시작했다
+	;그 이외
+	ELSE
+		PRINTFORMW 「%ANAME(MASTER)%! 오늘은, 돌려보내지 않는다! 안아 줄 때까지, 떼어 놓지 않기 때문에…!」
+		PRINTFORMW 취한 기세인가, 발정했는지같이 격렬하게 숨을 거칠게 하면서 당신에 걸쳐, 옷을 벗기 시작했다
+	ENDIF
+	RETURN 0
+;합의 있어
+ELSEIF ARG == 24
+	;복종
+	IF TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이제(이미/벌써/더는/정말) 인내는 무리입니다, 안아도 좋다고 말하고 있기에, 안아…!」
+				PRINTFORMW 얼굴을 새빨갛게 하면서 눈동자를 물기를 띠게 한 당신에 걸치면, 옷을 벗기 시작했다
+			CASE 1
+				PRINTFORMW 「합시다! 주인님! 그런데! 하자! 좋을 것입니다!? 저기! 결정! 합시다!」
+				PRINTFORMW 발정한 개처럼 숨을 거칠게 해, 얼굴을 가까이 접근해 간원 했다
+			CASE 2
+				PRINTFORMW 「주인님은 아무렇지도 않아도, 나는 인내 할 수 없습니다! 채, 책임 취해요!」
+				PRINTFORMW 꼬리를 붕붕 거절하면서 당신에 걸치면, 옷을 벗기 시작했다
+		ENDSELECT 
+	;그 이외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이제 무리여요, 안아도 좋다고 말하고 있기에, 안으세요…!」
+				PRINTFORMW 얼굴을 새빨갛게 하면서 눈동자를 물기를 띠게 한 당신에 걸치면, 옷을 벗기 시작했다
+			CASE 1
+				PRINTFORMW 「해!%ANAME(MASTER)%! 그런데! 하자! 좋지요! 결정! 하자!」
+				PRINTFORMW 발정한 개처럼 숨을 거칠게 해, 얼굴을 가까이 접근해 간원 했다
+			CASE 2
+				PRINTFORMW 「%조사처리(ANAME(MASTER),"는")% 아무렇지도 않아도, 나는 인내 할 수 없다! 사람을 이렇게 한 것이니까…책임 취해!」
+				PRINTFORMW 꼬리를 붕붕 거절하면서 당신에 걸치면, 옷을 벗기 시작했다
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+;합의 있어＆취한 기세
+ELSEIF ARG == 25
+	;복종
+	IF TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이제(이미/벌써/더는/정말) 인내는 무리입니다, 안아도 좋다고 말하고 있기에, 안아…!」
+				PRINTFORMW 취기와 정욕으로 얼굴을 새빨갛게 하면서 눈동자를 물기를 띠게 한 당신에 걸치면, 옷을 벗기 시작했다
+			CASE 1
+				PRINTFORMW 「합시다! 주인님! 그런데! 하자! 좋을 것입니다!? 저기! 결정! 합시다!」
+				PRINTFORMW 취한 기세나 발정한 개처럼 숨을 거칠게 해, 얼굴을 가까이 접근해 간원 했다
+			CASE 2
+				PRINTFORMW 「훌쩍, 주인님은 아무렇지도 않아도, 나는 인내 할 수 없습니다! 채, 책임 취해요!」
+				PRINTFORMW 혀가 제대로 돌지 않은 채 꼬리를 붕붕 거절하면서 당신에 걸치면, 옷을 벗기 시작했다
+		ENDSELECT 
+	;그 이외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이제 무리인, 안아도 좋다고 말하고 있다, 안으세요…!」
+				PRINTFORMW 취기와 정욕으로 얼굴을 새빨갛게 하면서 눈동자를 물기를 띠게 한 당신에 걸치면, 옷을 벗기 시작했다
+			CASE 1
+				PRINTFORMW 「해!%ANAME(MASTER)%! 그런데! 하자! 좋지요! 결정! 하자!」
+				PRINTFORMW 취한 기세나 발정한 개처럼 숨을 거칠게 해, 얼굴을 가까이 접근해 간원 했다
+			CASE 2
+				PRINTFORMW 「훌쩍, %조사처리(ANAME(MASTER),"는")% 아무렇지도 않아도 말야, 나는 인내 할 수 없다! 사람을 이렇게 (해) …책임 취해!」
+				PRINTFORMW 혀가 제대로 돌지 않은 채 꼬리를 붕붕 거절하면서 당신에 걸치면, 옷을 벗기 시작했다
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;상대로부터 졸라대진다
+;-------------------------------------------------
+;합의 없음
+IF ARG == 26
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 「아, 앗! 주인님! 이, 이제 인내 할 수 없습니다, 안기고 싶어…!」
+		PRINTFORMW 발정한 개처럼 혀를 늘어뜨려, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+	;그 이외
+	ELSE
+		PRINTFORMW 「저, 저기!%ANAME(MASTER)%! 이, 이제 인내 할 수 없는 것, 안기고 싶어…!」
+		PRINTFORMW 발정한 개처럼 혀를 늘어뜨려, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+	ENDIF
+	RETURN 0
+;합의 이루어＆취한 기세
+ELSEIF ARG == 27
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 「아, 앗! 주인님! 이, 이제 인내 할 수 없습니다, 안기고 싶어…!」
+		PRINTFORMW 취한 기세나 발정한 개처럼 혀를 늘어뜨려, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+	;그 이외
+	ELSE
+		PRINTFORMW 「저, 저기!%ANAME(MASTER)%! 이, 이제(이미/벌써/더는/정말) 인내기내의, 안기고 싶어…!」
+		PRINTFORMW 취한 기세나 발정한 개처럼 혀를 늘어뜨려, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+	ENDIF
+	RETURN 0
+;합의 있어
+ELSEIF ARG == 28
+	;복종
+	IF TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이, 이군요, 엣치합시다? 그런데, 주인님…!」
+				PRINTFORMW 녹은 것 같은 표정으로 달라붙어, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+			CASE 1
+				PRINTFORMW 「이제 무리입니다, 더 이상 무리이기 때문에, 안아앗!」
+				PRINTFORMW 발정했는지같이 격렬하게 당신에 껴안으면서 신체를 강압해 온다
+			CASE 2
+				PRINTFORMW 「주인님, 이제 인내 할 수 없는 것…응, 부탁…!」
+				PRINTFORMW 숨을 거칠게 하고 눈을 하트로 하면서, 격렬하게 몸을 칠해 신체를 강압해 온다
+		ENDSELECT 
+	;그 이외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이, 이군요, 엣치해? 그런데, %ANAME(MASTER)%…!」
+				PRINTFORMW 녹은 것 같은 표정으로 달라붙어, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+			CASE 1
+				PRINTFORMW 「이제 무리, 더 이상은 무리이기 때문에, 안아앗!」
+				PRINTFORMW 발정했는지같이 격렬하게 당신에 껴안으면서 신체를 강압해 온다
+			CASE 2
+				PRINTFORMW 「%ANAME(MASTER)%, 이제 인내 할 수 없는 것…응, 부탁…!」
+				PRINTFORMW 숨을 거칠게 하고 눈을 하트로 하면서, 격렬하게 몸을 칠해 신체를 강압해 온다
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+;합의 있어＆취한 기세
+ELSEIF ARG == 29
+	;복종
+	IF TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이, 이군요, 엣치합시다? 그런데, 주인님…!」
+				PRINTFORMW 취기로 녹은 것 같은 표정으로 달라붙어, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+			CASE 1
+				PRINTFORMW 「이제 무리, 더 이상 무리이기 때문에, 저기…안아!」
+				PRINTFORMW 취한 기세인가, 평소보다도 격렬하게 당신에 껴안으면서 신체를 강압해 온다
+			CASE 2
+				PRINTFORMW 「주인님, 이제 인내 할 수 없는 것…응, 부탁…!」
+				PRINTFORMW 취기와 정욕이 섞였는지, 격렬하게 몸을 칠해 신체를 강압해 온다
+		ENDSELECT 
+	;그 이외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「이, 이군요, 엣치해? 그런데, %ANAME(MASTER)%…!」
+				PRINTFORMW 취기로 녹은 것 같은 표정으로 달라붙어, 꼬리를 붕붕 거절하면서 신체를 강압해 온다
+			CASE 1
+				PRINTFORMW 「이제 무리, 더 이상은 무리이기 때문에, 저기…안아!」
+				PRINTFORMW 취한 기세인가, 평소보다도 격렬하게 당신에 껴안으면서 신체를 강압해 온다
+			CASE 2
+				PRINTFORMW 「%ANAME(MASTER)%, 이제 인내 할 수 없는 것…응, 부탁…!」
+				PRINTFORMW 취기와 정욕이 섞였는지, 격렬하게 몸을 칠해 신체를 강압해 온다
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;취기 한계에서 넘어진다
+;-------------------------------------------------
+IF ARG == 32
+	PRINTFORMW 「후냐아…」
+	PRINTFORMW 카게로가 당신으로 하고 눈사태 걸려 왔다
+	PRINTFORMW 아무래도 한계까지 취기가 돌아 버린 것 같다
+	PRINTFORMW 꼬리에 흔들려도, 몸을 진동시킬 뿐으로 분노도 하지 않는다
+	PRINTFORMW 그런데, 왜 그러는 것인가?
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;임신 발각
+;-------------------------------------------------
+IF ARG == 40
+	;포로 조교
+	IF CFLAG:9 == CFLAG:MASTER:1
+		;부친 불명
+		IF CFLAG:23 == 0
+			IF ABL:출산 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공인 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_ID(MASTER)
+			;연모
+			IF TALENT:연모
+				PRINTFORMW 감옥에 이은 카게로를 보러 가면, 평상시와는 모습이 차이가 났다
+				PRINTFORMW 「앗…」
+				PRINTFORMW 당신을 보면 불쑥 한숨을 흘려, 얼굴을 새빨갛게 물들였다
+				PRINTFORMW 간수에 이야기를 들으면, 아무래도 당신의 아이를 임신한 것 같다
+				PRINTFORMW 일순간 놀랐지만, 그것도 재미있으면 힐쭉 웃음 카게로를 바라보았다
+				PRINTFORMW 카게로는 배를 어루만지면서, 때때로 힐끔힐끔 당신을 보고 있다
+			;복종
+			ELSEIF TALENT:복종
+				PRINTFORMW 감옥에 이은 카게로를 보러 가면, 평상시와는 모습이 차이가 났다
+				PRINTFORMW 「앗…」
+				PRINTFORMW 당신을 보면 일순간 뭔가를 말하며로부터, 얼굴을 뒤로 젖혔다
+				PRINTFORMW 간수에 이야기를 들으면, 아무래도 당신의 아이를 임신한 것 같다
+				PRINTFORMW 일순간 놀랐지만, 그것도 재미있으면 힐쭉 웃음 카게로를 바라보았다
+				PRINTFORMW 당신의 시선을 느낀 카게로는, 복잡할 것 같은 표정으로 머뭇머뭇 하고 있다
+			;그 이외
+			ELSE
+				PRINTFORMW 감옥에 이은 카게로를 보러 가면, 평상시와는 모습이 차이가 났다
+				PRINTFORMW 평소보다도 더욱 분노가 가득찬 눈초리로 노려봐 온다
+				PRINTFORMW 간수에 이야기를 들으면, 아무래도 당신의 아이를 임신한 것 같다
+				PRINTFORMW 일순간 놀랐지만, 그것도 재미있으면 힐쭉 웃음 카게로를 바라보았다
+				PRINTFORMW 얼굴이나 배도 보여지고 싶지 않다라는 듯이 뒤를 향해 버렸다
+			ENDIF
+		;촉수의 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_SPERM_ID("촉수")
+			;PRINTFORMW 
+		;다른 사관인 아이를 임신했다
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	;포로 조교 이외
+	ELSE
+		;부친 불명
+		IF CFLAG:23 == 0
+			IF ABL:출산 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공인 아이를 임신했다
+			;주인공의 아이를 5회 이상 낳았다
+				;PRINTFORMW 
+		ELSEIF CFLAG:23 == GET_ID(MASTER)
+			;연모
+			IF TALENT:연모
+				PRINTFORMW 「저기, 조금 괜찮을까」
+				PRINTFORMW 서재에서 일을 하고 있으면, 카게로가 들어 왔다
+				PRINTFORMW 평상시와 다른 모습의 그녀의 이야기를 들으면, 무려 당신의 아이를 임신한 것 같다
+				PRINTFORMW 「에헤헤,」
+				PRINTFORMW 쑥스러운 듯이 배를 어루만지는 카게로를 꼬옥 하고 껴안아 주면
+				PRINTFORMW 꼬리를 흔들면서 기쁜듯이 당신의 팔의 가슴에 얼굴을 묻었다
+				PRINTFORMW 「…고마워요, 건강한 아이, 낳네요?」
+				PRINTFORMW 물론이다, 사랑스러운 아이를 낳아 주라고 부탁하면
+				PRINTFORMW 행복하게 미소지어 보였다
+			;복종
+			ELSEIF TALENT:복종
+				PRINTFORMW 「저, 저, 주인님…」
+				PRINTFORMW 서재에서 일을 하고 있으면, 카게로가 들어 왔다
+				PRINTFORMW 평상시와 다른 모습의 그녀의 이야기를 들으면, 무려 당신의 아이를 임신한 것 같다
+				PRINTFORMW 「으음, 이 아이는…」
+				PRINTFORMW 어떻게 하면 좋은 것인지와 당황하고 있는 카게로를 껴안는다
+				PRINTFORMW 흠칫 신체를 진동시키는 그녀의 머리를 어루만져 주면
+				PRINTFORMW 안심했는지같이 당신의 가슴에 의지해, 눈을 치켜 뜨고 흠칫흠칫 물어 왔다
+				PRINTFORMW 「…폐가 아닙니까?」
+				PRINTFORMW 그렇지 않은, 건강한 아이를 낳아 주라고 고하면
+				PRINTFORMW 꼬리를 흔들면서 기쁜듯이 부끄러워해 보였다
+			;그 이외
+			ELSE
+				PRINTFORMW 「정말로 임신해져 버리다는…뭐야?」
+				PRINTFORMW 배에 손을 대면서 이쪽을 노려봐 오는 카게로에
+				PRINTFORMW 흠칫흠칫 그 아이를 어떻게 하는지 물었다
+				PRINTFORMW 「낳아요,…임신해 버린 것은 어쩔 수 없잖아」
+				PRINTFORMW 당신은 안심가슴을 쓸어 내렸다
+				PRINTFORMW 하면 불끈 한 것 같은 표정으로 카게로에 뺨을 꼬집어졌다
+				PRINTFORMW 그 후 한동안 그녀의 푸념과 불평에 교제해져 버렸다
+			ENDIF
+		;촉수의 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_SPERM_ID("촉수")
+			;PRINTFORMW 
+		;다른 사관인 아이를 임신했다
+		ELSE
+			;PRINTFORMW 
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;임월에 접어들었다
+;-------------------------------------------------
+IF ARG == 41
+	SIF CFLAG:MASTER:소속 != CFLAG:소속 && CFLAG:MASTER:소속 != CFLAG:포로처
+		RETURN
+	;포로 조교
+	IF CFLAG:9 == CFLAG:MASTER:1
+		PRINTFORMW 크게 배가 부푼 카게로를 휘둘렀다
+		PRINTFORMW 당신의 모습을 보면, 복잡할 것 같은 시선을 퍼부어 왔다
+		PRINTFORMW 상당히 배가 커졌군이라고 고하면
+		PRINTFORMW 누구의 좋은 평판이라고 중얼거려, 외면해 버렸다
+	;포로 조교 이외
+	ELSE
+		PRINTFORMW 임월에 접어들어 입원한 카게로를 휘둘렀다
+		PRINTFORMW 완전히 배가 부푼 카게로는, 침대에 가로놓이면서 당신을 환영했다
+		PRINTFORMW 「한동안은 안정하게 하지 않으면 안 되기 때문에, 부담 걸쳐 버릴지도 모르지만」
+		CALL ASK_MULTI("건강한 아이를 낳아라", "만나러 올거니까", "보테배섹스도 좋구나")
+		SELECTCASE RESULT
+			CASE 0
+				PRINTFORMW 「에헤헤, 응…」
+				PRINTFORMW 상냥하게 배를 어루만져 주면, 꼬리를 흔들면서 당신에 의지해 왔다
+			CASE 1
+				PRINTFORMW 「응, 기대하고 있다」
+				PRINTFORMW 사랑스러운 듯이 배를 어루만지면서, 자애로 가득 찬 눈동자로 당신을 응시하고 있다
+			CASE 2
+				PRINTFORMW 「이, 이제(이미/벌써/더는/정말)! 무슨 말하고 있는거야!」
+				PRINTFORMW 당신을 매도해 왔지만, 어딘지 모르게 그렇지만도 않은 것 같은 표정이다
+		ENDSELECT
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;아이를 출산했다
+;-------------------------------------------------
+IF ARG == 42
+	;부친의 캐릭터 번호를 LOCAL:0에 취득
+	LOCAL:0 = ID_TO_CHARA(CFLAG:23)
+
+	;주인공의 아이의 경우
+	IF LOCAL:0 == MASTER
+		IF TALENT:연모
+			PRINTFORMW 「오개아! 오개아!」
+			PRINTFORMW 세키자의 울음소리가 울려 온, 아무래도 무사하게 출산이 끝난 것 같다
+			PRINTFORMW 분만실에 뛰어들면, 완전히 지쳐 버리고 있는 카게로와 그 팔 중(안)에서 울고 있는 사랑스러운 세키자가 있었다
+			PRINTFORMW 당신의 모습을 보면, 카게로는 아직 괴로운 듯이 생긋 미소지었다
+			PRINTFORMW 자주(잘) 했다고 세키자와 함께 껴안아 주는 곳 위 없고 행복하게 눈물을 흘렸다
+		ELSEIF TALENT:복종
+			PRINTFORMW 「오개아! 오개아!」
+			PRINTFORMW 세키자의 울음소리가 울려 온, 아무래도 무사하게 출산이 끝난 것 같다
+			PRINTFORMW 분만실에 뛰어들면, 완전히 지쳐 버리고 있는 카게로와 그 옆에서 울고 있는 사랑스러운 세키자가 있었다
+			PRINTFORMW 당신의 모습을 보면, 카게로는 아직 괴로운 듯이 생긋 미소지었다
+			PRINTFORMW 자주(잘) 했다고 세키자와 함께 껴안아 주는 곳 위 없고 행복하게 눈물을 흘렸다
+		ELSE
+			PRINTFORMW 「오개아! 오개아!」
+			PRINTFORMW 세키자의 울음소리가 울려 온, 아무래도 무사하게 출산이 끝난 것 같다
+			PRINTFORMW 분만실에 뛰어들면, 완전히 지쳐 버리고 있는 카게로와 그 옆에서 울고 있는 사랑스러운 세키자가 있었다
+			PRINTFORMW 당신의 모습을 보면, 카게로는 아직 괴로운 듯이 생긋 미소지었다
+		ENDIF
+	;부친 불명의 경우
+	ELSEIF CFLAG:23 == 0
+		;PRINTFORMW 
+	;다른 관직에 오름의 아이의 경우
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수의 아이를 출산했다
+;-------------------------------------------------
+IF ARG == 44
+	;모판
+	IF GETBIT(TALENT:음란계, 소질_음란_모판)
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「앗…나의…아기…」
+				PRINTFORMW 떨리는 신체로 낳은지 얼마 안된 촉수를 사랑스러운 듯이 안고 있다
+			CASE 1
+				PRINTFORMW 「이히히…아핫…에헤헤헤…」
+				PRINTFORMW 마루에 쓰러져 엎어지면서 이 이상 없고 다행히 말한 표정으로 웃고 있다
+			CASE 2
+				PRINTFORMW 「촉수, 또…가득…」
+				PRINTFORMW 건강하게 지체에 휘감겨 오는 촉수를 넋을 잃고바라보고 있다
+			CASE 3
+				PRINTFORMW 「하아…하아…하아-…기분, 좋았다아…」
+				PRINTFORMW 완전히 푹 빠지게 된 출산에 의한 쾌락의 여운에 잠겨 방심하고 있다
+		ENDSELECT
+	;그 외
+	ELSE
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORMW 「아, 아…아긋…」
+				PRINTFORMW 눈물을 흘리면서 마루에 쓰러져 엎어지고 있다
+			CASE 1
+				PRINTFORMW 「얏…아니…」
+				PRINTFORMW 믿을 수 없다고 한 표정으로 낳은지 얼마 안된 촉수를 응시하고 있다
+			CASE 2
+				PRINTFORMW 「흇-…흇-…」
+				PRINTFORMW 숨도 끊어질듯 끊어질듯 라는 모습으로 쫑긋쫑긋 신체를 진동시키고 있다
+			CASE 3
+				PRINTFORMW 「이제…무리…응긋…」
+				PRINTFORMW 힘 없게 넘어지면서 촉수를 낳은 구멍을 뻐끔뻐금 시키고 있다
+		ENDSELECT
+	RETURN 0
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;충성을맹세하게한다/성공
+;-------------------------------------------------
+IF ARG == 50
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 슬슬 좋을 것이다
+		PRINTFORMW 몸부림치는 카게로를 봐 그렇게 생각한 당신은 조교의 손을 멈추었다
+		PRINTFORMW 돌연 고문을 제지당한 카게로는 숨을 정돈하고 있다
+		PRINTFORMW 하지만 다음에 무엇을 되는지 신체를 굳어지게 하고 있다
+		PRINTFORMW 그녀의 머리를 잡으면 흠칫 신체를 진동시켰다
+		PRINTFORMW 귓전으로 우리 나라에, 아니, 자신에게 충성을 맹세하도록(듯이)와
+		PRINTFORMW 강하고, 하지만 상냥하게 속삭였다
+		PRINTFORMW ………
+	;그 이외
+	ELSE
+		PRINTFORMW 슬슬 좋을 것이다
+		PRINTFORMW 몸부림치는 카게로를 봐 그렇게 생각한 당신은 조교의 손을 멈추었다
+		PRINTFORMW 돌연 고문을 제지당한 카게로는 숨을 정돈하고 있다
+		PRINTFORMW 하지만 다음에 무엇을 되는지 신체를 굳어지게 하고 있다
+		PRINTFORMW 그녀의 머리를 잡으면 흠칫 신체를 진동시켰다
+		PRINTFORMW 귓전으로 우리 나라에 충성을 맹세하도록(듯이)와
+		PRINTFORMW 강하고, 하지만 상냥하게 속삭였다
+		PRINTFORMW ………
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;충성을맹세하게한다/실패
+;-------------------------------------------------
+IF ARG == 51
+	PRINTFORMW 슬슬 좋을 것이다
+	PRINTFORMW 몸부림치는 카게로를 봐 그렇게 생각한 당신은 조교의 손을 멈추었다
+	PRINTFORMW 돌연 고문을 제지당한 카게로는 숨을 정돈하고 있다
+	PRINTFORMW 하지만 다음에 무엇을 되는지 신체를 굳어지게 하고 있다
+	PRINTFORMW 그녀의 머리를 잡으면 흠칫 신체를 진동시켰다
+	PRINTFORMW 귓전으로 우리 나라에 충성을 맹세하도록(듯이)와
+	PRINTFORMW 강하고, 하지만 상냥하게 속삭였다
+	PRINTFORMW ………
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/성공
+;-------------------------------------------------
+IF ARG == 52
+	;연모
+	IF TALENT:연모
+		PRINTFORMW 슬슬 우리 나라에 오지 않을까?
+		PRINTFORMW 카게로와의 회화중에, 그렇게 고했다
+		PRINTFORMW 당신의 의사표현에 그녀는 곤란한 것 같은 기쁜 것 같은 표정을 보인다
+		PRINTFORMW 숙이고 생각하는 그녀의 대답을 기다렸다
+		PRINTFORMW ………
+		PRINTFORMW 잠깐의 사이, 머뭇머뭇 하고 있던 그녀이지만
+		PRINTFORMW 뜻을 정한 것처럼 당신을 응시하면
+		PRINTFORMW 네, 라고 대답했다
+		PRINTFORMW 그녀의 대답에 안심하고 있으면, 당신에 의지하면서 말을 계속했다
+		PRINTFORMW 「이 나라이니까가 아니고, 당신의 권유이니까?」
+		PRINTFORMW 갑자기 눈을 치켜 뜨고 그렇게 (들)물어 갈팡질팡 해 버리고 있으면
+		PRINTFORMW 「우후훗, 한 개 받아들일 수 있었을까」
+		PRINTFORMW 와 심술궂은 것 같은 웃는 얼굴로 조롱해져 버렸다
+		PRINTFORMW ………
+		PRINTFORMW 재차 앞으로도 아무쪼록 부탁하면 악수를 요구하면
+		PRINTFORMW 강력하고 꾹 꼭 잡았다
+	;그 이외
+	ELSE
+		PRINTFORMW 슬슬 우리 나라에 오지 않을까?
+		PRINTFORMW 카게로와의 회화중에, 그렇게 고했다
+		PRINTFORMW 당신의 의사표현에 그녀는 곤란한 것 같은 표정을 보인다
+		PRINTFORMW 숙이고 생각하는 그녀의 대답을 기다렸다
+		PRINTFORMW ………
+		PRINTFORMW 잠깐의 사이, 머뭇머뭇 하고 있던 그녀이지만
+		PRINTFORMW 뜻을 정한 것처럼 당신을 응시하면
+		PRINTFORMW 네, 라고 대답했다
+		PRINTFORMW 그녀의 대답에 안심해
+		PRINTFORMW 재차 앞으로도 아무쪼록 부탁하면 악수를 요구하면
+		PRINTFORMW 강력하고 꾹 꼭 잡았다
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/실패
+;-------------------------------------------------
+IF ARG == 53
+	PRINTFORMW 슬슬 우리 나라에 오지 않을까?
+	PRINTFORMW 카게로와의 회화중에, 그렇게 고했다
+	PRINTFORMW 당신의 의사표현에 그녀는 곤란한 것 같은 표정을 보인다
+	PRINTFORMW 숙이고 생각하는 그녀의 대답을 기다렸다
+	PRINTFORMW ………
+	PRINTFORMW 잠깐의 침묵의 뒤, 그녀는
+	PRINTFORMW 그것은 무리이다면 거절해 왔다
+	PRINTFORMW 그러면 더 이상 강요해도 어쩔 수 없다고 느낀 당신은
+	PRINTFORMW 갑자기 이런 일을 (들)물어 나빴다고, 이 화제를 일단 잘랐다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;연모를 취득
+;-------------------------------------------------
+IF ARG == 60
+	PRINTFORMW (%ANAME(MASTER)%…%ANAME(MASTER)%…)
+	PRINTFORMW 카게로는 침대 위에서 베개를 안으면서 번민스럽게 당신을 생각하고 있다
+	PRINTFORMW (최근에는 쭉, 그 사람의 일뿐 생각하고 있다…)
+	PRINTFORMW (인간을 좋아하게 되어 버리다니 나는 이상한 것일까…)
+	PRINTFORMW (그렇지만 그렇지만, 역시…좋아하는 걸…)
+	PRINTFORMW (%ANAME(MASTER)%의 일, 좋아해, 뭐야…)
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;친구를 취득
+;-------------------------------------------------
+IF ARG == 61
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;친애를 취득
+;-------------------------------------------------
+IF ARG == 62
+	PRINTFORMW 「%ANAME(MASTER)%」
+	PRINTFORMW 카게로에 불려 되돌아 본다
+	PRINTFORMW 하면 만면의 미소를 띄운 그녀가 다가왔다
+	PRINTFORMW 뭔가 기쁜 일이기도 했을 것인가, 꼬리를 흔들고 있다
+	PRINTFORMW 그건 그렇고 무슨 용무일까하고 물으면, 불러 본 것 뿐, 라고 해지고 팔을 얽히게 해 왔다
+	PRINTFORMW 좋게 모르지만 아무래도 기분인것 같다
+	PRINTFORMW 그대로 그녀에게 선도되도록(듯이) 둘이서 걸어 갔다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;복종을 취득
+;-------------------------------------------------
+IF ARG == 63
+	PRINTFORMW (안 된다, 이제(이미/벌써/더는/정말)…)
+	PRINTFORMW (저 녀석에게 반항할 수 없게 되고 있다)
+	PRINTFORMW (…만약, 복종을 맹세하면)
+	PRINTFORMW (상냥하게 취급해, 줄까나…)
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;예속을 취득
+;-------------------------------------------------
+IF ARG == 64
+	PRINTFORMW (간신히 알았다)
+	PRINTFORMW (나, 주인님의 일이, 정말 좋아하는 것이다…)
+	PRINTFORMW (칭찬되어지면 기쁜, 어루만져지면 기쁘다)
+	PRINTFORMW (상관해지면 기쁜, 사랑 받으면 기쁘다)
+	PRINTFORMW (기쁜 기쁜 기쁜 각자 기호 각자 기호)
+	PRINTFORMW (………)
+	PRINTFORMW (나, 주인님의 애완동물이다)
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음란을 취득
+;-------------------------------------------------
+IF ARG == 65
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;혼인의식(선택시)
+;-------------------------------------------------
+IF ARG == 90
+	;연모
+	IF TALENT:연모
+		PRINTFORMW 「엣, 앗, 우우…?」
+		PRINTFORMW 프로포즈하면 놀라 굳어져 버렸다
+		PRINTFORMW 「으음, 저, 저…미, 미안…!」
+		PRINTFORMW 일순간 차여버린 건가라고 생각했지만, 갑자기 카게로가 당신의 가슴에 껴안아 왔다
+		PRINTFORMW 「미, 미안, 미안해요…기쁘고, 부, 부끄러워서…어, 얼굴, 볼 수 없는 것…」
+		PRINTFORMW 야, 차였는지라고 생각했다고 웃으면, 꽈악 당신을 껴안아 목을 옆에 흔든다
+		PRINTFORMW 침착할 때까지의 사이, 당신의 가슴에 얼굴을 묻고 있는 카게로를 상냥하게 어루만져 준다
+		PRINTFORMW 「미안해요, %ANAME(MASTER)%……이제 괜찮아, 아우, 보기 흉한 곳, 보여 버렸다」
+		PRINTFORMW 얼굴을 올린 카게로는 얼굴을 새빨갛게 하면서 뺨을 억제하고 있다
+		PRINTFORMW 그녀의 손을 잡아, 재차 프로포즈의 말을 주었다
+		PRINTFORMW 「하, 하히……부, 부족한 몸입니다만, 잘 부탁드립니다…」
+		PRINTFORMW 긴장으로 눈동자를 물기를 띠게 하면서도, 이번은 확실히 프로포즈를 받아 주었다
+		PRINTFORMW 미소짓는 그녀를, 이번은 당신으로부터 꼬옥 하고 껴안아, 뜨거운 입맞춤을 주고 받았다
+	;복종
+	ELSEIF TALENT:복종
+		PRINTFORMW 「엣, 앗, 우우…?」
+		PRINTFORMW 프로포즈하면 놀라 굳어져 버렸다
+		PRINTFORMW 「으음, 저, 저, 미, 미안해요…!」
+		PRINTFORMW 일순간 설마 차여버린 건가라고 생각했지만, 갑자기 카게로가 당신의 가슴에 껴안아 왔다
+		PRINTFORMW 「미, 미안해요…저, 으음…기, 기쁘고, 부, 부끄러워서…어, 얼굴, 볼 수 없는 것…」
+		PRINTFORMW 야, 차였는지라고 생각했다고 웃으면, 꽈악 당신을 껴안아 목을 옆에 흔든다
+		PRINTFORMW 침착할 때까지의 사이, 떨리면서 당신의 가슴에 얼굴을 묻고 있는 카게로를 상냥하게 어루만져 주었다
+		PRINTFORMW 「미안해요, 주인님……이제 괜찮아, 아우, 보기 흉한 곳, 보여 버렸다」
+		PRINTFORMW 얼굴을 올린 카게로는 얼굴을 새빨갛게 하면서 뺨을 억제하고 있다
+		PRINTFORMW 그녀의 손을 잡아, 재차 프로포즈의 말을 주었다
+		PRINTFORMW 「하, 하히……부, 부족한 몸입니다만, 잘 부탁드립니다…네, 네에…후에에에에읏!」
+		PRINTFORMW 감격했는지, 대답을 하면서 명 나무이고라고 끝냈다
+		PRINTFORMW 이번은 당신으로부터 그녀를 꼬옥 하고 껴안아, 침착할 때까지 언제까지나 껴안아 주었다
+	;어느 쪽도 아닌, 없다고 생각하지만 일단
+	ELSE
+		;PRINTFORMW
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;혼인의식(이벤트시)
+;-------------------------------------------------
+IF ARG == 91
+	;연모
+	IF TALENT:연모
+		PRINTFORMW 식 당일
+		PRINTFORMW 「오, 오래 기다리셨어요…%ANAME(MASTER)%…」
+		PRINTFORMW 긴장하면서 웨딩드레스를 입은 카게로가 나타났다
+		PRINTFORMW 「어, 어떨까? 이상하지 않아?」
+		PRINTFORMW 순백의 드레스에, 요염한 흑발이 자주(잘) 빛났다
+		PRINTFORMW 그렇지 않은, 매우 예쁘다고 전하면, 얼굴을 새빨갛게 해 버렸다
+		PRINTFORMW 「아우-, 그, 그렇게 진지하게 (들)물으면 …」
+		PRINTFORMW 드레스아래에 숨은 꼬리가 격렬하게 흔들리고 있는 것을 알 수 있다
+		PRINTFORMW 「다, 당신도, 근사해요」
+		PRINTFORMW 화제를 바꾸려고 하고 있을 것이다, 수줍으면서 그렇게 말해졌다
+		PRINTFORMW 고마워요 예를 말해, 그녀의 머리를 가볍게 어루만진다
+		PRINTFORMW 그녀는 웃음을 띄워, 귀를 쫑긋쫑긋 움직이면서 기쁜듯이 그것을 받아들인다
+		PRINTFORMW 「고마워요…조금 긴장하고 있던 것, 네에……」
+		PRINTFORMW 실은 자신도라고 고하면, 둘이서 얼굴을 마주 봐, 후훗 어느 쪽으로부터랄 것도 없게 웃었다
+		PRINTFORMW 슬슬 식때간의 같다, 안내의 사람에게 촉구받는다
+		PRINTFORMW 당신은 그녀에게 손을 내민다
+		PRINTFORMW 카게로는 만면의 미소로 당신의 손을 잡아, 다가붙어 선다
+		PRINTFORML
+		PRINTFORMW 갈까, 카게로
+		PRINTFORML
+		PRINTFORMW 「네, %ANAME(MASTER)%, 어디까지나」
+		PRINTFORML
+		PRINTFORMW 제대로 손을 잡아, 앞으로의 미래에, 둘이서 걷기 시작왔다
+	;복종
+	ELSEIF TALENT:복종
+		PRINTFORMW 식 당일
+		PRINTFORMW 「오, 오래 기다리셨습니다…주인님…」
+		PRINTFORMW 긴장하면서 웨딩드레스를 입은 카게로가 나타났다
+		PRINTFORMW 「어, 어떨까? 이상하지 않아?」
+		PRINTFORMW 순백의 드레스에, 요염한 흑발이 자주(잘) 빛났다
+		PRINTFORMW 그렇지 않은, 매우 예쁘다고 전하면, 얼굴을 새빨갛게 해 버렸다
+		PRINTFORMW 「아우-, 그, 그렇게 진지하게 (들)물으면 …」
+		PRINTFORMW 드레스아래에 숨은 꼬리가 격렬하게 흔들리고 있는 것을 알 수 있다
+		PRINTFORMW 「주, 주인님도, 근사해요」
+		PRINTFORMW 화제를 바꾸려고 하고 있을 것이다, 수줍으면서 그렇게 말해졌다
+		PRINTFORMW 고마워요 예를 말해, 그녀의 머리를 가볍게 어루만진다
+		PRINTFORMW 그녀는 웃음을 띄워, 귀를 쫑긋쫑긋 움직이면서 기쁜듯이 그것을 받아들인다
+		PRINTFORMW 「고마워요…조금 긴장하고 있던 것, 네에……」
+		PRINTFORMW 실은 자신도라고 고하면, 둘이서 얼굴을 마주 봐, 후훗 어느 쪽으로부터랄 것도 없게 웃었다
+		PRINTFORMW 슬슬 식때간의 같다, 안내의 사람에게 촉구받는다
+		PRINTFORMW 당신은 그녀에게 손을 내민다
+		PRINTFORMW 카게로는 만면의 미소로 당신의 손을 잡아, 다가붙어 선다
+		PRINTFORML
+		PRINTFORMW 갈까, 카게로
+		PRINTFORML
+		PRINTFORMW 「네, 주인님, 어디까지나」
+		PRINTFORML
+		PRINTFORMW 제대로 손을 잡아, 앞으로의 미래에, 둘이서 걷기 시작왔다
+	;어느 쪽도 아닌, 없다고 생각하지만 일단
+	ELSE
+		;PRINTFORMW
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 자위(Ｃ)
+;-------------------------------------------------
+IF ARG == 100
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORML 「읏, 후, 훗, 쿠응…%ANAME(MASTER)%…읏…%ANAME(MASTER)%……」
+		CASE 1
+			PRINTFORML 「읏! 읏! 응읏…하아…이런 것은, 어딘지 부족해…응읏!」
+		CASE 2
+			PRINTFORML 「앗, 읏! 앗, 하, 하앙! …%ANAME(MASTER)%…읏…」
+	ENDSELECT 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 자위(Ａ)
+;-------------------------------------------------
+IF ARG == 101
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 성교
+;-------------------------------------------------
+IF ARG == 102
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조르기에게 「보류」를 선택
+;-------------------------------------------------
+IF ARG == 103
+	PRINTFORMW 안아 줄까하고 생각했지만
+	PRINTFORMW 기학심이 얼굴을이고, 「보류」를 선언했다
+	PRINTFORMW 하면 카게로는 분명하게 쇼크를 받은 표정으로 싫어싫어하고 고개를 저었다
+	PRINTFORMW 눈동자를 물기를 띠게 한 가슴을 강압하면서 달라붙어 오는 그 행동에
+	PRINTFORMW 무심코 쓰러트릴 것 같게 되는 충동을 참아 그 손을 뿌리친다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(취한 기세·합의는 얻을 수 없다)
+;-------------------------------------------------
+IF ARG == 104
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(합의를 취득)
+;-------------------------------------------------
+IF ARG == 105
+	;연모
+	IF TALENT:연모
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 「엣치…할까?」
+		CASE 1
+			PRINTFORMW 「%ANAME(MASTER)%! 좋아! 좋아해요! 좋지요?」
+		CASE 2
+			PRINTFORMW 「이제 인내 할 수 없다! 해!」
+	ENDSELECT 
+	;복종
+	ELSEIF TALENT:복종
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 「주인님, 이제 인내 할 수 없는거야!」
+		CASE 1
+			PRINTFORMW 「엣치, 엣치하는거야!」
+		CASE 2
+			PRINTFORMW 「주인님! 좋아! 너무 좋앗! 합시다!」
+	ENDSELECT 
+	;그 이외
+	ELSE
+		PRINTFORMW 「이리가 되어 버려요?」
+	ENDIF
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;유혹 실패
+;-------------------------------------------------
+IF ARG == 106
+	PRINTFORMW 「………」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(이미 합의 있어)
+;-------------------------------------------------
+IF ARG == 107
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;취해 무너진 곳에서 장난
+;-------------------------------------------------
+IF ARG == 110
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공이 실신해도 조교 계속
+;-------------------------------------------------
+IF ARG == 111
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공이 피로해도 조교 계속
+;-------------------------------------------------
+IF ARG == 112
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;커맨드 실행 실패
+;-------------------------------------------------
+IF ARG == 150
+	PRINTFORMW 「………」
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장＆플러그를 실행 후, 플러그를 뽑아 낸다
+;-------------------------------------------------
+IF ARG == 151
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/일반
+;-------------------------------------------------
+;곁잠
+IF ARG == 200
+	;연모
+	IF TALENT:연모
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「에헤헤, 가끔씩은 함께 자고 싶다고」
+				PRINTFORMW 응석부리는 것 같은 소리로 졸라 오는 카게로에 져, 방에 불렀다
+			CASE 1
+				PRINTFORML 「흐흑…싫은 꿈꾸어 버려…」
+				PRINTFORMW 물기를 띤 눈동자로 응시해 오는 카게로를 어루만져 주어, 방에 불렀다
+			CASE 2
+				PRINTFORML 「엣치하고 싶은 것이 아니야, 그렇지만…외로워서」
+				PRINTFORMW 베개를 고용 머뭇머뭇 하고 있는 카게로를 사랑스럽게 느껴 방에 불렀다
+			CASE 3
+				PRINTFORML 「오늘 밤, 춥기 때문에, 당신도 떨고 있지 않을까～는」
+				PRINTFORMW 힐끔힐끔 이쪽을 엿보는 카게로에 쓴웃음하면서, 방에 불렀다
+		ENDSELECT 
+	;복종
+	ELSEIF TALENT:복종
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「저, 폐가 아니면…」
+				PRINTFORMW 베개를 안고 흠칫흠칫 하고 있는 카게로를 사랑스럽게 느껴 방에 불렀다
+			CASE 1
+				PRINTFORML 「무엇인가, 추워서…」
+				PRINTFORMW 부들부들떨리는 카게로를 상냥하게 껴안아, 방에 불렀다
+			CASE 2
+				PRINTFORML 「외롭기 때문에, 1명은 싫습니다…」
+				PRINTFORMW 문을 열면 껴안아 온 그녀를 떼어낼 수도 있지 않고, 방에 불렀다
+			CASE 3
+				PRINTFORML 「안기고 싶어가 아니고…다만, 외로워서…」
+				PRINTFORMW 불안한 듯이 당신의 안색을 엿보는 카게로를 어루만져 주어, 방에 불렀다
+		ENDSELECT 
+	;그 외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「외로운 것…안 돼?」
+				PRINTFORMW 평소보다도 작게 보여, 불쌍하게 느낀 카게로를 방에 불러 주었다
+			CASE 1
+				PRINTFORML 「조금 전 소리가 나…」
+				PRINTFORMW 부들부들 멈추는 것으로 작은 동물과 같이 떨고 있던 카게로를 방에 불러 주었다
+			CASE 2
+				PRINTFORML 「1명이라면 외로운 것이 아닐까～는…」
+				PRINTFORMW 솔직하지 않다고 생각했지만, 이것도 또 사랑스럽다고 생각되고 방에 불러 주었다
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+;저녁 반주
+ELSEIF ARG == 201
+	;연모
+	IF TALENT:연모
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「좋은 술이 손에 들어 온 것이다, 함께 음도?」
+			CASE 1
+				PRINTFORML 「수고 하셨습니다, 가끔씩은 숨돌리기 해」
+			CASE 2
+				PRINTFORML 「좋은 달밤이니까, 달을 보면서 술을 마심 합시다?」
+			CASE 3
+				PRINTFORML 「에헤헤, 가끔씩은 당신과 둘이서 조용하게 마시고 싶어서」
+		ENDSELECT 
+	;복종
+	ELSEIF TALENT:복종
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「좋은 술이 손에 들어 온 것, 함께 마시지 않겠습니까?」
+			CASE 1
+				PRINTFORML 「수고 하셨습니다, 으음…가끔씩은 숨돌리기 하는 편이 좋을까 하고」
+			CASE 2
+				PRINTFORML 「좋은 달밤이니까, 달을 보면서 술을 마심은 어떨까?」
+			CASE 3
+				PRINTFORML 「저, 가끔씩은 주인님과 둘이서 조용하게 마시고 싶어서」
+		ENDSELECT 
+	;그 외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「1명이라고 마시지 못하고부터, 어떨까?」
+			CASE 1
+				PRINTFORML 「인간에게는 강할지도 모르지만, 맛있는 술이 손에 들어 왔어」
+			CASE 2
+				PRINTFORML 「가끔씩은 술, 교제하지 않아?」
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+;담소
+ELSEIF ARG == 202
+	;연모
+	IF TALENT:연모
+		SELECTCASE RAND:6
+			CASE 0
+				PRINTFORML 「최근 바쁜 것 같으니까, 가끔씩은 천천히 이야기에서도 어떨까 하고」
+			CASE 1
+				PRINTFORML 「상담하고 싶은 것이 있지만…좋을까?」
+			CASE 2
+				PRINTFORML 「맛있는 과자를 받았기 때문에, 함께 어떨까」
+			CASE 3
+				PRINTFORML 「잘 수 없는 것, 괜찮다면 조금 이야기에서도 하지 않아?」
+			CASE 4
+				PRINTFORML 「일전에의 이야기의 계속을 들으러 왔어요, 좋을까?」
+			CASE 5
+				PRINTFORML 「달이 예쁘기 때문에 자는 것이 한 번 더 없는 것, 의논 상대가 되었으면 하는데」
+		ENDSELECT 
+	;복종
+	ELSEIF TALENT:복종
+		SELECTCASE RAND:6
+			CASE 0
+				PRINTFORML 「최근 바쁜 것 같으니까, 가끔씩은 천천히 이야기에서도 어떨까 하고」
+			CASE 1
+				PRINTFORML 「상담하고 싶은 것이 있어…좋습니까?」
+			CASE 2
+				PRINTFORML 「맛있는 과자를 받았기 때문에, 주인님도 함께 어떻습니까」
+			CASE 3
+				PRINTFORML 「그, 잘 수 없어…약간으로 좋으니까 이야기를 하고 싶어져…」
+			CASE 4
+				PRINTFORML 「일전에의 이야기의 다음이 신경이 쓰여 버려, 안될까?」
+			CASE 5
+				PRINTFORML 「달이 예쁘기 때문에, 이런 밤에 곧 자 버리는 것은 한 번 더 없잖아」
+		ENDSELECT 
+	;그 외
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「꽤 대단한 듯하구나, 그렇지만 가끔씩은 숨돌리기 하지 않으면 넘어져 버려요?」
+			CASE 1
+				PRINTFORML 「일어나고 있었다면 꼭 좋았어요, 조금 이야기 합시다」
+			CASE 2
+				PRINTFORML 「달이 눈부셔서 흥분해 버려, 의논 상대를 갖고 싶었어」
+		ENDSELECT 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/애무
+;-------------------------------------------------
+;꾸짖고(통상)
+IF ARG == 210
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORML 「부탁해요, 자신의 손가락 뿐으로는 만족 할 수 없는 것…」
+		CASE 1
+			PRINTFORML 「벌써 이렇게 되어 버리고 있다…」
+		CASE 2
+			PRINTFORML 「쑤시고 쑤셔, 잘 수 없는 것…」
+	ENDSELECT
+	RETURN 0
+;꾸짖고(가학)
+ELSEIF ARG == 211
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORML 「어딘지 부족한 것…괴롭혀?」
+		CASE 1
+			PRINTFORML 「마음대로 해도 좋으, 니까?」
+		CASE 2
+			PRINTFORML 「신체가 쑤시게 되어 버려…」
+	ENDSELECT
+	RETURN 0
+;받고(통상)
+ELSEIF ARG == 212
+	;PRINTFORMW 
+	RETURN 0
+;받고(피학)
+ELSEIF ARG == 213
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/성교
+;-------------------------------------------------
+;주인공이 이 캐릭터의Ｖ에 삽입
+IF ARG == 220
+	SELECTCASE RAND:15
+		CASE 0
+			PRINTFORML 카게로의 옷을 벗겨, 침대 위에서 엎드려 있는 자세로 한다
+			PRINTFORML 기다릴 수 없게 엉덩이를 흔들어 이쪽을 권해 온다
+			PRINTFORML 허리를 잡아, 벌써 젖고 있는 암컷구멍에 쑤셔 넣으면 기쁨의 소리가 높아졌다
+			PRINTFORML 덮어씌우는 것처럼 해 젖을 주물러 주면 힘들게 질을 졸라 온다
+			PRINTFORMW 응, 응과 고기가 서로 치는 소리와 카게로의 신음소리가 계속 영향을 주었다
+		CASE 1
+			PRINTFORML 옷을 벗겨내면, 벽에 손을 붙게 한 엉덩이를 내미는 모습을 시킨다
+			PRINTFORML 비밀스런 장소로부터는 벌써 애액이 흘러넘쳐, 기대에 흠칫흠칫 하고 있었다
+			PRINTFORML 육봉을 암컷구멍에 주어, 단번에 안쪽으로 찔러 넣으면 흠칫 등을 뒤로 젖혔다
+			PRINTFORML , 와 몇 번이나 허리를 쳐박아, 그때마다 기쁨의 소리가 높아진다
+			PRINTFORMW 짐승과 같이 격렬한 교미에 흥분해, 새벽까지 몇 번이나 절정 했다
+		CASE 2
+			PRINTFORML 알몸이 되어 침대 위에 위로 향해 드러누우면, 카게로가 걸쳐 온다
+			PRINTFORML 당신의 육봉을 붙잡기암컷구멍에 유도하면, 천천히 앉았다
+			PRINTFORML 자궁까지 깊게 꽂아 넣으면, 그것만으로 부르릇 몸을 진동시켜 가볍게 절정 한다
+			PRINTFORML 절정의 여운에 잠기면서도, 당신의 가슴에 손을 대고 허리를 흔들기 시작했다
+			PRINTFORML 당신의 이름을 몇 번이나 부르면서, 탐내는 것처럼 허리를 흔들고 있다
+			PRINTFORMW 그때마다 큰 가슴이 상하에 흔들려, 당신의 눈을 즐겁게 했다
+		CASE 3
+			PRINTFORML 카게로를 껴안아 침대에 위로 향해 재우면 다리를 열게 한다
+			PRINTFORML 당신이 우뚝 솟는 육봉을 본다고 기대하도록(듯이) 허리를 내밀었다
+			PRINTFORML 하지만 자 구멍에는 들어갈 수 있지 않고 균열에 따르도록(듯이) 칠한다
+			PRINTFORML 한동안 애태움이라고 있으면 안타까운 소리를 높여 넣으면 좋겠다고 간원 했다
+			PRINTFORML 허리를 잡아, 천천히 안쪽까지 삽입해 가면 움찔움찔 신체를 진동시켰다
+			PRINTFORMW 견딜 수 없다고 한 표정으로 허덕이는 카게로의 표정을 즐기면서 격렬한 교미를 반복했다
+		CASE 4
+			PRINTFORML 1회전을 끝내고 침대 위에서 카게로와 함께 쓰러진다
+			PRINTFORML 숨을 거칠게 하고 있는 카게로의 암컷구멍으로부터, 와 정액이 늘어지기 시작했다
+			PRINTFORML 부끄러운 듯이 하지만 행복하게 당신의 팔안에 안겨 미소짓고 있다
+			PRINTFORML 숨을 정돈하면서, 잠깐 둘이서 정신이 없는 회화를 계속했다
+			PRINTFORML 하면 카게로의 손이 당신의 육봉으로 늘어나 왔다
+			PRINTFORML 육봉을 비비면서 아무것도 말하지 않고 가만히 당신을 본다
+			PRINTFORMW 당신도 다시 흥분해 육봉을 격분하게 하면, 그녀에게 덮어씌워 2회전으로 들어갔다
+		CASE 5
+			PRINTFORML 카게로를 침대에 재우고 손가락과 혀로 차분히 애무해 준다
+			PRINTFORML 가슴, 클리토리스를 만지작거리면서 혀로 목덜미를 훑으면, 카게로는 몇 번이나 절정 한다
+			PRINTFORML 절정을 계속해 흥분한 카게로는 당신의 육봉을 졸라대 온다
+			PRINTFORML 기대에 응해, 육봉을을 삽입해Ｇ스팟을 몇 번이나 훑는 것처럼 추출을 반복한다
+			PRINTFORML 허리를 전후 시킬 때마다, 카게로는 다리를 핑 늘려 움찔움찔 몇 번이나 절정 한다
+			PRINTFORMW 계속 허덕이는 카게로를 끈적한 허리 사용으로 밤새도록 귀여워해 주었다
+		CASE 6
+			PRINTFORML 책상다리를 해 카게로를 부르면, 당신에 껴안으면서 천천히 앉았다
+			PRINTFORML 안쪽까지 육봉을 물면, 당신의 목에 손을 돌려 가벼운 키스했다
+			PRINTFORML 못된 장난한 웃는 얼굴을 하면, 동글동글 허리를 움직여 육봉을 자극해 온다
+			PRINTFORML 지지 않으려고 한 손으로 가슴을 주무르면서 엉덩이를 잡아 격렬하게 밀어올려 주면
+			PRINTFORML 기쁜 듯한 소리를 높여 등을 뒤로 젖히면서 질을 꽉 단단히 조여 왔다
+			PRINTFORMW 그 뒤도 카게로와 밀착해 키스를 반복하면서, 허리를 서로 쳐박았다
+		CASE 7
+			PRINTFORML 심야, 당신의 방의 창에 누군가의 그림자가 꿈틀거린다
+			PRINTFORML 당신이 카게로를 창가에 알몸으로 서게 해 한쪽 발을 들어 올리면서 배후로부터 범하고 있다
+			PRINTFORML 한밤중이라고는 해도 밖으로부터는 뻔히 보임의 자세다
+			PRINTFORML 눈물고인 눈의 카게로의 목덜미를 빨면 오슬오슬 몸을 진동시키고 질내를 졸라 온다
+			PRINTFORML 외에 있을지도 모르는 누군가에게 과시하는 것처럼 격렬하게 허리를 계속될 수 있다
+			PRINTFORMW 수치심과 쾌락이 뒤섞인 덩어리가 되어 언제나 이상으로 흥분한 카게로는, 격렬하게 허덕이면서 절정 했다
+		CASE 8
+			PRINTFORML 침대 위에서 땀투성이가 되면서 카게로와 사귀고 있다
+			PRINTFORML 카게로는 당신에 덮어눌려지면서, 애정이 가득찬 시선을 향해 격렬하게 허덕이고 있다
+			PRINTFORML 허리를 출납할 때, 결합부로부터는 벌써 토해낸 정액과 애액이 서로 섞여 흘러넘쳐 온다
+			PRINTFORML 쇠약해지지 않는 억압에 다시 사정감이 가까워져, 허리의 움직임을 재촉하면 다리를 걸어, 사정을 재촉 했다
+			PRINTFORML 일단 페니스가 빠지는 아슬아슬한 곳까지 허리를 당겨, 단번에 최안쪽까지 깊게 꽂아넣는다
+			PRINTFORMW 카게로의 한층 더 큰 절정에 의해 꾸욱 육봉이 단단히 조일 수 있어 귀두를 자궁입구에 꽉 누르면서 정액을 토해냈다
+		CASE 9
+			PRINTFORML 카게로는 당신에 껴안으면, 오늘은 상냥하게 해 주었으면 하면 응석부린 소리로 졸라 왔다
+			PRINTFORML 카게로를 껴안고 돌려주면 가벼운 키스를 반복하면서, 손가락으로 전신을 애무해 준다
+			PRINTFORML 응석부린 소리를 흘리면서 당신으로 되는 대로 몇 번이나 절정 하고 있다
+			PRINTFORML 녹은 같은 표정의 카게로를 상냥하게 옆으로 놓으면, 키스를 한 채로 천천히 페니스를 삽입한다
+			PRINTFORML 꼬옥 하고 껴안으면서 천천히 허리를 움직이면 견딜 수 없으면 신음소리를 루등 하기 시작했다
+			PRINTFORMW 삐걱삐걱 침대가 삐걱거리는 소리와 카게로의 기쁨의 소리만이 밤새 계속 영향을 주었다
+		CASE 10
+			PRINTFORML 개의 교미와 같은 자세로 카게로를 범하고 있다
+			PRINTFORML 하나 다른 것은 격렬하게는 아니고, 낙낙한 속도로 허리를 움직이고 있는 것이다
+			PRINTFORML 평상시와 다른 장소를 어루만지는 것처럼 자극계속 되고 힘이 들어오지 않게 된 카게로는
+			PRINTFORML 몸을 진동시키면서 베개에 얼굴을 묻어 신음소리를 억누르고 있다
+			PRINTFORMW 그 뒤도 끝없이 질내를 끈적 계속 공격하면 이윽고 안이고를 간원 했다
+		CASE 11
+			PRINTFORML 한밤중의 고요하게, 카게로의 신음소리가 영향을 준다
+			PRINTFORML 당신과 카게로는 대면좌위의 자세로 서로를 껴안으면서 격렬하게 교접하고 있다
+			PRINTFORML 당신은 카게로의 극상의 여체를 맛보도록(듯이) 자궁으로 닿는 깊은 스트로크를 반복한다
+			PRINTFORML 카게로는 당신의 가슴에 의지하면서 쾌감 모두를 받아들여 허덕이고 있다
+			PRINTFORML 엉덩이를 움켜잡음으로 하면서 허리의 움직임을 재촉해 가면 카게로는 삐걱삐걱 신체를 진동시켰다
+			PRINTFORMW 격렬하게 절정 하는 카게로의 최안쪽에 육봉을 꽂아 넣은 채로, 자궁으로 마킹 했다
+		CASE 12
+			PRINTFORML 카게로를 껴안으면서 격렬하게 사귄다
+			PRINTFORML 허리를 전후 시킬 때에 카게로는 격렬하게꾸중, 보다 강하게 당신을 껴안아 온다
+			PRINTFORML 질육이 우글거려 페니스를 자극 받으며, 긴장을 늦추면 당장 사정해 버릴 것 같다
+			PRINTFORML 허덕이면서 좀더 좀더와 조르는 카게로의 사랑스러움에, 당신의 흥분도 최고조에 이르러
+			PRINTFORMW 농후한 입맞춤을 주고 받으면서 페니스를 자궁입구까지 강압해, 정액을 발했다
+		CASE 13
+			PRINTFORML 1회전이 끝나, 당신은 카게로와 연결된 채로 침대에 드러누워, 절정의 여운을 맛보고 있다
+			PRINTFORML 서로 땀투성이가 되어 있어, 피부가 서로 비빌 때에 농후한 암컷의 냄새로 콧구멍을 간지러워진다
+			PRINTFORML 두를 어루만져 주면, 꼬리를 흔들면서 넋을 잃은 표정으로 당신을 응시해 왔다
+			PRINTFORML 그 표정에 다시 페니스가 단단해지면, 카게로가 앙읏과 기쁜 듯한 소리를 높여 못된 장난한 듯이 미소짓는다
+			PRINTFORMW 어느 쪽으로부터랄 것도 없게 입맞춤을 주고 받아, 다시 허리를 흔들기 시작했다
+		CASE 14
+			PRINTFORML 침대 위에서 카게로의 신체에 혀와 손가락을 기게 한다
+			PRINTFORML 그녀의 약점을 초조하게 하도록(듯이) 천천히 공격하면, 안타깝게 허리를 구불거리게 한경키야가
+			PRINTFORML 이윽고 인내 할 수 없게 되었는지, 구응과 목으로부터 응석부린 소리를 흘려 당신을 응시해 온다
+			PRINTFORML 그녀를 상냥하게 쓰러트리고, 녹진녹진이 되어 있는 비밀스런 장소에 여러 번 육봉을 칠한다
+			PRINTFORML 하면 신체를 핑 늘려 큰 소리로 허덕였다. 아무래도 가볍게 달한 것 같다
+			PRINTFORMW 개처럼 혀를 늘어뜨려 졸라대는 그녀를, 마음껏 귀여워해 주었다
+	ENDSELECT
+	RETURN 1
+;주인공이 이 캐릭터의Ａ에 삽입
+ELSEIF ARG == 221
+	;PRINTFORMW 
+	RETURN 0
+;이 캐릭터가 주인공의Ｖ에 삽입
+ELSEIF ARG == 222
+	;PRINTFORMW 
+	RETURN 0
+;이 캐릭터가 주인공의Ａ에 삽입
+ELSEIF ARG == 223
+	;PRINTFORMW 
+	RETURN 0
+;레즈 관련
+ELSEIF ARG == 224
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;아침 이벤트/스스로 성지식을 배운다
+;-------------------------------------------------
+IF ARG == 240
+	PRINTFORML 「헤, 헤-…인간은 이런 일 한다…」
+	PRINTFORML 카게로는 이불에 기어들면서 뭔가를 열심히 탐독하고는 있다
+	PRINTFORML 요전날, 상인으로부터 구입한 성에 관한 서적이다
+	PRINTFORML 「무, 무서워요―…인간, 무서워요―…」
+	PRINTFORMW 얼굴을 새빨갛게 시키면서 그런데도 책으로부터 한 눈을 팔 수 없는 같다
+	RETURN 0
+
+;-------------------------------------------------
+;아침 이벤트/스스로 성지식을 배운다(역조교)
+;-------------------------------------------------
+ELSEIF ARG == 241
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전투 개시
+;-------------------------------------------------
+;야전
+IF ARG == 300
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORMW 카게로 「노도의 공격을 보여 주어요!」
+		CASE 1
+			PRINTFORMW 카게로 「도망쳐도 쓸데없어요! 아오!」
+		CASE 2
+			PRINTFORMW 카게로 「당신에 내가 쓰러트릴 수 있을까?」
+		CASE 3
+			PRINTFORMW 카게로 「후후훗, 사냥해 준다!」
+		CASE 4
+			PRINTFORMW 카게로 「이 달빛아래에서 나에게 이길 수 있는지, 해 보는거야!」
+	ENDSELECT
+	RETURN 0
+;방위전(침공측)
+ELSEIF ARG == 301
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORMW 카게로 「이리의 사냥으로부터 도망칠 수 있다고 생각하지 않는 것이군요!」
+		CASE 1
+			PRINTFORMW 카게로 「공격하고 공격하고 마구 공격하는거야!」
+		CASE 2
+			PRINTFORMW 카게로 「아오! 틈을 보였군요!」
+		CASE 3
+			PRINTFORMW 카게로 「피와 화약의 냄새가 배어들어 버린다, 빨리 끝내요!」
+		CASE 4
+			PRINTFORMW 카게로 「여기를 공락하면 투쟁도 빨리 끝난다! 가요!」
+	ENDSELECT
+	RETURN 0
+;방위전(방위측)
+ELSEIF ARG == 302
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORMW 카게로 「그 정도? 전혀 두렵지 않아요!」
+		CASE 1
+			PRINTFORMW 카게로 「얏, 조금, 그쪽은 안된단 말야!」
+		CASE 2
+			PRINTFORMW 카게로 「우리들의 세력권에 들어 오는 것이 아니다!」
+		CASE 3
+			PRINTFORMW 카게로 「공포를 조각해 퇴각시켜 준다!」
+		CASE 4
+			PRINTFORMW 카게로 「더 이상 좋아하게 시키지마! 전군 분기해!」
+	ENDSELECT
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;특수 전술
+;-------------------------------------------------
+;계략 발동
+IF ARG == 310
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 카게로 「여기가 공격시군요, 전군 가요!」
+		CASE 1
+			PRINTFORMW 카게로 「냄새가 나요, 사냥감의 냄새가!」
+		CASE 2
+			PRINTFORMW 카게로 「이제 와서 공포 해도 늦어요, 아오!」
+	ENDSELECT
+	RETURN 0
+;반계
+ELSEIF ARG == 311
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 카게로 「그 정도의 책은, 들키고 들키고군요!」
+		CASE 1
+			PRINTFORMW 카게로 「늦다 늦다! 진짜의 사냥을 가르쳐 주어요!」
+		CASE 2
+			PRINTFORMW 카게로 「그런 것은 나는 파악할 수 없어요!」
+	ENDSELECT
+	RETURN 0
+;관계(무력)
+ELSEIF ARG == 312
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 카게로 「당하고 있을 뿐은 끝날 수 없는거야! 반격 하세요!」
+		CASE 1
+			PRINTFORMW 카게로 「틈개미야! 적진을 돌파해요!」
+		CASE 2
+			PRINTFORMW 카게로 「무너뜨려요! 『피에 굶주린 우르후팡』!」
+	ENDSELECT
+	RETURN 0
+;관계(호감도)
+ELSEIF ARG == 313
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORMW 카게로 「여기서 결정한닷! 『하이스피드파운스』!」
+		CASE 1
+			PRINTFORMW 카게로 「전군 돌격이야! 『트라이앙르팡』!」
+		CASE 2
+			PRINTFORMW 카게로 「달에 축복된 이 땅에서 후회하세요! 『후룸로아』!」
+	ENDSELECT 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 된다(부대 괴멸시)
+;-------------------------------------------------
+IF ARG == 330
+	PRINTFORMW 「………」
+	PRINTFORMW 눈앞에는 밧줄로 묶었던 적의 무장이 있다
+	PRINTFORMW 카게로라고 말했는지, 길고 윤기있는 머리카락과 거기로부터 뿅과 들여다 보는 개의 귀
+	PRINTFORMW 그리고 부드럽게 한 큰 꼬리가 눈을 끌었다
+	PRINTFORMW 무서워한 같은 표정으로, 그런데도 홱 이쪽을 노려보고 있지만
+	PRINTFORMW 자, 그럼, 어떻게 하지?
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 된다(멸망시)
+;-------------------------------------------------
+IF ARG == 331
+	PRINTFORMW 「………」
+	PRINTFORMW 눈앞에는 밧줄로 묶은 한 때의 적의 무장이 있다
+	PRINTFORMW 카게로라고 말했는지, 길고 윤기있는 머리카락과 거기로부터 뿅과 들여다 보는 개의 귀
+	PRINTFORMW 그리고 부드럽게 한 큰 꼬리가 눈을 끌었다
+	PRINTFORMW 무서워한 같은 표정으로, 그런데도 반드시 이쪽을 노려보고 있지만
+	PRINTFORMW 자, 그럼, 어떻게 하지?
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 되었을 때의 리액션
+;-------------------------------------------------
+;등용에 응한다
+IF ARG == 332
+	PRINTFORMW 당신은 카게로를 묶는 밧줄을 녹일 수 있었다
+	PRINTFORMW 불가사의한 표정을 띄우는 그녀에게 식사는 어떨까권했다
+	PRINTFORMW 이상하게 여기는 그녀이지만, 배는 비어있던 것 같고 흠칫흠칫 수긍했다
+	PRINTFORMW 모두 식사를 하면서 그녀의 나라의 일이나 요리에 대해 담소를 주고 받았다
+	PRINTFORMW 식사도 끝나는 무렵, 그녀에게 우리의 나라에 오지 않을까 권유했다
+	PRINTFORMW 「응…」
+	PRINTFORMW 젓가락을 멈추어, 숙여 골똘히 생각하고 있던 카게로이지만
+	PRINTFORMW 한동안 하면 얼굴을 올려 당신의 권유를 승낙했다
+	PRINTFORMW 당신은 안도 응어리질 수 있는으로부터 아무쪼록 부탁하면 악수를 걸면, 그녀도 손을 뻗어 왔다
+	PRINTFORMW 「에에, 잘 부탁드립니다…아, 그렇지만」
+	PRINTFORMW 갑자기 악수하려고 한 손을 멈추어, 지특과 당신을 응시해 고했다
+	PRINTFORMW 「…꼬리에 손대거나 하지 않도록요」
+	PRINTFORMW 아무래도 그녀의 부드럽게 한 꼬리에 눈움직임 하고 있었던 것이 발각되고 있던 것 같다
+	RETURN 0
+;등용을거부한다
+ELSEIF ARG == 333
+	PRINTFORMW 당신은 카게로를 묶는 밧줄을 녹일 수 있었다
+	PRINTFORMW 불가사의한 표정을 띄우는 그녀에게 식사는 어떨까권했다
+	PRINTFORMW 이상하게 여기는 그녀이지만, 배는 비어있던 것 같고 흠칫흠칫 수긍했다
+	PRINTFORMW 모두 식사를 하면서 그녀의 나라의 일이나 요리에 대해 담소를 주고 받았다
+	PRINTFORMW 식사도 끝나는 무렵, 그녀에게 우리의 나라에 오지 않을까 권유했다
+	PRINTFORMW 「응…」
+	PRINTFORMW 젓가락을 멈추어, 숙여 골똘히 생각하고 있던 카게로이지만, 한동안 하면 목을 옆에 흔들었다
+	PRINTFORMW 과연 식사만으로는 돌아눕거나는 하지 않는 같다
+	PRINTFORMW 매우 유감이다
+	PRINTFORMW 그녀의 부드럽게 한 꼬리를 살짝 보면서 그렇게 생각했다
+	PRINTFORMW 
+	PRINTFORMW …자, 그럼, 어떻게 하지?
+	RETURN 0
+;해방된다
+ELSEIF ARG == 334
+	PRINTFORMW 고문을 하는 취미도 없다
+	PRINTFORMW 당신은 카게로를 해방해 주기로 했다
+	PRINTFORMW 「인사를 해야 하는 것일까」
+	PRINTFORMW 당신에 꾸벅 고개를 숙여, 카게로는 떠나 갔다
+	RETURN 0
+;투옥된다
+ELSEIF ARG == 335
+	PRINTFORMW 아무래도 동료가 될 것 같지도 않다
+	PRINTFORMW 하지만 해방하는 것도 아깝다고 생각한 당신은
+	PRINTFORMW 한동안 감옥에 가두기로 했다
+	PRINTFORMW 「뭐, 어쩔 수 없네요…」
+	PRINTFORMW 의외로 얌전하지만, 그 표정에는 역시 두려움이 보였다
+	PRINTFORMW 병에게 명해 그녀를 감옥으로 데리고 가게 했다
+	RETURN 0
+;처형된다
+ELSEIF ARG == 336
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전사시
+;-------------------------------------------------
+IF ARG == 337
+	;주인공과 동일 세력에 소속
+	IF CFLAG:1 >= 1 && CFLAG:1 == CFLAG:MASTER:1
+		IF TALENT:연모 || TALENT:복종 || TALENT:친구
+			PRINTFORMW 「미안해요…%ANAME(MASTER)%…돌아갈 수 없는, 같다…」
+			PRINTFORMW 카게로는 땅 젖고의 지면에 쓰러져 엎어지면서, 끝까지 %ANAME(MASTER)%의 얼굴을 띄우고 있었다…
+		ELSE
+			PRINTFORMW 「긋…여, 여기까지…인가…」
+			PRINTFORMW 카게로는 땅 젖고의 지면에 쓰러져 엎어져, 이윽고 차가와졌다
+		ENDIF
+	;주인공과 다른 세력에 소속
+	ELSE
+			PRINTFORMW 「긋…여, 여기까지…인가…」
+			PRINTFORMW 카게로는 땅 젖고의 지면에 쓰러져 엎어져, 이윽고 차가와졌다
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;포로 조교의 메뉴
+;-------------------------------------------------
+;해방된다
+IF ARG == 340
+	PRINTFORMW 「무서워요―, 인간 무서워요―」
+	PRINTFORMW 카게로는 당신을 살짝 보면
+	PRINTFORMW 도망치는 것처럼 떠나 갔다
+	PRINTFORMW 그 표정은 무서워하고 있었는지 화나 있었는지, 차분히 보지 못하고에 유감이었다
+	RETURN 0
+;처형된다
+ELSEIF ARG == 341
+	;PRINTFORMW 
+	RETURN 0
+;성노예화 된다
+ELSEIF ARG == 342
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방랑 이벤트
+;-------------------------------------------------
+;등용에 응한다
+IF ARG == 350
+	PRINTFORMW 방랑하고 있는 카게로를 찾아낸 당신은 그녀를 궁전에 불렀다
+	PRINTFORMW 식사를 하면서 잠시 담소를 한 후, 우리와 함께 일하지 않을까 걸었다
+	PRINTFORMW 「그렇구나…좋아요? 따뜻한 식사와 침상을 줘」
+	PRINTFORMW 잠깐 골똘히 생각한 뒤로 기분 좋은 대답을 받을 수 있었다
+	PRINTFORMW 지금부터 아무쪼록 부탁하면 악수를 걸면, 그녀도 손을 뻗어 왔다
+	PRINTFORMW 「에에, 잘 부탁드립니다…아, 그렇지만」
+	PRINTFORMW 갑자기 악수하려고 한 손을 멈추어, 지특과 당신을 응시해 고했다
+	PRINTFORMW 「…꼬리에 손대거나 하지 않도록요」
+	PRINTFORMW 아무래도 그녀의 부드럽게 한 꼬리에 눈움직임 하고 있었던 것이 발각되고 있던 것 같다
+	RETURN 0
+;등용을거부한다
+ELSEIF ARG == 351
+	PRINTFORMW 방랑하고 있는 카게로를 찾아낸 당신은 그녀를 궁전에 불렀다
+	PRINTFORMW 식사를 하면서 잠시 담소를 한 후, 우리와 함께 일하지 않을까 걸었다
+	PRINTFORMW 「미안하지만, 지금은 좀 더 방랑하고 있고 싶은거야」
+	PRINTFORMW 아무래도 무리하게 만류해도 쓸데없는 같다
+	PRINTFORMW 매우 유감이다
+	PRINTFORMW 그녀의 부드럽게 한 꼬리를 살짝 보면서 그렇게 생각했다
+	RETURN 0
+;투옥된다
+ELSEIF ARG == 352
+	PRINTFORMW 방랑하고 있는 카게로를 찾아낸 당신은 그녀를 궁전에 불렀다
+	PRINTFORMW 식사를 하면서 잠시 담소를 한 후, 우리와 함께 일하지 않을까 걸었다
+	PRINTFORMW 「미안하지만, 지금은…좀 더…호우, 로……오………」
+	PRINTFORMW 말을 끝내기 전에 카게로는 파타리와 그 자리에 쓰러졌다
+	PRINTFORMW …식사에 혼합한 수면제가 효과가 있던 것 같다
+	PRINTFORMW 새근새근 자고 있는 그녀를 들여다 봐, 당신은 힐쭉 입 끝을 왜곡했다
+	PRINTFORMW 병에게 명해 그녀를 감옥에 던져 넣게 했다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;단칼·카린 관계
+;-------------------------------------------------
+;[단칼에 연모]를 취득
+IF ARG == 400
+	;PRINTFORMW 
+	RETURN 0
+;[단칼의 연인]를 취득
+ELSEIF ARG == 401
+	;PRINTFORMW 
+	RETURN 0
+;[단칼에 연모]를 상실
+ELSEIF ARG == 402
+	;PRINTFORMW 
+	RETURN 0
+;단칼과 헤어지게 하는 것을 성공
+ELSEIF ARG == 403
+	;PRINTFORMW 
+	RETURN 0
+;단칼과 헤어지게 하는 것을 실패
+ELSEIF ARG == 404
+	;PRINTFORMW 
+	RETURN 0
+;[조조에게 연모]를 취득
+ELSEIF ARG == 410
+	;PRINTFORMW 
+	RETURN 0
+;[조조의 연인]를 취득
+ELSEIF ARG == 411
+	;PRINTFORMW 
+	RETURN 0
+;[조조에게 연모]를 상실
+ELSEIF ARG == 412
+	;PRINTFORMW 
+	RETURN 0
+;조조와 헤어지게 하는 것을 성공
+ELSEIF ARG == 413
+	;PRINTFORMW 
+	RETURN 0
+;조조와 헤어지게 하는 것을 실패
+ELSEIF ARG == 414
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;역조교시
+;-------------------------------------------------
+;주인공에게 충성을맹세하게한다
+IF ARG == 450
+	;PRINTFORMW 
+	RETURN 0
+;주인공에게 충성을맹세하게한다/성공
+ELSEIF ARG == 451
+	;PRINTFORMW 
+	RETURN 0
+;주인공에게 충성을맹세하게한다/실패
+ELSEIF ARG == 452
+	;PRINTFORMW 
+	RETURN 0
+ENDIF

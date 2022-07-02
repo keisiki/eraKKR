@@ -1,0 +1,143 @@
+﻿;─────────────────────────────────────── 
+;공통 부분
+;─────────────────────────────────────── 
+;─────────────────────────────────────── 
+;●구상의 존재 판정
+;─────────────────────────────────────── 
+@KOJO_EXIST_K9
+;
+;이하 엔딩·네타바레 주의라고 할 정도은 없지만 일단 인하
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;─────────────────────────────────────── 
+;●단체 엔딩
+;─────────────────────────────────────── 
+@KOJO_SINGLE_ENDING_K9
+#DIM 사쿠야
+#DIM 사쿠야_대상
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야_대상 = MASTER
+
+;동진영, 레밀리아가 있다
+IF CFLAG:(사쿠야):소속 == CFLAG:(사쿠야_대상):소속 && CFLAG:(NAME_TO_CHARA("레밀리아")):소속 == CFLAG:(사쿠야_대상):소속
+	IF IS_SLAVE(사쿠야)
+		PRINTFORML 「축하합니다, %CALLNAME_K9(사쿠야_대상)%」
+		PRINTFORML 「아가씨를 승리에 이끌어 주신 것……감사하고 있습니다」
+		PRINTFORMW 「오늘 밤은 특별한 술을 준비했습니다. 아무쪼록, 승리의 미주를 드셔 주세요」
+		PRINTL 
+		PRINTFORML 「그래서, 향후는 어떻게 하실 생각입니다?」
+		PRINTFORML 「환상향의 평화는 모래위의 바벨과 같은 것이지요」
+		PRINTFORMW 「아가씨와 나에게는 아직 %CALLNAME_K9(사쿠야_대상)%의 인도가 필요합니다」
+		PRINTL 
+		PRINTFORML 「앞으로도 신변의 주선이 필요한 때는, 무엇이든지 명령해 주세요」
+		RETURN 0
+	ELSEIF IS_LOVER(사쿠야)
+		PRINTFORML 「축하합니다, %CALLNAME_K9(사쿠야_대상)%. 오늘 밤은 축하군요」
+		PRINTFORML 「아가씨를 승리에 이끌어 준 것……감사하고 있어요」
+		PRINTFORMW 「승리의 미주지요?   특별한 술을 준비했어요」
+		PRINTL 
+		PRINTFORML 「그래서, 지금부터는 어떻게 할까」
+		PRINTFORMW 「환상향의 평화는 모래위의 바벨과 같은 것이지만, %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 일단 대결(결착)을 붙인 것」
+		PRINTL 
+		PRINTFORML 「우리들은, 지금부터지요?」
+		RETURN 0
+	ENDIF
+;그 이외
+ELSE
+	IF IS_SLAVE(사쿠야)
+		PRINTFORML 「축하합니다, %CALLNAME_K9(사쿠야_대상)%」
+		PRINTFORMW 「오늘 밤은 특별한 술을 준비했습니다. 아무쪼록, 승리의 미주를 드셔 주세요」
+		PRINTL 
+		PRINTFORML 「그래서, 향후는 어떻게 하실 생각입니다?」
+		PRINTFORML 「환상향의 평화는 모래위의 바벨과 같은 것이지요」
+		PRINTFORMW 「나에게는 아직 %CALLNAME_K9(사쿠야_대상)%의 인도가 필요합니다」
+		PRINTL 
+		PRINTFORML 「앞으로도 신변의 주선이 필요한 때는, 무엇이든지 명령해 주세요」
+		RETURN 0
+	ELSEIF IS_LOVER(사쿠야)
+		PRINTFORML 「축하합니다, %CALLNAME_K9(사쿠야_대상)%. 오늘 밤은 축하군요」
+		PRINTFORMW 「승리의 미주지요?   특별한 술을 준비했어요」
+		PRINTL 
+		PRINTFORML 「그래서, 지금부터는 어떻게 할까」
+		PRINTFORMW 「환상향의 평화는 모래위의 바벨과 같은 것이지만, %조사처리(CALLNAME_K9(사쿠야_대상),"는")% 일단 대결(결착)을 붙였어요」
+		PRINTL 
+		PRINTFORML 「우리들은, 지금부터지요?」
+		RETURN 0
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●참수 엔딩
+;─────────────────────────────────────── 
+@KOJO_DEAD_ENDING_K9
+#DIM 사쿠야
+#DIM 사쿠야_대상
+
+사쿠야 = NAME_TO_CHARA("사쿠야")
+사쿠야_대상 = MASTER
+
+IF IS_SLAVE(사쿠야)
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%--책임을 다한 후, 나도 그 쪽으로 갑니다」
+	PRINTFORMW 「약간 기다리고 있어 주세요」
+ELSE
+	PRINTFORML 「%CALLNAME_K9(사쿠야_대상)%--역할을 끝내면, 나도 그쪽에 갈 수 있어요」
+	PRINTFORMW 「약간 기다리고 있어」
+ENDIF
+RETURN 0
+

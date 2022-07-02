@@ -1,0 +1,105 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K12_FALL_ON_THE_STREET_RATE(대상)
+#DIM 대상
+RETURN 50
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K12_FALL_ON_THE_STREET_DECISION(대상)
+#DIM 대상
+
+SIF CFLAG:대상:특수상태 != 특수상태_방랑
+	RETURN 0
+
+SIF KDVAR:대상:레티_길가에쓰러진사람
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, -1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K12_FALL_ON_THE_STREET_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K12_FALL_ON_THE_STREET(대상)
+#DIM 대상
+
+PRINTFORML 찌는듯한 더위, 도로변에 여성이 넘어져 있는 것을 찾아냈다
+PRINTFORML 더위에 당해 버렸을 것인가……
+PRINTFORML 
+CALL ASK_YN("돕는다", "방치한다")
+
+IF RESULT == 1
+	PRINTFORML 방치했다
+	KDVAR:대상:레티_길가에쓰러진사람 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORML 발해 둘 수 없다
+PRINTFORML 거점에서 간호하기로 했다
+PRINTFORML ·
+PRINTFORML ·
+PRINTFORMW ·
+PRINTFORML 「부끄러운 곳을 보여 버렸군요」
+PRINTFORML 「그렇지만 고마워요, 살아났어요」
+PRINTFORML 여자는 %조사처리(NAME_FORMAL(대상),"라")%고 자칭했다
+PRINTFORMW 평상시라면 동면 되지 않는 「하면」하고 있는 곳을, 우연히 돌아 다니면 더위에 당해 버린 것 같다
+PRINTFORMW 「언제나 괜찮지만 말야, 부끄러울 따름이예요」
+PRINTFORMW 「그렇다, 모처럼이니까 뭔가 답례를 시켜 주지 않을까?」
+PRINTFORML 
+CALL ASK_MULTI("동료가 되어", "금을 줘", "시켜!", "별로 필요없다")
+
+SELECTCASE RESULT
+	CASE 0
+		PRINTFORML 「동료에게?   예, 좋아요, 맡겨 줘」
+		PRINTFORMW 「내가 있으면 백 인력이야」
+		CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 동료가 되었다", 칼라_주의)
+		CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속)
+	CASE 1
+		PRINTFORML 「에에, 좋아요」
+		PRINTFORMW 「그렇다고 해도, 나도 그렇게 가진 것이 없기에……이 정도로 용서해 줄래?」
+		CALL ICPRINT("금<10000>을 받았다", "W", 칼라_주의)
+		MONEY += 10000
+	CASE 2
+		PRINTFORML 「에, 에엣?」
+		PRINTFORMW 「헛들음일까, 한 번 더 말해 받을 수 있어?」
+		PRINTFORML 시키기를 원하면 다시 반복한다
+		PRINTFORMW %ANAME(MASTER)%의 말투에, %조사처리(ANAME(대상),"는")% 얼굴을 붉힌다
+		PRINTFORMW 「뭐, 그……나도, 경험이 없을 것이 아니지만」
+		PRINTFORMW 「그렇지만 그, 관대히?」
+		PRINTFORML %ANAME(대상)%의 의복에 손을 걸어, 벗게 해 간다
+		PRINTFORMW %STR_BODY("가슴:애무", 대상)%에 %STR_BODY("엉덩이:감촉",　대상)%에와 매력있는 살집이다
+		PRINTFORMW 신체를 굳어지게 하는 %조사처리(ANAME(대상),"를")%, 상냥하게 침대에 쓰러트렸다……
+		IF HAS_PENIS(MASTER)
+			CALL FUCK(MASTER, "욕망, 성기술, 봉사, 성교, Ｃ, Ｖ삽입, 키스", "동정상실, 키스상실", 0, @"%ANAME(대상)%의 입술", "", @"%ANAME(대상)%의 질", "화간")
+			CALL FUCK(대상, "욕망, 봉사, 정애, 성기술, 성교, Ｃ, Ｖ, Ｂ, Ｍ, 키스, 펠라티오, Ｖ성교", "처녀상실, 질내사정, 키스상실, 구강사정", GET_ID(MASTER), @"%ANAME(MASTER)%의 입술", ANAME(MASTER), "", "화간")
+		ELSE
+			CALL FUCK(MASTER, "욕망, 성기술, 봉사, 성교, Ｃ, Ｂ, Ｍ, 레즈, 키스", "키스상실", 0, @"%ANAME(대상)%의 입술", "", "", "화간")
+			CALL FUCK(대상,   "욕망, 성기술, 봉사, 성교, Ｃ, Ｂ, Ｍ, 레즈, 키스", "키스상실", 0, @"%ANAME(MASTER)%의 입술", "", "", "화간")
+		ENDIF            
+	CASE 3
+		PRINTFORML 「아라, 그렇게?   유감이구나」
+		PRINTFORMW 「자 적어도, 답례를 말하게 해」
+		PRINTFORMW 「도와 주어 고마워요, 그러면」
+		CFLAG:대상:호감도 += 300
+ENDSELECT
+
+CFLAG:대상:안면 = 1
+KDVAR:대상:레티_길가에쓰러진사람 = 1
+
+RETURN 1

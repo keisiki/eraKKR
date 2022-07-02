@@ -1,0 +1,4 @@
+﻿#DIM CONST 케이네_선잠발견 = 0
+#DIM CONST 케이네_선잠발견된다 = 1
+#DIM CONST 케이네_자경단 = 2
+#DIM CONST 케이네_부형참관 = 3

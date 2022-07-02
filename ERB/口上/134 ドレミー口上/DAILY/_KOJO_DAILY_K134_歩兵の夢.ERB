@@ -1,0 +1,139 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K134_BATTLE_IN_DREAM_RATE(대상)
+#DIM 대상
+RETURN 20
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K134_BATTLE_IN_DREAM_DECISION(대상)
+#DIM 대상
+
+;성공하면 나오지 않는다
+SIF KDVAR:대상:도레미_보병의꿈_성공
+	RETURN 0
+
+;네토라레미중은 일어나지 않는다
+SIF KDVAR:대상:도레미_네토라레미 > 0
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && TALENT:대상:연모
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K134_BATTLE_IN_DREAM_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K134_BATTLE_IN_DREAM(대상)
+#DIM 대상
+#DIM 판정치
+#DIM 경험치
+
+IF KDVAR:대상:도레미_보병의꿈 == 0
+	PRINTFORMW 밤이 깊어지는 무렵, %조사처리(ANAME(MASTER),"와")% %조사처리(ANAME(대상),"는")% 사실에서 두 명, 다음의 싸움에 준비 병법의 확인을 실시하고 있었다……
+	PRINTFORML 「그녀는 여기서 1군을 인솔해 행동해 받읍시다. 그 (분)편에게는 병참의 확보에 착수해 승부에서 이기는 일…」
+	PRINTFORML 반상의 말을 작동시키면서 책을 생각하는 %조사처리(ANAME(대상),"였")%지만, %ANAME(MASTER)%의 말은 후방이다
+	PRINTFORMW 그 일을 지적하는 %ANAME(MASTER)%, 자신이 전선에 서야 한다고 주장한다
+	PRINTFORML 「…이, 이것은 %조사처리(ANAME(MASTER),"를")% 결전 전력으로서 온존 할 방침으로…」
+	PRINTFORML 「이 싸워에 있어서의 전선은 격전 불가피합니다. %조사처리(ANAME(MASTER),"가")% 나와야 하는 것이 아닙니다」
+	PRINTFORMW 조용하게 설득하는 것 같은 말투로 이야기하는 %ANAME(대상)%, 하지만 분위기는 조금 격렬해지고 있다
+	PRINTFORML 
+	PRINTFORML 
+	PRINTFORML 「확실히…나의 머릿속에서는, 아직 보지 않는 적과 가혹한 병란안을 가열에 싸우는 당신의 모습 밖에 생각나지 않습니다」
+	PRINTFORML 「그런데도 무섭습니다, 나는 당신을…잃고 싶지 않아」
+	PRINTFORMW 어깨를 진동시키고 심정을 토로해 나가는 %ANAME(대상)%, 대해 %조사처리(ANAME(MASTER),"는")% 스스로의 말을 전선에 두었다
+	PRINTFORMW 「……알았습니다  그러면 하나 제안이 있습니다」
+	PRINTFORMW 「이번 싸움, 이미 나의 뇌내에서는 이미 대범한 예정은 정해져 있습니다」
+	PRINTFORML 「그러면 이것을 한 번, 당신의 꿈 속에서 재현 합니다」
+	PRINTFORMW 「거기서 당신이 깊은 상처를 입지 않으면 주장을 마십시다, 아니면 나의 책에 따라 받습니다」
+	PRINTFORML 과연, 꿈 속에서 싸워내 보여라라는 일인가……
+	PRINTFORML
+ELSE
+	PRINTFORML %조사처리(ANAME(MASTER),"가")% 자려고 하면, 어디에서랄 것도 없고 %ANAME(대상)%의 목소리가 들려 온다……
+	PRINTFORMW 「이런, 또 꿈 속에서 연습됩니까?」
+ENDIF
+PRINTFORML
+CALL ASK_YN("해 본다", "사양해 둔다")
+IF RESULT == 0
+	PRINTFORML 「그럼 이쪽으로…」
+	PRINTFORML %ANAME(대상)%에 이끌려 침대에 자는 %ANAME(MASTER)%
+	PRINTFORMW
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORMW ·
+	PRINTFORML 깨달았을 때에는 사진마이황무지에서 무기를 한 손에 쥐고 가지고 있는 %ANAME(MASTER)%
+	PRINTFORMW 호위도 없고, 말도 없고, 잡다한 병졸과 같이 취급해, 모두가 처음이다
+	PRINTFORML 전방으로부터는 다가오는 기병의 모습이 세지 못할 수 보여 온다
+	PRINTFORML 스스로의 후방에는 보조 모이지 않는 잡다한 보병들이 핏기 활발히 맞아 싸우지 않아로 하고 있다
+	PRINTFORMW 마른침을 삼킴%조사처리(ANAME(MASTER),"는")% 무기를 지었다……
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML ·
+	판정치 = ABL:MASTER:무투 / 2
+	IF RAND:100 <= 판정치
+		IF KDVAR:대상:도레미_보병의꿈_성공 ==0
+			PRINTFORML 처음의 본 보병의 경치는 낮고, 한편으로 뜻밖의정도로 기병은 높고 빠르고,
+			PRINTFORML 그리고 말의 크기에는 처음 보는 것 같은 위압감을 느꼈다…
+			PRINTFORMW 무질서한 밀집, 발판은 이미 다른 보병의 사체로 메워지고 있다
+			PRINTFORML 일찍이 자신이 이 정도 많은 아군의 시체에게 둘러싸였던 적이 있었는지
+			PRINTFORMW 일찍이 이 정도 많은 아군의 피를 받은 일이 있었는지
+			PRINTFORML 보병이란, 이렇게도 용이하게 죽는 것인가
+			PRINTFORML
+			PRINTFORML ·
+			PRINTFORML ·
+			PRINTFORMW ·
+			PRINTFORML 「수고 하셨습니다 %ANAME(MASTER)%」
+			PRINTFORMW 일어나면 %조사처리(ANAME(대상),"가")% 옆에서 앉아 있었다
+			PRINTFORML 「어떤 보병의 꿈을 바탕으로 재현 한 전장, 어땠습니까?」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 솔직한 감상을 말하고 나서 일어났다…
+			CALL COLOR_PRINTW(@"%ANAME(대상)%의 꿈을 통해서 보병의 싸움을 이해했다!", 칼라_주의)
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 무투가 3 상승했습니다", 칼라_주의)
+			CALL LEARN_SKILL_GENERAL_BY_NAME(대상, "총력전＋")
+			SIF RESULT
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(MASTER),"는")%＜총력전＋＞을 얻었습니다", 칼라_주의)
+			CFLAG:대상:호감도 += 500
+			ABL:MASTER:무투 += 3
+			KDVAR:대상:도레미_보병의꿈_성공 = 1
+		ELSE
+			PRINTFORML 「수고 하셨습니다 %ANAME(MASTER)%」
+			PRINTFORMW 일어나면 %조사처리(ANAME(대상),"가")% 옆에서 앉아 있었다
+			PRINTFORML 「변함없는 분투상, 굉장하네요」
+			PRINTFORMW %조사처리(ANAME(MASTER),"는")% 자신의 강함을 재확인하면서 일어났다…
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%의 무투가 1 상승했습니다", 칼라_주의)
+			CFLAG:대상:호감도 += 500
+			ABL:MASTER:무투 += 1
+		ENDIF
+	ELSE
+		PRINTFORML 확 깨어난, 체내로부터 비지땀이 나와 있는 것 같다
+		PRINTFORML 아무래도 꿈 속에서 죽어 버린 것 같다…
+		PRINTFORML 「수고 하셨습니다 %ANAME(MASTER)%」
+		PRINTFORMW 일어나면 %조사처리(ANAME(대상),"가")% 옆에서 앉아 있었다
+		PRINTFORML 「어땠습니까?」
+		PRINTFORMW %조사처리(ANAME(MASTER),"는")% 솔직한 감상을 말하고 나서 일어났다…
+	ENDIF
+ELSE
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML ·
+	PRINTFORML 「뭐 꿈 속에서라고 해도 전장은 싫기 때문에」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 마음이 놓이고 있는 것 같다……
+ENDIF
+KDVAR:대상:도레미_보병의꿈 = 1
+
+
+RETURN 1
+

@@ -1,0 +1,115 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K148_LICK_IT_RATE(대상)
+#DIM 대상
+RETURN 50
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K148_LICK_IT_DECISION(대상)
+#DIM 대상
+
+SIF KDVAR:대상:오키나_비순마타라
+	RETURN 0
+
+SIF IS_LOVER(대상) || IS_SLAVE(대상) || TALENT:대상:합의
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K148_LICK_IT_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K148_LICK_IT(대상)
+#DIM 대상
+
+PRINTFORMW 「무엇이다, 늦지 않았을까?」
+PRINTFORML %ANAME(대상)%의 방에 불려 갔다
+PRINTFORML 무슨 일일까하고 생각해 방문한 곳, 무려%조사처리(ANAME(대상),"는")% 알몸이었다
+PRINTFORML 전라인 것을 기분에도 걸치지 않은 것처럼, 당당히 의자에 앉아 있다
+PRINTFORMW 「어떻게 했어?   빨리 들어가게」
+PRINTFORML 촉구받아 %조사처리(ANAME(MASTER),"는")% 실내에 실례한다
+PRINTFORML 아무래도 유방이나 가랑이에 눈이 가 버리지만……
+PRINTFORMW 「그렇게 신경이 쓰인다인가?   는은, 뭐 그럴 것이겠지」
+PRINTFORMW 「그런데, 사실 나는, 요즈음 지루해 말야」
+PRINTFORMW 「그 두 명을 불러도 괜찮지만, 그것도 매너리즘이다……」
+PRINTFORMW 「그렇다는 것이다, 자」
+PRINTFORML 자, 라고 말하면서, 양다리를 조금 넓혀 온다
+PRINTFORMW 「어떻게 했어?   사양은 필요없는, 이라고 할까 등겉껍데기」
+PRINTFORMW 「빠세요. 개처럼. 너도 신경이 쓰인다 응일 것이다?   나의 몸이」
+PRINTFORMW 「자, 여기로 와……」
+PRINTFORML ……확실히, %ANAME(대상)%의 몸은 매력적이다
+PRINTFORMW 무엇보다, 접하지 않으면, (듣)묻는 대로 따르지 않으면 안 되는 생각이 든다
+PRINTFORMW 이지만, 이러한 형태로 성행위에 이르러 버려도 좋은 것인가……?
+
+CALL ASK_YN("빤다", "냉정하게 된다")
+
+IF RESULT == 1
+	PRINTFORMW 「호우……?   지금 것을 연주할까」
+	PRINTFORMW 「너는 그 두 명보다, 세뇌의 종류에 저항이 있는 것 같다」
+	PRINTFORML 이런 일은 해서는 안 된다……
+	PRINTFORMW 어떻게든 그렇게 돌려주면, %조사처리(ANAME(대상),"는")% 나쁜놈의 미소를 띄웠다
+	PRINTFORMW 아무래도 뭔가의 방법을 사용하고 있던 것 같다
+	PRINTFORMW 지금은 해제했는지, 강박 관념은 사라져 없어지고 있었다
+	PRINTFORMW 「마음에 들었어, 너」
+	PRINTFORMW 「언젠가 나의 것으로 하고 싶지만……오늘은 좋다. 재미있는 것을 보여 받았고, 그래서 충분하다」
+	PRINTFORMW 「용무는 그것뿐이다. 돌아가 상당히」
+	PRINTFORMW 일방적인 주고받음이었지만, %ANAME(대상)%에는 마음에 든 것 같다
+	PRINTFORMW 석연치 않는 것을 느끼면서, 방을 뒤로 했다……
+	CALL COLOR_PRINTW(@"%ANAME(대상)%에 마음에 들었습니다", 칼라_주의)
+	TALENT:대상:쵸로인 = 1
+	KDVAR:대상:오키나_비순마타라 = 1
+	RETURN 1
+ENDIF
+
+PRINTFORML %ANAME(대상)%의 몸은 매력적이다……접하지 않고는 있을 수 없다……
+PRINTFORML 따르지 않으면……(듣)묻는 대로 하지 않으면……
+PRINTFORML 머릿속에 영향을 주는 소리에 따라, %ANAME(대상)% 앞으로 무릎 꿇는다
+PRINTFORMW 그리고,\@ HAS_PENIS(대상) ? 휘어 끊는 페니스 # 젖은 비순 \@에 입맞춤했다
+CALL KISS_COMMON(MASTER, @"%ANAME(대상)%의 \@ HAS_PENIS(대상) ? 페니스 # 비순 \@")
+PRINTFORMW 「아핫……그렇다, 그것으로 좋다」
+PRINTFORMW 「솔직한 아이는 좋아해……읏」
+PRINTFORML 열중해 봉사하고 있으면, 위로부터 말을 걸 수 있다
+PRINTFORMW 그것만으로, 깊은 기쁨이 마음을 채워 간다
+PRINTFORMW 「제대로 한 포상을 주자……옷을 벗으세요」
+PRINTFORML %ANAME(대상)%의 술중에 있는 %조사처리(ANAME(MASTER),"가")%, 거기에 거역할 수 있을 리도 없었다
+PRINTFORMW (듣)묻는 대로, 의상을 벗어 던져 간다
+PRINTFORMW 「좋은 신체다. 그 두 명도 나쁘지 않지만, 이것은 이것대로 즐길 수 있을 것 같지 않은가?」
+PRINTFORMW 「자, 나에게 몸을 맡긴다……」
+PRINTFORML 살그머니 침대에 밀어 쓰러트려져 되는 대로 받아들인다
+PRINTFORML 기대하는 신체에, 살그머니 입맞춤할 수 있다
+PRINTFORMW %조사처리(ANAME(MASTER),"는")% 그대로, %ANAME(대상)%에 몸을 맡겼다……
+
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:호감도 += 200
+CFLAG:대상:지배도 += 500
+CFLAG:대상:강제우호화 = 1
+TALENT:대상:합의 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;강제 역조교플래그를 온
+TRAIN_PLACE = %ANAME(대상)%의 방
+FLAG:턴엔드조교 = 2
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+;플래그
+KDVAR:대상:오키나_비순마타라 = 1
+RETURN 1

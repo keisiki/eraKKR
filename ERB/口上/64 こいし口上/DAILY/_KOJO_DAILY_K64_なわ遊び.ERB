@@ -1,0 +1,96 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K64_NAWAASOBI_RATE(대상)
+#DIM 대상
+RETURN 30
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K64_NAWAASOBI_DECISION(대상)
+#DIM 대상
+
+SIF !(IS_SLAVE(대상) || IS_LOVER(대상))
+	RETURN 0
+
+SIF ABL:대상:욕망 < 3
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 1, 0, 1) && CFLAG:대상:호감도 >= 1000
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K64_NAWAASOBI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K64_NAWAASOBI(대상)
+#DIM 대상
+
+IF KDVAR:대상:코이시_줄놀이 == 0
+	PRINTFORMW 「%ANAME(MASTER)%. 재미있는 것을 보여 줄까?」
+	PRINTFORMW %ANAME(MASTER)%의 방을, 순진한 미소를 칭송한 %조사처리(ANAME(대상),"가")% 방문해 왔다
+	PRINTFORMW 재미있는 것이란 무엇일까?
+	PRINTFORMW 「학★」
+	PRINTFORMW !? 　%ANAME(대상)%의 서드아이로부터 성장하는 코드가 성형을 본떴다!!
+	PRINTFORMW 「에잇♥」
+	PRINTFORMW 이번은 하트형이다!
+	PRINTFORMW 「스트링 스파이더 베이비!!」
+	PRINTFORMW 그렇게 복잡한 일도 할 수 있는 것인가!
+	PRINTFORMW 「에헤헤. 굉장하지요. 코드로 뭐든지 할 수 있는거야.」
+	PRINTFORMW 요령 있는 것이다. 과연, 그러고 보니 코드로 공격하고 있는 곳 전나무 연과도 있다. 얼마라도 자유롭게 조종할 수 있을 것이다
+	PRINTFORMW 「실은 말야. 좀더 굉장한 일도 할 수 있는거야. 시험해 봐?」
+	PRINTFORML 굉장한 일? 무엇을 할 생각인 것일까?
+ELSE
+	PRINTFORMW 「%ANAME(MASTER)%. 또 『굉장한 일』해 줄까?」
+	PRINTFORMW 싱글벙글. 아니, 히죽히죽 하면서 %조사처리(ANAME(대상),"가")% 방문해 왔다
+	PRINTFORML 자, 그럼, 어떻게 하지……
+ENDIF
+
+PRINTFORML
+CALL ASK_YN("부탁합니다", "그만둔다")
+
+IF RESULT == 1
+	PRINTFORMW 「이제(이미/벌써/더는/정말)! 김이 나쁘기 때문에!」
+	PRINTFORMW 볼을 가시복과 같이 부풀려 탱탱 화내면서 %조사처리(ANAME(대상),"는")% 떠났다……
+	RETURN 1
+ENDIF
+
+PRINTFORMW 「에헤헤. 지금의 말을 잊지 않아」
+PRINTFORMW 그러한 순간, 코드가 채찍과 같이 하고 되어, 일순간으로 %ANAME(MASTER)%의 신체를 구속하고, 그대로 침대에 내던져져 버렸다
+PRINTFORMW 「물론%조사처리(ANAME(MASTER),"를")% 구속할 정도로 용이한 일이야. 그러면 『굉장한 일』을 해 주네요」
+PRINTFORMW 그렇게 말하면 입맛을 다심 하면서 %조사처리(ANAME(대상),"는")% %ANAME(MASTER)%에, 상냥하게 덮어씌워 왔다
+
+;전원의 조교참가플래그를 클리어
+CVARSET CFLAG, 6, 0
+CFLAG:대상:조교참가플래그 = 1
+CFLAG:대상:호감도 += 200
+CFLAG:대상:지배도 += 200
+CFLAG:대상:강제우호화 = 1
+BASE:대상:체력 = MAXBASE:대상:체력
+BASE:대상:기력 = MAXBASE:대상:기력
+;강제 역조교플래그를 온
+FLAG:턴엔드조교 = 2
+;그 이후의 데일리 이벤트 발생을 잡는다
+DAILY_CANCEL = 1
+;플래그
+KDVAR:대상:코이시_줄놀이 = 1
+KDVAR:대상:코이시_줄놀아_놀이중 = 1
+RETURN 1
+
+
+
+RETURN 1
+

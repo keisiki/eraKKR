@@ -1,0 +1,88 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_59_SP_0_EXIST
+RETURN 1
+
+@SKILL_59_SP_0_NAME
+RESULTS = 그린아이드몬스타
+
+;레벨은 1-5까지
+@SKILL_59_SP_0_LEVEL
+RETURN 3
+
+;대상 선택
+@SKILL_59_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+SIF BATTLE_COMMANDER_NUM:대상측 == 0
+	RETURN 0
+COMBAT_SKILL_TARGET = RAND:(BATTLE_COMMANDER_NUM:대상측)
+RETURN 1
+
+;발동 판정
+@SKILL_59_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_59_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML 질투의 마음이 %ANAME(발동자)%에 힘을 준다!
+PRINTFORML %ANAME(BATTLE_COMMANDER:대상측:COMBAT_SKILL_TARGET)%의 능력을 카피했다!
+BATTLE_무투파워:발동측:발동번호 = BATTLE_무투파워:대상측:COMBAT_SKILL_TARGET
+BATTLE_지략파워:발동측:발동번호 = BATTLE_지략파워:대상측:COMBAT_SKILL_TARGET
+BATTLE_방위파워:발동측:발동번호 = BATTLE_방위파워:대상측:COMBAT_SKILL_TARGET
+BATTLE_요술파워:발동측:발동번호 = BATTLE_요술파워:대상측:COMBAT_SKILL_TARGET
+BATTLE_가창파워:발동측:발동번호 = BATTLE_가창파워:대상측:COMBAT_SKILL_TARGET
+BATTLE_요리파워:발동측:발동번호 = BATTLE_요리파워:대상측:COMBAT_SKILL_TARGET
+RETURN 1
+
+;
+@SKILL_59_SP_0_EXPLANATION
+RESULTS = 적무장 한사람의 능력을 일시적으로 카피한다.
+
+
+
+
+@SKILL_59_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 250

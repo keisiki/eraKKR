@@ -1,0 +1,70 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K149_MONOZUKI_RATE(대상)
+#DIM 대상
+RETURN 200
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K149_MONOZUKI_DECISION(대상)
+#DIM 대상
+#DIM 시온
+
+시온 = NAME_TO_CHARA("시온 ")
+
+SIF MASTER != NAME_TO_CHARA("당신")
+	RETURN 0
+
+SIF KDVAR:대상:시온_거지 != 2
+	RETURN 0
+
+SIF KDVAR:대상:조온_호기심
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0, 0) && CHECK_KOJO_DAILY_HAPPEN(시온)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K149_MONOZUKI_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_그외
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K149_MONOZUKI(대상)
+#DIM 대상
+#DIM 시온
+시온 = NAME_TO_CHARA("시온 ")
+
+PRINTFORMW 「응, 너가 %ANAME(MASTER)%?」
+PRINTFORMW 거리를 순회하고 있으면, 갑자기 소녀가 말을 걸려졌다
+PRINTFORMW 어쩐지 호사스러운 복장을 하고 있지만……
+CALL ICPRINT(@"「아아, 나는<%NAME_FORMAL(대상)%>. 너가 주운 %ANAME(시온)%의 여동생이야」", "W", 칼라_주의)
+PRINTFORMW 「누나가 누군가는 알고 있겠죠?   가난신이야?   좋아해 동료로 하다니 정말 기특함 일」
+PRINTFORMW 「그런 호기심의 얼굴을, 관광유람으로 보러 왔다라는 것」
+PRINTFORMW 「뭐, 모처럼 끌어 들인 것이니까, 잘 해 주어요. 그러면」
+PRINTFORMW 「……아아, 그래그래. 매번 감사」
+PRINTFORMW 누나를 걱정하고 있는지 없는 것인지. 말할 만큼 말해, %조사처리(ANAME(대상),"는")% 떠나 버렸다
+PRINTFORMW ……매번있음으로 말하는 것은, 무엇이었을까……
+PRINTFORML
+PRINTFORMW 그 후, %조사처리(ANAME(MASTER),"는")% 공연히 낭비 하고 싶어져, 낭비 해 버렸다
+LOCAL = MIN(MONEY / 5, 30000)
+MONEY -= LOCAL
+CALL ICPRINT(@"금<{LOCAL}>를 낭비했다", "W", 칼라_주의)
+CALL COLOR_PRINTW(@"%ANAME(대상)%의 안면을 얻었습니다", 칼라_주의)
+CFLAG:대상:안면 = 1
+KDVAR:대상:조온_호기심 = 1
+
+
+RETURN 1

@@ -1,0 +1,177 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K31_ONAHOLE_RATE(대상)
+#DIM 대상
+RETURN 75
+
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K31_ONAHOLE_DECISION(대상)
+#DIM 대상
+
+;마스터에 페니스가 없으면 나오지 않는다
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+SIF IS_LOVER(대상)
+	RETURN 0
+
+;대상이 군주라면 안 돼
+SIF GET_COUNTRY_BOSS(CFLAG:대상:소속) == 대상
+	RETURN 0
+
+;자객에서 강간하고 있는 것
+SIF KDVAR:대상:모코우_자객 != 2
+	RETURN 0
+
+;끝내면 나오지 않는다
+SIF KDVAR:대상:모코우_구멍 == -1
+	RETURN 0
+
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K31_ONAHOLE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K31_ONAHOLE(대상)
+#DIM 대상
+
+
+PRINTFORMW 또%조사처리(ANAME(대상),"가")% 방문해 왔다
+
+
+IF KDVAR:대상:모코우_구멍 == 0
+	PRINTFORMW 「……오늘은 카구야가 아니고, %ANAME(MASTER)%에 용무가 있어 왔다」
+	PRINTFORML ……범해진 원한으로부터인가, %ANAME(대상)%의 타겟이 자신에게 바뀌어 버린 것 같다
+	PRINTFORMW 귀찮은 것이 된 것이지만……
+	CALL ASK_YN("상대 해 준다", "돌려보낸다")
+
+	IF RESULT == 0
+		PRINTFORM 상대 해 줄까하고 무기를 지으면,
+	ELSE
+		PRINTFORM 여하튼 돌아가 받으려고 하면,
+	ENDIF
+
+	PRINTFORMW 당치 않게 %조사처리(ANAME(대상),"는")% 의복을 풀어헤쳐, %ANAME(MASTER)%에 그 피부를 쬐었다
+	PRINTFORMW 「……읏」
+	PRINTFORMW 눈을 피하면서도, 그 표정에는 기대의 색이 떠올라, 뺨은 홍 밀려들고 있다
+	PRINTFORMW 무엇을 바라고 있을까는 명백하지만, 굳이 물어 본다
+	PRINTFORMW 「……그……또, 전 같은 일을……해 주었으면 한다」
+	PRINTFORML 전 같은 일이란, 무엇일까
+	PRINTFORMW 승부라면 얼마든지 해 주지만……
+	PRINTFORMW 「……뭐, 전같이, 나를, 오, 범해 주세요, 부탁하는……」
+	PRINTFORMW 아무래도 이전 주어진 쾌감을 잊을 수 없었던 것 같다
+	PRINTFORMW 우물거리면서도 고개를 숙이는 %ANAME(대상)%의 사타구니는, 추잡한 밀로 흠뻑 젖고 있다
+ELSE
+	PRINTFORMW 「그……또, 부탁합니다」
+	PRINTFORMW 「부디 나를, 예의범절을 가르쳐 주세요……」
+ENDIF
+
+PRINTFORML 자, 그럼, 어떻게 하지……
+PRINTL
+CALL ASK_MULTI("범한다", "병사에 제공", "개에게 준다", "매춘시킨다", "돌려보낸다")
+
+SELECTCASE RESULT
+	CASE 4
+		PRINTFORML 그러한 기분도 아니다
+		PRINTFORMW 돌아가 받기로 했다……
+	CASE 1
+		PRINTFORMW 그런 일이라면, 군사의 위안의 역이라도 서 받자
+		PRINTFORMW %조사처리(ANAME(대상),"를")% 여자 가뭄의 병사에 제공하기로 했다……
+		PRINTFORML
+		CALL FUCK_GANGBANG(대상, GET_SPERM_ID("병사"), @"병사의 \@ RAND:2 ? 페니스 # 입술\@", "병사")
+		PRINTFORML
+		PRINTFORMW 「하힛, 아히, 히잇……♥」
+		PRINTFORMW 숨도 끊어질듯 끊어질듯 라는 모습으로, 열린 황새 걸음으로부터 백탁을 흘려 보낼 뿐이 된 %조사처리(ANAME(대상),"를")%, 거점의 밖에 내쫓았다……
+	CASE 2
+		PRINTFORMW 그런 일이라면, 구경거리라도 되어 받자
+		PRINTFORMW %조사처리(ANAME(대상),"를")% 개와 사귀게 하기로 했다……
+		PRINTFORML
+		CALL FUCK_BEAST(대상, GET_SPERM_ID("개"), "개의 페니스", "개")
+		PRINTFORML
+		PRINTFORMW 「쿠응, 쿠응, 아오오읏……♥」
+		PRINTFORMW 몸도 마음도 암캐가 된 %조사처리(ANAME(대상),"를")%, 한 쌍의 개로부터 떼어내, 거점의 밖에 내쫓았다……
+	CASE 3
+		PRINTFORMW 그런 일이라면, 돈으로도 벌어 와 받자
+		PRINTFORMW %ANAME(대상)%에 「립」를 시키기로 했다……
+		PRINTFORML
+		CALL FUCK(대상, "욕망, 봉사, 성기술, 성교, Ｖ, Ｍ, 펠라티오, 매춘, Ｖ성교", "처녀상실, 질내사정, 키스상실, 구강사정", GET_SPERM_ID("창관의 손님"), @"손님의 페니스", @"손님", "", "화간")
+		PRINTFORML
+		PRINTFORMW 돌아온 %ANAME(대상)%에, 어떠한 손님에게 어떻게 안겼는지 자세하게 보고시켰다
+		PRINTFORMW 그 후, 매상을 회수해, 거점의 밖에 내쫓았다……
+		CALL COLOR_PRINTW(@"금 1000을 얻었다", 칼라_주의)
+		MONEY += 1000
+	CASE 0
+		PRINTFORMW 그런 일이라면, 좋을대로 시켜 받자
+		PRINTFORMW %조사처리(ANAME(대상),"를")% 쓰러트리고, 그 육체에 다시 달라붙었다……
+		PRINTFORML
+		CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+		CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+		PRINTFORML 
+		PRINTFORMW 「응후, 읏, 쥬루, 읏, 응웃……♥」
+		PRINTFORMW 한 바탕 즐긴 %조사처리(ANAME(MASTER),"는")%, %ANAME(대상)%의 국물로 더러워진 것을 %ANAME(대상)%자신에게 청소시키고 있다
+		PRINTFORMW 지금은 완전하게 %ANAME(MASTER)%의 여자가 된 %조사처리(ANAME(대상),"는")%, 온순하게 거기에 봉사하고 있다
+		PRINTFORMW 지금이라면 어떤 명령도 들을 것 같다……
+		CALL ASK_YN("노예가 되어라", "또 와라")
+		SELECTCASE RESULT
+			CASE 1
+				PRINTFORMW 「응후……알았습니다, 물론입니다……♥」
+				PRINTFORMW 또 범해 주기 때문에 반드시 와라
+				PRINTFORMW 어려운 어조로 명해 주면, %조사처리(ANAME(대상),"는")% 정액 투성이의 얼굴로 끄덕끄덕 수긍했다……
+				CFLAG:대상:종속도 += 300
+				CFLAG:대상:의존도 += 100
+			CASE 0
+				PRINTFORMW 「하히, 맹세합니다……나는 %ANAME(MASTER)%님의 노예입니다」
+				PRINTFORMW 「그러니까, 부디 가득 기분 좋게 해 주세요, 주인님……므우」
+				PRINTFORMW 페니스를 내며, 이것에 맹세의 키스를 하라고 명하면, %조사처리(ANAME(대상),"는")% 정액 투성이의 얼굴을 녹여 달라붙어서 놓지 않다
+				PRINTFORMW 조교의 성과에 만족한 %조사처리(ANAME(MASTER),"는")%, 즉시 포상으로서 %조사처리(ANAME(대상),"를")% 사용해 주기로 했다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 복종시켰습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 노예가 되었습니다", 칼라_주의)
+				IF RAND:3
+					CALL SET_PIERCE_RANKED(대상, 0, 피어스_음순, 피어스_페니스, 피어스_클리토리스, 피어스_유두, 피어스_배꼽, 피어스_귀, 피어스_혀, 피어스_코)
+					SIF RESULT != -1
+						CALL COLOR_PRINTW(@"%ANAME(대상)%의 %GET_PIERCE_NAME(RESULT)%에, 복종의 증거의 피어스가 장착되었다……", 칼라_핑크)
+				ELSE
+					CALL COLOR_PRINTW(@"복종이 증거로 삼아, %ANAME(대상)%의 음모는 하트형에 정돈되었다……", 칼라_핑크)
+					TALENT:대상:음모목표치 = 음모_하트형
+					TALENT:대상:음모현재치 = 음모_하트형
+				ENDIF
+				CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+				TALENT:대상:복종 = 1
+				TALENT:대상:낙인 = 1
+				TALENT:대상:합의 = 1
+				TALENT:대상:쵸로인 = 1
+				TALENT:대상:프라이드높음 = 0
+				TALENT:대상:프라이드낮음 = 1
+				TALENT:대상:고고함 = 0
+				TALENT:대상:Ｓ기질 = 0
+				TALENT:대상:Ｍ기질 = 1
+				CFLAG:대상:종속도 = MAX(CFLAG:대상:종속도, 1500)
+				CFLAG:대상:의존도 = MAX(CFLAG:대상:의존도, 500)
+				SETBIT TALENT:대상:음란계, 소질_음란_마조
+				KDVAR:대상:모코우_구멍 = -1
+				RETURN
+		ENDSELECT
+ENDSELECT
+
+KDVAR:대상:모코우_구멍 = 1
+
+
+RETURN 1

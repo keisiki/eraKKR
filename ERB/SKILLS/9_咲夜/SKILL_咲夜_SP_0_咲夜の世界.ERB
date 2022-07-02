@@ -1,0 +1,92 @@
+﻿;-----------------------------------
+;기본치 계산에 앞서 처리하는 것
+;-----------------------------------
+@SKILL_9_SP_0_EXIST
+RETURN 1
+
+@SKILL_9_SP_0_NAME
+RESULTS = 사쿠야의 세계
+
+;레벨은 1-5까지
+@SKILL_9_SP_0_LEVEL
+RETURN 5
+
+;대상 선택
+@SKILL_9_SP_0_SETTARGET(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+SIF BATTLE_COMMANDER_NUM:대상측 == 0
+	RETURN 0
+RETURN 1
+
+;발동 판정
+@SKILL_9_SP_0_CAN_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+RETURN 1
+
+;효과를 여기에 기술
+@SKILL_9_SP_0_INVOKE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+대상측 = !발동측
+PRINTFORML 이것도 저것도가 멈춘다……!
+PRINTFORML %ANAME(발동자)% 이외는 이 전투에 참가 할 수 없다!
+FOR LOCAL, 0, BATTLE_COMMANDER_NUM:발동측
+	IF LOCAL != 발동번호
+		CALL BATTLE_KNOCKOUT(발동측, LOCAL)
+	ENDIF
+NEXT
+FOR LOCAL, 0, BATTLE_COMMANDER_NUM:대상측
+	CALL BATTLE_KNOCKOUT(대상측, LOCAL)
+NEXT
+
+RETURN 1
+
+;
+@SKILL_9_SP_0_EXPLANATION
+RESULTS = 자신 이외를 전투 불능으로 한다.
+
+@SKILL_9_SP_0_CANT_TELL
+
+
+
+
+@SKILL_9_SP_0_RATE(발동자, 발동번호, 발동측, 발동세력, 발동부대, 대상세력, 대상부대)
+#DIM 발동자
+#DIM 발동번호
+#DIM 스킬
+#DIMS 장르
+#DIM 발동측
+#DIM 발동세력
+#DIM 발동부대
+#DIM 대상측
+#DIM 대상세력
+#DIM 대상부대
+RETURN 50

@@ -1,0 +1,2797 @@
+﻿;-------------------------------------------------
+;이벤트 구상
+;-------------------------------------------------
+
+;=================================================
+;●각종 이벤트
+;※ARG에 이벤트번호가 들어간다. 자세하게는 자료 폴더의 「era 연희 이벤트표」를 참조
+;※RETURN의 값을 0→1으로 바꾸면, Default의 메세지가 표시되지 않게 된다
+;=================================================
+@KOJO_EVENT_K111(ARG)
+#DIM 겐게츠
+#DIM 겐게츠_대상
+#DIM CONST 체력한계 = 230
+#DIM CONST 총임신수 = 231
+#DIM CONST 임신수_인 = 232
+#DIM CONST 임신수_촉수 = 233
+#DIM CONST 총출동산수 = 234
+#DIM CONST 출산수_인 = 235
+#DIM CONST 출산수_촉수 = 236
+
+;이름의 정의
+겐게츠 = NAME_TO_CHARA("겐게츠")
+겐게츠_대상 = MASTER
+
+;=================================================
+;●●구상 개발 용표준적●●
+;PRINTFORMW 클릭 대기
+;PRINTFORML 클릭 기다리지 않는다
+;%ANAME(겐게츠)%
+;%ANAME(겐게츠_대상)%
+;SETCOLOR COLOR("XXX") 색지정
+; 색지정 해제
+
+;-------------------------------------------------
+;퍼스트 키스 실행
+;-------------------------------------------------
+IF ARG == 1
+	;낙인·복종
+		IF TALENT:낙인 || TALENT:복종
+			PRINTFORMW 겐게츠와의 거리가 0이 된다...
+			PRINTFORMW 
+			PRINTFORMW 「응... 좋아하지도 않는 사람에게 입 맞춤 해 무엇이 즐거운 것일까...」
+			
+			PRINTFORMW 강한척 하는 겐게츠였지만, 얼굴을 붉히며 있는 것을 %조사처리(ANAME(겐게츠_대상),"는")% 놓치지 않았다
+	;연모
+		ELSEIF TALENT:연모
+			PRINTFORMW 겐게츠와의 거리가 0이 된다...
+			
+			PRINTFORMW 「응... 처음... 저기」
+			
+			PRINTFORMW 겐게츠는 귀까지 새빨갛게 해, 한 번 더 입 맞춤을 요구해 왔다...
+	;그 이외
+		ELSE
+			PRINTFORMW 겐게츠와의 거리가 0이 된다...
+			
+			PRINTFORMW 「응...」
+			
+			PRINTFORMW 겐게츠는 얼굴을 붉히고, 한 번 더 입 맞춤을 요구해 왔다...
+		ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;고백 성공
+;-------------------------------------------------
+IF ARG == 2
+	;연모
+		IF TALENT:연모
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠에 고백한다고 결의했지만
+			PRINTFORML 막상 그녀를 앞으로 하면 머리에 피가 올라 거동 의심과 스스로도 생각하는 만큼 안절부절
+			PRINTFORMW 해 버리는 것을 느낀다
+			
+			PRINTFORMW 「... 어떻게든 했어?」
+			
+			PRINTFORMW 겐게츠는 이상한 것 같게 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다
+	;복종
+		ELSEIF TALENT:복종
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠에 고백한다고 결의했지만
+			PRINTFORML 막상 그녀를 앞으로 하면 머리에 피가 올라 거동 의심과 스스로도 생각하는 만큼 안절부절
+			PRINTFORMW 해 버리는 것을 느낀다
+			
+			PRINTFORMW 「... 어떻게든 했어?」
+			
+			PRINTFORMW 겐게츠는 의심스러운 것 같게 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다
+	;그 이외
+		ELSE
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠에 고백한다고 결의했지만
+			PRINTFORML 막상 그녀를 앞으로 하면 머리에 피가 올라 거동 의심과 스스로도 생각하는 만큼 안절부절
+			PRINTFORMW 해 버리는 것을 느낀다
+			
+			PRINTFORMW 「... 어떻게든 했어?」
+			
+			PRINTFORMW 겐게츠는 이상한 것 같게 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다
+		ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;고백 실패
+;-------------------------------------------------
+IF ARG == 3
+		PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠에 고백한다고 결의했지만
+		PRINTFORML 막상 그녀를 앞으로 하면 머리에 피가 올라 거동 의심과 스스로도 생각하는 만큼 안절부절
+		PRINTFORMW 해 버리는 것을 느낀다
+		
+		PRINTFORMW 「... 어떻게든 했어?」
+		
+		PRINTFORMW 겐게츠는 이상한 것 같게 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(술에 취함의 영향·합의는 얻을 수 없다)
+;-------------------------------------------------
+IF ARG == 4
+		PRINTFORMW 당신은 만취한 겐게츠를 왕래가 적은 장소에 옮겼다
+		PRINTFORML 대부분 취하지 않는 겐게츠가 여기까지 부서지는 일은 그렇게 항상 없기에
+		PRINTFORMW 꽤 즐길 수 있을 것 같다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(합의를 취득)
+;-------------------------------------------------
+IF ARG == 5
+	;연모·낙인
+		IF TALENT:연모 || TALENT:낙인
+			PRINTFORML 나날 전투의 사이에 겐게츠와 놀아, 친밀한 관계가 된 %조사처리(ANAME(겐게츠_대상),"와")% 겐게츠.
+			PRINTFORMW 보다 깊은 관계가 될 것인 %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠를쓰러트린다일로 했다.
+			
+			PRINTFORMW 「무슨 일이야?」
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠와 입술을 거듭하면서 함께 쓰러졌다...
+		
+	;복종
+	 	ELSEIF TALENT:복종
+			PRINTFORML %ANAME(겐게츠_대상)%의 예하가 된 겐게츠.
+			PRINTFORMW 보다 깊은 관계가 될 것인 %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠를쓰러트린다일로 했다.
+			
+			PRINTFORMW 「... 어떻게든 했어?」
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠와 입술을 거듭하면서 함께 쓰러졌다...
+	;그 이외
+		ELSE
+			PRINTFORML 나날 전투의 사이에 겐게츠와 놀아, 친밀한 관계가 된 %조사처리(ANAME(겐게츠_대상),"와")% 겐게츠.
+			PRINTFORMW 보다 깊은 관계가 될 것인 %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠를쓰러트린다일로 했다.
+			
+			PRINTFORMW 「무슨 일이야?」
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠와 입술을 거듭하면서 함께 쓰러졌다.. 
+		ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 실패
+;-------------------------------------------------
+IF ARG == 6
+	;연모·낙인
+		IF TALENT:연모 || TALENT:낙인
+			PRINTFORML 나날 전투의 사이에 겐게츠와 놀아, 친밀한 관계가 된 %조사처리(ANAME(겐게츠_대상),"와")% 겐게츠.
+			PRINTFORMW 보다 깊은 관계가 될 것인 %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠를쓰러트린다일로 했다.
+			
+			PRINTFORMW 「무슨 일이야?」
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠와 입술을 거듭하면서 함께 쓰러지려고 했지만...
+			
+			PRINTFORMW 「지금, 그러한 기분이 아니야」
+			PRINTFORMW 「이 벌충은 또 이번... 저기」
+			
+			PRINTFORMW 거북한 분위기안겐게츠와 헤어졌다
+			
+	;복종 
+		ELSEIF TALENT:복종
+			PRINTFORML %ANAME(겐게츠_대상)%의 예하가 된 겐게츠.
+			PRINTFORMW 보다 깊은 관계가 될 것인 %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠를쓰러트린다일로 했다.
+			
+			PRINTFORMW 「... 무슨 일이야?」
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠와 입술을 거듭하면서 함께 쓰러지려고 했지만...
+			
+			PRINTFORMW 「지금, 그러한 기분이 아니야...」
+			
+			PRINTFORMW 저항이야말로 되지 않기는 했지만, 거북한 분위기 속 눈을 피해 버린다
+			PRINTFORMW 되돌아 보면 거기에 겐게츠는 없었다
+						
+	;그 이외
+		ELSE
+			PRINTFORML 나날 전투의 사이에 겐게츠와 놀아, 친밀한 관계가 된 %조사처리(ANAME(겐게츠_대상),"와")% 겐게츠.
+			PRINTFORMW 보다 깊은 관계가 될 것인 %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠를쓰러트린다일로 했다.
+			
+			PRINTFORMW 「무슨 일이야?」
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠와 입술을 거듭하면서 함께 쓰러지려고 했지만...
+			
+			PRINTFORMW 「지금, 그러한 기분이 아니야」
+			PRINTFORMW 「이 벌충은 또 이번... 저기」
+			
+			PRINTFORMW 거북한 분위기안겐게츠와 헤어졌다
+		ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;쓰러트리기 성공(이미 합의 있어)
+;-------------------------------------------------
+IF ARG == 7
+	;연모·낙인 5 분기
+	;시간이 있으면 더욱 늘릴 예정
+	;정실은 더욱 분기 시킬 예정
+		IF TALENT:연모 || TALENT:낙인
+			SELECTCASE RAND:6
+			CASE 0
+				PRINTFORMW 단 둘인 것을 확인하면 겐게츠를 껴안았다...
+				
+				PRINTFORMW 「당신으로 능숙하게 할 수 있을까요?」
+				
+			CASE 1
+				PRINTFORMW 겐게츠의 날개와 등의 사이를 고서 고서 했다...
+				
+				PRINTFORMW 「나, 날개는 그만두어라고 말하고 있겠죠!」
+				
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 의상을 벗겨 간다
+				PRINTFORMW 돌연의 음행에 굳어지는 겐게츠
+				
+				PRINTFORMW 「너... 진심?」
+				PRINTFORMW 「하아... 어쩔 수 없네요」
+				
+				PRINTFORMW 휴우~하며 말한 느낌이지만, 그 표정은 그렇지만도 않은 것 같다...
+			CASE 3
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 허벅지에 손을 대었다...
+				PRINTFORMW 예상외의 애무에 겐게츠는 이상한 소리를 냈다
+				
+				PRINTFORMW 「햐아!!... 이제(이미/벌써/더는/정말), 어쩔 수 없네요...」
+				
+				PRINTFORMW 라고 말하면서 손에 익숙해져 있는 손으로 옷을 벗어 가는 겐게츠였다...
+			CASE 4
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠에 엣치하고 싶다고 단언했다...
+				
+				PRINTFORMW 「... 대단하고 드 직구군요」
+				PRINTFORMW 「좋아요, 나도 하고 싶었고」
+				
+				PRINTFORMW 겐게츠는 기가 막히면서도 %ANAME(겐게츠_대상)%의 옷을 벗겨 간다...
+;생각이 떠오르지 않아서 쿠사오
+			CASE 5
+				
+				PRINTFORMW 「여기서 하는 거야?」
+				PRINTFORMW 「좋아요, 오세요」
+				
+				PRINTFORMW 겐게츠는 양팔과 날개를 벌리고 %조사처리(ANAME(겐게츠_대상),"를")% 유혹했다...
+			ENDSELECT
+	;복종 5 분기
+		ELSEIF TALENT:복종
+		SELECTCASE RAND:6
+			CASE 0
+				PRINTFORMW 단 둘인 것을 확인하면 겐게츠를 껴안았다...
+				
+				PRINTFORMW 「당신으로... 능숙하게 할 수 있을까요...」
+				PRINTFORMW 「자신만큼 기분 좋아질 뿐(만큼)에서는 안 돼요?」
+				
+			CASE 1
+				PRINTFORMW 겐게츠의 날개와 등의 사이를 고서 고서 했다...
+				
+				PRINTFORMW 「나, 날개는 그만두어라고 말하고 있겠죠!」
+				
+				PRINTFORMW 손바닥타 되어 버렸다. 꽤 조교했을 것인데...
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 의상을 벗겨 간다
+				PRINTFORMW 돌연의 음행에 굳어지는 겐게츠
+				
+				PRINTFORMW 「너... 진심?」
+				PRINTFORMW 「하아...」
+				
+				PRINTFORMW 라고 말하면서, 그다지 저항하지 않는 겐게츠
+				PRINTFORMW 지금까지의의 조교의 성과일 것이다... 그런 일을 생각하고 있으면 겐게츠는 벌거숭이가 되어 있었다...
+			CASE 3
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 허벅지에 손을 대었다...
+				PRINTFORMW 예상외의 애무에 겐게츠는 이상한 소리를 냈다
+				
+				PRINTFORMW 「햐아!!... 이제(이미/벌써/더는/정말), 하고 싶으면 그렇게 말하세요...」
+				
+				PRINTFORMW 마지못해 옷을 벗어 가는 겐게츠였다...
+			CASE 4
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠에 엣치하고 싶다고 단언했다...
+				PRINTFORMW 「...」
+				
+				PRINTFORMW 겐게츠는 기가 막히면서도 %ANAME(겐게츠_대상)%의 옷을 벗겨 간다...
+			CASE 5
+				PRINTFORMW 겐게츠의 어깨에 손을 댄다
+				PRINTFORMW 「읏!」
+				
+				PRINTFORMW 지금까지의 조교의 덕분인가 접하는 것만으로 날개로 몸을 숨기려고 하는 방어 반응을 나타내는 겐게츠
+				PRINTFORMW 그런 겐게츠에 가까워져 귓전으로 시켜라라고 말하면, 작게 떨리면서 옷을 벗어 간다...
+				
+			ENDSELECT
+	;그 외 3 분기
+		ELSE
+		SELECTCASE RAND:4
+			CASE 0
+			
+				PRINTFORMW 「또 하고 싶은거야?」
+				PRINTFORMW 「어쩔 수 없네요...」
+				
+				PRINTFORMW 겐게츠는 옷을 벗기 시작했다...
+			CASE 1
+			
+				PRINTFORMW 「그렇구나, 할까요」
+				
+				PRINTFORMW 좀 더 의지가 나오지 않는 대답이다
+			CASE 2
+			
+				PRINTFORMW 「엣, 여기서?」
+				
+				PRINTFORMW 주위를 두리번두리번 바라본 겐게츠는
+				PRINTFORMW 「빨리 벗으세요, 누군가 와 버릴지도 모르지 않아」
+				
+			CASE 3
+			
+				PRINTFORMW 「정말, 어디에서 그런 성욕이 솟아 올라 올까」
+				
+			ENDSELECT
+		ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;:체력 한계(통상)
+;-------------------------------------------------
+IF ARG == 11
+	;한 번 들은 것 같아서 없는가
+	;조교시에 체력 한계를 맞이했을 경우도 한 번 들었다고 한다
+	IF CFLAG:TARGET:체력한계 == 0
+		CFLAG:TARGET:체력한계 += 1
+		
+		PRINTFORMW 「이것은, 곤란하네요...」
+		
+		PRINTFORMW 그렇게 괴로운 듯이 중얼거리는 겐게츠
+		PRINTFORMW 겐게츠가 말하려면, 체력이 끊어지면 소위 "발광"으로 불리는 힘의 폭주가 일어나는 것 같다
+		PRINTFORMW 더 이상의 행위는 무리인 것 같다...
+		;체력 한계 회수
+		CFLAG:TARGET:체력한계 += 1
+	ELSE
+	
+		PRINTFORML 「하아, 더 이상은 무리이구나...」
+		
+		PRINTFORML 어조는 언제나 대로이지만, 상당히 무리를 하고 있는 것 같게 녹초가 되어 있다
+		PRINTFORMW 더 이상의 행위는 무리인 것 같다...
+		;체력 한계 회수
+		CFLAG:TARGET:체력한계 += 1
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;기력 한계(통상)
+;-------------------------------------------------
+IF ARG == 12
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;분노의 한계에서 되돌려 보내진다
+;-------------------------------------------------
+IF ARG == 13
+
+		PRINTFORMW 「나가!!」
+		
+		PRINTFORMW 그렇게 겐게츠가 외친 순간에
+		PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 강대한 마력에 의해 바람에 날아가졌다
+		PRINTFORMW 저것이 탄막이면 %조사처리(ANAME(겐게츠_대상),"는")% 고기토막도 남지 않았을 것이다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;슬픔의 한계에서 되돌려 보내진다
+;-------------------------------------------------
+IF ARG == 14
+
+		PRINTFORMW 「나가!!」
+		
+		PRINTFORMW 그렇게 겐게츠가 외친 순간에
+		PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 강대한 마력에 의해 바람에 날아가졌다
+		PRINTFORMW 그 순간 일순간 보인 겐게츠의 얼굴에는 눈물이 흐르고 있었다...
+		RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;분노의 한계에서 멋대로 돌아간다
+;-------------------------------------------------
+IF ARG == 15
+	PRINTFORMW 걷고 있으면 오싹오싹 등으로부터 살기를 느낀다...
+	PRINTFORMW 더는 참을 수 없게 된 %조사처리(ANAME(겐게츠_대상),"는")% 문득 먼 곳을 보면서 이 상황의 대처를 생각하고 있었지만
+	PRINTFORMW 겐게츠의 (분)편을 보면 거기에 그녀는 이제(이미/벌써/더는/정말) 없었다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;슬픔의 한계에서 멋대로 돌아간다
+;-------------------------------------------------
+IF ARG == 16
+	
+	PRINTFORMW 「미안해요...」
+	
+	PRINTFORMW 거북한 분위기안, 겐게츠는 그렇게 말해 떠나 갔다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;체력 한계(포로 조교)
+;-------------------------------------------------
+IF ARG == 17
+	;통상시같이, 통상으로 체력 한계를 맞이하고 있었을 경우도 분기 합니다
+		IF CFLAG:TARGET:체력한계 == 0
+			CFLAG:TARGET:체력한계 += 1
+			
+			PRINTFORMW 「이것은, 곤란하네요...」
+			PRINTFORMW 「이 장소와 나와 당신들... 바람에 날아가고 싶으면 이대로 계속하면?」
+			
+			PRINTFORMW 괴로운 듯이 중얼거리는 겐게츠
+			PRINTFORMW 겐게츠가 말하려면, 체력이 끊어지면 소위 "발광"으로 불리는 힘의 폭주가 일어나는 것 같다
+			PRINTFORMW 더 이상의 조교는 무리인 것 같다...
+			;체력 한계 회수
+			CFLAG:TARGET:체력한계 += 1
+		ELSE
+		
+			PRINTFORML 「우우... 정말로 아픈 눈 보지 않으면 모르는거야?」
+			PRINTFORML 「살아 있으면, 의 이야기이지만」
+			
+			PRINTFORML 어조는 언제나 대로이지만, 상당히 무리를 하고 있는 것 같게 녹초가 되어 있다
+			PRINTFORML 발광이 가까운 것인지도 모른다
+			PRINTFORMW 더 이상의 조교는 무리인 것 같다...
+			;체력 한계 회수
+			CFLAG:TARGET:체력한계 += 1
+		ENDIF
+	RETURN 0
+ENDIF
+
+ ;-------------------------------------------------
+;기력 한계(포로 조교)
+;-------------------------------------------------
+IF ARG == 18
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+ ;-------------------------------------------------
+;포로 조교로 두드려 일으킨다
+;-------------------------------------------------
+IF ARG == 19
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;데이트중에 저쪽에서 키스
+;-------------------------------------------------
+IF ARG == 20
+	;연모·낙인의 경우
+		IF TALENT:연모 || TALENT:낙인
+			PRINTFORMW 겐게츠와 함께 걷고 있으면 돌연 눈앞에 겐게츠가 돌아 들어가 왔다
+			PRINTFORMW 그리고 그녀는 조금 몸을 띄우면 꼭 시선을 맞추면 입술을 거듭할 수 있었다...
+			
+			PRINTFORMW 「응...」
+			
+			PRINTFORMW 피체... 엣취...
+			PRINTFORMW 몇십초 지났을 것인가? 겐게츠가 떨어지면 %조사처리(ANAME(겐게츠_대상),"와")% 겐게츠의 사이에 타액이 실을 끌고 있었다...
+	;복종의 경우
+		ELSEIF TALENT:복종
+			PRINTFORMW 겐게츠와 함께 걷고 있으면 돌연 눈앞에 겐게츠가 돌아 들어가 왔다
+			PRINTFORMW 그리고 그녀는 조금 몸을 띄우면 꼭 시선을 맞추면 가볍게 입술을 거듭할 수 있었다...
+			
+			PRINTFORMW 「응...」
+			
+			PRINTFORMW 몇초 지났을 것인가? 겐게츠가 떨어졌다...
+			PRINTFORMW 「사실, 어떻게 해 버린 것 나...」
+			
+	 ;그 외
+	 	ELSE
+			PRINTFORMW 겐게츠와 함께 걷고 있으면 돌연 눈앞에 겐게츠가 돌아 들어가 왔다
+			PRINTFORMW 그리고 그녀는 조금 몸을 띄우면 꼭 시선을 맞추면 가볍게 입술을 거듭할 수 있었다...
+			
+			PRINTFORMW 「응...」
+			
+			PRINTFORMW 몇초 지났을 것인가? 겐게츠가 떨어졌다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;데이트중에 저쪽에서 고백
+;-------------------------------------------------
+IF ARG == 21
+
+	PRINTFORMW 평상시와같이 잡담을 계속하는 %조사처리(ANAME(겐게츠_대상),"와")% 겐게츠
+	PRINTFORMW 하지만 오늘의 겐게츠는 뭔가 모습이 이상함
+	PRINTFORMW 컨디션에서도 시원치 않은 것인지 라고 %조사처리(ANAME(겐게츠_대상),"가")% (들)물으면
+	PRINTFORMW 겐게츠는 뜻을 정한 것 같은 표정으로 잘랐다
+	
+	PRINTFORMW 「당신과 함께 되고 나서, 꽤 지났군요...」
+	PRINTFORMW 「나는 당신과 함께 되기 전, 몽환 세계를 지배하고 있었을 때에 쭉 나는 누구보다 강하다고 생각하고 있었어요」
+	PRINTFORMW 「그렇지만 여기 최근, 여러가지 사람들과 싸워 왔지만, 내가 생각하고 있던 세계는 훨씬 좁았다고 깨달아졌어」
+	PRINTFORMW 「무게츠와 2명이라면요, 누구에게도 지지 않는다고 생각하고 있던 것이지만 말야... 아, 선대의 무녀는 별도여요? 후훗」
+	PRINTFORMW 이야기가 길어져 버렸군요... 단도직입에 말해요
+	
+	PRINTFORMW 겐게츠는 당신의 눈을 곧바로 보면서 말했다
+	PRINTFORMW 
+	
+	PRINTFORMW 「당신을 좋아해」
+	PRINTFORMW 
+	
+	PRINTFORMW 「전까지는 너무 믿음직스럽지 못한 동료라고 생각하고 있었는데...」
+	PRINTFORMW 「당신의 등이 누구보다 믿음직해져... 무게츠도 함께」
+	PRINTFORMW 「이런 감정... 나도 처음이야...」
+	
+	PRINTFORMW 겐게츠는 거기서 입을 다물었다
+	PRINTFORMW %ANAME(겐게츠_대상)%의 대답을 기다리고 있는 것 같다...
+	PRINTFORMW 그런데, 어떻게 할까
+	
+
+	;CALL ASK_YN("받아들인다", "거절한다")
+
+	;고백을 받아들인다
+	;IF RESULT == 0
+	;	PRINTFORMW 
+	;
+	;	;고백 성공시는 TFLAG:4에 1을 대입
+	;	TFLAG:4 = 1
+
+	;고백을 거절한다
+	;ELSE
+	;	PRINTFORMW 
+	;
+	;	;고백 성공시는 TFLAG:4에 0을 대입
+	;	TFLAG:4 = 0
+	;ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;상대로부터 밀어 쓰러트려진다
+;-------------------------------------------------
+;합의 없음
+IF ARG == 22
+	PRINTFORMW 겐게츠와 걷고 있으면 돌연, 겐게츠가 껴안아 왔다...
+	
+	PRINTFORMW 「애태움이라고 오는, %조사처리(ANAME(겐게츠_대상),"가")% 원, 나쁘기 때문에!」
+	
+	
+	PRINTFORMW 겐게츠야는 이미 2명 모두 반나체에 가까운 상태로 되었다...
+	RETURN 0
+;합의 이루어＆취한 기세
+ELSEIF ARG == 23
+	PRINTFORMW 겐게츠와 삼키고 있으면 돌연, 겐게츠가 껴안아 왔다...
+	
+	PRINTFORMW 「나의 기분을 생각하지 않는 %조사처리(ANAME(겐게츠_대상),"가")% 원, 나쁘기 때문에!」
+	
+	PRINTFORMW 겐게츠는 지금까지 참고 오고 있었는지 들러붙어 떨어지지 않는다
+	PRINTFORMW 술에도 강한 겐게츠이니까, 술의 힘을 빌리고 있어도 그다지 본심일 것이다...
+	RETURN 0
+;합의 있어
+	;4분기
+	;복종·연모·정실로 더욱 분기 시킬 예정
+	ELSEIF ARG == 24
+	;정실
+		IF TALENT:정실
+		SELECTCASE RAND:5
+				;-------------------------------------------------
+				;뭔가의 개조로 가슴을 크게 하고 있으면 모순되어 버릴지도
+				;CASE의 뒤를 IF로 대응할까 고민중
+				;-------------------------------------------------
+			CASE 0
+				PRINTFORMW 겐게츠와 걷고 있으면 돌연 뒤로부터 껴안아졌다
+				PRINTFORMW 그녀의 작으면서 자기 주장하고 있는 가슴을 꽉 누를 수 있어 마음 좋다
+				
+				PRINTFORMW 「저기... 여기서 시라고 좋아?」
+				
+				PRINTFORMW 얼굴이야말로 안보이기는 하지만, 그 소리는 들뜨고 있어 %ANAME(겐게츠_대상)%의 대답을 기다리지 않고 해 밀어 쓰러트려져 버렸다...
+				;-------------------------------------------------
+			CASE 1
+				PRINTFORMW 돌연, 겐게츠에 팔을 잡아지고 그대로 어둠에 끌어들여져 버렸다...
+				
+				PRINTFORMW 「후훗. 좋아하겠지? 이런 것」
+				
+				PRINTFORMW 겐게츠는 그대로 %ANAME(겐게츠_대상)%의 옷을 벗기기 시작했다...
+			CASE 2
+				PRINTFORMW 겐게츠는 돌연 %ANAME(겐게츠_대상)%의 옷을 벗기기 시작했다...
+				PRINTFORMW 돌연의 음행에 아연하게로 하는 %ANAME(겐게츠_대상)%。
+				
+				PRINTFORMW 「일전에의 복수야... 후훗」
+				
+				PRINTFORMW 겐게츠는 탈이 다 하면 그대로 쓰러트렸다...
+			CASE 3
+				PRINTFORMW 겐게츠에 배후로부터 껴안겨졌다...
+				PRINTFORMW 그대로 사타구니나 성감대를 만지작거려진 %조사처리(ANAME(겐게츠_대상),"는")% 완전히 그럴 기분이 들어 버렸다...
+				
+				PRINTFORMW 「우후후, 당신의 약한 곳은 전부 알고 있어요...」
+				
+			CASE 4
+				PRINTFORMW 겐게츠는 조마조마 날개를 움직이거나 하고 있는 있다...
+				PRINTFORMW 한동안 관찰하고 있으면 그대로 밀어 쓰러트려져 버렸다
+				
+				PRINTFORMW 「오늘 밤은 나에게 안기세요!!」
+				
+				PRINTFORMW 겐게츠는 웃으면서 그렇게 말했다. 이쪽도 그렇지만도 않겠지만...
+			ENDSELECT
+		;연모·낙인
+		ELSEIF TALENT:연모 || TALENT:낙인
+		SELECTCASE RAND:3
+			CASE 0
+				
+				PRINTFORMW 「하아... 이제 당신의 일 밖에 생각할 수 없어요... 책임 취해요?」
+				
+				PRINTFORMW 정신이 들면 이미 동작이 잡히지 않게 되어 있었다...
+			CASE 1
+				PRINTFORMW 인이 적고 어슴푸레한 장소
+				PRINTFORMW 겐게츠와 이야기하면서 걷고 있는 동안에 유도되고 있어 같다...
+				
+				PRINTFORMW 「당신, 조금 너무 조심성이 없어요?」
+				
+				PRINTFORMW 겐게츠는 그렇게 말하면서 입술을 거듭해 왔다...
+			CASE 2
+				PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 돌연 겐게츠에 입술을 거듭할 수 있었다
+				PRINTFORMW 정신이 들면 입고 있는 것도 전부 탈의하고 있었다...
+				
+				PRINTFORMW 「나를 변태로 한 벌, 받기 때문에!」
+				
+				PRINTFORMW 자각은 있는 것 같다...
+			ENDSELECT
+		;복종
+		ELSEIF TALENT:복종
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 겐게츠와 걷고 있으면 돌연 껴안아 왔다
+				
+				PRINTFORMW 「당신의 탓이야... 책임 취해요」
+				
+				PRINTFORMW 겐게츠는 돌연의 행동에 의해 굳어지고 있는 %ANAME(겐게츠_대상)%의 옷을 벗기기 시작했다...
+			CASE 1
+				PRINTFORMW 겐게츠는 돌연 %조사처리(ANAME(겐게츠_대상),"를")% 쓰러트렸다...
+				
+				PRINTFORMW 「당신이 나로 한 일이 매일밤꿈에 나오는거야」
+				PRINTFORMW 「스스로는 이제(이미/벌써/더는/정말) 억제할 수 없는거야...」
+				
+			CASE 2
+				
+				PRINTFORMW 「나는 당신이 무엇을 하고 싶은 것인지 몰라요」
+				PRINTFORMW 「저런 심한 일을 해 둬...」
+				PRINTFORMW 「반칙이야! 비겁하구나!」
+				
+				PRINTFORMW 아우성치는 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 그대로 쓰러트렸다...
+			ENDSELECT
+		;그 외
+		ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 겐게츠와 걷고 있으면 돌연 껴안아 왔다
+				
+				PRINTFORMW 「당신의 탓이야... 책임 취해요」
+				
+				PRINTFORMW 겐게츠는 돌연의 행동에 의해 굳어지고 있는 %ANAME(겐게츠_대상)%의 옷을 벗기기 시작했다...
+			CASE 1
+				PRINTFORMW 겐게츠는 돌연 %조사처리(ANAME(겐게츠_대상),"를")% 쓰러트렸다...
+				
+				PRINTFORMW 「당신이 나로 한 일이 매일밤꿈에 나오는거야」
+				PRINTFORMW 「스스로는 이제(이미/벌써/더는/정말) 억제할 수 없는거야...」
+				
+			CASE 2
+				
+				PRINTFORMW 「나는 당신이 무엇을 하고 싶은 것인지 몰라요」
+				PRINTFORMW 「싸움 밖에 모르는 나를...」
+				PRINTFORMW 「이렇게 상냥하게 해... 정말로 도무지 알 수 없어요...」
+				
+				PRINTFORMW 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 그대로 쓰러트렸다...
+			ENDSELECT
+		ENDIF
+	RETURN 0
+ENDIF
+
+;합의 있어＆취한 기세
+ELSEIF ARG == 25
+	PRINTFORMW 겐게츠와 삼키고 있으면 돌연, 겐게츠가 껴안아 왔다...
+	
+	PRINTFORMW 「나의 기분을 생각하지 않는 %조사처리(ANAME(겐게츠_대상),"가")% 원, 나쁘기 때문에!」
+	
+	PRINTFORMW 술에도 강한 겐게츠이니까, 술의 힘을 빌리고 있어도 이것이 본심일 것이다...
+	PRINTFORMW 그런데도 평상시보다 어색하게 벗겨 간다...
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;상대로부터 졸라대진다
+;-------------------------------------------------
+;합의 없음
+IF ARG == 26
+	;복종
+	IF TALENT:복종
+		PRINTFORMW 언제나 대로 겐게츠와 놀고 있으면, 평상시와 달라 얼굴을 숙이게 하면서
+		
+		PRINTFORMW 「나, 나를 안기고 싶어... 이제 인내 할 수 없는거야」
+		
+		PRINTFORMW 와 당신의 소매를 집으면서 간원 했다
+		PRINTFORMW 그런데, 왜 그러는 것인가...
+	;그 외
+	ELSE
+		PRINTFORMW 언제나 대로 겐게츠와 놀고 있으면, 평상시와 달라 얼굴을 새빨갛게 하면서 %ANAME(겐게츠_대상)%의 눈을 응시해 왔다
+		
+		PRINTFORMW 「나를 안기고 싶어... 이제 인내 할 수 없는거야」
+		
+		PRINTFORMW 와 당신의 눈을 보면서 간원 했다
+		PRINTFORMW 그런데, 왜 그러는 것인가...
+	ENDIF
+	RETURN 0
+;합의 이루어＆취한 기세
+ELSEIF ARG == 27
+	PRINTFORMW 
+	RETURN 0
+;합의 있어
+ELSEIF ARG == 28
+	;정실 3 분기
+	IF TALENT:정실
+	SELECTCASE RAND:3
+		CASE 0
+			
+			PRINTFORMW 「저기%ANAME(겐게츠_대상)%...」
+			PRINTFORMW 「나를 안아」
+			
+			PRINTFORMW 겐게츠의 눈은 얼마 안 되는빛을 반사하는 만큼 촉촉하게 한 간원 해 온다...
+		CASE 1
+			
+			PRINTFORMW %ANAME(겐게츠_대상)%...
+			
+			PRINTFORMW %조사처리(ANAME(겐게츠_대상),"를")% 부르는 소리는 이미 들뜨고 있어 상기 한 얼굴로 당신을 유혹하고 있다...
+		CASE 2
+			
+			PRINTFORMW 「이제(이미/벌써/더는/정말), 오늘은 일도 없을 것입니다?」
+			PRINTFORMW 「오늘 밤도... 저기?」
+			
+			PRINTFORMW 스케줄표에 대충 훑어보면서, 약간 흥분한 소리로 동의를 요구하고 있다...
+		ENDSELECT
+	;연모·낙인 3 분기
+	ELSEIF TALENT:연모 || TALENT:낙인
+		SELECTCASE RAND:3
+		CASE 0
+			
+			PRINTFORMW 「정말, 나는 어떻게 해 버렸을까」
+			PRINTFORMW 「%ANAME(겐게츠_대상)%의 일만 생각해 버려...」
+			
+			PRINTFORMW 겐게츠는 글썽글썽 한 눈으로 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다...
+		CASE 1
+			
+			PRINTFORMW 「덥네요...」
+			
+			PRINTFORMW 그렇게 말하면서 윗도리를 벗어 가는 겐게츠
+			PRINTFORMW 그만큼 덥지는 않겠지만...
+			PRINTFORMW 문득 겐게츠를 본다고 기대의 시선으로 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다...
+		CASE 2
+			
+			PRINTFORMW 「저기, %ANAME(겐게츠_대상)%...」
+			PRINTFORMW 「일전에 해 준 저것, 다시 한 번 해 주지 않을래?」
+			
+			PRINTFORMW 뭐야? 라고 심술쟁이 같게 (들)물으면 얼굴을 새빨갛게로 해 「안으면 좋겠다」... (와)과 툭하고 중얼거렸다
+			PRINTFORMW 자, 그럼, 어떻게 하지...
+		ENDSELECT
+	;복종 3 분기
+	ELSEIF TALENT:복종
+		SELECTCASE RAND:3
+		CASE 0
+			
+			PRINTFORMW 「저기, %ANAME(겐게츠_대상)%... 또 나를 안기고 싶어...」
+			
+			PRINTFORMW 겐게츠는 %ANAME(겐게츠_대상)%의 반응을 엿보면서 간원 했다...
+		CASE 1
+			
+			PRINTFORMW 「저... %ANAME(겐게츠_대상)%...」
+			PRINTFORMW 「나를 안아, 부탁」
+			
+			PRINTFORMW 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 공포심을 안으면서도 권하고 있다...
+		CASE 2
+			
+			PRINTFORMW 「정말로, 어떻게 해 버렸을까요」
+			PRINTFORMW 「당신의 일이 무서운데」
+			PRINTFORMW 「당신에 안기고 싶다고 생각해 버려」
+			PRINTFORMW 「나는, 이상한 것일까」
+			
+		ENDSELECT
+	;그 외 3 분기
+	ELSE
+		SELECTCASE RAND:3
+		CASE 0
+			
+			PRINTFORMW 「%ANAME(겐게츠_대상)%... 또 나를 안기고 싶어...」
+			
+			PRINTFORMW 겐게츠는 머뭇머뭇 하면서 간원 했다...
+		CASE 1
+			
+			PRINTFORMW 「저기... %ANAME(겐게츠_대상)%...」
+			PRINTFORMW 나를 안아, 부탁
+			
+			PRINTFORMW 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 권하고 있다...
+		CASE 2
+			
+			PRINTFORMW 「정말로, 어떻게 해 버렸을까요」
+			PRINTFORMW 「당신에 안기고 싶다고 생각해 버려」
+			PRINTFORMW 「나는, 이상한 것일까」
+			
+		ENDSELECT
+	RETURN 0
+ENDIF
+
+;합의 있어＆취한 기세
+ELSEIF ARG == 29
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;거점 페이즈 종료(소속국가가 같으면 항상 불린다)
+;-------------------------------------------------
+IF ARG == 30 && !CFLAG:MASTER:포로처
+	SETCOLOR 칼라_오렌지
+	;연모 10 분기
+	IF TALENT:연모
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORML [겐게츠]「군사들의 컨디션 관리도 중요하구나」
+			
+		CASE 2
+			
+			PRINTFORML [겐게츠]「최근 지정학과 경제학의 공부 시작했어」
+			
+		CASE 3
+			
+			PRINTFORML [겐게츠]「백성들의 요망도 (들)물어 두어야 할 것인가?」
+			
+		CASE 4
+			
+			PRINTFORML [겐게츠]「여기의 경비는 삭감할 수 있어요」
+			
+		CASE 5
+			
+			PRINTFORML [겐게츠]「가끔씩은 문관들에게도 휴가를 주어요」
+			
+		CASE 6
+			
+			PRINTFORML [겐게츠]「싸움만이 모두가 아니네요...」
+			
+		CASE 7
+			
+			PRINTFORML [겐게츠]「전장자취의 복구도 서두르지 않으면 말야」
+			
+		CASE 8
+			
+			PRINTFORML [겐게츠]「지역의 공업화에도 힘을 써... 이러한 일에 밝은 인재는 없을까?」
+			
+		CASE 9
+			
+			PRINTFORML [겐게츠]「당신과라면, 뭐든지 할 수 있을 생각이 들어요」
+			
+		ENDSELECT
+	;그 외 10 분기
+	ELSE
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORML [겐게츠]「나에게는, 싸워 이외의 존재 의의는 없어요」
+			
+		CASE 2
+			
+			PRINTFORML [겐게츠]「나는 정치라든지에 흥미없는거야」
+			
+		CASE 3
+			
+			PRINTFORML [겐게츠]「빨리 싸우고 싶어요」
+			
+		CASE 4
+			
+			PRINTFORML [겐게츠]「세금을 무겁게 해, 전비를 조달합시다」
+			
+		CASE 5
+			
+			PRINTFORML [겐게츠]「나라면, 어떤 지역을 떨어뜨려 보여요」
+			
+		CASE 6
+			
+			PRINTFORML [겐게츠]「다음의 전투의 준비를 해 둔다」
+			
+		CASE 7
+			
+			PRINTFORML [겐게츠]「지루하구나...」
+			
+		CASE 8
+			
+			PRINTFORML [겐게츠]「전투가 일어날 것 같으면 일으켜?」
+			
+		CASE 9
+			
+			PRINTFORML [겐게츠]「쉬고 있을 여유가 있는 거야? 출격 해요」
+			
+		ENDSELECT
+		ENDIF
+		RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전략 페이즈 종료(소속국가가 같으면 항상 불린다)
+;-------------------------------------------------
+IF ARG == 31
+	SETCOLOR 칼라_오렌지
+	;연모 10 분기
+	;연모 또한 포로일 때
+	IF TALENT:연모 && CFLAG:MASTER:포로처
+	SELECTCASE RAND:3
+		CASE 0
+		
+			PRINTFORML [겐게츠]「%ANAME(겐게츠_대상)%...」
+		
+		CASE 1
+		
+			PRINTFORML [겐게츠]「어디에 가 버렸어 %ANAME(겐게츠_대상)%...」
+		
+		CASE 2
+		
+			PRINTFORML [겐게츠]「%ANAME(겐게츠_대상)%... 무사하다면 좋지만.」
+		
+		CASE 3
+		
+			PRINTFORML [겐게츠]「%ANAME(겐게츠_대상)%탈환 작전을 제안합니다.」
+		
+		ENDSELECT
+		RESETCOLOR
+	ELSEIF CFLAG:MASTER:포로처
+	
+		;PRINTFORML
+	
+	ELSEIF TALENT:연모 && !CFLAG:MASTER:포로처
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORML [겐게츠]「전사한 군사들의 가족에게 극진한 수당을 요구해요」
+			
+		CASE 2
+			
+			PRINTFORML [겐게츠]「야전 병원이 부족하네요... 의사와 간호사도 늘려 급 만들고의 병원을 건조할 필요가 있어요」
+			
+		CASE 3
+			
+			PRINTFORML [겐게츠]「모두의 페이스에 맞추어요」
+			
+		CASE 4
+			
+			PRINTFORML [겐게츠]「전쟁은 좋아하지만, 전우가 죽는 것은 보고 싶지 않네요...」
+			
+		CASE 5
+			
+			PRINTFORML [겐게츠]「군사들에게는 점령지에서 부녀 폭행이나 학살을 저지르지 않게 확실히 교육하지 않으면 말야」
+			PRINTFORML 「훨씬 훗날의 통치에 문제가 나오고... 저기」
+			
+		CASE 6
+			
+			PRINTFORML [겐게츠]「병참선에 문제는 없을까?」
+			
+		CASE 7
+			
+			PRINTFORML [겐게츠]「좀더 좀더 강하게 안 되면 말야」
+			
+		CASE 8
+			
+			PRINTFORML [겐게츠]「군사들의 식사에는 배려를 하지 않으면 말야」
+			
+		CASE 9
+			
+			PRINTFORML [겐게츠]「적의 공격을 모두 나를 받게 되면 좋지만」
+			
+		ENDSELECT
+	;그 외 10 분기
+	ELSE
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORML [겐게츠]「아직도 날뛰거나 없어요!」
+			
+		CASE 2
+			
+			PRINTFORML [겐게츠]「역시 내정보다 전쟁이 나에게는 맞고 있어요」
+			
+		CASE 3
+			
+			PRINTFORML [겐게츠]「좀 더 싸우고 싶어요」
+			
+		CASE 4
+			
+			PRINTFORML [겐게츠]「예산을 늘리기를 원해요, 약탈에서는 늦은 것」
+			
+		CASE 5
+			
+			PRINTFORML [겐게츠]「나 뿐이라면, 행군은 하지 않고 적을 괴멸 당하는 것이지만」
+			
+		CASE 6
+			
+			PRINTFORML [겐게츠]「보급 부대에 좌지우지되는 것도 적이군요」
+			
+		CASE 7
+			
+			PRINTFORML [겐게츠]「강간도 학살도, 어디에서라도 하고 있어요」
+			
+		CASE 8
+			
+			PRINTFORML [겐게츠]「좀더 좀더 군사가 필요하구나」
+			
+		CASE 9
+			
+			PRINTFORML [겐게츠]「쉬고 있을 여유가 있는 거야?」
+			
+		ENDSELECT
+		ENDIF
+		RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;취기 한계에서 넘어진다
+;-------------------------------------------------
+IF ARG == 32
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;임신 발각
+;-------------------------------------------------
+IF ARG == 40
+	;총임신수
+	CFLAG:TARGET:총임신수 += 1
+	;포로 조교
+	IF CFLAG:9 == CFLAG:MASTER:1
+		;종 친불명
+		IF CFLAG:23 == 0
+			;임신수(인간)
+			CFLAG:TARGET:임신수_인 += 1
+				IF ABL:출산 >= 3
+					;PRINTFORMW 
+				ELSE
+					;PRINTFORMW 
+				ENDIF
+		;주인공인 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_ID(MASTER)
+			;임신수(인간)
+			CFLAG:TARGET:임신수_인 += 1
+			;연모…낙인
+			IF TALENT:연모 || TALENT:낙인
+			
+				PRINTFORMW 『겐게츠님이 회임했습니다』
+				
+				PRINTFORMW 특례로 붙인 겐게츠 전속의 의사로부터의 보고이다
+				PRINTFORMW 곧바로 의사와 부하를 동반 감옥에 향했다...
+				PRINTFORMW 추운 감옥 안에서 저항을 봉하는 겐게츠용의 초강력인 형벌 도구를 낄 수 있었던 겐게츠가 있었다
+				PRINTFORMW 허둥지둥 복수인으로 가까워졌기 때문에, 그녀를 앞으로 하기 전에 이쪽을 향하고 있었다
+				PRINTFORMW 그 표정은 어딘가 기쁜 듯하다...
+				
+				PRINTFORMW 「당신의 아이야」
+				PRINTFORMW 「이 마력의 느낌을 잘못할 리가 없어요」
+				
+				PRINTFORMW 축하합니다, 라고 전하면 겐게츠는 명랑하게 미소지었다..
+			;복종
+			ELSEIF TALENT:복종
+				PRINTFORMW 『겐게츠님은 회임하시고 있는 것 같습니다』
+				PRINTFORMW 포로의 정기검진의 보고이다
+				PRINTFORMW 곧바로 의사와 부하를 동반 감옥에 향했다...
+				PRINTFORMW 추운 감옥 안에서 저항을 봉하는 겐게츠용의 초강력인 형벌 도구를 낄 수 있었던 겐게츠가 있었다
+				PRINTFORMW 허둥지둥 복수인으로 가까워졌기 때문에, 그녀를 앞으로 하기 전에 이쪽을 향하고 있었다
+				PRINTFORMW 그 표정은 어딘가 복잡한 것 같아, 걱정일 것 같은 얼굴로 당신을 보고 있다...
+				
+				PRINTFORMW 「당신의 아이야...」
+				PRINTFORMW 「이 마력의 느낌을 잘못할 리가 없어요」
+				
+				PRINTFORMW 축하합니다, 라고 전하면 겐게츠는 가볍게 대답을 해 숙여 버렸다...
+			;그 외
+			ELSE
+				PRINTFORMW 『겐게츠는 임신하고 있는 것 같습니다』
+				PRINTFORMW 포로의 정기검진의 보고이다
+				PRINTFORMW 일을 끝낸 뒤로 의사와 부하를 동반 감옥에 향했다...
+				PRINTFORMW 추운 감옥 안에서 저항을 봉하는 겐게츠용의 초강력인 형벌 도구를 낄 수 있었던 겐게츠가 있었다
+				PRINTFORMW 허둥지둥 복수인으로 가까워졌기 때문에, 그녀를 앞으로 하기 전에 이쪽을 향하고 있었다
+				PRINTFORMW 원한을 담은 시선으로 %조사처리(ANAME(겐게츠_대상),"를")% 보고 있다...
+				
+				PRINTFORMW 「%ANAME(겐게츠_대상)%의 아이야...」
+				PRINTFORMW 「이 마력의 느낌을 잘못할 리가 없어요」
+				
+				PRINTFORMW 축하합니다, 라고 전하면 겐게츠는은 그 말을 무시해 숙여 버렸다...
+				;
+				IF ABL:출산 >= 3
+					;PRINTFORMW 
+				ELSE
+					;PRINTFORMW 
+				ENDIF
+			ENDIF
+		;촉수의 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_SPERM_ID("촉수")
+			;CFLAG 조작
+			; 임신 회수(촉수)
+			CFLAG:TARGET:임신수_촉수 += 1
+			;PRINTFORMW 
+		ELSE
+			;다른 사관인 아이를 임신했다
+			;임신 회수(사람)
+			CFLAG:TARGET:임신수_인 += 1
+			;PRINTFORMW
+		ENDIF
+	;포로 조교 이외
+	ELSE
+		;종 친불명
+		IF CFLAG:23 == 0
+		;임신수(인간)
+		CFLAG:TARGET:임신수_인 += 1
+			IF ABL:출산 >= 3
+				;PRINTFORMW 
+			ELSE
+				;PRINTFORMW 
+			ENDIF
+		;주인공인 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_ID(MASTER)
+			;임신수(사람)
+			CFLAG:TARGET:임신수_인 += 1
+			;연모·낙인
+			IF TALENT:연모 || TALENT:낙인
+				;첫임신
+				IF CFLAG:TARGET:임신수_인 == 1
+					PRINTFORMW ---한밤중---
+					PRINTFORMW 모여 있던 서류를 정리하고 있는 동안에 완전히 한밤중이 되어 버렸다
+					PRINTFORML 서류 일도 끝나, 자기 방으로 돌아가려고 했을 때에 배후로부터
+					
+					PRINTFORMW 「여기에 있던 거네, %ANAME(겐게츠_대상)%...」
+					
+					PRINTFORMW 찾았어요, 라고 첨가해 중얼거렸다
+					PRINTFORMW 되돌아 보면, 거기에는 겐게츠가 서 있었다
+					PRINTFORMW 이야기를 들으면 아이를 임신했다고 한다. 누구의? 라고 (들)물으면, 당신의 것이라고 말했다.
+					PRINTFORMW 아무튼, 그럴 것이다
+					PRINTFORMW 그런데, 어떻게 할까...
+					CALL ASK_MULTI("배의소리를듣는다", "즉시 준비한다", "임신 플레이도 좋을지도 모른다...")
+						SELECTCASE RESULT
+						CASE 0
+							PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 앞에서 무릎 꿇어 귀를 대었다
+							
+							PRINTFORMW 「과연 아직 아무것도 들리지 않아요...」
+							
+							PRINTFORMW 겐게츠는 기가 막히면서도 애정이 깃들인 눈으로 %ANAME(겐게츠_대상)%의 머리를 어루만지고 있다...
+						CASE 1
+							PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 즉시 스케줄표에 병원이나 직매의 예정을 넣기 시작했다
+							PRINTFORMW 그 때, 옆에 있던 겐게츠가 %조사처리(ANAME(겐게츠_대상),"를")% 껴안아 왔다
+							PRINTFORMW %ANAME(겐게츠_대상)%도 겐게츠를 껴안아, 잠시동안 기쁨을 분담했다
+						CASE 2
+							
+							PRINTFORMW 「하아...」
+							
+							PRINTFORMW 겐게츠는 마음 속 기가 막힌 것처럼 한숨을 쉰, 괜찮은 것일까 이 사람과 중얼거린 후
+							
+							PRINTFORMW 「사, 상냥하게...?」
+							 
+							PRINTFORMW 와 배를 소중한 것 같게 문지르면서 작은 소리로 말했다
+					ENDSELECT
+						PRINTFORMW
+						PRINTFORMW 한동안 아이의 이름 따위의 화제로 분위기를 살렸다...
+				;그 외 3 분기
+				ELSE
+					SELECTCASE RAND:3
+					CASE 0
+						PRINTFORMW ---한밤중---
+						PRINTFORMW 모여 있던 서류를 정리하고 있는 동안에 완전히 한밤중이 되어 버렸다
+						PRINTFORML 서류 일도 끝나, 자기 방으로 돌아가려고 했을 때에 배후로부터 소리가 났다
+						
+						PRINTFORMW 「여기에 있던 거네, %ANAME(겐게츠_대상)%...」
+						
+						PRINTFORMW 찾았어요, 라고 첨가해 중얼거렸다
+						PRINTFORMW 되돌아 보면, 거기에는 겐게츠가 서 있었다
+						PRINTFORMW 이야기를 들으면 아이를 임신했다고 한다. 누구의? 라고 (들)물으면, 당신의 것이라고 말했다.
+						PRINTFORMW 아무튼, 그럴 것이다
+						PRINTFORMW
+						PRINTFORMW 한동안 아이의 이름 따위의 화제로 분위기를 살렸다...
+					CASE 1
+						PRINTFORMW 안녕   콩
+						PRINTFORMW 밤, 자기 방에서 서류와 격투하고 있으면, 문이 노크 되었다
+						PRINTFORMW 입실을 재촉하면, 잠옷 모습의 겐게츠가 들어 왔다
+						PRINTFORMW 욕실 오름인가 잠옷으로부터 보이는 피부는 혈색이 자주(잘) 요염함
+						PRINTFORMW 철야 일을 위로함이라도 와 주었는지라고 생각했지만, 아무래도 다른 것 같다
+						
+						PRINTFORMW 「나, 또 임신한 것 같아」
+						
+						PRINTFORMW 그것은 그렇다, 매일밤 그토록 하고 있으면 할 수 없을 리가 없다
+						;임신한 수는 인간만의 카운트
+						PRINTFORMW {CFLAG:TARGET:232}남의 눈이다. 라고 말하면, 겐게츠는 기쁜듯이 미소지었다...
+					CASE 2
+						PRINTFORML 오늘은 아침부터 겐게츠가 임신하고 있는 것을 전해듣고
+						PRINTFORMW 마시고 있던 커피를 불기 시작하는 소동을 일으켰다（겐게츠에게 야단맞으면서 청소했다）
+						PRINTFORMW 그리고, 지금은 출산에 준비 베이비 용품을 구매에 와 있었다
+						;"인간"이 출산이 끝난 상태인가
+						;짐승은 있어도 촉수는의 짐승
+						IF CFLAG:TARGET:출산수_인 >= 1
+							PRINTFORMW 이미{CFLAG:TARGET:232}인을 기른 겐게츠이지만, 과연 일국의 주인의 아이가 후물림인 것은 받을 수 없다
+							PRINTFORMW 향후 출생해 오는 사랑스러운 악마를 위해서(때문에), %조사처리(ANAME(겐게츠_대상),"는")% 있을까 말까한 용돈을 털었다...
+						ELSE
+							PRINTFORMW 도대체, 어떤 물건이 필요할 것일까?
+							PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 국고의 돈으로 대량의 베이비 용품을 사 모았다
+							PRINTFORML 다음날, 겐게츠와 재무 회계부의 면면으로부터 지독하게 혼나는 일이 되어, 다음으로부터는 포켓머니로 적당히 사려고
+							PRINTFORMW 재무 회계부가 내용을 몰수해 가벼워진 지갑을 꽉 쥔 %조사처리(ANAME(겐게츠_대상),"였")%다...
+						ENDIF
+					ENDSELECT
+				ENDIF
+			;복종
+			ELSEIF TALENT:복종
+			;첫임신
+			IF CFLAG:TARGET:총임신수 == 1
+				PRINTFORMW ---한밤중---
+				PRINTFORMW 모여 있던 서류를 정리하고 있는 동안에 완전히 한밤중이 되어 버렸다
+				PRINTFORML 서류 일도 끝나, 자기 방으로 돌아가려고 했을 때에 배후로부터
+				
+				PRINTFORMW 「여기에 있던 거네, %ANAME(겐게츠_대상)%...」
+				
+				PRINTFORMW 찾았어요, 라고 첨가해 중얼거렸다
+				PRINTFORMW 되돌아 보면, 거기에는 복잡할 것 같은 얼굴을 한 겐게츠가 서 있었다
+				PRINTFORMW 이야기를 들으면 아이를 임신했다고 한다. 누구의? 라고 (들)물으면 떨리는 소리로 당신의, 라고 말했다.
+				PRINTFORMW 아무튼, 그럴 것이다
+				PRINTFORMW 그런데, 어떻게 할까...
+				;그 외 3 분기
+			ELSE
+				SELECTCASE RAND:3
+				CASE 0
+					PRINTFORMW ---한밤중---
+					PRINTFORMW 모여 있던 서류를 정리하고 있는 동안에 완전히 한밤중이 되어 버렸다
+					PRINTFORML 서류 일도 끝나, 자기 방으로 돌아가려고 했을 때에 배후로부터
+					
+					PRINTFORMW 「여기에 있던 거네, %ANAME(겐게츠_대상)%...」
+					
+					PRINTFORMW 찾았어요, 라고 첨가해 중얼거렸다
+					PRINTFORMW 되돌아 보면, 거기에는 겐게츠가 서 있었다
+					PRINTFORMW 이야기를 들으면 아이를 임신했다고 한다. 누구의? 라고 (들)물으면, 당신의 것이라고 말했다.
+					PRINTFORMW 아무튼, 그럴 것이다
+					PRINTFORMW
+					PRINTFORMW 한동안 아이의 이름 따위의 화제로 분위기를 살렸다...
+				CASE 1
+					PRINTFORMW 안녕   콩
+					PRINTFORMW 밤, 자기 방에서 서류와 격투하고 있으면, 문이 노크 되었다
+					PRINTFORMW 입실을 재촉하면, 잠옷 모습의 겐게츠가 들어 왔다
+					PRINTFORMW 욕실 오름인가 잠옷으로부터 보이는 피부는 혈색이 자주(잘) 요염함
+					PRINTFORMW 언제나 뒤로 묶음으로 있는 금발은 어깨로부터 흐르도록(듯이) 내려 있다
+					PRINTFORMW 철야 일을 위로함이라도 와 주었는지라고 생각했지만, 아무래도 다른 것 같다
+					
+					PRINTFORMW 「나, 또 임신한 것 같아」
+					
+					PRINTFORMW 그것은 그렇다, 매일밤 그토록 하고 있으면, 할 수 없을 리가 없다
+					;임신한 수는 인간만의 카운트
+					PRINTFORMW {CFLAG:TARGET:232}남의 눈이다. 라고 말하면 겐게츠는 조금 고민한 후, 미소지었다...
+				CASE 2
+					PRINTFORMW 오늘은 아침부터 겐게츠가 임신하고 있는 것을 전해듣고
+					PRINTFORMW 마시고 있던 커피를 불기 시작하는 소동을 일으켰다
+					PRINTFORMW 그리고, 지금은 출산에 준비 베이비 용품을 구매에 와 있었다
+					;"인간"이 출산이 끝난 상태인가
+					;짐승은 있어도 촉수는의 짐승
+					IF !CFLAG:TARGET:임신수_인 == 1
+						PRINTFORMW 이미{CFLAG:TARGET:232}인을 기른 겐게츠이지만, 과연 일국의 주인의 아이가 후물림인 것은 받을 수 없다
+						PRINTFORMW 향후 출생해 오는 사랑스러운 악마를 위해서(때문에), %조사처리(ANAME(겐게츠_대상),"는")% 있을까 말까한 용돈을 털었다...
+							ELSE
+						PRINTFORMW 도대체, 어떤 물건이 필요할 것일까?
+						PRINTFORMW %조사처리(ANAME(겐게츠_대상),"는")% 국고의 돈으로 대량의 베이비 용품을 사 모았다
+						PRINTFORML 다음날, 재무 회계부의 면면으로부터 지독하게 혼나는 일이 되어, 다음으로부터는 마이 머니로 적당히 사려고
+						PRINTFORMW 재무 회계부가 내용을 몰수해 가벼워진 지갑을 꽉 쥔 %조사처리(ANAME(겐게츠_대상),"였")%다...
+					ENDIF
+					ENDSELECT
+				ENDIF
+			ELSE
+				;PRINTFORMW
+			ENDIF
+		;촉수의 아이를 임신했다
+		ELSEIF CFLAG:23 == GET_SPERM_ID("촉수")
+			;임신 회수(촉수)
+			CFLAG:TARGET:임신수_촉수 += 1
+			;PRINTFORMW 
+		ELSE
+			;다른 사관인 아이를 임신했다
+			;임신 회수(사람)
+			CFLAG:TARGET:임신수_인 += 1
+			;PRINTFORMW
+		ENDIF
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;임월에 접어들었다
+;-------------------------------------------------
+IF ARG == 41
+	;첫회 출산(사람)
+	IF CFLAG:TARGET:총임신수 == 1
+		;포로 조교중?
+		IF CFLAG:9 == CFLAG:MASTER:1
+			PRINTFORMW 겐게츠의 출산이 예정보다 앞당겨질 것 같다면 의사의 보고를 접수 감옥에 향했다
+			PRINTFORML 과연 모체의 보호를 위해서(때문에), 춥게 타인이 있는 감옥으로부터, 목에는 구속도구는 붙이고 있지만
+			PRINTFORMW 따뜻한 병실에서 청결한 침대에서 수액 되고 있는 겐게츠의 모습을 찾아냈다
+			;연모·낙인
+			IF TALENT:연모 || TALENT:낙인
+				
+				PRINTFORMW 「아, %ANAME(겐게츠_대상)%!」
+				
+				PRINTFORMW 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 찾아내면 기쁜듯이 읽고 있던 육아 잡지를 정리하기 시작했다
+				PRINTFORMW 소녀에게는 어울리지 않은 큰 배에 귀를 대면, 건강 좋게 차 돌려주어 오는 소리가 들렸다
+				PRINTFORMW 이것이라면 건강한 아이일거라고 수가를 낄 수 있었던 겐게츠와 함께 서로 미소지었다...
+			;복종
+			ELSEIF TALENT:복종
+				
+				PRINTFORMW 「힛...」
+				
+				PRINTFORMW 겐게츠는 당신을 보면 작게 비명을 올렸지만, 어떻게든 손질하고 있다...
+				PRINTFORMW 하드한 조교에도 강함을 무너뜨리지 않는 겐게츠는, 뱃속에 생명이 있으면 순간에 연약해지는 것 같다
+				PRINTFORMW 겐게츠는 %ANAME(겐게츠_대상)%의 그 만큼석을 간파한 것 같아, 마음 속 불쾌할 것 같은 얼굴을 했다
+				
+				PRINTFORMW 「... 나은 마음대로 해도 좋아요, 그렇지만 아이에게는... 아이에게만은 심한 일 하지 않으면 맹세코」
+				
+				PRINTFORMW 겐게츠는 당신의 대답을 기다리고 있다... 그런데, 왜 그러는 것인가
+				CALL ASK_MULTI("껴안는다", "아무것도 하지 않는다고 맹세한다", "입다물고 본다")
+					SELECTCASE RESULT
+					CASE 0
+						
+						PRINTFORMW 「아...」
+						PRINTFORMW 「(따뜻하다...)」
+						PRINTFORMW 「(그렇게 심한 일을 했는데)」
+						PRINTFORMW 「(억지로 아이까지 하사하게 해)」
+						PRINTFORMW 「그렇지만...」
+						
+						PRINTFORMW 작게 떨리는 손으로 %조사처리(ANAME(겐게츠_대상),"를")% 껴안고 돌려주었다
+					CASE 1
+						
+						PRINTFORMW 「후우...」
+						PRINTFORMW 「가짜의 말에서도 많이 편해져요...」
+						
+						PRINTFORMW 쭉 걱정하고 있었는지 겐게츠는 안도의 한숨을 쉬었다...
+						
+						PRINTFORMW 「그렇지만, 완전하게 믿었을 것은 아니에요」
+						PRINTFORMW 「정말로, 부탁해요?」
+						
+					CASE 2
+						PRINTFORMW 아무것도 말하지 않는 동안에 겐게츠의 안색은 순식간에 푸르게 되어 간다
+						PRINTFORMW 여기 최근 쭉 고민하고 있는 일이었을 것이다
+						PRINTFORMW 너무 과연 조롱한 것 같다...
+					ENDSELECT
+				;그 외
+			ELSE
+				
+				PRINTFORMW 「아...」
+				
+				PRINTFORMW 겐게츠는 당신을 보면 복잡할 것 같은 얼굴을 했다
+				PRINTFORMW 그 후 배의 소리를 들으면, 건강하게 차고 있는 것이 들렸으므로, 건강한 아이가 출생할 것이다...
+				PRINTFORMW 그렇게 겐게츠에게 전하면 조금 표정을 자주(잘) 해 주었다
+			ENDIF
+		;포로 조교중:그 외
+		ELSE
+			
+			PRINTFORMW 「아, %ANAME(겐게츠_대상)%!」
+			
+			PRINTFORMW 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 찾아내면 기쁜듯이 읽고 있던 육아 잡지를 정리하기 시작했다
+			PRINTFORMW 소녀에게는 어울리지 않은 큰 배에 귀를 대면, 건강 좋게 차 돌려주어 오는 소리가 들렸다
+			PRINTFORMW 이것이라면 건강한 아이일거라고 수가를 낄 수 있었던 겐게츠와 함께 서로 미소지었다...
+		ENDIF
+	ELSE
+		
+		PRINTFORMW 「아, %ANAME(겐게츠_대상)%」
+		
+		PRINTFORMW 겐게츠는 %조사처리(ANAME(겐게츠_대상),"를")% 찾아낸다고 읽고 있던 육아 잡지를 정리하기 시작했다
+		PRINTFORMW 소녀에게는 어울리지 않은 큰 배에 귀를 대면, 건강 좋게 차 돌려주어 오는 소리가 들렸다
+		PRINTFORMW 이것으로{CFLAG:TARGET:임신수_인}남의 눈... 우리 집은 떠들썩하게 될 것이다
+	ENDIF
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;아이를 출산했다
+;-------------------------------------------------
+IF ARG == 42
+	;부친의 캐릭터 번호를 LOCAL:0에 취득
+	LOCAL:0 = ID_TO_CHARA(CFLAG:23)
+	
+	CFLAG:TARGET:총출동산수 += 1 
+	;주인공의 아이의 경우
+	IF LOCAL:0 == MASTER
+		CFLAG:TARGET:출산수_인 += 1
+		;2회이상 인간을 출산?
+		IF CFLAG:TARGET:출산수_인 >= 2
+			;연모·낙인
+			IF TALENT:연모 || TALENT:낙인
+				PRINTFORMW 분만실에 세키자의 울음소리가 영향을 준다
+				PRINTFORMW 조산사의 손에 의해 2명 사랑의 결정을 받으면
+				PRINTFORMW 겐게츠는 기쁜듯이 눈물을 흘렸다...
+			;복종
+			ELSEIF TALENT:복종
+				PRINTFORMW 분만실에 세키자의 울음소리가 영향을 준다
+				PRINTFORMW 조산사의 손에 의해 2명 사랑의 결정을 받으면
+				PRINTFORMW 겐게츠는 기쁜듯이 눈물을 흘렸다...
+			;그 외
+			ELSE
+				PRINTFORMW 분만실에 세키자의 울음소리가 영향을 준다
+				PRINTFORMW 조산사의 손에 의해 2명 사랑의 결정을 받으면
+				PRINTFORMW 겐게츠는 녹초가 되면서도 기쁜듯이 눈물을 흘렸다...
+			ENDIF
+		;출산 첫회
+		;연모·낙인
+		ELSEIF TALENT:연모 || TALENT:낙인
+			PRINTFORML 오늘은 아침부터 겐게츠의 전속의에 불려 가고 가 보면
+			PRINTFORMW 병실에는 많은 간호사나 조산사에 둘러싸인 겐게츠가 있었다...
+			PRINTFORML 지금부터 분만실에 이송되어다, 이송중에 그녀는 불안한 듯한 얼굴을 하고 있었으므로
+			PRINTFORMW  %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 손을 잡았다
+			PRINTFORMW 하면, 겐게츠는 분발할 수 있었던 표정으로 『노력해요』라고 말했다
+			PRINTFORMW ..........................................
+			PRINTFORMW ...........................
+			PRINTFORMW ...............
+			PRINTFORMW .........
+			PRINTFORMW 분만실에 세키자의 울음소리가 영향을 준다
+			PRINTFORMW 조산사의 손에 의해 2명 사랑의 결정을 받으면
+			PRINTFORMW 겐게츠는 녹초가 되면서도 기쁜듯이 눈물을 흘렸다...
+		;복종
+		ELSEIF TALENT:복종
+			PRINTFORML 오늘은 아침부터 부하에게 겐게츠가 해산기있었다고 보고되고 가 보면
+			PRINTFORMW 병실에는 많은 간호사나 조산사에 둘러싸인 겐게츠가 있었다...
+			PRINTFORML 지금부터 분만실에 이송되는 것 같다, 이송중에 그녀는 불안한 듯한 얼굴을 하고 있었으므로
+			PRINTFORMW  %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 손을 잡았다
+			PRINTFORMW 하면, 겐게츠는 각오를 결정한 표정으로 『노력해요』라고 말했다
+			PRINTFORMW ..........................................
+			PRINTFORMW ...........................
+			PRINTFORMW ...............
+			PRINTFORMW .........
+			PRINTFORMW 분만실에 세키자의 울음소리가 영향을 준다
+			PRINTFORMW 조산사의 손에 의해 2명 사랑의 결정을 받으면
+			PRINTFORMW 겐게츠는 녹초가 되면서도 기쁜듯이 눈물을 흘렸다...
+		;그 외
+		ELSE
+			PRINTFORML 오늘은 아침부터 부하에게 겐게츠가 해산기있었다고 보고되고 가 보면
+			PRINTFORMW 병실에는 많은 간호사나 조산사에 둘러싸인 겐게츠가 있었다...
+			PRINTFORML 지금부터 분만실에 이송되는 것 같다, 이송중에 그녀는 불안한 듯한 얼굴을 하고 있었으므로
+			PRINTFORMW  %조사처리(ANAME(겐게츠_대상),"는")% 겐게츠의 손을 잡았다
+			PRINTFORMW 하면, 겐게츠는 각오를 결정한 표정으로 『노력해요』라고 말했다
+			PRINTFORMW ..........................................
+			PRINTFORMW ...........................
+			PRINTFORMW ...............
+			PRINTFORMW .........
+			PRINTFORMW 분만실에 세키자의 울음소리가 영향을 준다
+			PRINTFORMW 조산사의 손에 의해 2명 사랑의 결정을 받으면
+			PRINTFORMW 겐게츠는 녹초가 되면서도 기쁜듯이 눈물을 흘렸다...
+		ENDIF
+	;종 친불명의 경우
+	ELSEIF CFLAG:23 == 0
+		CFLAG:TARGET:출산수_인 += 1
+		;PRINTFORMW 
+	;다른 관직에 오름의 아이의 경우
+		CFLAG:TARGET:출산수_인 += 1
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공에게 자신의 자식을 낳게 했다
+;-------------------------------------------------
+IF ARG == 43
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;촉수의 아이를 출산했다
+;-------------------------------------------------
+IF ARG == 44
+	;총출동산수
+	CFLAG:TARGET:총출동산수 += 1
+	;출산수_촉수
+	CFLAG:TARGET:출산수_촉수 += 1
+	;질?
+	IF CFLAG:TARGET:55 >= 1
+		;애널?
+		;질&애널
+		IF CFLAG:TARGET:56 >= 1
+			
+			PRINTFORMW 「어, 어떻게 되어 있어!?!?」
+			PRINTFORMW 「(이)나 나다!! 망가진다!! 이것이라고 끝내!!!!!」
+			PRINTFORMW 「―-------z_____!!!」
+			
+			PRINTFORMW 「겐게츠의 질과 애널로부터 촉수의 아이가 분출했다...」
+		;질
+		ELSE
+			
+			PRINTFORMW 「배가!? 가랑이가!!」
+			PRINTFORMW 「(이)나 나다!! 변이 되어!! 변이 되어 의!!!!!」
+			PRINTFORMW 「―-------z_____!!!」
+			
+			PRINTFORMW 「겐게츠의 질로부터 촉수의 아이가 분출했다...」
+		ENDIF
+	;애널
+	ELSE
+		
+		PRINTFORMW 「배가!? 엉덩이가!!」
+		PRINTFORMW 「(이)나 나다!! 뭔가 출!! 출의!!!!!」
+		PRINTFORMW 「―-------z_____!!!」
+		
+		PRINTFORMW 겐게츠의 애널로부터 촉수의 아이가 분출했다...
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;충성을맹세하게한다/성공
+;-------------------------------------------------
+IF ARG == 50
+	;복종
+	IF TALENT:복종
+		
+		PRINTFORMW 「... 알았어요」
+		PRINTFORMW 「벌써 대답은 나와 있던, 나는 이제 당신에게는 반항할 수 없다」
+		PRINTFORMW 「환상향... 몽환 세계에서의 나는 죽은거야」
+		PRINTFORMW 「그러니까, 새로운 겐게츠로서 %조사처리(ANAME(겐게츠_대상),"를")% 시중들어요.」
+		
+		RETURN 0
+	;그 외
+	ELSE
+		
+		PRINTFORMW 「그것도 재미있 총화군요」
+		PRINTFORMW 「당신이 어디까지 갈 수 있는지, 이 눈으로 봐요」
+		PRINTFORMW 「다만, 조금이라도 약점을 보여 보세요. 내가 주도권을 잡아요.」
+		
+	RETURN 0
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;충성을맹세하게한다/실패
+;-------------------------------------------------
+IF ARG == 51
+	;복종
+	IF TALENT:복종
+		
+		PRINTFORMW 「... 좀 더 기다려」
+		PRINTFORMW 「이제(이미/벌써/더는/정말) 대답은 나와 있다. 다만... 무서운거야」
+		RETURN 0
+	;그 외
+	ELSE
+		
+		PRINTFORMW 「그것도 재미있 총화군요」
+		PRINTFORMW 「다만... 이선에 좋아서 타는 만큼 나는 싸지 않아요?」
+		PRINTFORMW 「좀 더 당신의 가치를 높여 다시 해 오세요」
+		
+	RETURN 0
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/성공
+;-------------------------------------------------
+IF ARG == 52
+	
+	PRINTFORMW 「어쩔 수 없네요」
+	PRINTFORMW 「최저한 싫증하지 않는 전장을 준비해 주고 것이군요?」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/실패
+;-------------------------------------------------
+IF ARG == 53
+	
+	PRINTFORMW 「싫어요」
+	PRINTFORMW 「그렇지만, 당신 방해와도전쟁을 할 수 없는 것 같은 것」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/성공(포로 회화의 경우)
+;-------------------------------------------------
+IF ARG == 54
+	
+	PRINTFORMW 「하아...」
+	PRINTFORMW 「어쩔 수 없네요, 목을 세로에 흔들지 않으면 쭉 이대일 것이고」
+	PRINTFORMW 「최저한 싫증하지 않는 전장을 준비해 주고 것이군요?」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;자국으로 이끈다/실패(포로 회화의 경우)
+;-------------------------------------------------
+IF ARG == 55
+	
+	PRINTFORMW 「싫어요」
+	PRINTFORMW 「그렇지만, 당신 방해와도전쟁을 할 수 없는 것 같은 것」
+	PRINTFORMW 「이런 조교에 져 이런 패기 없는 나라를 시중들어도, 이 대전에 이길 수 있다고는 생각되지 않아요」
+	PRINTFORMW 「좋아하지도 않는 나라를 시중들어 목숨을 건다니 바보 같이 원이야」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;연모를 취득
+;-------------------------------------------------
+IF ARG == 60
+	
+	PRINTFORMW 「(이상한 감각...)」
+	PRINTFORMW 「(싸우고 있을 때도 그 사람을 생각해 버려요)」
+	PRINTFORMW 「(설마... 내가 사랑을 하다니)」
+	PRINTFORMW 「나에게는 싸움 밖에 없다고 생각하고 있던 것이지만...」
+	PRINTFORMW 「이번에 식사에도 권해 볼까?」
+	
+	PRINTFORMW 혼자서 그렇게 중얼거리는 겐게츠였다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;친구를 취득
+;-------------------------------------------------
+IF ARG == 61
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;친애를 취득
+;-------------------------------------------------
+IF ARG == 62
+	
+	PRINTFORMW 「(이제(이미/벌써/더는/정말)... 안 되구나)」
+	PRINTFORMW 「(1 일중 그 사람을 생각하고 있다)」
+	PRINTFORMW 「(%조사처리(ANAME(겐게츠_대상),"는")% 나을 어떻게 생각하고 있는 것으로부터...)」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;복종을 취득
+;-------------------------------------------------
+IF ARG == 63
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;예속을 취득
+;-------------------------------------------------
+IF ARG == 64
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음란을 취득
+;-------------------------------------------------
+IF ARG == 65
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음핵을 취득
+;-------------------------------------------------
+IF ARG == 66
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음호를 취득
+;-------------------------------------------------
+IF ARG == 67
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;항문광을 취득
+;-------------------------------------------------
+IF ARG == 68
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;음유를 취득
+;-------------------------------------------------
+IF ARG == 69
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;키스마을 취득
+;-------------------------------------------------
+IF ARG == 70
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;새드를 취득
+;-------------------------------------------------
+IF ARG == 71
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;마조를 취득
+;-------------------------------------------------
+IF ARG == 72
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;사정광을 취득
+;-------------------------------------------------
+IF ARG == 73
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;폭주가를 취득
+;-------------------------------------------------
+IF ARG == 74
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;오줌싸개을 취득
+;-------------------------------------------------
+IF ARG == 76
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;공허를 취득
+;-------------------------------------------------
+IF ARG == 78
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;붕괴를 취득
+;-------------------------------------------------
+IF ARG == 79
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;정액변소 취득
+;-------------------------------------------------
+IF ARG == 82
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;암캐 취득
+;-------------------------------------------------
+IF ARG == 83
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;창녀 취득
+;-------------------------------------------------
+IF ARG == 84
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;약물의존 취득
+;-------------------------------------------------
+IF ARG == 85
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;모판]취득
+;-------------------------------------------------
+IF ARG == 86
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;혼인의식(선택시)
+;-------------------------------------------------
+IF ARG == 90
+	
+	PRINTFORMW 「에...」
+	PRINTFORMW 「... 나 따위로, 좋은거야? 나보다 강하고 사랑스러운 아이는 많이 있겠죠?」
+	PRINTFORMW 「저, 정말로 나로 좋구나?」
+	
+	PRINTFORMW 회화의 도중에 돌연 울기 시작한 겐게츠에 %조사처리(ANAME(겐게츠_대상),"는")% 놀라 말을 걸려고 하지만 손으로 정지해
+	
+	PRINTFORMW 「미안해요, 기뻐서... 나와 %조사처리(ANAME(겐게츠_대상),"가")% 같은 생각이었던 지렛대가!」
+	
+	PRINTFORMW 
+	PRINTFORMW 그렇게 말해 겐게츠는 %ANAME(겐게츠_대상)%에 껴안아 왔다
+	PRINTFORMW 거기에는 최악최흉의 소녀는 없고, 사랑스러운 악마가 있었다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;혼인의식(이벤트시)
+;-------------------------------------------------
+IF ARG == 91
+	PRINTFORMW 식은 구름 하나 없는 맑은 날에 행해져 전시중이면서도 꽤 호화로운 진지구축이 되고 있다
+	PRINTFORMW 이것도 좋은 부하를 가졌기 때문일 것이다...
+	PRINTFORMW 그렇게 생각하면서 대기실에서 기다리고 있으면...
+	
+	PRINTFORMW 「%ANAME(겐게츠_대상)%...」
+	
+	PRINTFORMW 탈의실로부터 나온 겐게츠는 『검다』웨딩드레스를 몸에 감기고 있었다...
+	PRINTFORML 모두 칠해진 것 같은 검은 드레스는 신비적으로, 고스와도 너무 살지 않고, 새하얀 피부의 피부와 금발이 빛나고 있다
+	PRINTFORMW 그 큰 순백의 날개는, 가슴팍을 강조해 술술 흐르는 검은 드레스
+	PRINTFORMW 어울리고 있다고 전하면, 얼굴을 주홍색에 물들이면서 수줍었다
+	PRINTFORMW 유도의 임무를 수행하는 부하에게 언제까지 노닥거리고 있습니까라고 쳐지면서 문의 앞에 선다
+	PRINTFORMW 
+	
+	PRINTFORMW 「%ANAME(겐게츠_대상)%」
+	PRINTFORMW 「나는 말야... 대전이 시작되는 훨씬 전까지는 무게츠들과 사고뭉치 하고 있었지만 말야」
+	PRINTFORMW 「그 때에, 나는 신랑을 잡지 않을 생각이었어요」
+	PRINTFORMW 「누구에게도 속박되지 않는 자유로운 삶의 방법을 하고 싶었던 것이군요」
+	PRINTFORMW 「그렇지만... %ANAME(겐게츠_대상)%의 덕분에 사고방식이 바뀌었어」
+	PRINTFORMW 「자신을 위해서(때문에), 가 아니고 「사람을 위해서(때문에)」싸운다 라고...」
+	PRINTFORMW 「... 이야기가 길어져 버렸군요」
+	
+	PRINTFORML 
+	PRINTFORMW 겐게츠는 %ANAME(겐게츠_대상)%의 손을 잡으면서 눈앞의 문 따위 없게 처를 확인해 계속의 말을 뽑았다
+	PRINTFORML 
+	
+	PRINTFORML 『사랑하고 있어요, %ANAME(겐게츠_대상)%. 앞으로도... 잘 부탁해』
+	
+	PRINTFORMW 
+	PRINTFORMW 신랑 신부의 입장입니다! 여러분, 따뜻한 박수로 맞이해 주세요!!
+	PRINTFORMW 
+	PRINTFORMW …
+	PRINTFORMW …
+	PRINTFORMW …
+	PRINTFORMW …
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 자위(Ｃ)
+;-------------------------------------------------
+IF ARG == 100
+	
+	PRINTFORMW 「읏」
+	
+	PRINTFORMW 겐게츠는 자신의 행위를 비하 하면서도, 자위에 빠지고 있다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 자위(Ａ)
+;-------------------------------------------------
+IF ARG == 101
+	
+	PRINTFORMW 「앗... 응읏...」
+	
+	PRINTFORMW 겐게츠는 자신의 치태를 부정하면서도, 개발 된 애널을 만지고 있다...
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;조교 후 성교:현재 존재하지 않기 때문에 코멘트 아웃
+;-------------------------------------------------
+;IF ARG == 102
+	;PRINTFORMW 
+;	RETURN 0
+;ENDIF
+
+;-------------------------------------------------
+;조르기에게 「보류」를 선택
+;-------------------------------------------------
+IF ARG == 103
+	
+	PRINTFORMW 「그, 그런...」
+	PRINTFORMW 「앗, 아니, 이것은 달라...」
+	
+	PRINTFORML 겐게츠는 자신의 무너지고 걸린 프라이드를 유지하려고 하고 있는 것 같지만
+	PRINTFORMW 이제(이미/벌써/더는/정말) 뒤늦음이다
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(취한 기세·합의는 얻을 수 없다)
+;-------------------------------------------------
+IF ARG == 104
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(합의를 취득)
+;-------------------------------------------------
+IF ARG == 105
+	;연모
+	IF TALENT:연모
+		
+		PRINTFORMW 「권하고 있는 오는 %조사처리(ANAME(겐게츠_대상),"가")% 나쁜이니까!!」
+		
+	;복종
+	ELSEIF TALENT:복종
+		
+		PRINTFORMW 「나, 나 같은 것 유혹해... 뭔가 생각하고 있는 것은 아니네요?」
+		
+	;그 외
+	ELSE
+		
+		PRINTFORMW 「나 같은 것 유혹해... 무엇을 생각하고 있는지 몰라요...」
+		
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 실패
+;-------------------------------------------------
+IF ARG == 106
+	
+	PRINTFORMW 「무엇을 하고 있는 거야?」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;유혹 성공(이미 합의 있어)
+;-------------------------------------------------
+IF ARG == 107
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;취해 무너진 곳에서 장난
+;-------------------------------------------------
+IF ARG == 110
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공이 실신해도 조교 계속
+;-------------------------------------------------
+IF ARG == 111
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공이 피로해도 조교 계속
+;-------------------------------------------------
+IF ARG == 112
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;커맨드 실행 실패
+;-------------------------------------------------
+IF ARG == 150
+	
+	PRINTFORML 「무엇을 하고 있는 거야?」
+	
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;관장＆플러그를 실행 후, 플러그를 뽑아 낸다
+;-------------------------------------------------
+IF ARG == 151
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/일반
+;-------------------------------------------------
+;곁잠
+IF ARG == 200
+	;PRINTFORMW 
+	RETURN 0
+;저녁 반주
+ELSEIF ARG == 201
+	;PRINTFORMW 
+	RETURN 0
+;담소
+ELSEIF ARG == 202
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/애무
+;언젠가 만든다
+;-------------------------------------------------
+;꾸짖고(통상)
+IF ARG == 210
+	;PRINTFORMW 
+	RETURN 0
+;꾸짖고(가학)
+ELSEIF ARG == 211
+	;PRINTFORMW 
+	RETURN 0
+;받고(통상)
+ELSEIF ARG == 212
+	;PRINTFORMW 
+	RETURN 0
+;받고(피학)
+ELSEIF ARG == 213
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;밤이벤트/성교
+;coming soooooooooooooooooooon...
+;-------------------------------------------------
+;주인공이 이 캐릭터의Ｖ에 삽입
+IF ARG == 220
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 이 캐릭터의Ａ에 삽입
+ELSEIF ARG == 221
+	;PRINTFORMW 
+	RETURN 0
+;이 캐릭터가 주인공의Ｖ에 삽입
+ELSEIF ARG == 222
+	;PRINTFORMW 
+	RETURN 0
+;이 캐릭터가 주인공의Ａ에 삽입
+ELSEIF ARG == 223
+	;PRINTFORMW 
+	RETURN 0
+;레즈 관련
+ELSEIF ARG == 224
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+
+;-------------------------------------------------
+;밤이벤트/문병
+;-------------------------------------------------
+;주인공이 임월에 이 캐릭터가 확정 부친때
+IF ARG == 230
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 임월에 그 이외때
+ELSEIF ARG == 231
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 육아중에서 이 캐릭터가 확정 부친때
+ELSEIF ARG == 232
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 육아중에서 이 캐릭터가 그 이외때
+ELSEIF ARG == 233
+	;PRINTFORMW 
+	RETURN 0
+;주인공이 중증때의 문병
+ELSEIF ARG == 234
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;아침 이벤트/스스로 성지식을 배운다
+;-------------------------------------------------
+IF ARG == 240
+	
+	PRINTFORMW 「과연...」
+	
+	PRINTFORMW 지금까지, 성지식은 스스로 달하는 일과 무게츠와의 회화로 주고받음 한 정도이지만
+	PRINTFORMW 대전에 의해, 폐쇄적이었다 이 세계에서도 여러가지 물건이 유입했다
+	PRINTFORMW 그리고, 이상한 집단이 얼마든지 수면 아래에서 움직이고 있는 것도 있지만...
+	RETURN 0
+
+;-------------------------------------------------
+;아침 이벤트/스스로 성지식을 배운다(역조교)
+;-------------------------------------------------
+ELSEIF ARG == 241
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전투 개시
+;-------------------------------------------------
+;야전
+IF ARG == 300
+	SETCOLOR 칼라_오렌지
+	;연모
+	IF TALENT:연모
+		;10분기
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「이 싸움은 피할 수 없네요...」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「모두는 나에게 이어!」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「부대는 좌익과 우익에 분산해... 나의 레이저로 구워 자른닷!!」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「부상자의 후송을 우선해!」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「상대도 꽤 수완가네!」
+			
+		CASE 5
+			
+			PRINTFORML [겐게츠]「모두, 검을 가지세요, 총을 겨누세요! 우리의 뒤에는 소중한 사람들이 있는거야!」
+			
+			PRINTFORMW 겐게츠는 부대를 고무 하고 있다...
+			
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「보급은 충분히? 최강의 군단도 무기가 없으면 싸울 수 없고, 식료가 없으면 아사해요」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「피해를 최소로 하는 작전을 생각하지 않으면 말야...」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「(그 사람은 무사한가...)」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「죽을 각오 같은거 하지 않고, 살아 남는 방법을 생각하세요」
+			
+		ENDSELECT
+	;그 외 11 분기
+	ELSE
+		SELECTCASE RAND:11
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「가요!」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「나에 대해 올 수 있을까!」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「돌격! 나도 돌진하기 때문에, 적당하게 뒤로 계속되세요!」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「부상자에게는 상관하지 않고 전진이야!」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「전진, 있을 뿐이에요」
+			
+		CASE 5
+			
+			PRINTFORMW [겐게츠]「후퇴는 있을 수 없습니다」
+			
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「나의 레이저에 구워지고 싶지 않았으면 산회 하세요!」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「나의 탄막에 말려 들어가고 싶지 않으면 뒤로 있는거네!」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「적도 대단한 것도 아니네요」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「나에게 이길 수 있다고?」
+			
+		ENDSELECT
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+;방위전(침공측)
+
+ELSEIF ARG == 301
+	SETCOLOR 칼라_오렌지
+	;연모
+	IF TALENT:연모
+		;15분기
+		SELECTCASE RAND:15
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「이 싸움은 피할 수 없네요... 시가전은 싫어요」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「이 땅은 절대로 함락 시키지 않으면 안 돼요」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「부대는 적을 포위하도록(듯이) 산개 해! 각개 격파에는 조심하는거야」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「그 거리의 병원과 의사를 징집 할 수 있으면 좋지만」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「빨리 돌아가고 싶어요... (괜찮을까, %ANAME(겐게츠_대상)%...)」
+			
+		CASE 5
+			
+			PRINTFORMW [겐게츠]「모두, 투석기를 진지구축 하세요, 폭약을 준비하세요! 우리의 뒤에는 소중한 사람들이 있는거야!」
+			
+			PRINTFORML 겐게츠는 부대를 고무 하고 있다...
+			
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「보급은 거리의 물자로 조달할 수 있을까? 군표로 지불할 예정이지만... 빨리 이 전쟁을 끝내지 않으면 저기」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「적의 도시의 피해를 최소로 하는 작전을 생각하지 않으면 말야...」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「무혈 개성 할 수 있으면 좋지만... 그렇게 달콤하지는 않네요...」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「저쪽에는 지키지 않으면 안 되는 것이 있기에, 솔직하게 투항한다고는 생각되지 않아요」
+			
+		CASE 10
+			
+			PRINTFORMW [겐게츠]「적의 방비가 단단하다... %조사처리(ANAME(겐게츠_대상),"라")%면 어떻게 돌파할 것이다...」
+			
+		CASE 11
+			
+			PRINTFORMW [겐게츠]「공성전은 심한 피해가 될 것 같구나...」
+			
+		CASE 12
+			
+			PRINTFORMW [겐게츠]「돌파해요! 모두, 나에게 계속되세요!」
+			
+		CASE 13
+			
+			PRINTFORMW [겐게츠]「장비의 질에 차이가 있어요... 공업화를 서두르게 하지 않으면」
+			
+		CASE 14
+			
+			PRINTFORMW [겐게츠]「괜찮아, 나는 강하다」
+			
+		ENDSELECT
+	;그 외 10 분기
+	ELSE
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「팔이 되어요!」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「나를 제지당할까!」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「돌격! 나도 방어 시설 파괴하기 때문에, 적당하게 뒤로 계속되세요!」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「거리가 조금 뜬 숯이 되어도 어쩔 수 없네요?」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「전진해 분쇄해요!」
+			
+		CASE 5
+			
+			PRINTFORMW [겐게츠]「시가전이 되면 유리하게 반입할 수 있을 것이야!」
+			
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「나의 레이저로 조금 정도 거리 지워 날려도 괜찮아 원이군요?」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「나의 탄막이라면 도시의 형태를 유지해 있을 수 있을까요? 시험해 볼까」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「적 마다 도시를 파괴해 적에게 데미지를 줍시다」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「투항하지 않다면 거리마다 바람에 날아가게 하세요」
+			
+		ENDSELECT
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+;방위전(방위측)
+ELSEIF ARG == 302
+	;연모
+	SETCOLOR 칼라_오렌지
+	IF TALENT:연모
+		;15분기
+		SELECTCASE RAND:15
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「이 싸움은 피할 수 없네요...」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「여기는 절대로 통할 수 있지 않아요!」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「부대는 적에게 찌부러뜨려지지 않게 밀집해!」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「거리의 병원과 의사를 징집 해! 보수는 다음에 많이 내 주세요」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「여기까지 온다고는... (저 편은 괜찮을까, %ANAME(겐게츠_대상)%...)」
+			
+		CASE 5
+			
+			PRINTFORML [겐게츠]「모두, 장애물을 만드세요, 참호를 파세요! 우리의 뒤에는 소중한 사람들이 있는거야!」
+			
+			PRINTFORMW 겐게츠는 부대를 고무 하고 있다...
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「보급은 거리의 물자로 조달할 수 있을까? 군표로 지불하고는 있지만... 빨리 전쟁을 끝내지 않으면 저기」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「도시의 피해를 최소로 하는 작전을 생각하지 않으면 말야...」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「(그 사람은 무사한가...)」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「이쪽에는 지키지 않으면 안 되는 것이 있으니까」
+			
+		CASE 10
+			
+			PRINTFORMW [겐게츠]「적의 침공의 페이스가 빠르다... !」
+			
+		CASE 11
+			
+			PRINTFORMW [겐게츠]「%조사처리(ANAME(겐게츠_대상),"와")% 우리들의 토지에 손가락 한 개 접하게 할까 보냐!」
+			
+		CASE 12
+			
+			PRINTFORMW [겐게츠]「방비는 이것으로 충분할까...」
+			
+		CASE 13
+			
+			PRINTFORMW [겐게츠]「내쪽부터 걸면 시가의 피해를 억제 당하지만...」
+			
+		CASE 14
+			
+			PRINTFORMW [겐게츠]「시민의 피난을 서두르세요」
+			
+		ENDSELECT
+	;그 외 10 분기
+	ELSE
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「요격 해요!」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「당신들로 나도 다투어질까!」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「돌격! 나도 공성 병기 파괴하기 때문에, 적당하게 뒤로 계속되세요!」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「아주 조금만 거리에 피해가 나와도 어쩔 수 없어요」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「시가전에 반입해요」
+			
+		CASE 5
+			
+			PRINTFORMW [겐게츠]「우리들의 영토인 것이니까, 있는 것 전부 징집 하세요」
+			
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「오세요! 나의 레이저로 구워 잘라 주어요!」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「나의 탄막에 말려 들어가고 싶지 않으면 피난하는거네!」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「적의 움직임이 너무 둔해요」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「나의 진지를 돌파할 수 있다고라도?」
+			
+		ENDSELECT
+	ENDIF
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;특수 전술
+;-------------------------------------------------
+;계략 발동
+IF ARG == 310
+	SETCOLOR 칼라_오렌지
+	;연모
+	IF TALENT:연모
+		;10분기
+		SELECTCASE RAND:10
+		CASE 0
+			
+			PRINTFORMW [겐게츠]「빠른 일풍과 같이...」
+			
+		CASE 1
+			
+			PRINTFORMW [겐게츠]「서인가 되는 것 숲과 같이...」
+			
+		CASE 2
+			
+			PRINTFORMW [겐게츠]「침랭 하는 것 불과 같이...」
+			
+		CASE 3
+			
+			PRINTFORMW [겐게츠]「알기 어려운 것 그늘과 같이...」
+			
+		CASE 4
+			
+			PRINTFORMW [겐게츠]「움직이는 것 심한 우뢰와 같다...」
+			
+		CASE 5
+			
+			PRINTFORMW [겐게츠]「모두, 지혜를 짜세요, 항상 적이 허를 찌르세요」
+			
+		CASE 6
+			
+			PRINTFORMW [겐게츠]「저기에 복병을 배치해─-」
+			
+		CASE 7
+			
+			PRINTFORMW [겐게츠]「밖의 세계에서 사용되고 있는 전술... 해 볼까」
+			
+		CASE 8
+			
+			PRINTFORMW [겐게츠]「(그 사람은 무사한가...)」
+			
+		CASE 9
+			
+			PRINTFORMW [겐게츠]「죽을 각오 같은거 하지 않고, 살아 남는 방법을 생각하세요」
+			
+		ENDSELECT
+	;그 외
+	ELSE
+		;5분기
+		SELECTCASE RAND:5
+		CASE 0
+		
+		PRINTFORMW [겐게츠]「얼간이인 적이네」
+		
+		CASE 1
+		
+		PRINTFORMW [겐게츠]「책을 이용할 것도 없었지요」
+		
+		CASE 2
+		
+		PRINTFORMW [겐게츠]「내쪽부터 걸어요!」
+		
+		CASE 3
+		
+		PRINTFORMW [겐게츠]「이런 간편한 책에 걸리다니」
+		
+		CASE 4
+		
+		PRINTFORMW [겐게츠]「그다지 책이라든지 생각하는 타입이 아니지만」
+		
+	ENDSELECT
+	ENDIF
+	RESETCOLOR
+;반계
+ELSEIF ARG == 311
+	SETCOLOR 칼라_오렌지
+	;3분기
+	SELECTCASE RAND:3
+	CASE 0
+		
+		PRINTFORMW [겐게츠]「단념했어요」
+		
+	CASE 1
+		
+		PRINTFORMW [겐게츠]「그래서 나를 끼운 생각일까?」
+		
+	CASE 2
+		
+		PRINTFORMW [겐게츠]「복병은, 찾아낼 필요 같은거 없다. 전부 구워 버리면 같아요」
+		
+	ENDSELECT
+	RESETCOLOR
+;관계(무력)
+ELSEIF ARG == 312
+	SETCOLOR 칼라_오렌지
+	;3분기
+	SELECTCASE RAND:3
+	CASE 0
+		
+		PRINTFORMW [겐게츠]「통상 탄막으로 그 모양이야?」
+		
+	CASE 1
+		
+		PRINTFORMW [겐게츠]「빨리 끝냅시다」
+		
+	CASE 2
+		
+		PRINTFORMW [겐게츠]「아무것도 생각하지 않고 평밀기로 돌파할 수 있을 것 같구나」
+		
+	ENDSELECT
+	RESETCOLOR
+;관계(호감도)
+;어떤 아야가 좋을까?
+ELSEIF ARG == 313
+	SETCOLOR 칼라_오렌지
+	;3분기
+	SELECTCASE RAND:3
+	CASE 0
+		
+		PRINTFORMW [겐게츠]「통상 탄막으로 그 모양이야?」
+		
+	CASE 1
+		
+		PRINTFORMW [겐게츠]「빨리 끝냅시다」
+		
+	CASE 2
+		
+		PRINTFORMW [겐게츠]「아무것도 생각하지 않고 평밀기로 돌파할 수 있을 것 같구나」
+		
+	ENDSELECT
+	RESETCOLOR
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 된다(부대 괴멸시)
+;-------------------------------------------------
+IF ARG == 330
+	PRINTFORMW 새하얀 큰 날개에, 아직 어림이 남는 얼굴
+	PRINTFORMW 그녀는 시시한 것같이 자신의 이름을 자칭한 뒤로
+	
+	PRINTFORMW 「이런 시시한 것 같은 녀석에게 잡히다니...」
+	
+	PRINTFORMW 와 자조 기색으로 중얼거렸다...
+	PRINTFORMW 이것은 조교하는 보람이 있을 듯 함
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 된다(멸망시)
+;-------------------------------------------------
+IF ARG == 331
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;주인공 세력에 포박 되었을 때의 리액션
+;-------------------------------------------------
+;등용에 응한다
+IF ARG == 332
+	;PRINTFORMW 
+	RETURN 0
+;등용을거부한다
+ELSEIF ARG == 333
+	;PRINTFORMW 
+	RETURN 0
+;해방된다
+ELSEIF ARG == 334
+	;PRINTFORMW 
+	RETURN 0
+;투옥된다
+ELSEIF ARG == 335
+	;PRINTFORMW 
+	RETURN 0
+;처형된다
+ELSEIF ARG == 336
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;전사시
+;-------------------------------------------------
+IF ARG == 337
+	;주인공과 동일 세력에 소속
+	IF CFLAG:1 >= 1 && CFLAG:1 == CFLAG:MASTER:1
+		;연모
+		IF TALENT:연모
+			;출산수
+			IF CFLAG:TARGET:출산수_인 >= 1
+				;인간을 출산이 끝난 상태
+				
+				PRINTFORMW 「싫어요...」
+				PRINTFORMW 「아직, 나의 귀가를 기다리고 있는 사람이 있는거야...」
+				
+				PRINTFORMW 일어서려고 한 겐게츠였지만, 한 번 봐 손의 베풀 길이 없다고 생각하는 것 같은 상처가 그것을 거절했다
+				PRINTFORMW 이미 움직이는 일도 뜻대로 되지 않은 채, 의식이 멀어져 간다...
+				
+				PRINTFORMW 「(%ANAME(겐게츠_대상)%... 미안해요, 나는 먼저 갑니다)」
+				PRINTFORMW 「(아이를... 부탁합니다...... 이 대전을... 끝내고... 라고)」
+				 
+			;무출산·촉수 출산만
+			ELSE
+				
+				PRINTFORMW 「싫어요...」
+				PRINTFORMW 「아직, 나의 귀가를 기다리고 있는 사람이 있는거야...」
+				
+				PRINTFORMW 일어서려고 한 겐게츠였지만, 한 번 봐 손의 베풀 길이 없다고 생각하는 것 같은 상처가 그것을 거절했다
+				PRINTFORMW 이미 움직이는 일도 뜻대로 되지 않은 채, 의식이 멀어져 간다...
+				
+				PRINTFORMW (%ANAME(겐게츠_대상)%... 미안해요, 나는 먼저 갑니다)
+			ENDIF
+		;복종
+		ELSEIF TALENT:복종
+			
+			PRINTFORMW 「여기까지...」
+			PRINTFORMW 「혼내줄 수 있어, 좋은 것 같게 사용되어」
+			PRINTFORMW 「한심한 최후군요」
+			 
+		;그 외
+		ELSE
+			PRINTFORMW 「여기까지...」
+			PRINTFORMW 「한심한 최후예요」
+			 
+		
+		ENDIF
+	;주인공과 다른 세력에 소속
+	ELSE
+		PRINTFORMW 「여기까지...」
+		 
+	ENDIF
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;포로 조교의 메뉴
+;-------------------------------------------------
+;해방된다
+IF ARG == 340
+	;PRINTFORMW 
+	RETURN 0
+;처형된다
+ELSEIF ARG == 341
+	IF TALENT:임신
+		;PRINTFORMW 
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+	RETURN 0
+;성노예화 된다
+ELSEIF ARG == 342
+	;PRINTFORMW 
+	RETURN 0
+;촉수 처형된다
+ELSEIF ARG == 343
+	IF TALENT:임신
+		;PRINTFORMW 
+	ELSE
+		;PRINTFORMW 
+	ENDIF
+	RETURN 0
+;임신중 처형에 자비를 걸 수 있다
+ELSEIF ARG == 344
+	;PRINTFORMW 
+	RETURN 0
+;임신중 촉수 처형에 자비를 걸 수 있다
+ELSEIF ARG == 345
+	;PRINTFORMW 
+	RETURN 0
+;퍼레이드
+ELSEIF ARG == 346
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;방랑 이벤트
+;-------------------------------------------------
+;등용에 응한다
+IF ARG == 350
+	;PRINTFORMW 
+	RETURN 0
+;등용을거부한다
+ELSEIF ARG == 351
+	;PRINTFORMW 
+	RETURN 0
+;투옥된다
+ELSEIF ARG == 352
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;린노스케·란관계
+;-------------------------------------------------
+;[린노스케에 연모]를 취득
+IF ARG == 400
+	;PRINTFORMW 
+	RETURN 0
+;[린노스케의 연인]를 취득
+ELSEIF ARG == 401
+	;PRINTFORMW 
+	RETURN 0
+;[린노스케에 연모]를 상실
+ELSEIF ARG == 402
+	;PRINTFORMW 
+	RETURN 0
+;린노스케와 헤어지게 하는 것을 성공
+ELSEIF ARG == 403
+	;PRINTFORMW 
+	RETURN 0
+;린노스케와 헤어지게 하는 것을 실패
+ELSEIF ARG == 404
+	;PRINTFORMW 
+	RETURN 0
+;[란에 연모]를 취득
+ELSEIF ARG == 410
+	;PRINTFORMW 
+	RETURN 0
+;[란의 연인]를 취득
+ELSEIF ARG == 411
+	;PRINTFORMW 
+	RETURN 0
+;[란에 연모]를 상실
+ELSEIF ARG == 412
+	;PRINTFORMW 
+	RETURN 0
+;란과 헤어지게 하는 것을 성공
+ELSEIF ARG == 413
+	;PRINTFORMW 
+	RETURN 0
+;란과 헤어지게 하는 것을 실패
+ELSEIF ARG == 414
+	;PRINTFORMW 
+	RETURN 0
+ENDIF
+
+;-------------------------------------------------
+;역조교시
+;-------------------------------------------------
+;주인공에게 충성을맹세하게한다
+IF ARG == 450
+	;PRINTFORMW 
+	RETURN 0
+;주인공에게 충성을맹세하게한다/성공
+ELSEIF ARG == 451
+	;PRINTFORMW 
+	RETURN 0
+;주인공에게 충성을맹세하게한다/실패
+ELSEIF ARG == 452
+	;PRINTFORMW 
+	RETURN 0
+ENDIF

@@ -1,0 +1,130 @@
+﻿;---------------------
+;기본적인 발생 확률(1000분 율 100으로 10%)
+;이것에 콘피그 항목의 발생 빈도를 걸칠 수 있으므로, 반드시 이 대로는 되지 않는다
+;---------------------
+@KOJO_DAILY_K57_AFTER_COMPETE_RATE(대상)
+#DIM 대상
+RETURN 60
+
+;---------------------
+;확률 이외의 발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K57_AFTER_COMPETE_DECISION(대상)
+#DIM 대상
+
+;마스터에 페니스가 없으면 나오지 않는다
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+
+;강간하고 있는 것
+SIF KDVAR:대상:키스메_날아우물안 != 2
+	RETURN 0
+
+;끝내면 나오지 않는다
+SIF KDVAR:대상:키스메_싫같은우물의괴
+	RETURN 0
+
+SIF IS_LOVER(대상)
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(대상, 0, 0)
+
+;---------------------
+;장르
+;콘피그 설정으로 사용
+;---------------------
+@KOJO_DAILY_K57_AFTER_COMPETE_GENRE(대상)
+#DIM 대상
+RETURN 데일리_장르_에로
+
+
+;---------------------
+;본체
+;이벤트가 발생했을 경우는 1, 발생하지 않았던 경우는 0을 돌려준다
+;발생하지 않았다는 것은 예를 들면, 특정 조건을 채우는 캐릭터로부터 랜덤에 한사람 선택하는 데일리로, 원래 그 조건을 채우는 캐릭터가 한사람도 없는 것 같은 때
+;구사양으로 만든 적 있는 사람용으로 말하면 「구사양의 데일리 본체 첫머리에서-1을 돌려주는 것 같은 상황」
+;---------------------
+@KOJO_DAILY_K57_AFTER_COMPETE(대상)
+#DIM 대상
+#DIM 판정치
+
+PRINTFORML 심야……
+PRINTFORMW 영내를 돌아봐 안, 갑자기 가 내려왔다!
+PRINTFORMW ……가, 화려하게 회피했다!
+PRINTFORMW 「……칫」
+PRINTFORML 뭔가 생각해야 또%조사처리(ANAME(대상),"다")%
+PRINTFORML 범해진 원한인가, 굉장한 형상으로 여기를 노려봐 온다
+PRINTFORML ……그것치고, 기습을 피할 수 있던 시점에서 단념해 버리고 있는 것 같지만……
+PRINTFORML 
+CALL ASK_MULTI("범한다", "병사에 제공", "돌려보낸다")
+SELECTCASE RESULT
+	CASE 2
+		PRINTFORML 그러한 기분도 아니다
+		PRINTFORML 아무것도 하지 않고 돌아가 주기로 했다
+		PRINTFORMW 「단념하지 않으니까……」
+		PRINTFORML  %조사처리(ANAME(대상),"는")% 무슨 일인가 중얼거리면서도, 얌전하게 돌아갔다……
+	CASE 1
+		PRINTFORMW 「우, 이, 이……!」
+		PRINTFORML 응원을 불러, %조사처리(ANAME(대상),"를")% 병사에 제공하기로 했다
+		PRINTFORML 겨우 위안을 위해서(때문에) 도움이 되어 받자……
+		PRINTFORML
+		CALL FUCK_GANGBANG(대상, GET_SPERM_ID("병사"), @"병사의 \@ RAND:2 ? 페니스 # 입술\@", "병사")
+		PRINTFORML
+		PRINTFORMW 「후아……아쿠웃, 하우우……♥」
+		PRINTFORMW 정신을 잃어 경련할 뿐이 된 %조사처리(ANAME(대상),"를")% 방치해, 거점에 돌아왔다……
+	CASE 0
+		PRINTFORMW 「……」
+		PRINTFORML %ANAME(대상)%의 옷을 벗겨낸다. 단념했는지, 저항하지 않았다
+		PRINTFORML 형편상 좋다. 입맛을 다심 해, %ANAME(대상)%에 달라붙었다……
+		PRINTFORML
+		CALL FUCK_RAPE(대상, GET_ID(MASTER), @"%ANAME(MASTER)%의 페니스", @"%ANAME(MASTER)%")
+		CALL FUCK(MASTER, "Ｃ, 성교, 사정, 봉사", "키스상실, 동정상실", 0, @"%ANAME(대상)%의 \@ RAND:2 ? 음부 # 입술\@", "", @"%ANAME(대상)%의 질")
+		PRINTFORML 
+		PRINTFORMW 「후아……아쿠웃, 하우우……♥」
+		PRINTFORMW 「아핫, 아아웃……♥」
+		PRINTFORMW 한 바탕%조사처리(ANAME(대상),"로")% 즐긴 %조사처리(ANAME(MASTER),"는")%, %PRONOUN(대상)%로부터 물건을 뽑아 내 한숨 돌렸다
+		PRINTFORML %조사처리(ANAME(대상),"는")% 전신을 경련시키면서, 쾌락에 떨고 있다
+		PRINTFORML 지금이라면 무슨 말을 해도 (들)물을 것 같지만……?
+		CALL ASK_MULTI_JUDGE("노예가 될 것을 맹세하게 한다", GET_COUNTRY_BOSS(CFLAG:대상:소속) != 대상, "또 오도록(듯이) 타이른다", 1)
+		SELECTCASE RESULT
+			CASE 1
+				PRINTFORMW 「하히……알았습니다앗……♥」
+				PRINTFORMW 또 범해 주기 때문에 반드시 와라
+				PRINTFORMW 어려운 어조로 명해 주면, %조사처리(ANAME(대상),"는")% 정액 투성이의 얼굴로 끄덕끄덕 수긍했다……
+				CFLAG:대상:종속도 += 300
+				CFLAG:대상:의존도 += 100
+			CASE 0
+				PRINTFORMW 「하히, 맹세합니다……나는 %ANAME(MASTER)%님의 노예입니다……♥」
+				PRINTFORMW 「부디 귀여워해 주십시오, 주인님……므우」
+				PRINTFORMW 페니스를 내며, 이것에 맹세의 키스를 하라고 명하면, %조사처리(ANAME(대상),"는")% 정액 투성이의 얼굴을 녹여 달라붙어서 놓지 않다
+				PRINTFORMW 그 모습에, 당초 넘치게 하고 있던 살기는 전혀 남지 않았었다……
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"를")% 복종시켰습니다", 칼라_주의)
+				CALL COLOR_PRINTW(@"%조사처리(ANAME(대상),"가")% 노예가 되었습니다", 칼라_주의)
+				IF RAND:3
+					CALL SET_PIERCE_RANKED(대상, 0, 피어스_음순, 피어스_페니스, 피어스_클리토리스, 피어스_유두, 피어스_배꼽, 피어스_귀, 피어스_혀, 피어스_코)
+					SIF RESULT != -1
+						CALL COLOR_PRINTW(@"%ANAME(대상)%의 %GET_PIERCE_NAME(RESULT)%에, 복종의 증거의 피어스가 장착되었다……", 칼라_핑크)
+				ELSE
+					CALL COLOR_PRINTW(@"복종이 증거로 삼아, %ANAME(대상)%의 음모는 하트형에 정돈되었다……", 칼라_핑크)
+					TALENT:대상:음모목표치 = 음모_하트형
+					TALENT:대상:음모현재치 = 음모_하트형
+				ENDIF
+				CALL CHANGE_COUNTRY(대상, CFLAG:MASTER:소속, 1)
+				TALENT:대상:복종 = 1
+				TALENT:대상:낙인 = 1
+				TALENT:대상:합의 = 1
+				TALENT:대상:쵸로인 = 1
+				TALENT:대상:프라이드낮음 = 1
+				TALENT:대상:Ｍ기질 = 1
+				TALENT:대상:보수적 = 0
+				TALENT:대상:젖기어려움 = 0
+				TALENT:대상:습득느림 = 0
+				TALENT:대상:악취민감 = 0
+				CFLAG:대상:종속도 = MAX(CFLAG:대상:종속도, 1500)
+				CFLAG:대상:의존도 = MAX(CFLAG:대상:의존도, 500)
+				SETBIT TALENT:대상:음란계, 소질_음란_마조
+				KDVAR:대상:키스메_싫같은우물의괴 = 1
+		ENDSELECT
+ENDSELECT
+RETURN 1

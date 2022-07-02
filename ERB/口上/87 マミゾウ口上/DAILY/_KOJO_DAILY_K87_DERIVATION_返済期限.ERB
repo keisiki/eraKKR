@@ -1,0 +1,110 @@
+﻿;---------------------
+;대응하는 데일리의 DISABLE를 돌려준다. 설정하지 않는 경우, 이벤트는 발생하지 않는다.
+;---------------------
+@KOJO_DAILY_K87_DERIVATION_REPAYMENT_DISABLE(대상)
+#DIM 대상
+RETURN KOJO_DAILY_GET_DISABLE_CONFIG(대상, "LENDER")
+
+
+;---------------------
+;발생 판정
+;0기 이후가 되면 발생한다든가, 데일리측에서 이용하고 있는 변수가-1이라면 일으키지 않는다  같은 튕기는 방법을 할 경우에 사용한다
+;---------------------
+@KOJO_DAILY_K87_DERIVATION_REPAYMENT_DECISION(대상)
+#DIM 대상
+
+SIF CFLAG:대상:포로처 || CFLAG:대상:특수상태
+	RETURN 0
+
+SIF KDVAR:대상:마미조_대금업자_반제기간 == 0
+	RETURN 0
+
+KDVAR:대상:마미조_대금업자_반제기간 --
+
+SIF KDVAR:대상:마미조_대금업자_반제기간 > 0
+	RETURN 0
+
+IF CFLAG:대상:소속 == CFLAG:MASTER:소속
+	CALL SINGLE_DRAWLINE
+	PRINTFORMW 소속이 같게 되었으므로, %ANAME(대상)%에 빌리고 있던 돈은 없었던 일이 된 것 같다……
+	CALL SINGLE_DRAWLINE
+	KDVAR:대상:마미조_대금업자_반제액 = 0
+	RETURN 0
+ENDIF
+
+RETURN 1
+
+
+;---------------------
+;본체
+;---------------------
+@KOJO_DAILY_K87_DERIVATION_REPAYMENT(대상)
+#DIM 대상
+#DIM 담보
+
+
+PRINTFORMW %조사처리(ANAME(대상),"가")% 왔다……
+PRINTFORMW 「오래간만은. 그런데, 빌려 준 돈을 갚아 받을까?」
+
+CALL ASK_MULTI_JUDGE("돌려준다", MONEY >= KDVAR:대상:마미조_대금업자_반제액, "돌려줄 수 없다", 1)
+
+IF RESULT == 0
+	MONEY -= KDVAR:대상:마미조_대금업자_반제액
+	CALL ICPRINT(@"금<{KDVAR:대상:마미조_대금업자_반제액}>, 귀를 갖추어 돌려주었다……", "L", 칼라_주의)
+	PRINTFORMW 「응, 확실히」
+	PRINTFORMW 「그러면 나는 이것으로, 기회가 있으면 또 만나자」
+	PRINTFORMW %조사처리(ANAME(대상),"는")% 떠났다……
+	KDVAR:대상:마미조_대금업자_반제액 = 0
+	RETURN 1
+ENDIF
+
+PRINTFORML 미안하지만 돌려줄 수 없는……솔직하게 그렇게 전했다
+PRINTFORMW %조사처리(ANAME(대상),"는")% 기가 막힌 표정을 띄운다
+PRINTFORMW 「돌려줄 수 없으면……?   되고 왜 빌렸어?」
+PRINTFORMW 「뭐, 어쩔 수 없다. 돌려줄 수 있는의 것을 돌려주라고 해도 어쩔 수 없기에. ……다만, 대신의 것은 받겠어 있고?」
+
+CALL DAILY_EVENT_RAND_CHARASELECT()
+
+담보 = RESULT
+{
+SELECTCASE IFRAND(
+				  "0", GET_COUNTRY_BOSS(CFLAG:MASTER:소속) == MASTER,
+				  "1", !GROUPMATCH(담보, MASTER, GET_COUNTRY_BOSS(CFLAG:MASTER:소속)),
+				  "2", GET_COUNTRY_BOSS(CFLAG:MASTER:소속) != MASTER)
+}
+	;주인공이 군주, 한편 다른 대상이 선택되지 않았다
+	;호색가 할 뿐
+	CASE 0
+		PRINTFORMW 「그렇지……에서는 대신에, 당신의 정조를 받을까」
+		PRINTFORMW 「뭐, 나쁘게는 하지 않아요. 가만히 하고 있으면 된다……쿠쿠」
+		PRINTFORMW 터무니 없는 말을 하기 시작했다……이지만, 비는 이쪽에 있다. 거부한다(뜻)이유에도 가지 않는다
+		PRINTFORMW 포기해 몸을 맡기기로 했다……
+		$START
+		;전원의 조교참가플래그를 클리어
+		CVARSET CFLAG, 6, 0
+		CFLAG:대상:조교참가플래그 = 1
+		CFLAG:대상:호감도 += 200
+		CFLAG:대상:강제우호화 = 1
+		BASE:대상:체력 = MAXBASE:대상:체력
+		BASE:대상:기력 = MAXBASE:대상:기력
+		;강제 역조교플래그를 온
+		FLAG:턴엔드조교 = 2
+		;그 이후의 데일리 이벤트 발생을 잡는다
+		DAILY_CANCEL = 1
+	CASE 1
+		PRINTFORMW 「그렇지……당신 동료의 신병으로 좋을 것이다」
+		PRINTFORMW 「나쁘지만, %ANAME(담보)%를 데려 가겠어 있고」
+		PRINTFORMW 전력을 잃는 것은 어려운……이지만, 하는 방법 없을 것이다
+		PRINTFORMW 데려가진 %ANAME(담보)%를 보류했다……
+		CALL CHANGE_COUNTRY(담보, CFLAG:대상:소속, 1)
+		CALL COLOR_PRINTW(@"%ANAME(담보)%가, %ANAME(대상)%의 소속인 %ANAME(GET_COUNTRY_BOSS(CFLAG:대상:소속))%에 이적했습니다", 칼라_경고)
+	CASE 2
+		PRINTFORMW 「그렇지……에서는 대신에, 당신의 신병과 정조를 받을까」
+		PRINTFORMW 「뭐, 나쁘게는 하지 않아요. 점잖게 해 두어 준다면의. ……쿠쿠」
+		PRINTFORMW 무엇을 되는지……이지만, 어쩔 수 없다
+		PRINTFORMW 포기해 몸을 맡겨, 그 후 데려가지기로 했다……
+		CALL CAPTURE(MASTER, CFLAG:대상:소속)
+		GOTO START
+ENDSELECT
+
+RETURN 1
