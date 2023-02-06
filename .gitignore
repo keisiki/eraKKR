@@ -1,0 +1,13 @@
+sav/
+debug/
+exports/
+resources/
+dat/
+logs/
+emuera.log
+cache.dat
+*.lnk
+*.zip
+debug92console.log
+debug92watchlist.csv
+ez.json

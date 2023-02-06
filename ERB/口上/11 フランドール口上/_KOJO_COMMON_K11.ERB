@@ -3,6 +3,504 @@
 ;-------------------------------------------------
 
 ;=================================================
-;●구상의 존재 판정
+;●말의 존재 판정
 ;=================================================
 @KOJO_EXIST_K11
+
+;=================================================
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_K11
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_K11
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_K11
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_K11
+
+;=================================================
+;●커맨드 실행전(타겟·플레이어 묻지 않고)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_K11
+RETURN 0
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_K11
+;[공허]상태의 경우, 입이 막히고 있는 경우는 말을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET , "입장착")
+	RETURN 0
+ENDIF
+;-------------------------------------------------
+;첫절정은 재사용할 수 있을 것 같은 것으로 여기에 작성
+;-------------------------------------------------
+;-------------------------------------------------
+;처음으로 Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	IF CFLAG:220 == 0
+		CFLAG:220 = 1
+		PRINTFORMW 「야, 안됏, 온닷,」
+		PRINTFORMW 「아, 아…… 아아──!!」
+	;2회째 이후
+	ELSE 
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「응, 좋아, 거기」
+				PRINTFORMW 「좀더 만지작거려…… 하우웃♥」
+			CASE 1
+				PRINTFORMW 「아, 또, 클리토리스로…… 가는──!」
+				PRINTFORMW 「……%ANAME(MASTER)%, 능숙하지 않아? 잠깐만 분해」
+			CASE 2
+				PRINTFORML 「아, 또, 그 감각이닷,」
+				PRINTFORMW 「클리토리스, 저렷…… 쿠웃♥」
+		ENDSELECT
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	IF CFLAG:221 == 0
+		CFLAG:221 = 1
+		PRINTFORMW 「야앗, (안)중, 굉장햇」
+		PRINTFORMW 「이, 이제 안됏……! 오고 있었닷……!」
+	;2회째 이후
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORMW 「(안)중, 스쳐…… 응, 쿠웃!」
+			CASE 1
+				PRINTFORML 「안돼, 또, 간닷……!」
+				PRINTFORMW 「응, 아, 아앗♥」
+			CASE 2
+				PRINTFORMW 「머리, 또, 새하얗게……!」
+				PRINTFORMW 「……%ANAME(MASTER)%도 아직 사정해 부족하지요? 좋아, 좀더 격렬하게 찔러?」
+		ENDSELECT
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	IF CFLAG:222 == 0
+		CFLAG:222 = 1
+		PRINTFORMW 「엉덩이, 쑤셔진다의, 굉장햇」
+		PRINTFORMW 「하아웃…… 아, 아아앗 ──」
+	;2회째 이후
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「아웃, 또, 엉덩이로, 가버린다」
+				PRINTFORMW 「쿠웃…… 앗, 안됏♥」
+			CASE 1
+				PRINTFORMW 「우아, 아, 아앗──!」
+				;Ｖ감각이 Ａ감각과 같은가 그 이상이다. 플랑의 Ａ감각 초기치의 사정 위를 보는데 시간 걸린다고 생각합니다
+				IF ABL:Ｖ감 >= ABL:Ａ감
+					PRINTFORMW 「…… 이제, 뒤도 전에도 변함없다」
+					PRINTFORMW 「다음은 앞에서 해? 그렇지 않으면 뒤로 하고 주어?」
+					PRINTFORMW 「나는 어느 쪽이라도 좋아. 좀더 기분 좋게 시켜 준다면」
+				;Ｖ감각이 Ａ감각보다 작다
+				ELSE
+					PRINTFORMW 「하앗, 하앗……」
+					PRINTFORMW 「에? 엉덩이로 하는 것이 부담이 아닌가 하고?」
+					PRINTFORMW 「그렇지도 않아요. 조금은 익숙해져 있으니, 까요」
+					;Ａ감각이 초기에 3이나 있으니까요
+				ENDIF
+			CASE 2
+				PRINTFORMW 「아, 앗, 간닷, 또, 간닷!」
+				PRINTFORMW 「엉덩이로는 비정상일 것인데. 아무개 씨의 탓으로 익숙해져 버렸다」
+		ENDSELECT
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	IF CFLAG:223 == 0
+		CFLAG:223 = 1
+		PRINTFORMW 「에, 아, 쿠우웃?!」
+		PRINTFORMW 「…… 놀랐다. 가슴으로, 가 버렸어」
+	;2회째 이후
+	ELSE
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「하앗, 가슴, 기분이 좋은」
+				PRINTFORMW 「아, 아…… 우웃!」
+			CASE 1
+				PRINTFORMW 「유두, 쫘악~이라고 되어…… 웃!」
+				PRINTFORMW 「빈유(절벽 가슴)은 예민하다고 듣지만…… 이런 때, 이득이다 하고 생각한다」
+			CASE 2
+				PRINTFORMW 「가슴, 또, 느껴! 아앗!!」
+				;Ｂ감각이 Ｃ감각, Ｖ감각의 양쪽 모두보다 큰 경우
+				IF ABL:Ｂ감 > ABL:Ｃ감 && ABL:Ｂ감 > ABL:Ｖ감
+					PRINTFORMW 「저기…… 좀더, 가슴 만지작거려? 또 쫘악~이라고 시켜요」
+				;Ｃ감각이나 Ｖ감각이 Ｂ감각 이상의 경우
+				ELSE
+					PRINTFORML 「가슴도 괜찮(좋)겠지만 말야. 아래도, 만지작거려?」
+					PRINTFORMW %ANAME(TARGET)%는 비순[秘唇]을 음란하게 열어, %ANAME(MASTER)%에 기대의 시선을 향하여 있다……
+				ENDIF
+		ENDSELECT
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	IF CFLAG:224 == 0
+		CFLAG:224 = 1
+		PRINTFORMW 「무, 츄…… 응, 무웃?!」
+		PRINTFORMW (거짓말…… 키스, 만으로 가버린다는……)
+	;2회째 이후
+	ELSE
+		SELECTCASE RAND:2
+			CASE 0
+				PRINTFORMW 「무, 츄…… 읏, 응읏♥」
+			CASE 1
+			PRINTFORMW 「쥬루, 츄…… 흠, 응읏!」
+			PRINTFORMW 「푸핫…… 설마, 키스만으로 끝나지 않지요?」
+		ENDSELECT
+	ENDIF
+ENDIF
+
+;=================================================
+;●단체[單体] 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기에서 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람 하지 않도록 주의 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_K11
+;단체[單体] 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+IF TALENT:정실
+	PRINTFORML 환상향을 싼 전화가%ANAME(MASTER)%의 손으로 진정시킬 수 있고 나서 수개월이 지난다
+	PRINTFORMW 국의 여기저기에 남겨진 싸움의 손톱 자국을 치유하기 위해서(때문에), %ANAME(MASTER)%는 전전과 변함없는 격무를 해내고 있었다
+	PRINTFORMW 「수고 하셨습니다」
+	PRINTFORML 돌보는 소리라든지 차지는 것과 동시에, 아프리커트의 냄새가%ANAME(MASTER)%의 비강을 간질인다
+	PRINTFORMW %ANAME(MASTER)%가 서류로부터 얼굴을 올리면, 가장 사랑하는 아내의 온화한 표정이 거기에 있었다
+	PRINTFORMW 「차과자도 준비하고 있다. 조금 쉬자」
+	PRINTFORML
+	;요리 C이상인가 어떤가로 자가제나 기성의 것이나 변화. 초기치의 사정상(ry
+	IF ABL:요리 >= 60
+		PRINTFORMW 「응. 상당히 맛있게 되어지고 있다」
+		PRINTFORML 두 명 담소하면서, 쿠키를 집으면서 아후타는티를 만끽한다
+		PRINTFORMW %ANAME(TARGET)%가 최선의 솜씨를 발휘해 만들어 준 것이다
+	ELSE
+		PRINTFORMW 「헤에. 상당히 맛있다, 이것」
+		PRINTFORML 두 명 담소하면서, 마카론을 집으면서 아후타는티를 만끽한다
+		PRINTFORMW %ANAME(TARGET)%가 마을에서 보여 사 와 준 것이다
+	ENDIF
+	PRINTFORMW 「…… 평화롭다」
+	PRINTFORML 문득 토로해진%ANAME(TARGET)%의 말에 수긍 한다
+	PRINTFORMW 조금 앞까지라면, 이렇게 침착한 기분로는 있을 수 없었을 것이다
+	PRINTFORMW 「응. 그렇지만, 그 이상으로」
+	PRINTFORMW 「겨우 평화롭게 된 이 환상향을, %ANAME(MASTER)%과 함께 보고 있을 수 있는 것이 기쁘구나」
+	PRINTFORML
+	PRINTFORML 「나는 누님의 의향으로 495년을 지하에서 보냈다」
+	PRINTFORML 「별로 그 자체를 꾸짖을 생각은 없어」
+	PRINTFORML 「이 능력의 위험성, 내가 태어나고 가진 광기. 그것을 생각하면 타당하다고는 생각한다」
+	PRINTFORML 「나 자신도, 그 지하실은 싫지 않았다」
+	PRINTFORMW 「단지 하나만. 고독을 강제당했다는 점 이외는 말야」
+	PRINTFORML
+	PRINTFORML 「아무도 나를 받아들이지 않는다. 그것은 이해한다」
+	PRINTFORML 「다른 사람을 받아들이는 것조차 지혜를 가진 생물에는 어려워」
+	PRINTFORML 「미친 것을 받아들이는 것은 당연 그 이상으로 어려우니까」
+	PRINTFORML 「그렇지만, 거절만은 참기 어려웠다」
+	PRINTFORML 「식량을 가져오는 요정 메이드들이 무서워하고」
+	PRINTFORML 「누님의 향하는 공포의 시선」
+	PRINTFORML 「사쿠야조차, 최초의 무렵은 떨고 있었다」
+	PRINTFORML 「파츄리는 그런 기색은 보이지 않았지만. 그렇지만 콘택트(접촉)은 최저한 확실히 라고 주지 않았다」
+	PRINTFORML 「그 문지기는…… 우선 나의 존재를 알고 있었던 건가인. 알고 있어도, 관할이 다르기 때문에 그렇게 만나지 않는가」
+	PRINTFORMW 「결국, 마리사가 최초였던가. 나라고 하는 개체와 처음으로 온전히 이야기해 준 것은」
+	PRINTFORML
+	PRINTFORML 「고독하게 시달리는 것에도 싫증나 왔을 때에, 이 전란이 일어났다」
+	PRINTFORML 「이변, 는 단어는 도저히 끝내지지 않은 것 같은 전란이 말야」
+	PRINTFORML 「그런데도 변함없다고 생각하고 있었다. 오히려, 이 힘의 존재가 불필요하게 나를 침식할 뿐(만큼)이라고 생각하고 있었다」
+	PRINTFORML 「그렇지만%ANAME(MASTER)%가 나에게 접촉해 주고 나서는 상황이 바뀌었다」
+	PRINTFORML 「악마의 여동생 二와도 형용되는 나의 곁에 계속 있어 주었다」
+	PRINTFORML 「이렇게 예쁜 반지까지 건네줘. 쭉 함께 라고 준다고는 맹세해 줘」
+	PRINTFORML 「그리고 지금, 이렇게 해서%ANAME(MASTER)%가 곁에 라고 준다」
+	PRINTFORMW 「…… 알까나. 나, 지금 상당히 행복해 있어지고 있는거야」
+	PRINTFORML
+	PRINTFORML %ANAME(TARGET)%가 이쪽에 신체를 맡겨 온다
+	PRINTFORML 「495년의 고독 생활을 쓸데없지 않았다고 말할 생각은 없다」
+	PRINTFORML 「그 과거가 있기 때문에 지금이 있다고도 말하지 않는다」
+	PRINTFORML 「행복과 불행이 표리 일체로, 이 결과가 당연하다고도 생각하지 않아」
+	PRINTFORML 「지금 이 순간이라고 하는 결과에 대해서 생각하고 있는 것은 하나만」
+	PRINTFORML
+	PRINTFORMW 「%ANAME(MASTER)%에의 다하는 것 없는 감사야」
+	PRINTFORMW 「나를 사랑해 주어 고마워요. %ANAME(MASTER)%」
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMC ── 플랑드르·스칼렛 GOODEND No. 1 『495년의 저 편에 있던 것 ~Quod Erat Demonstrandum~』
+ELSEIF TALENT:첩
+;사실이라면 정실의 이름을 플랑에 부르게 하고 싶다. 정실 소유 캐릭터를 호출해 이름을 대입하면 좋을 것이겠지지만 어떻게 해야 하는가
+	PRINTFORML 환상향안을 말려들게 한 전란이 수속[收束] 하고 나서 수개월
+	PRINTFORMW %ANAME(MASTER)%는, 첩으로서 맞아들인%ANAME(TARGET)%의 원래로 빈번하게 다니는 매일을 보내고 있었다
+	PRINTFORML 「좋은 걸까나? 부인을 놓아 와 버려」
+	PRINTFORML 「뭐, 『상식에 얽매이지 않는 것이 환상향』다우니까」
+	PRINTFORML 「%ANAME(MASTER)%가 괜찮다면 나는 괜찮(좋)겠지만 말야」
+	PRINTFORMW 「나는%ANAME(MASTER)%를 만날 수 있어 기쁘니까」
+	PRINTFORML %ANAME(TARGET)%는 미소를 띄워%ANAME(MASTER)%에 다가간다
+	PRINTFORMW 그 미소에는 어딘가 기대의 표정이 섞이고 있었다
+	PRINTFORML 「그러면, 오늘은 어떻게 할까」
+	PRINTFORML 「언제나와 같이, 짐승과 같이 섹스 해 서로 허덕일까」
+	PRINTFORML 「그렇지 않으면 이성을 가진 존재한 것같게 문화적인 생활을 영위할까」
+	PRINTFORMW 「무엇이든지 좋아. %ANAME(MASTER)%가 나를 봐 주는 한, 은요」
+	PRINTFORML ──%ANAME(MASTER)%가 소녀에게 빠진 것은, 혹은 그녀의 광기에 충당된 탓인 것인가
+	PRINTFORML 어찌 되었든, 오늘도 또 미친 일상이 융통 퍼진다
+	PRINTFORMW 오늘도, 환상향은 평화롭다
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMC ── 플랑드르·스칼렛 GOODEND?  　『탐닉 ~Cranberry trap~』
+ELSE
+	PRINTFORML 환상향의 전란은, %ANAME(MASTER)%의 진력에 의해 종결했다
+	PRINTFORML 소동 중(안)에서%ANAME(MASTER)%는 수많은 여성과 만난다
+	PRINTFORMW 가, %ANAME(MASTER)%는 누구 二와 연결되는 것도 아니고, 일국의 장이라고 하는 신분으로부터 물러난 것이었다
+	PRINTFORML
+	PRINTFORML 전의 뒤, %ANAME(MASTER)%는 일개의 농가로서 생계를 세우고 있었다
+	PRINTFORML 기상, 식사, 밭일, 수면. 오늘도 오늘도 바뀐 보람이 없는 일상을 보내고 있다
+	PRINTFORML 하면, 기분 좋게 문의 얻어맞는 소리가 들렸다
+	PRINTFORMW 외딴 이 집에 손님 따위 드물다. 그렇게 생각해 문을 열어 본다
+	PRINTFORMW 「오래간만」
+	PRINTFORML 호기심인 방문자의 정체는, 그 전란을 함께 싸운%ANAME(TARGET)%였다
+	PRINTFORMW 그녀의 작은 양팔에는 대량의 짐을 안겨지고 있다. 무슨 일일까하고 의심스러워 하면서, 그녀를 안으로 통했다
+	PRINTFORML
+	IF TALENT:연인
+		PRINTFORML 「헤에. 여기가%ANAME(MASTER)%의 친가」
+		PRINTFORMW 「응. 예상과 각오는 하고 있었지만, 역시 둘이서 살기에는 좁다」
+		PRINTFORML 는이라고, 둘이서 산다고는 어떻게 말하는 일인가
+		PRINTFORMW 흡혈귀에게 맞는지 의문으로 생각하면서 넣은 녹차를 내면서 (들)물어 본다
+		PRINTFORML 「아아. 그 이야기군요」
+		PRINTFORML 「나, 여기에 살기로 했기 때문에. 있는 그대로 말하면 동거 라는생각하자마자개」
+		PRINTFORMW 「…… 녹차의 씁쓸함은 별로 익숙해지지 않을까」
+		PRINTFORML 태연스럽게 동거 선언을 하는%ANAME(TARGET)%
+		PRINTFORMW 본인은 그 중대함을 아는지 모르는지, 조금 얼굴을 찡그리면서도 찻잔을 비워 간다(가는)
+		PRINTFORML 「얼이 빠진 얼굴. 그렇게 놀랐어?」
+		PRINTFORML 「아무것도 몸 하나만 달랑 라는 것이 아니다. 내가 필요한 짐은 일식 가져왔어」
+		PRINTFORMW 「그렇지 않으면…… 역시 안 되는가」
+		PRINTFORML 그 싸움의 한중간, 연인으로서 접해 온%ANAME(TARGET)%를 몰인정하게 취급할 수 없었다
+	ELSE
+		PRINTFORML 「아아, 좋아. 우선은 말하고 싶은 것을 말하게 해」
+		PRINTFORMW 안은 짐을 털석 둬, %ANAME(TARGET)%가 이쪽을 확인한다
+		PRINTFORML 「나네. %ANAME(MASTER)%의 일이, 좋아했다」
+		PRINTFORML 「…… 잘못이 있구나. 좋아했던, 가 아니어」
+		PRINTFORML 「지금도 좋아해. 이 순간도, %ANAME(MASTER)%에 호의(친절한 마음)을 안고 있다」
+		PRINTFORML 「그래서, 그 위로 뻔뻔스러운 부탁을 한다」
+		PRINTFORMW 「나를 여기에 살게 해. 함께」
+		PRINTFORML 돌연의 고백, 그리고 동거 선언
+		PRINTFORMW 그 나름대로 긴 시간을 보냈다고는 지기가 상대라고 말해, 다음 말이 안 나오게 된다
+		PRINTFORML 「엉뚱한 발상이라는 것은 이해하고 있다. 거기는 뭐, 미친 악마의 말하는 것과 단념하고」
+		PRINTFORMW 「그래서, 대답은 YES? NO?」
+			;이 선택지에 플레이 바와 선택지 분기의 연습 이외의 "의미는 없다
+			PRINTL [0] YES
+			PRINTL [1] NO
+			$INPUT_LOOP
+			INPUT
+			IF RESULT == 0
+				PRINTFORML 자신도%ANAME(TARGET)%에 악감정은 안지 않았다
+				PRINTFORML 거기에 밭일을 하는 것에해 "손이 증가하는 것은 고맙다
+				PRINTFORMW %ANAME(MASTER)%는 YES라고 대답했다
+			ELSEIF RESULT == 1
+				PRINTFORMW 과연 살게 하지 않다고 생각해, %ANAME(MASTER)%는 NO와 대답이에요로 한다
+				PRINTFORML 이지만 거기서 생각해 낸다. 상대는 악마의 여동생, 이쪽을 용이하게 죽일 수가 있는 것을
+				PRINTFORML 거기에 그녀의 눈은 진심이다. 여기서 거절(부탁)하는과 어떻게 되는지 모른다
+				PRINTFORMW 결국, YES라고 대답할 수 밖에 선택지는 없었다
+			ELSE
+				GOTO INPUT_LOOP
+			ENDIF
+	PRINTFORMW 그러나 이쪽도 빈민이다. %ANAME(TARGET)%를 기를 수 있을지 어떨지는 모른다
+	PRINTFORML 「좋아. 나도%ANAME(MASTER)%에 맡긴 이후로(채) 같은건 되지 않는다」
+	PRINTFORMW 「%ANAME(TARGET)%의 짐은 되지 않는다. 원래 그럴 생각 가능했으니까」
+	PRINTFORMW 승낙을 얻은%ANAME(TARGET)%는 다시 짐을 들어, 이쪽에 다시 향한다
+	PRINTFORML 「그러면, 지금부터 신세를 지네요」
+	PRINTFORMW 「실례합니다. 그리고 잘 부탁드립니다, %ANAME(TARGET)%」
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML (광기의 흡혈귀라도, 악마의 여동생도 아니다. 나는 나의 존재 가치를, 그 사람에게 애래 봐도일까하고 가리킨다)
+	PRINTFORMW (언젠가, 그 사람에게 뒤돌아 보여 받기 위해서(때문에). 진정한 "의미로 마주보여 받기 위해서(때문에))
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMC ──플랑드르·스칼렛 GOODEND No. 2 『이제 시계는 과거를 새기지 않는 ~Because I found..~』
+	ENDIF
+ENDIF 
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체[單体] 엔딩 메세지가 스킵 된다
+RETURN 1
+
+@KOJO_DEAD_ENDING_K11
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「…… 베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+IF TALENT:정실
+	PRINTFORMW 「…… 저기, 너무해요. %ANAME(MASTER)%」
+	PRINTFORML 어떤 영토, 도시로부터는 상당히 멀어진 벽지. 인기도 없고 단지 황량한 그 땅에는, 목만과 전락한 있는 장의 사체가 노출되고 있다
+	PRINTFORMW 그 앞에서 한사람, 겁먹는 일 없이 목에 말을 거는 소녀가 있었다
+	PRINTFORML 「두고 갈 수 있다고 생각하지 않았었다」
+	PRINTFORML 「그거야 뭐, 인간과 흡혈귀――요괴이니까%ANAME(MASTER)%가 먼저 죽는 것은 반드시인 것이지만 말야」
+	PRINTFORML 「로 해도 너무 빠르다. 거기에──당돌, 지났다」
+	PRINTFORMW 「병이라고일까들, 이렇게…… 마음의 준비라든지, 할 수 있었지 않은가」
+	PRINTFORML 소녀는 뚝뚝, 짜내도록(듯이) 말을 뽑아 간다(가는)
+	PRINTFORMW 그 목소리는 쉬어, 침전해, 전연 생기를 느낀다고는 단언할 수 없는 것이다
+	PRINTFORML 「광기를 임신한 나를 받아들여 줘. 이렇게 예쁜 반지까지 주었는데」
+	PRINTFORML 「쭉 함께 있는 것 하지만 생각했어요. 그 의식은 그러한 것도 모두가 가르쳐 주었기 때문에」
+	PRINTFORML 「%ANAME(MASTER)%가 이 미친 세계를 하나로 해 준다고 믿고 있었다」
+	PRINTFORML 「그 앞의 미래로, 겨우 온전히 살 수 있다고 생각하고 있었다」
+	PRINTFORMW 「이 세계에서 처음으로 사랑%ANAME(MASTER)%과 행복하게 살 수 있으면 몽상 하고 있었다」
+	PRINTFORML 소녀는 숙인다. 반드시, 울고 싶었을 것이다
+	PRINTFORMW 이지만 소녀에게는 할 수 없었다. 흘리는 눈물은, 훨씬 전에 마르고 있었다
+	PRINTFORML 「…… 응. 알고 있어. %ANAME(MASTER)%는 나쁘지 않은, 어쩔 수 없었다는 것이야」
+	PRINTFORMW 소녀가 목을 어루만진다. 마치 그것이 살아 있는 것 같이, 상냥하게, 온화하게
+	PRINTFORML 「나쁜 것은, 그렇네. 우선, %ANAME(MASTER)%를 이런 모습으로 한 그 녀석들」
+	PRINTFORML 「그리고, %ANAME(MASTER)%가 사는 것을 허락하지 않았다 이 세계 그 자체다」
+	PRINTFORML 나무로 할 수 있던 간소한 십자가에 박힌 목을, 소녀가 살그머니 빼낸다
+	PRINTFORMW 그리고 그 가는 팔로, 지금도 사랑하는 그것을 껴안았다
+	PRINTFORML 「우선은%ANAME(MASTER)%를 죽인 녀석들이구나」
+	PRINTFORMW 「냉혹하게, 잔혹하게, 처참하게 시체로 바꾸어 준다. 원형 같은거 남겨 주는 것일까」
+	PRINTFORML 「그것과 그 녀석들도다」
+	PRINTFORMW 「%ANAME(MASTER)%의 일을 버린 녀석들. 동료였는데, 누구하나 도움으로 가지 않았어」
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMW 「그것이 끝나면」
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	SETCOLOR 칼라_경고
+	PRINTFORMW 「이 세계를, 꽉 해 드칸 라고 해 버릴까」
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMC ──플랑드르·스칼렛 BADEND No. 1 『광기의 맹아(사물의 시초) ~And then , There were none~』
+	RESETCOLOR
+ELSEIF TALENT:연모
+	PRINTFORML ──일찍이, %ANAME(MASTER)%가 충을 다한 나라가 있었다
+	PRINTFORML 그 나라는 전란의 세상에 먹혀져 멸망의 길을 더듬었다
+	PRINTFORML 난세의 가르쳐, %ANAME(MASTER)%도 또한국과 운명을 함께 하게 되었다
+	PRINTFORMW 마지막 정인가, 그렇지 않으면 본보기인가. 그 목은%ANAME(MASTER)%가 다한 토지에 노출된 것이다
+	PRINTFORMW 「…… 이런 곳에 있던 것이다」
+	PRINTFORML 거칠어진 바람에 날리는 목에, 7색의 날개를 가지는 소녀가 다가간다
+	PRINTFORML 「완전히, 변해 버렸군요」
+	PRINTFORML 「그것은 그런가. 구더기의 먹이로도 되고, 풍화라도 하네요」
+	PRINTFORMW 「…… 저기」
+	PRINTFORML 세월을 거쳐 뼈조차도 드러내진%ANAME(MASTER)%의 목
+	PRINTFORMW 소녀는 기가 죽을 것도 없고, 더듬더듬 말을 건다
+	IF TALENT:첩
+		PRINTFORML 「사실은 말야. 나, %ANAME(MASTER)%의 제일이 되고 싶었다」
+		PRINTFORML 「토대, 무리한 이야기라는 것은 알았지만 말야」
+		PRINTFORML 「그렇지만, %ANAME(MASTER)%가 나 이외를 보고 있는 것은」
+		PRINTFORMW 「괴로웠던 것이다. 스스로도 의외일 정도로 말이야」
+	ELSEIF TALENT:연인
+		PRINTFORML 「%ANAME(MASTER)%는 즐거웠던 것일까」
+		PRINTFORMW 「광기를 배의 바닥에 임신하고 있다, 악마의 여동생 따위 물어라고」
+		PRINTFORML 「…… 오해하지 말아줘. 나는, 즐거웠어요」
+		PRINTFORML 「즐거웠으니까. 지금에 되어, 문득 생각한다」
+		PRINTFORMW 「내가%ANAME(MASTER)%의 족쇄로 되어 있지 않았는지 라고」
+		PRINTFORML 「기우, 라면 생각하지만」
+		PRINTFORMW 「거기에, 이렇게 되면 즐겨 주고 있었다고 믿을 수 밖에 없고」
+	ELSE
+		PRINTFORMW 「나, %ANAME(MASTER)%를 좋아했어」
+		PRINTFORML 「…… 교활할까. 지금에 되어 말하는 것은」
+		PRINTFORML 「적어도 미움받지는 않는 상황이 되고 나서, 일방통행의 호의(친절한 마음)을 전하는 것은」
+		PRINTFORMW 「미안. 그렇지만, 용서(허락)해」
+		PRINTFORMW 「이 사랑은 영원히 여물지 않는다고, 그런 벌도 일생 짊어지고 갈 테니까」
+	ENDIF
+	PRINTFORML 「……%ANAME(TARGET)%의 일은 잊지 않아요」
+	PRINTFORML 「아마, 잊을 수 없다. 나의 첫사랑의 사람이기 때문에」
+	PRINTFORMW 「그럼. …… 바이바이」
+	PRINTFORML 소녀가 살짝 떠오른다. 7색의 빛이 운천으로 사라져 간다(가는)
+	PRINTFORMW 사체는 단지 오로지, 차가운 바람을 계속 받는 것 였다
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORML
+	PRINTFORMC ──플랑드르·스칼렛 BADEND No. 2 『사랑의 미로 ~But , My love is still here~』
+ENDIF
+	
+	 
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체[單体] 엔딩 메세지가 스킵 된다
+RETURN 1

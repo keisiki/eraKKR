@@ -1,0 +1,410 @@
+﻿;-------------------------------------------------
+;범용적 쾌감 반응(접수)
+;-------------------------------------------------
+@SEXVOICE_TARGET_K77
+;memoPALAM_MAX9999
+SETCOLOR 0xDA81F5
+IF SELECTCOM == 20 || IS_EQUIP(MTAR:0, 20, 342)
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORML 「쥬웃, , 쥬웃……! 하아…… 하, 아…… 츗, …………!」
+		CASE 1
+			PRINTFORML 「응읏……, 츗, …… 응, 우……, …………!」
+		CASE 2
+			PRINTFORML 「하…… 하아……, , 우, 웃! , 쥿…… 쥬루……!」
+	ENDSELECT
+ELSE
+	SELECTCASE SELECTCOM
+	;애무 C
+	CASE 0, 2, 60, 333
+		SELECTCASE PALAM:TARGET:쾌Ｃ
+			CASE 0 TO 3500
+				SELECTCASE RAND:3
+					CASE 0
+						IF CFLAG:TARGET:포로처
+							PRINTFORML 「아니…………, 촉등…… 없는, 로……」
+						ELSE
+							PRINTFORML 「하아…… 응……, 기분…… 우…… 좋다……」
+						ENDIF
+					CASE 1
+						PRINTFORML 「응읏…… 괴롭힘…… 없는, 로…… 너머, 이지만…… 제멋대로……!」
+					CASE 2
+						PRINTFORML 「웃…… 야……! 소리, 나와…… 응, 우……!」
+				ENDSELECT
+			CASE 3501 TO 7000
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「야……, 둥글둥글, 하고, 아앗……! 아아……!」
+					CASE 1
+						PRINTFORML 「응, 야, 우…… 지릿지릿………… 설, 없다…… 읏…… 웃!」
+					CASE 2
+						PRINTFORML 「웃…… 야………… 소리, 나와…… 응, 우……!」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「야, 앗…… 가, 읏아아……! 아직……!! 응, 웃……!」
+					CASE 1
+						PRINTFORML 「, 챠…… 야…… 참고들, …… 인……?! 응, 웃!」
+					CASE 2
+						PRINTFORML 「우……! 개, 에…… 도…… 억제……, 낫, 아앗, 우우우……!」
+				ENDSELECT
+		ENDSELECT
+	;애무 B
+	CASE 1, 9, 331
+		SELECTCASE PALAM:TARGET:쾌Ｂ
+			CASE 0 TO 3500
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「응, 응……, 분, 치…… 변하면…… 우……!」
+					CASE 1
+						PRINTFORML 「응……, 감촉(요점), 분…… 아……, 우읏……!」
+					CASE 2
+						PRINTFORML 「응읏…… 앞…… 지릿지릿…… 초조해 해져라고……!」
+				ENDSELECT
+			CASE 3501 TO 7000
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아……! 응……! 빨고…… 아……! 우……!」
+					CASE 1
+						PRINTFORML 「하아……! 거기, 아……, 약하니까……! 우……!」
+					CASE 2
+						PRINTFORML 「얏……! 찢어……, 스…………! 앗……!」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아앗! 응읏! 씹으면, 앗! 이, 챠, 우……!」
+					CASE 1
+						PRINTFORML 「하앗, 아……! 비비면……! 개, 어…… 억제해, 인응응우……!」
+					CASE 2
+						PRINTFORML 「야…… 아! 소리…… 나! 수치않고인가, 해…… 앗, 하앗, 응, 야아……!」
+				ENDSELECT
+		ENDSELECT
+	;특수 애무계(봉사)
+	CASE 5, 12, 13, 21
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「응……, 찌르르…… 해…… 읏! 아, 아……!」
+			CASE 1
+				PRINTFORML 「앗……, 다…… 문질러, …… 라고…… 응읏……!」
+			CASE 2
+				PRINTFORML 「응, 이런…… 것…… 찰나, 이……, 인내……, 할 수 없게, 되어……!」
+		ENDSELECT
+	;페라 계통
+	CASE 11, 19, 24, 26, 107, 330
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「아아앗! 야, 다아! 고사가……, 빠집니다…… 아, 함정, 이…… 로…… 아앗……!」
+			CASE 1
+				PRINTFORML 「얏…… 병, 카읏 ，그러니까……! 했다아……, 넣어…… 아, 아앗……!」
+			CASE 2
+				PRINTFORML 「나오면……! 들이마시면, 나오면, 로부터…… 시, 싫닷…… 아아……!」
+		ENDSELECT
+	;삽입 계통 V
+	CASE 3, 6, 22, 30, 31, 32, 33, 35, 36, 37, 38, 39, 52, 55, 57, 61, 160
+		SELECTCASE PALAM:TARGET:쾌Ｖ
+			CASE 0 TO 3500
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「하아…… 아……! 응, 웃……! 후, 아우…… 우……!」
+					CASE 1
+						PRINTFORML 「아, 아…… 읏, 얏……, 우……!」
+					CASE 2
+						PRINTFORML 「아, 앗, 읏야, 앗, 하앗, 응, 야아…… 앗!」
+				ENDSELECT
+			CASE 3501 TO 7000
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 앗! 안됏, 대머리, 쉿, 아우, 우, 아……!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! 두는, 까지, 아, 아, 와, 읏응, 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 앗, 하앗, 응, 야아, 앗!」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아, 아! 가, 가, 간닷, 온다아, 우, 아……!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! 두는, 까지, 아, 아, 위지, 읏응, 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 앗, 온닷, 응, 가는, 앗, 오고 있었다!」
+				ENDSELECT
+		ENDSELECT
+	;삽입 V(승마위)
+	CASE 34
+		IF IS_INITIATIVE(TARGET)
+			SELECTCASE PALAM:TARGET:쾌Ｖ
+				CASE 0 TO 3500
+					SELECTCASE RAND:3
+						CASE 0
+							PRINTFORML 「하아…… 아……! 응, 웃……! 후, 아우…… 우……!」
+						CASE 1
+							PRINTFORML 「후훗…… 아, 아…… 읏, 얏……, 우……!」
+						CASE 2
+							PRINTFORML 「아, 앗, 읏야, 앗, 하앗, 응, 야아…… 앗!」
+					ENDSELECT
+				CASE 3501 TO 7000
+					SELECTCASE RAND:3
+						CASE 0
+							PRINTFORML 「아, 앗! 아핫, 대머리, 쉿, 아우, 우, 아……!」
+						CASE 1
+							PRINTFORML 「응, 우, 응읏! 아직, 아, 아, 안됏, 예요……!」
+						CASE 2
+							PRINTFORML 「후앗, 후훗, 앗, 하앗, 짜, 응, 줍니닷……!」
+					ENDSELECT
+				CASEELSE
+					SELECTCASE RAND:3
+						CASE 0
+							PRINTFORML 「아, 앗, 나, 가아, 안됏, 가, 간닷, 온다아, 우, 아……!」
+						CASE 1
+							PRINTFORML 「응, 우, 응읏! 두는, 까지, 아, 아, 위지, 읏응, 웃!」
+						CASE 2
+							PRINTFORML 「앗, 읏야, 앗, 온닷, 안됏, 응, 가는, 앗, 오고 있었다!」
+					ENDSELECT
+			ENDSELECT
+		ELSE
+			SELECTCASE PALAM:TARGET:쾌Ｖ
+				CASE 0 TO 3500
+					SELECTCASE RAND:3
+						CASE 0
+							PRINTFORML 「하아…… 아……! 응, 웃……! 후, 아우…… 우……!」
+						CASE 1
+							PRINTFORML 「아, 아…… 읏, 얏……, 우……!」
+						CASE 2
+							PRINTFORML 「아, 앗, 읏야, 앗, 하앗, 응, 야아…… 앗!」
+					ENDSELECT
+				CASE 3501 TO 7000
+					SELECTCASE RAND:3
+						CASE 0
+							PRINTFORML 「아, 앗! 안됏, 대머리, 쉿, 아우, 우, 아……!」
+						CASE 1
+							PRINTFORML 「응, 우, 응읏! 두는, 까지, 아, 아, 와, 읏응, 웃!」
+						CASE 2
+							PRINTFORML 「앗, 읏야, 앗, 하앗, 응, 야아, 앗!」
+					ENDSELECT
+				CASEELSE
+					SELECTCASE RAND:3
+						CASE 0
+							PRINTFORML 「아, 아, 아! 가, 가, 간닷, 온다아, 우, 아……!」
+						CASE 1
+							PRINTFORML 「응, 우, 응읏! 두는, 까지, 아, 아, 위지, 읏응, 웃!」
+						CASE 2
+							PRINTFORML 「앗, 읏야, 앗, 온닷, 응, 가는, 앗, 오고 있었다!」
+					ENDSELECT
+			ENDSELECT
+		ENDIF
+	;삽입 계통 A
+	CASE 4, 7, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 53, 56, 58, 62, 161
+		SELECTCASE PALAM:TARGET:쾌Ａ
+			CASE 0 TO 3500
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아우…… 아아……! 히, 웃……! 아우…… 응……!」
+					CASE 1
+						PRINTFORML 「가, 아…… 읏, 변태…… 는……!」
+					CASE 2
+						PRINTFORML 「아, 앗, 읏야, 앗, 하앗, 응, 야아…… 앗!」
+				ENDSELECT
+			CASE 3501 TO 7000
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 앗! 안됏, 대머리, 까는, 아우, 나, 다…… 앗!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! , 가내, 로, 아, 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 앗, 하앗, 응, 야아, 앗!」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아, 아! 가, 가, 간닷, 온다아, 엉덩이, 로, 가…… 읏!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! 아, 좋앗, 가, 아, 하지만, 읏아, 아웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 앗, 좋앗, 엉덩이, 가는, 앗, 좋앗, 가!」
+				ENDSELECT
+		ENDSELECT
+	ENDSELECT
+ENDIF
+RESETCOLOR
+
+;-------------------------------------------------
+;범용적 쾌감 반응(고문)
+;-------------------------------------------------
+@SEXVOICE_PLAYER_K77
+;memoPALAM_MAX9999
+SETCOLOR 0xDA81F5
+
+IF SELECTCOM == 20 || IS_EQUIP(MPLY:0, 20, 342)
+	SELECTCASE RAND:3
+		CASE 0
+			PRINTFORML 「쥬웃, , 쥬웃……! 하아…… 하, 아…… 츗, …………!」
+		CASE 1
+			PRINTFORML 「응읏……, 츗, …… 응, 우……, …………!」
+		CASE 2
+			PRINTFORML 「하…… 하아……, , 우, 웃! , 쥿…… 쥬루……!」
+	ENDSELECT
+ELSE
+	SELECTCASE SELECTCOM
+	;애무 C (V·A애무 포함한다)
+	CASE 0, 2, 3, 4, 60, 333
+		SELECTCASE PALAM:MASTER:쾌Ｃ
+			CASE 0 TO 6999
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「후훗…… 기분, 괜찮겠(좋)습니까? 아……, 지금, 군, 라고……」
+					CASE 1
+						PRINTFORML 「읏…… 소리 나와 버려서…… 사랑스럽다…… 츗……, 좀더…… 강하게 할까요?」
+					CASE 2
+						PRINTFORML 「움찔움찔, 뛰어…… 무엇인가…… 나도, 손대기를 원하고 되었습니다……」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「앗…… 갈 것 같다, 입니까? 아……, 군, 라고……」
+					CASE 1
+						PRINTFORML 「후훗…… 다리, 즉각 해 버리고 있어요……? 아, 군침이 늘어져…………」
+					CASE 2
+						PRINTFORML 「괜찮(좋)아요…… 가득 기분 좋아져……」
+				ENDSELECT
+		ENDSELECT
+	;애무 B
+	CASE 1, 9, 331
+		SELECTCASE PALAM:MASTER:쾌Ｂ
+			CASE 0 TO 6999
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「, 쥿, 후훗, 이런 일 시켜, 쥬……」
+					CASE 1
+						PRINTFORML 「아……, 딱딱하고, 되고 있어요……? 읏, 좀더입니까……?」
+					CASE 2
+						PRINTFORML 「후훗…… 안타까운 것 같은 얼굴…… 하고 있어요……? 제대로 손대어 줍니다……」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「, 쥬쥿, 후훗, 가게 해…… 쥿…… 주지 않는다……」
+					CASE 1
+						PRINTFORML 「, 라고, 날카로워져…… 후훗…………, 쥬, 츄……!」
+					CASE 2
+						PRINTFORML 「, 기, 기분 좋게, 츄우, 되어, 루우, 가서, 쥬, 괜찮으니까요…………」
+				ENDSELECT
+		ENDSELECT
+	;특수 애무계(봉사)
+	CASE 5, 12, 13, 21, 100
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「응……, 찌르르…… 해…… 읏! 아, 아……!」
+			CASE 1
+				PRINTFORML 「아, 앗, 응응, 아, 아앗, 스쳐, 응읏……!」
+			CASE 2
+				PRINTFORML 「응, 이런, 노…… 아니…… 아, 설, 없는 것, 인내, 할 수 없게, 되어……!」
+		ENDSELECT
+	;페라 계통
+	CASE 11, 19, 24, 26, 107, 330
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「쥬웃, 루우, 쥬웃…… 하아…… 큰, 이…… 츗, …………」
+			CASE 1
+				PRINTFORML 「뭇……, 츗, 흩어진다아…… 응, 우…… 아므, , …………」
+			CASE 2
+				PRINTFORML 「하아…… 하아……, 츄우…… 굉장해, , 째깍째깍……, 쥿…… 쥬루……」
+		ENDSELECT
+	;삽입 계통 V
+	CASE 6, 22, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 52, 55, 57, 61, 160
+		SELECTCASE PALAM:MASTER:쾌Ｖ
+			CASE 0 TO 3500
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「후아…… 아……! 기분, 좋앗……! 굉장한, 이……!」
+					CASE 1
+						PRINTFORML 「아, 아, 아, 얏…… 풍부하지 않아, 없는……!」
+					CASE 2
+						PRINTFORML 「하앗, 아앗, 읏응응, 후앗, 하앗, 응, 야아…… 앗!」
+				ENDSELECT
+			CASE 3501 TO 7000
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 앗! 좀더, 대머리, 까는, 아우, 우, 아……!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! 두는, 아, 아, 라고 도이, , 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 앗, 하앗, 응, 야아, 앗!」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아, 아! 가, 가, 가 버려랏, 아우, 우, 아……!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! 아핫, 아, 아, 기분, 읏이잉, 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 아, 아핫…… 아앗…… 아하앗!」
+				ENDSELECT
+		ENDSELECT
+	;삽입 계통 A
+	CASE 7, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 53, 56, 58, 62, 161
+		SELECTCASE PALAM:MASTER:쾌Ａ
+			CASE 0 TO 3500
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「후아…… 아……! 엉덩이, 꽉 껴, 이……! 아, 아아……!」
+					CASE 1
+						PRINTFORML 「아, 앗…… 등 해, 없는…… 얼굴…… 앗…… 후앗……!」
+					CASE 2
+						PRINTFORML 「하앗, 아앗, 읏응응, 후앗, 하앗, 응, 야아…… 앗!」
+				ENDSELECT
+			CASE 3501 TO 7000
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 앗! 오시까네, 되고, 아우, 우, 아……!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! (와)과 뭐, 아, 아, 없닷, 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 앗, 하앗, 응, 야아, 앗!」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아, 아! 가, 가, 가 버려랏, 엉덩이, 로, 가, 에에……!」
+					CASE 1
+						PRINTFORML 「응, 우, 응읏! 아핫, 아, 아, 기분, 읏이잉, 웃!」
+					CASE 2
+						PRINTFORML 「앗, 읏야, 아, 아핫…… 아앗…… 아하아……!」
+				ENDSELECT
+		ENDSELECT
+	ENDSELECT
+ENDIF
+RESETCOLOR
+
+@CALCU_NOWEX_ORGASM_K77(ARG:0)
+
+FOR LOCAL:0, 0, 100
+	SOURCE:(ARG:0):(LOCAL:0) = LIMIT(SOURCE:(ARG:0):(LOCAL:0), 0, 100000000)
+NEXT
+
+FOR LOCAL:0, 0, 10
+	TRYCALLFORM CALC_SOURCE{LOCAL:0}(ARG:0)
+NEXT
+
+CALL UP_TALENT_CHECK1(ARG:0)
+
+CALL UP_DATE_CHECK1(ARG:0)
+
+VARSET LOCAL , 0
+
+FOR LOCAL:0, 0, 6
+	LOCAL:2 = PALAM:(ARG:0):(LOCAL:0) + CUP:(ARG:0):(LOCAL:0)
+	IF LOCAL:2 >= 10000
+		IF LOCAL:2 >= 150000
+			NOWEX:(ARG:0):(LOCAL:0) = 9
+		ELSEIF LOCAL:2 >= 80000
+			NOWEX:(ARG:0):(LOCAL:0) = 4
+		ELSEIF LOCAL:2 >= 30000
+			NOWEX:(ARG:0):(LOCAL:0) = 2
+		ELSE
+			NOWEX:(ARG:0):(LOCAL:0) = 1
+		ENDIF
+	ENDIF
+NEXT

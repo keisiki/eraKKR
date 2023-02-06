@@ -3,6 +3,498 @@
 ;-------------------------------------------------
 
 ;=================================================
-;●구상의 존재 판정
+;●말의 존재 판정
 ;=================================================
-@KOJO_EXIST_K80
+@KOJO_EXIST_k80
+
+;=================================================
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_k80
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_k80
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_k80
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_k80
+
+;=================================================
+;●커맨드 실행전(타겟·플레이어 묻지 않고)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_k80
+
+;퍼스트 키스 플래그(키스미경험이라면 CFLAG:255를 1에 세트)
+SIF TALENT:키스미경험
+	CFLAG:255 = 1
+;처녀 플래그(처녀라면 CFLAG:260을 1에 세트)
+SIF TALENT:처녀
+	CFLAG:260 = 1
+;주인공이 동정 플래그(주인공이 동정이라면 CFLAG:261을 1에 세트)
+SIF TALENT:MASTER:동정
+	CFLAG:261 = 1
+	
+RETURN 0
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_k80
+#DIM C카운터
+#DIM V카운터
+#DIM A카운터
+#DIM B카운터
+#DIM M카운터
+
+;KOJO_AFTER가 불려 갈 때마다 초기화
+C카운터 = 0
+V카운터 = 0
+A카운터 = 0
+B카운터 = 0
+M카운터 = 0
+
+;[공허]상태의 경우, 입이 막히고 있는 경우는 말을 표시하지 않는다
+IF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET , "입장착")
+	RETURN 0
+ENDIF
+
+;퍼스트 키스 플래그(커맨드 종료시에 키스미경험이 아니었으면 CFLAG:255를 0에 세트)
+SIF ! TALENT:키스미경험
+	CFLAG:255 = 0
+;처녀 플래그(커맨드 종료시에 처녀가 아니었으면 CFLAG:260을 0에 세트)
+SIF ! TALENT:처녀
+	CFLAG:260 = 0
+;주인공이 동정 플래그(커맨드 종료시에 주인공이 동정이 아니었으면 CFLAG:261을 0에 세트)
+SIF ! TALENT:MASTER:동정
+	CFLAG:261 = 0
+	
+PRINTL
+SETCOLOR 0xF7819F
+
+;-------------------------------------------------
+;처음으로 Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	IF CFLAG:220 == 0
+		CFLAG:220 = 1
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORML 「핫, 후아앗♥거, 거기 만지작거리지마♥」
+		;그 이외
+		ELSE
+			PRINTFORML 「읏, 응응읏!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		C카운터 ++
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	IF CFLAG:221 == 0
+		CFLAG:221 = 1
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORML 「핫, 후아앗♥허, 허리 뛴닷♥」
+		;그 이외
+		ELSE
+			PRINTFORML 「응읏~! 읏! 읏!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		V카운터 ++
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	IF CFLAG:222 == 0
+		CFLAG:222 = 1
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORML 「이, 이런 그런데♥어째서♥」
+		;그 이외
+		ELSE
+			PRINTFORML 「아앗! 해, 엉덩이로오…!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		A카운터 ++
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	IF CFLAG:223 == 0
+		CFLAG:223 = 1
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORML 「핫♥아아♥가, 가슴으로♥가다니…♥」
+		;그 이외
+		ELSE
+			PRINTFORML 「읏, 후웃!」
+		ENDIF
+	;2회째 이후
+	ELSE
+		B카운터 ++
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	IF CFLAG:224 == 0
+		CFLAG:224 = 1
+		IF TALENT:연모 || TALENT:복종 
+			PRINTFORML 「훗, 응읏♥♥… 이, 입술로 이렇게 느끼다는…♥」
+		;그 이외
+		ELSE
+			PRINTFORML 「읏, 읏…… 입으로… 어째서…」
+		ENDIF
+	;2회째 이후
+	ELSE
+		M카운터 ++
+	ENDIF
+ENDIF
+
+;-------------------------------------------------
+;다중절정(복종 계통은 현재 제외)
+;-------------------------------------------------
+IF (C카운터 + V카운터 + A카운터 + B카운터 + M카운터) > 0
+	SELECTCASE (C카운터 + V카운터 + A카운터 + B카운터 + M카운터)
+	;단체[單体] 절정
+	CASE 1
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「조, 좀더, 기분 잘 해라♥」
+			CASE 1
+				PRINTFORML 「하아앗, 좀더, 저의 초조해지고♥」
+			CASE 2
+				PRINTFORML 「아앗! … 후후, 이런 감각도 재미있구나♪」
+			CASE 3
+				PRINTFORML 「응읏! … 후아아, 좋아…♥」
+		ENDSELECT
+		
+	;이중 절정
+	CASE 2
+		FONTSTYLE 1
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「하앗♥아아♥간다앗♥♥」
+			CASE 1
+				PRINTFORML 「하앗, 악♥하아아… 조, 좀더 해라♥♥」
+			CASE 2
+				PRINTFORML 「왔다, 왔다♥아아 아악♥앗♥♥」
+			CASE 3
+				PRINTFORML 「아, 하앗! 좀더… 좀더 해라♥♥」
+		ENDSELECT
+		FONTSTYLE 0
+		RESETCOLOR
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 몸이 동시에 달한다 쾌감에%ANAME(TARGET)%는 신체를 부르르 진동시켰다
+			CASE 1
+				PRINTFORML 몸이 동시에 절정 하는 쾌락을 감수 하도록<듯이), %ANAME(TARGET)%는 기쁜듯이 눈을 가늘게 떠라고 있다
+			CASE 2
+				PRINTFORML %ANAME(TARGET)%는 보다 탐욕에 한층 더 쾌감을 얻으려고 하고 있다
+		ENDSELECT
+
+	;삼중 절정
+	CASE 3
+		FONTSTYLE 1
+		SELECTCASE RAND:5
+			CASE 0
+				PRINTFORML 「하힛♥♥아″♥♥♥♥-z____♥♥♥」
+			CASE 1
+				PRINTFORML 「핫♥♥앗♥♥♥♥-z___♥♥♥♥」
+			CASE 2
+				PRINTFORML 「익♥간닷♥익♥♥… 쿠우우♥♥읏♥♥♥」
+			CASE 3
+				PRINTFORML 「나♥아″아♥이″그♥♥♥♥♥」
+			CASE 4
+				PRINTFORML 「하앗♥♥좀더♥나의 신체♥좀더 초조해지고♥♥」
+		ENDSELECT
+		FONTSTYLE 0
+		RESETCOLOR
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 복수개소가 동시에 달한다 쾌감에%ANAME(TARGET)%는 신체를 부들부들진동시켰다
+			CASE 1
+				PRINTFORML 수백년 맛본 적이 없는 쾌감에, %ANAME(TARGET)%는 벌벌 허리를 진동시키면서 법열에 잠겼다
+			CASE 2
+				PRINTFORML %ANAME(TARGET)%는 지체(팔다리와 몸)을 활처럼 하고 말할 수 있는 절정 절정에 이르면서, 더욱 더 한층 더 쾌락을 추구하도록(듯이) 허리를 흔든다
+			CASE 3
+				PRINTFORML 다수의 절정 쾌락을 감수 하도록<듯이), %ANAME(TARGET)%는 군침을 늘어뜨려 눈동자를 녹게 하고 있다
+		ENDSELECT
+
+	;사중 절정
+	CASE 4
+		FONTSTYLE 1
+		SELECTCASE RAND:4
+			CASE 0
+				PRINTFORML 「하아아 아아아앗♥♥♥ %ANAME(MASTER)%♥♥굉장하다아아앗♥♥♥」
+			CASE 1
+				PRINTFORML 「얏♥♥아″아♥이것♥무리♥♥핫, 아아아―z___♥♥♥」
+			CASE 2
+				PRINTFORML 「읏아♥♥%ANAME(MASTER)%♥♥아″♥아″♥아아아아♥♥♥♥」
+			CASE 3
+				PRINTFORML 「왔다♥왔다♥♥나♥아아 아악♥♥앗♥♥」
+		ENDSELECT
+		FONTSTYLE 0
+		RESETCOLOR
+		PRINTDATA
+		DATAFORM 전신이 절정 하는 쾌락에%ANAME(TARGET)%는
+		DATAFORM 의식이 산산조각 하는 것 같은 쾌락에, %ANAME(TARGET)%는
+		DATAFORM 눈앞에 불꽃이 보일 정도의 쾌락에 의해, %ANAME(TARGET)%는
+		DATAFORM %ANAME(TARGET)%는 군침을 흩뿌리면서,
+		ENDDATA
+		
+		PRINTDATAL
+		DATAFORM 지체(팔다리와 몸)을 부들부들 진동시켜 잠깐의 사이 절정의 물결로부터 내릴 수 없이 있었다…
+		DATAFORM 벌벌 전신을 진동시켜 군침을 늘어뜨리면서 법열에 잠겼다…
+		DATAFORM 지체(팔다리와 몸)을 활처럼 여차저차 휘어지게 해 전신 절정 절정에 이르렀다…
+		DATAFORM 전신을 덮치는 절정 쾌락에 대해서 마음껏 요가리 미쳤다…
+		ENDDATA
+
+	;오층 절정
+	CASE 5
+		FONTSTYLE 1
+		SELECTCASE RAND:6
+			CASE 0
+				PRINTFORML 「안됏♥안됏♥♥♥나는♥날아가 버리는♥는 아악♥♥♥」
+			CASE 1
+				PRINTFORML 「″♥″″♥♥호옷♥♥아♥♥♥하아…♥♥♥♥♥♥」
+			CASE 2
+				PRINTFORML 「이″♥♥이″국♥♥이″그♥♥♥♥♥」
+			CASE 3
+				PRINTFORML 「♥히♥♥히앗♥♥♥♥♥인가♥핫♥♥♥」
+			CASE 4
+				PRINTFORML 「잇♥좋앗♥♥♥읏아♥♥%ANAME(MASTER)%♥♥아″♥아″♥♥아악♥♥♥」
+			CASE 5
+				PRINTFORML 「오″♥♥아″♥하앗♥♥인가♥♥♥♥♥♥♥」
+		ENDSELECT
+		FONTSTYLE 0
+		RESETCOLOR
+		PRINTDATA
+		DATAFORM 몸을 찢어질 정도의 쾌감의 탁류에%ANAME(TARGET)%는
+		DATAFORM 몸도 마음도 튀어나는 것 같은 쾌락의 분류에%ANAME(TARGET)%는,
+		DATAFORM 머리 속이 불꽃으로 가득 찰 정도의 쾌락에 의해, %ANAME(TARGET)%는
+		DATAFORM 녀만이 맛볼 수 있는 궁극의 절정 쾌락에%ANAME(TARGET)%는,
+		ENDDATA
+		
+		PRINTDATAL
+		DATAFORM 전신을 진동시켜 군침을 늘어뜨리면서 격렬하게 교성을 질렀다…
+		DATAFORM 벌벌 전신을 진동시켜 초점이 정해지지 않는 눈동자로 잠깐 법열에 잠겼다…
+		DATAFORM 지체(팔다리와 몸)을 활처럼 휘어지게 해 눈에? 를 떠오르게 해 전신 절정 절정에 이르렀다…
+		DATAFORM 전신을 진동시키면서 말씨가 이상한 말투로 음락의 소리를 질렀다…
+		ENDDATA
+
+	ENDSELECT
+ENDIF
+RESETCOLOR
+
+;=================================================
+;●단체[單体] 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기에서 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람 하지 않도록 주의 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_k80
+;단체[單体] 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+
+PRINTFORML
+PRINTFORML …
+PRINTFORML ……
+PRINTFORML ………
+PRINTFORML
+CALL COLOR_PRINTW(@" 「……………………」", 0xF7819F)
+PRINTFORML
+PRINTFORMW 심야. 갑자기 눈을 뜬%ANAME(TARGET)%는 사랑하는%ANAME(MASTER)%과 함께 자는 방을, 소리도 없게 빠져 나간다
+PRINTFORML
+PRINTFORML 그리고 둘이서 사는 집의 밖, 어둠안에 잠시 멈춰서 허공을 응시한다……
+PRINTFORMW
+WAIT
+CALL COLOR_PRINTW(@" 「왔는지. 내가(우리) 본체…」", 0xF7819F)
+PRINTFORML 
+PRINTFORMW %ANAME(TARGET)%의 말이어둠안에 영향을 주었을 때, 그 자리에 『본체』일이비라기 카센이 모습을 나타냈다
+PRINTFORML
+CALL COLOR_PRINTW(@" 「…… 오래간만이군요. 내가(우리) 파트너. 사랑하는 사람과의 생활은 어때?」", 칼라_파빨강)
+PRINTFORML
+CALL COLOR_PRINTW(@" 「순풍만범 그 자체야. 그래서? … 나의 앞에 이제 와서 무엇을 하러 나타났다」", 0xF7819F)
+PRINTFORML 
+PRINTFORMW 그녀는 카센을 날카로운 눈으로 노려본다. 그 눈으로부터는, 일찍이 나누어진 오른 팔로서 재회했을 때에 있던 기쁨의 색은 물을 수 없다
+PRINTFORML
+CALL COLOR_PRINTW(@" 「솔직하게 말해요. 슬슬 나의 곁으로 돌아가세요. 그 이유는, 당신에게도 알고 있겠지요?」", 칼라_파빨강)
+PRINTFORML
+CALL COLOR_PRINTW(@" 「………」", 0xF7819F)
+PRINTFORML
+PRINTFORMW %ANAME(TARGET)%는 그 물음에 응하지 않는다. 그러나, 그 표정이 조금 비뚤어진다. 물음의 "의미에 짐작이 있기 때문이다
+PRINTFORML
+PRINTFORML
+CALL COLOR_PRINTW(@" 「당신의 육체는 그렇게 멀지 않은 동안에 소멸한다. 육체의 소[素]인 요력이 줄어들고 있기 때문에. …… 당신이 인간을 먹지 않게 되었기 때문에」", 칼라_파빨강)
+PRINTFORML
+PRINTFORMW
+PRINTFORMW ……%ANAME(TARGET)%는 아무것도 말하지 않고, 조금눈을 숙인다
+PRINTFORML
+CALL COLOR_PRINTW(@" 「… 당신이 그 사람과 특별한 관계가 되고 나서 당신은 인간을 먹지 않게 되었다. 그것은 신선으로서는 기쁜 일이지만」", 칼라_파빨강)
+PRINTFORML
+CALL COLOR_PRINTW(@" 「사악한 귀신의 특성이 진한 당신에게는…, 그 행위는 완만한 자살 그 자체」", 칼라_파빨강)
+PRINTFORML
+PRINTFORML %ANAME(TARGET)%에는 알고 있었다. 자신은 단순한 귀신은 아니다
+PRINTFORML
+PRINTFORMW 사천왕의 한사람인 카센의 귀신으로서의 본성과 악의를, 잘라 떨어뜨려진 오른 팔 한 개에 응축해 담겨진 이질의 존재다
+PRINTFORML
+PRINTFORMW 인간의 공포와 공포, 그리고 혈육이 힘이 된다. 그것을 먹지 않게 되었기 때문에, 이 임시의 육체를 형성하는 요력이 다 떨어지고 있다
+PRINTFORML
+CALL COLOR_PRINTW(@" 「…… 그 사람과 있기 때문에 겠죠?」", 칼라_파빨강)
+PRINTFORML
+PRINTFORMW 카센의 목소리가 적중을 붙는다
+PRINTFORML
+SETCOLOR 0xF7819F
+PRINTFORML - %ANAME(MASTER)%. 나에게 지금까지 다른 세계와 삶의 방법을 가르쳐 준, 무엇보다도 소중한 사람─
+PRINTFORML
+PRINTFORMW -처음은 하찮은 존재라고 생각하고 있었다. 그것이 점점, 자신의 안에서 존재가 크게 되어 갔다―
+PRINTFORML
+PRINTFORML -어떤 인간의 혈육보다, %ANAME(MASTER)%의 입맞춤이 맛좋게 느꼈다. 서로 서로 들이마시는 혀와 타액이 극상의 감 드러났다―
+PRINTFORML
+PRINTFORMW -그토록 유쾌하게 느낀 공포의 비명보다, %ANAME(MASTER)%의 소리를 듣는 것만으로 쭉 마음이 들떴다―
+PRINTFORML
+PRINTFORMW - %ANAME(MASTER)%과의 나날이, 나에게 있어서 제일 소중한 것이 되었다. 남을 무시하는 것을, 즐겁다고 생각되지 않게 되었다―
+PRINTFORML
+PRINTFORMW -이니까 나는, 남을 무시하는 것을 그만두었다―
+RESETCOLOR
+PRINTFORML
+CALL COLOR_PRINTW(@" 「오늘내일중에 사라지는, 라는 것은 없을 것입니다. 일년 후인가, 3년 후인가, … 에서도 언젠가는 사라진다. 그것은 틀림없다」", 칼라_파빨강)
+PRINTFORML
+CALL COLOR_PRINTW(@" 「… 사람과의 애정이 깊어지는 만큼, 이승의 이별은 매우 괴로워져요. 지금의 나(집)이라면 아직 결론지을 수 있을 것이야」", 칼라_파빨강)
+PRINTFORML
+PRINTFORMW 그렇게 말하고 카센이 맞이하도록(듯이) 오른손을 내민다
+PRINTFORML
+PRINTFORMW 상처가 얕은 동안에%ANAME(MASTER)%과의 일을, 행복한 꿈으로서 끝낸다. 그것은 확실히 감미로운 권유였다. 그러나……
+PRINTFORML
+CALL COLOR_PRINTW(@" 「…… 거절(부탁)하는. 나는 너 앞으로는 돌아오지 않는다」", 0xF7819F)
+PRINTFORML
+PRINTFORMW 그녀는 그것을 선택하지 않았다. %ANAME(TARGET)%는 의연히 한 소리와 시선으로 카센을 응시한다
+PRINTFORML
+CALL COLOR_PRINTW(@" 「적어도 지금은 너의 걷는 센도의 이정표가 될 생각은 없다. 나는 나인 채 이 몸이 사라질 때까지 저 녀석과 함께 산다」", 0xF7819F)
+PRINTFORML 
+CALL COLOR_PRINTW(@" 「이 기분이 모른다고는 말하게 하지 않아. 그렇겠지? 너는 나인 것이니까」", 0xF7819F)
+PRINTFORML 
+PRINTFORMW 그녀는 그렇게 단언하면 카센에 등을전용, 대답을 (듣)묻는 일도 되돌아 보는 일도 하지 않고 %ANAME(MASTER)%가 기다리는 집으로 돌아갔다
+PRINTFORML 
+CALL COLOR_PRINTW(@" 「……………… 에에, 알아요. 당신은 나인 것이니까……」", 칼라_파빨강)
+PRINTFORML 
+PRINTFORMW 그리고 카센도 또, 누구 二에게 들려주는 것도 아니게 혼잣말 하면, 파트너에게 등을전용 떠나 갔다
+PRINTFORML 
+PRINTFORMW 기구한 운명의 끝나러 한 곳으로 돌아갔음이 분명한 그녀들은, 다시 또 헤어지고 다른 길을 걸음 냈다
+PRINTFORML 
+PRINTFORMW 이지만, 그 걷는 길이 언젠가 다시 사귈 때가 오면 말하는 것도 또, 서로 확신인 듯하고 있었다
+PRINTFORML 
+PRINTFORMW 라면 안달해 움직일 것도 없다. 적어도 지금은…
+PRINTFORML 
+PRINTFORMW 그런 것을 생각하면서, 그녀는 아무것도 모르는 채로 자고 있는%ANAME(MASTER)%를 응시한다
+PRINTFORML 
+PRINTFORMW 그리고 이 세상에서 제일 소중한 사람을 지키도록(듯이) 꽉 안아 싸 눈을 감는다
+PRINTFORML 
+CALL COLOR_PRINTW(@"(%ANAME(MASTER)%야…. 이런 나를 선택해 준 사랑스러운 사람이야…. 나에게도 와 너와 함께 있게 해 줘)", 0xF7819F)
+PRINTFORML 
+CALL COLOR_PRINTW(@"(이 임시의 신체에, 좀더 너의 뜨겁고 상냥한 사랑을 새겨 줘. 사랑스러운 너의 아이를 가득가득 낳게 해 줘)", 0xF7819F)
+PRINTFORML 
+CALL COLOR_PRINTW(@"(… 언젠가 내가 그 어두운 상자의 안에 돌아왔을 때, 너와의 행복한 나날을 쭉 생각해 낼 수 있도록…………)", 0xF7819F)
+PRINTFORML 
+PRINTFORMW 비록 이별의 괴로움이 늘어난다고 해도…, %ANAME(TARGET)%는 자신에게 남겨진 시간을%ANAME(MASTER)%과의 서로 사랑하는 나날에 바치는 것을 결의하고 있었다
+PRINTFORML 
+CALL COLOR_PRINTW(@" 「%ANAME(MASTER)%………………………………………………………………」", 0xF7819F)
+PRINTFORML 
+PRINTFORMW 깊게 자는%ANAME(MASTER)%를 일으키지 않게, 조용히 속삭인다. 그리고……
+PRINTFORML 
+CALL COLOR_PRINTW(@" 「나는 너를, 누구보다도 사랑하고 있어」", 0xF7819F)
+PRINTFORML 
+PRINTFORMW %ANAME(MASTER)%의 무방비한입술에, 살그머니 키스를 거듭한다. 창으로부터 찔러넣는 달빛에 비추어진 그 모습은, 사랑하는 여성 그 자체……
+PRINTFORML 
+PRINTFORML 
+PRINTFORML 
+PRINTFORML 　　―― 단선수악과 두려워해지는 악귀는, 이제 어디에도 없었다. ――
+PRINTFORMW 
+PRINTFORML
+
+PRINTFORMW  　　　　　　　　　　　　　END
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체[單体] 엔딩 메세지가 스킵 된다
+RETURN 1
+
+@KOJO_DEAD_ENDING_k80
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「…… 베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+;PRINTFORMW 
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체[單体] 엔딩 메세지가 스킵 된다
+RETURN 0

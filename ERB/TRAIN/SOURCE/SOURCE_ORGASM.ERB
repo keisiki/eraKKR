@@ -1,5 +1,128 @@
 ﻿;SOURCE_CHECK로 사용하는 함수(사정·절정·분유 따위)
 
+
+
+;=========================================================
+;	정상위のアニメーション画像表示
+;
+;	sRes_Name	：最後に表示する画像のリソース名
+;	iSize		：一行の高さに対するサイズ％数値　縦基準　縦横比維持　省略で1000(10倍)
+;	sAlign		：align属性　省略で左寄せ　left, center, rightの三種が指定できます
+;=========================================================
+@PRINT_IMAGE_ANIMATION_정상위(sRes_Name,iSize=1000,sAlign="left")
+#DIMS sRes_Name
+#DIM iSize
+#DIMS sAlign
+
+#DIM iStart
+#DIMS sPrint_Res_Name
+#DIMS sAnime_Res_Name
+
+SIF !FLAG:그림표시 || sRes_Name == "" || !FLAG:삽화표시
+	RETURN RESULT
+
+IF sRes_Name == "정상위_사정"
+	sPrint_Res_Name = %sRes_Name%_{FLAG:사정화상종류}
+ELSE
+	sPrint_Res_Name = %sRes_Name%
+ENDIF
+
+IF !FLAG:애니메이션
+	CALL PRINT_IMAGE(sPrint_Res_Name,iSize,sAlign)
+	RETURN RESULT
+ENDIF
+
+sAnime_Res_Name = %\@ STRCOUNT(sRes_Name,"Ａ") ? Ａ # \@%정상위_삽입_
+
+IF STRCOUNT(sRes_Name,"_사정") || STRCOUNT(sRes_Name,"_절정")
+	iStart = 1
+ELSE
+	iStart= 0
+ENDIF
+
+CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,iStart,4-iStart,FLAG:애니메이션,1,,iSize,sAlign)
+CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,iStart,4-iStart,1,0,,iSize,sAlign)
+
+IF STRCOUNT(sRes_Name,"_사정")
+	sAnime_Res_Name = %sRes_Name%_{FLAG:사정화상종류}_
+	CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,0,2,FLAG:애니메이션,0,,iSize,sAlign)
+	CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,2,2,FLAG:애니메이션,1,,iSize,sAlign)
+ENDIF
+CALL PRINT_IMAGE(sPrint_Res_Name,iSize,sAlign)
+
+RETURN RESULT
+
+;=========================================================
+;	후배위のアニメーション画像表示
+;	コマ数など変わったので別で
+;
+;	sRes_Name	：最後に表示する画像のリソース名
+;	iSize		：一行の高さに対するサイズ％数値　縦基準　縦横比維持　省略で1000(10倍)
+;	sAlign		：align属性　省略で左寄せ　left, center, rightの三種が指定できます
+;=========================================================
+@PRINT_IMAGE_ANIMATION_후배위(sRes_Name,대상=0,iSize=1000,sAlign="left")
+#DIMS sRes_Name
+#DIM 대상
+#DIM iSize
+#DIMS sAlign
+
+#DIMS sPrint_Res_Name
+#DIMS sAnime_Res_Name
+#DIM iAnimeCon
+#DIMS ins_Type
+
+SIF !FLAG:그림표시 || sRes_Name == "" || !FLAG:삽화표시
+	RETURN RESULT
+
+IF STRCOUNT(sRes_Name,"_사정")
+	sPrint_Res_Name = %sRes_Name%_{FLAG:사정화상종류}
+	SIF NOWEX:대상:사정 > 6
+		sPrint_Res_Name = %sRes_Name%_{FLAG:사정화상종류}_9
+ELSE
+	sPrint_Res_Name = %sRes_Name%
+ENDIF
+
+IF !FLAG:애니메이션
+	CALL PRINT_IMAGE(sPrint_Res_Name,iSize,sAlign)
+	RETURN RESULT
+ENDIF
+
+
+IF STRCOUNT(sRes_Name,"_삽입")
+	
+	iAnimeCon = FLAG:애니메이션/2?FLAG:애니메이션/2#1
+	CALL PRINT_IMAGE_ANIMATION(@"%sRes_Name%_",0,6,iAnimeCon,1,,iSize,sAlign)
+	
+	iAnimeCon = (FLAG:애니메이션-iAnimeCon)?FLAG:애니메이션-iAnimeCon#-1
+	CALL PRINT_IMAGE_ANIMATION(@"%sRes_Name%2_",0,12,iAnimeCon,0)
+ELSE
+	IF STRCOUNT(sRes_Name,"_절정")
+		iAnimeCon = FLAG:애니메이션/2?FLAG:애니메이션/2#1
+		ins_Type = %\@ STRCOUNT(sRes_Name,"Ａ") ? Ａ # \@%
+		CALL PRINT_IMAGE_ANIMATION(@"%ins_Type%후배위_삽입2_",0,12,iAnimeCon,0)
+	ENDIF
+	
+	CALL PRINT_IMAGE_ANIMATION(@"%ins_Type%후배위_절정_",0,4,FLAG:애니메이션,0)
+	CALL PRINT_IMAGE_ANIMATION(@"%ins_Type%후배위_절정_",0,2,1,0)
+ENDIF
+IF STRCOUNT(sRes_Name,"_사정")
+	sAnime_Res_Name = %sRes_Name%_{FLAG:사정화상종류}_
+	CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,0,8,1,0,,iSize,sAlign)
+	CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,6,2,FLAG:애니메이션,1,,iSize,sAlign)
+	
+	;大量なら追加で
+	IF NOWEX:대상:사정 > 6
+		CALL PRINT_IMAGE_ANIMATION(sAnime_Res_Name,8,2,FLAG:애니메이션,1,,iSize,sAlign)
+	ENDIF
+	
+ENDIF
+CALL PRINT_IMAGE(sPrint_Res_Name,iSize,sAlign)
+
+RETURN RESULT
+
+
+
+
 ;-------------------------------------------------
 ;절정에 관한 처리
 ;-------------------------------------------------
@@ -82,6 +205,13 @@ FOR LOCAL:0, 0, 5
 		;후배위중 절정
 		ELSEIF SELECTCOM == 31 || GET_SEX_POSITION_SINGLE(ARG:0, "Ｖ") == 2
 			SEX_STATE = 2
+		;정상위 애널 절정
+		ELSEIF SELECTCOM == 40 || GET_SEX_POSITION_SINGLE(ARG:0, "Ａ") == 1
+			SEX_STATE = 3
+		;후배위 애널 절정
+		ELSEIF SELECTCOM == 41 || GET_SEX_POSITION_SINGLE(ARG:0, "Ａ") == 2
+			SEX_STATE = 4
+
 		ENDIF
 
 		;절정경험을 늘린다
@@ -452,25 +582,38 @@ IF LOCAL:10
 	PRINTL 
 ENDIF
 
-;IF FLAG:화상설정
-;	SELECTCASE SEX_STATE
-;		CASE 1
-;			CALL PRINT_IMAGE_ANIMATION_정상위("정상위_절정")
-;			SEX_STATE = 0
-;		CASE 2
-;			CALL PRINT_IMAGE_ANIMATION_후배위("후배위_절정", ARG:0)
-;			SEX_STATE = 0
-;		CASE 11
-;			CALL PRINT_IMAGE_ANIMATION_정상위("정상위_사정")
-;			SEX_STATE = 0
-;		CASE 12
-;			CALL PRINT_IMAGE_ANIMATION_후배위("후배위_사정", ARG:0)
-;			SEX_STATE = 0
-;		CASE 13
-;			CALL PRINT_IMAGE_ANIMATION_파이즈리("파이즈리_사정")
-;			SEX_STATE = 0
-;	ENDSELECT
-;ENDIF
+IF FLAG:화상설정
+	SELECTCASE SEX_STATE
+		CASE 1
+			CALL PRINT_IMAGE_ANIMATION_정상위("정상위_절정")
+			SEX_STATE = 0
+		CASE 2
+			CALL PRINT_IMAGE_ANIMATION_후배위("후배위_절정", ARG:0)
+			SEX_STATE = 0
+		CASE 3
+			CALL PRINT_IMAGE_ANIMATION_정상위("Ａ정상위_절정")
+			SEX_STATE = 0
+		CASE 4
+			CALL PRINT_IMAGE_ANIMATION_후배위("Ａ후배위_절정", ARG:0)
+			SEX_STATE = 0
+		CASE 11
+			CALL PRINT_IMAGE_ANIMATION_정상위("정상위_사정")
+			SEX_STATE = 0
+		CASE 12
+			CALL PRINT_IMAGE_ANIMATION_후배위("후배위_사정", ARG:0)
+			SEX_STATE = 0
+		CASE 13
+			CALL PRINT_IMAGE_ANIMATION_파이즈리("파이즈리_사정")
+			SEX_STATE = 0
+		CASE 14
+			CALL PRINT_IMAGE_ANIMATION_정상위("Ａ정상위_사정")
+			SEX_STATE = 0
+		CASE 15
+			CALL PRINT_IMAGE_ANIMATION_후배위("Ａ후배위_사정", ARG:0)
+			SEX_STATE = 0
+
+	ENDSELECT
+ENDIF
 
 ;-------------------------------------------------
 ;사정의 내부 처리
@@ -735,6 +878,13 @@ ELSEIF (SELECTCOM == 31 || GET_SEX_POSITION(대상, 사정상대) == 2) && 사�
 ;파이즈리 사정
 ELSEIF SELECTCOM == 12 || 사정처 == 5
 	SEX_STATE = 13
+;정상위 애널 사정
+ELSEIF (SELECTCOM == 40 || GET_SEX_POSITION(대상, 사정상대) == 1) && 사정처 == 2
+	SEX_STATE = 14
+;후배위 애널 사정
+ELSEIF (SELECTCOM == 41 || GET_SEX_POSITION(대상, 사정상대) == 2) && 사정처 == 2
+	SEX_STATE = 15
+
 ENDIF
 
 

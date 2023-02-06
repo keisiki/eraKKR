@@ -1,8 +1,957 @@
 ﻿;-------------------------------------------------
 ;공통 부분
 ;-------------------------------------------------
+;
+;=================================================
+;●말의 존재 판정
+;=================================================
+@KOJO_EXIST_K77
 
 ;=================================================
-;●구상의 존재 판정
-;================================================
-@KOJO_EXIST_K77
+;●개시시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_START_K77
+
+;얀데이용 쳇구
+IF ! CFLAG:302
+	PRINTFORML 
+	PRINTFORML  소식…
+	PRINTFORML 
+	PRINTFORML  본말에서는, 일부 플레이어의 행동 이력에 의해%ANAME(TARGET)%님이 바뀌어 갑니다
+	PRINTFORML 
+	PRINTFORML  유감스럽지만, 실장하고 나서 상상 이상으로 불안정한 요소가 있기 (위해)때문에,
+	PRINTFORML  처음부터 그러한 것 필요없다고 (분)편은, 이하의 선택지로 이용의 시비를 대답해 주세요
+	PRINTFORML  
+	CALL ASK_YN("사용한다", "사용하지 않는다")
+	IF RESULT == 0
+		CFLAG:302 = 1
+		PRINTFORML  네타바레가 됩니다만, 해설을 읽습니까?
+		CALL ASK_YN("읽는다", "읽지 않는다")
+		IF RESULT == 0
+			PRINTFORML  
+			PRINTFORML  정실 취득 후, 플레이어의 행위 이력에 의해%ANAME(TARGET)%는 야로 갑니다
+			PRINTFORML 
+			PRINTFORML  조건은, %ANAME(TARGET)%이외의 캐릭터와 행위에 이르고 있었을 경우 플래그에 가산되어
+			PRINTFORML  플레이 바로서 얀데음성이나, 성격에 관련되는 주도도 따위가 턴 마다 변동합니다(적극적으로 된다)
+			PRINTFORML  그 때문에(위해), 야나오는 중에 보류 마구 하고 있으면 압 쓰러져, 같은 것도…
+			PRINTFORML  그 경우는 강제적으로 하는 대로가 되거나 합니다만,
+			PRINTFORML  그 때에는 이미……M 털이었을 것인데, 어느새 S 털이 되어 있던…… 같은 것도
+			PRINTFORML  
+			PRINTFORML  기본적으로, 플레이어의 이력이%ANAME(TARGET)%1색이 되어 있으면,
+			PRINTFORML  종료시 or 다음번 면회 때로는 용서(허락)해 줍니다
+			PRINTFORML  
+			PRINTFORML  버그 체크는 하고 있던 생각입니다만… 상정외도 있기 때문에, 양해해 주십시오
+			PRINTFORMW  
+		ENDIF
+	ENDIF
+	PRINTFORML  .
+	PRINTFORML  .
+	PRINTFORML  .
+ENDIF
+
+;얀데레화 체크
+SIF TALENT:정실 && CFLAG:302
+	CALL START_CHECK_YANDERE_K77
+
+;=================================================
+;●종료시
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_TRAIN_END_K77
+
+;=================================================
+;●커맨드 실행전(타겟·플레이어 묻지 않고)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_K77
+#DIM 뱌쿠렌
+뱌쿠렌 = NAME_TO_CHARA("뱌쿠렌")
+
+SIF TALENT:뱌쿠렌:키스미경험 && ! CFLAG:뱌쿠렌:250
+	CFLAG:뱌쿠렌:250 = 1
+
+SIF TALENT:뱌쿠렌:처녀 && ! CFLAG:뱌쿠렌:251 && HAS_VAGINA(뱌쿠렌)
+	CFLAG:뱌쿠렌:251 = 1
+
+SIF TALENT:뱌쿠렌:애널처녀 && ! CFLAG:뱌쿠렌:252
+	CFLAG:뱌쿠렌:252 = 1
+
+SIF TALENT:뱌쿠렌:동정 && ! CFLAG:뱌쿠렌:253 && HAS_PENIS(뱌쿠렌)
+	CFLAG:뱌쿠렌:253 = 1
+
+;처녀 상실 호환 처리(TCVAR의 재이용화. 단 주도권 따위의 고려는 없음. 상실시의 구문에 별도 패턴 기술하는 것)
+IF GROUPMATCH(SELECTCOM , 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 52, 55, 57, 160) && CFLAG:뱌쿠렌:251
+	CFLAG:뱌쿠렌:251 = 0
+	IF IS_MTAR(뱌쿠렌) && (MPLY:0 == MASTER)
+		TCVAR:뱌쿠렌:13 = 1
+	;모브나 제삼자계...
+	ELSE
+		TCVAR:뱌쿠렌:13 = 3
+	ENDIF
+	CALL V_VIRGIN_LOST_VOICE_K77
+;바이브래이터나 SM계통
+ELSEIF GROUPMATCH(SELECTCOM , 22, 61, 65, 87, 201, 212) && CFLAG:뱌쿠렌:251
+	CFLAG:뱌쿠렌:251 = 0
+	IF IS_MTAR(뱌쿠렌) && (MPLY:0 == MASTER)
+		TCVAR:뱌쿠렌:13 = 2
+	;모브나 제삼자계...
+	ELSE
+		TCVAR:뱌쿠렌:13 = 4
+	ENDIF
+	CALL V_VIRGIN_LOST_VOICE_K77
+ENDIF
+
+;동정 상실 호환 처리(TCVAR 재이용화, 단 주도권·PLAYER·TARGET의 고려는 없음. 상실 때(시)에 별도 기술하는 것)
+IF GROUPMATCH(SELECTCOM , 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 52, 55, 57, 160, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 53, 56, 58, 161) && CFLAG:뱌쿠렌:253
+	CFLAG:253 = 0
+	IF IS_MPLY(뱌쿠렌) && (MTAR:0 == MASTER)
+		TCVAR:뱌쿠렌:14 = 1
+	;모브나 제삼자계...
+	ELSE
+		TCVAR:뱌쿠렌:14 = 3
+	ENDIF
+	CALL D_VIRGIN_LOST_VOICE_K77
+ENDIF
+
+;애널처녀 상실
+IF GROUPMATCH(SELECTCOM , 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 53, 56, 58, 161) && CFLAG:뱌쿠렌:252
+	CFLAG:뱌쿠렌:252 = 0
+	IF IS_MTAR(뱌쿠렌) && (MPLY:0 == MASTER)
+		CFLAG:뱌쿠렌:310 = 1
+	;모브나 제삼자계...
+	ELSE
+		CFLAG:뱌쿠렌:310 = 3
+	ENDIF
+	CALL A_VIRGIN_LOST_VOICE_K77
+;바이브래이터나 SM계통
+ELSEIF GROUPMATCH(SELECTCOM , 62, 66, 88, 202, 213) && CFLAG:뱌쿠렌:252
+	CFLAG:뱌쿠렌:252 = 0
+	;바이브래이터·촉수계
+	IF IS_MTAR(뱌쿠렌) && (MPLY:0 == MASTER)
+		CFLAG:뱌쿠렌:310 = 2
+	;모브나 제삼자계...
+	ELSE
+		CFLAG:뱌쿠렌:310 = 4
+	ENDIF
+	CALL A_VIRGIN_LOST_VOICE_K77
+ENDIF
+
+RETURN 0
+
+;=================================================
+;●커맨드 실행전(이 캐릭터가 타겟측 때)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_TARGET 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_TARGET_K77
+RETURN 0
+
+;=================================================
+;●커맨드 실행전(이 캐릭터가 플레이어측 때)
+;※지문이 표시되기 전에 실행된다. 반환값에 1을 설정하는(RETURN 1)와 지문이 컷 된다
+;  필요에 따라서 KOJO_COM_PLAYER 대신에 사용한다
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_BEFORE_PLAYER_K77
+RETURN 0
+
+;=================================================
+;●커맨드 실행시(타겟·플레이어 묻지 않고)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_K77
+#DIM 뱌쿠렌
+#DIM C카운터
+#DIM V카운터
+#DIM A카운터
+#DIM B카운터
+#DIM M카운터
+#DIM 다중절정
+#DIM BACKUP , 100
+뱌쿠렌 = NAME_TO_CHARA("뱌쿠렌")
+
+C카운터 = 0
+V카운터 = 0
+A카운터 = 0
+B카운터 = 0
+M카운터 = 0
+다중절정 = 0
+
+;[공허]상태의 경우, 입이 막히고 있는 경우는 말을 표시하지 않는다
+SIF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET , "입장착")
+	RETURN 0
+
+BACKUP = SOURCE
+CALL CALCU_NOWEX_ORGASM_K77(뱌쿠렌)
+
+SIF NOWEX:Ｃ절정 > 0
+	C카운터 ++
+
+SIF NOWEX:Ｖ절정 > 0
+	V카운터 ++
+
+SIF NOWEX:Ａ절정 > 0
+	A카운터 ++
+
+SIF NOWEX:Ｂ절정 > 0
+	B카운터 ++
+
+SIF NOWEX:Ｍ절정 > 0
+	M카운터 ++
+
+다중절정 = C카운터 + V카운터 + A카운터 + B카운터 + M카운터
+
+;-------------------------------------------------
+;다중절정(복종 계통은 현재 제외)
+;-------------------------------------------------
+IF ! TALENT:복종 && (다중절정 > 0)
+	PRINTFORML 
+	SETCOLOR 0xDA81F5
+	FONTSTYLE 1
+	SELECTCASE 다중절정
+		;단체[單体] 절정·이중 절정 겸용
+		CASE 1, 2
+			IF IS_EQUIP(MPLY:0, 20, 342)
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「읏……! 쥬……, 핫……″, …… 읏!」
+					CASE 1
+						PRINTFORML (키스, 하고가, 들…… 은…… 질질 끈다…… 이……!)
+					CASE 2
+						PRINTFORML (읏…… 혀로, 느끼게 되어져…… 빨아 들이지 맛……)
+					CASE 3
+						PRINTFORML 「후…… 우웃! 아, 아아…… 아아! 우우우우!」
+				ENDSELECT
+			ELSE
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「아…… 아, 아…… 기분…… 이야인가, 입니다…… 하앗, 아…… 아……」
+					CASE 1
+						PRINTFORML 「이, 챠…… 있었습…… 니다…… 하아……, 움찔움찔 , 해…… 떨려라고……」
+					CASE 2
+						PRINTFORML 「하아…… 아아, 야, 앗…… 하아, 앗, 읏…… 하아……」
+					CASE 3
+						PRINTFORML 「아…… 아앗, 후훗…… 읏…… 좋았다, 하앗, 하아……」
+				ENDSELECT
+			ENDIF
+			FONTSTYLE 0
+			PRINTFORML 
+			SELECTCASE RAND:3
+				CASE 0
+					PRINTFORMW  쾌감에 몸을 진동시킨%ANAME(TARGET)%는, 녹은 시선을%ANAME(MASTER)%에 향하여 있다...
+				CASE 1
+					PRINTFORMW  방울져 떨어지는 땀을 닦는 일조차 잊어, %ANAME(TARGET)%는 황홀로 하고 있다...
+				CASEELSE
+					PRINTFORMW  단속적으로 반복해지는 절정의 물결에, 달콤한 한숨을 토해내면서, 쫑긋쫑긋 신체를 진동시키고 있다...
+			ENDSELECT
+
+		;삼중 절정
+		CASE 3
+			IF IS_EQUIP(MPLY:0, 20, 342)
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「읏……! 쥬, 루……, 핫……″……!」
+					CASE 1
+						PRINTFORML (안, 돼…… 키스…… 힘…… 입, 들인……!)
+					CASE 2
+						PRINTFORML (읏…… 느껴…… 좋아하는가 라고, 하게 해……)
+					CASE 3
+						PRINTFORML 「후…… 우웃! 아, 아아…… 아아! 우우우우!」
+				ENDSELECT
+			ELSE
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「하, 아……, 아…… 응읏, 우…… 하앗, 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「이, 챠…… 우……, 우, 웃, 하앗, 아아……」
+					CASE 2
+						PRINTFORML 「하아…… 아아, 야, 앗…… 아, 앗, 읏……! 이, 쿠우……!」
+					CASE 3
+						PRINTFORML 「아…… 아앗, 후, 웃…… 쿠웃……, 하앗, 하앗, 아, 아아……」
+				ENDSELECT
+			ENDIF
+			FONTSTYLE 0
+			PRINTFORML 
+			SELECTCASE RAND:3
+				CASE 0
+					PRINTFORMW  쾌감에 몸을 진동시킨%ANAME(TARGET)%는, 녹은 시선을%ANAME(MASTER)%에 향하여 있다...
+				CASE 1
+					PRINTFORMW  방울져 떨어지는 땀을 닦는 일조차 잊어, %ANAME(TARGET)%는 황홀로 하고 있다...
+				CASE 2
+					PRINTFORMW  단속적으로 밀어닥치는 절정의 물결에 달콤한 한숨을 토해내면서, 쫑긋쫑긋 신체를 진동시키고 있다...
+			ENDSELECT
+
+		;사중 절정
+		CASE 4
+			IF IS_EQUIP(MPLY:0, 20, 342)
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「″, 아아″…… 쥬, 루……″! 후, 우웃!」
+					CASE 1
+						PRINTFORML (안, 돼…… 몸…… 인가, 이…… 입, 들인……!)
+					CASE 2
+						PRINTFORML (읏…… 생각해, …… 기분, 이…… 도, 원인가, 없다……!)
+					CASE 3
+						PRINTFORML 「훗, 우웃! 아앗, 훗! 우우, 우우!」
+				ENDSELECT
+			ELSE
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「하아앗, 아, 응읏, 우, 아하앗, 하아, 아아아……!」
+					CASE 1
+						PRINTFORML 「이, 아아! 웃, 아하앗, 아앗, 큐, 우우웃!」
+					CASE 2
+						PRINTFORML 「하, 아, 아앗, 야, 들 아! 하아, 앗, 웃……! 이, 쿠우……!」
+					CASE 3
+						PRINTFORML 「앗아앗! 후아웃, , 하앗, 하앗, 아, 아아……!」
+				ENDSELECT
+			ENDIF
+			FONTSTYLE 0
+			PRINTFORML 
+			SELECTCASE RAND:3
+				CASE 0
+					PRINTFORMW  격렬한 쾌락에 몸을 진동시킨%ANAME(TARGET)%는, 녹은 시선과 초점 정해지지 않는 눈동자가 흔들리고 있다...
+				CASE 1
+					PRINTFORMW  방울져 떨어지는 애액을 흩뿌려(활약)이면서, %ANAME(TARGET)%는 쾌감에 정신나가고 있다...
+				CASE 2
+					PRINTFORMW  밀어닥치는 절정의 물결에 달콤한 한숨을 토해내면서, 쫑긋쫑긋 신체를 진동시키고 있다...
+			ENDSELECT
+
+		;오층 절정
+		CASE 5
+			SELECTCASE RAND:4
+				CASE 0
+					PRINTFORML 「핫, , 아앗! , 읏! 웃, ″! 는 ″, ″아아……!!」
+				CASE 1
+					PRINTFORML 「아″아″이, 쿠웃, 쿠웃! 는 ″, 아″아아……!!」
+				CASE 2
+					PRINTFORML 「는 ″아″아″, 얏, 들″아, ″, 아! 이, 쿠우우우!」
+				CASE 3
+					PRINTFORML 「앗! , 아앗, 후, 웃…… 아아″, 는 ″, ″, 아, 아앗……!!」
+			ENDSELECT
+			FONTSTYLE 0
+			PRINTFORML 
+			SELECTCASE RAND:3
+				CASE 0
+					PRINTFORMW  강렬한 쾌감에 몸을 진동시킨%ANAME(TARGET)%는, 초점이 정해지지 않는 눈동자를 허공에 맡긴 채로 정신나가고 있다...
+				CASE 1
+					PRINTFORMW  방울져 떨어지는 타액조차 신경도 쓰지 않고, 흘러넘치는 오열과 몸부림에%ANAME(TARGET)%는 황홀로 하고 있다...
+				CASE 2
+					PRINTFORMW  밀어닥치는 절정의 물결에 입을 빠끔빠끔 시키면서, 떨리는 신체를 억제하지 못하고 허덕이고 있다...
+			ENDSELECT
+	ENDSELECT
+	RESETCOLOR
+ENDIF
+;	PRINTFORMW  check
+
+VARSET NOWEX , 0
+SOURCE = 0
+;	PRINTFORMW  check
+
+SOURCE = BACKUP
+;	PRINTFORMW  check
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_TARGET_K77
+
+;=================================================
+;●커맨드 실행시(이 캐릭터가 플레이어측 때)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_PLAYER_K77
+
+;=================================================
+;●커맨드 실행 후(파라미터의 변동 처리가 끝나고 나서 불려 간다)
+;※상황에 관계없이 항상 실행된다. 취급 주의※
+;=================================================
+@KOJO_COM_AFTER_K77
+#DIM 뱌쿠렌
+뱌쿠렌 = NAME_TO_CHARA("뱌쿠렌")
+
+;[공허]상태의 경우, 입이 막히고 있는 경우는 말을 표시하지 않는다
+SIF TALENT:공허 || IS_EQUIP_CONTINUE(TARGET , "입장착")
+	RETURN 0
+
+;CFLAG:251→상술 KOJO_COM_BEFORE 등 참조
+IF GROUPMATCH(SELECTCOM , 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 52, 55, 57, 160, 22, 61, 65, 87, 201, 212) && (! CFLAG:251 && ! CFLAG:300)
+	SELECTCASE TCVAR:13
+		;주인공과
+		CASE 1
+			IF TALENT:정실
+				CFLAG:300 = 1
+			ELSEIF TALENT:연모 || TALENT:연인
+				CFLAG:300 = 2
+			ELSEIF TALENT:복종 || TALENT:낙인
+				CFLAG:300 = 3
+			ELSE
+				CFLAG:300 = 4
+			ENDIF
+		;주인 의외로의 성교(바이브래이터나 SM계 따위)
+		CASE 2
+			CFLAG:300 = 5
+		;모브계
+		CASE 3, 4
+			CFLAG:300 = 6
+	ENDSELECT
+ENDIF
+
+IF ! TALENT:복종
+	SETCOLOR 0xDA81F5
+	FONTSTYLE 1
+	SIF NOWEX:TARGET:사정 > 0
+		CALL MULTIPLE_SPERM_VOICE_K77_B
+	SIF NOWEX:MASTER:사정 > 0
+		CALL MULTIPLE_SPERM_VOICE_K77_A
+	FONTSTYLE 0
+	RESETCOLOR
+ENDIF
+;-------------------------------------------------
+;처음으로 Ｃ절정
+;-------------------------------------------------
+IF NOWEX:Ｃ절정 > 0
+	SIF CFLAG:220 == 0
+		CFLAG:220 = 1
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｖ절정
+;-------------------------------------------------
+IF NOWEX:Ｖ절정 > 0
+	SIF CFLAG:221 == 0
+		CFLAG:221 = 1
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ａ절정
+;-------------------------------------------------
+IF NOWEX:Ａ절정 > 0
+	SIF CFLAG:222 == 0
+		CFLAG:222 = 1
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｂ절정
+;-------------------------------------------------
+IF NOWEX:Ｂ절정 > 0
+	SIF CFLAG:223 == 0
+		CFLAG:223 = 1
+ENDIF
+
+;-------------------------------------------------
+;처음으로 Ｍ절정
+;-------------------------------------------------
+IF NOWEX:Ｍ절정 > 0
+	SIF CFLAG:224 == 0
+		CFLAG:224 = 1
+ENDIF
+
+
+;-------------------------------------------------
+;TARGET의 사정
+;-------------------------------------------------
+@MULTIPLE_SPERM_VOICE_K77_B
+#DIM 뱌쿠렌
+뱌쿠렌 = NAME_TO_CHARA("뱌쿠렌")
+
+PRINTFORML 
+
+SELECTCASE TCVAR:뱌쿠렌:420
+	;질, 애널
+	CASE 1, 2, 3, 8
+		SELECTCASE NOWEX:TARGET:사정
+			CASE 1 TO 3
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「하, 아……, 허리가…… 빠져, 챠…… 앗, 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「하아……, 아웃…… 사정 라고…… 하아아…… 아아앗……, 굉장하다……」
+					CASE 2
+						PRINTFORML 「…… 하…… 아…… 자지…… 안돼에…… 하아……, 아아, 응……」
+				ENDSELECT
+			;대량
+			CASE 4 TO 7
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「앗, 응, 우우…… 정령, 이지만…… 하, 아앗…… 빠져…… 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「하아…… 아아…… 가득…… 내봐요 끝냈다아…… 하아아…… 아아앗……!」
+					CASE 2
+						PRINTFORML 「하…… 아…… 하아……, 사정은…… 이제 싫어…… 아아……, 아하아아……」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아앗, 나오는거야…… 앗, 후아앗!! 아, 아앗! 사정하고 싶어, 안돼엣……!!」
+					CASE 1
+						PRINTFORML 「앗, 아……, 전, 부…… 에서, 틀려……! 더 이상 나오면, 아아…… 멈추지 않는거야……!!」
+					CASE 2
+						PRINTFORML 「아아…… 나옵니다…… 아앗……! 도, 오…… 로, 없닷, 일 것, 의에…… 부서져……!」
+				ENDSELECT
+		ENDSELECT
+	;구
+	CASE 4
+		SELECTCASE NOWEX:TARGET:사정
+			CASE 1 TO 3
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「하, 아……, 허리가…… 빠져, 챠…… 앗, 하아, 마셔…………」
+					CASE 1
+						PRINTFORML 「하아……, 아웃…… 사정 라고…… 하아아…… 굉장하다…… 아아앗…… 들이마셔져……」
+					CASE 2
+						PRINTFORML 「…… 하…… 아…… 자지…… 안돼에…… 하아……, 또 나오면, …… 아아……」
+				ENDSELECT
+			;대량
+			CASE 4 TO 7
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「앗, 응, 우우…… 허리, 이지만…… 하, 아앗…… 빠져…… 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「하아…… 아아…… 가득…… 내봐요 끝냈다아…… 하아아…… 아아앗……」
+					CASE 2
+						PRINTFORML 「하…… 아…… 하아……, 사정…… 이제 싫어…… 아아……, 아하아아……」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아앗! 안, 돼 엣……! 이제(벌써), 아, 아앗, 나오는거야…… 앗, 후아앗!!」
+					CASE 1
+						PRINTFORML 「앗, 아……, 전, 부…… 에서, 챠……! 더 이상 나오면, 아아…… 아아앗……!!」
+					CASE 2
+						PRINTFORML 「아아…… 나옵니다…… 아앗……! 도, 오…… 로, 없닷, 의에…… 머리 부서져……!」
+				ENDSELECT
+		ENDSELECT
+	;족
+	CASE 6
+		
+	;꼬리
+	CASE 7
+		
+	;발
+	CASE 9
+		
+	;액
+	CASE 10
+		
+	;그 외
+	CASEELSE
+		SELECTCASE NOWEX:TARGET:사정
+			CASE 1 TO 3
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「하, 아……, 허리가…… 빠져, 챠…… 앗, 하아, …… 하아아아……」
+					CASE 1
+						PRINTFORML 「하아……, 아웃…… 사정 라고…… 하아아…… 굉장하다…… 아아앗……」
+					CASE 2
+						PRINTFORML 「…… 하…… 아…… 자지…… 안돼에…… 하아……, 또 나오면, …… 아아……」
+				ENDSELECT
+			;대량
+			CASE 4 TO 7
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「앗, 응, 우우…… 허리, 이지만…… 하, 아앗…… 빠져…… 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「하아…… 아아…… 가득…… 내봐요 끝냈다아…… 하아아…… 아아앗……」
+					CASE 2
+						PRINTFORML 「하…… 아…… 하아……, 사정…… 이제 싫어…… 아아……, 아하아아……」
+				ENDSELECT
+			CASEELSE
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「아, 아앗! 안, 돼 엣……! 이제(벌써), 아, 아앗, 나오는거야…… 앗, 후아앗!!」
+					CASE 1
+						PRINTFORML 「앗, 아……, 전, 부…… 에서, 챠……! 더 이상 나오면, 아아…… 아아앗……!!」
+					CASE 2
+						PRINTFORML 「아아…… 나옵니다…… 아앗……! 도, 오…… 로, 없닷, 의에…… 머리 부서져……!」
+				ENDSELECT
+		ENDSELECT
+ENDSELECT
+;-------------------------------------------------
+;피사정
+;-------------------------------------------------
+@MULTIPLE_SPERM_VOICE_K77_A
+PRINTFORML 
+;MASTER 사정
+
+;본체 ver1. 28 이전은 아래와 같은 문장을 바꾸어 주세요
+;SELECTCASE TCVAR:MASTER:420
+;↑↓
+SELECTCASE TCVAR:MASTER:420
+	;질에 사정·애널
+	CASE 1, 2
+		;[사정량]
+		SELECTCASE NOWEX:MASTER:사정
+			;보통 양
+			CASE 1 TO 3
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「하, 아……, 우…… 아개, 이…… 하앗, 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「하아……, 아웃…… 나오고……………… 하아아…… 아아앗……」
+					CASE 2
+						PRINTFORML 「…… 하…… 아…… 기분…… 좋았다, 입니까……? 하아……, 아아, 응……」
+				ENDSELECT
+			;대량
+			CASE 4 TO 7
+				SELECTCASE RAND:3
+					CASE 0
+						PRINTFORML 「앗, 응, 우우…… 아, 개…… 하, 아앗, 배…… 오고, 하아, 하아아아……」
+					CASE 1
+						PRINTFORML 「하아……, 아…… 아아…… 가득, 나와 버렸다아…… 하아아…… 아아앗……」
+					CASE 2
+						PRINTFORML 「하…… 아…… 하아……, 너무 사정하고…… 입니다…… 하아……, 하아아……」
+				ENDSELECT
+			;초대형량·초초대형량
+			CASEELSE
+				SELECTCASE RAND:4
+					CASE 0
+						PRINTFORML 「아, 아앗! 안, 돼 엣……! 아, 아앗, 배…… 아, 아앗!!」
+					CASE 1
+						PRINTFORML 「앗, 아……, 압, 해 첨부…… 케, 챠……! 내봐요는, 아아…… 아아앗……!!」
+					CASE 2
+						PRINTFORML 「아아…… 네등…… 아앗……! 도, 오…… 네등, 없닷, 인가…… 들 아……! 개원, 라고는……!」
+					CASE 3
+						PRINTFORML 「아, 아……! 데 와, 챠…… 우……! 오, 쿠…… 들어가면, 아아…… 아아앗……!!」
+				ENDSELECT
+		ENDSELECT
+
+	;구
+	CASE 4
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「브우?! 긋! 우…… 쥬우, …… 푸하앗, 하아, 하아아…… 하아……」
+			CASE 1
+				PRINTFORML 「긋…… 쿠……, 끄덕…… 아핫…… 가득…… 마셔 버렸습니다…… 아아…… 하아앗……」
+			CASE 2
+				PRINTFORML 「응, 우……, 루, 쥬우………… 푸하, 아…… 하아……, 아아, 응……」
+		ENDSELECT
+	;손, 가슴, 얼굴
+	CASE 3, 5, 8
+		SELECTCASE RAND:3
+			CASE 0
+				PRINTFORML 「하, 아……, 우…… 아개, 이…… 하앗, 하아, 하아아아……」
+			CASE 1
+				PRINTFORML 「하아……, 아웃…… 보내져 버렸다…… 하아아…… 아아앗……」
+			CASE 2
+				PRINTFORML 「…… 하…… 아…… 흰거야…… 하아……, 아아…… 끈적끈적…… 응……」
+		ENDSELECT
+	;족
+	CASE 6
+		
+	;꼬리
+	CASE 7
+		
+	;발
+	CASE 9
+		
+	;액
+	CASE 10
+		
+	;그 외
+	CASEELSE
+		
+ENDSELECT
+
+
+;=================================================
+;●단체[單体] 엔딩 관계
+;=================================================
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;★여기에서 먼저는 엔딩이 기술되고 있습니다★
+;네타바레를 피하고 싶은 (분)편은 열람 하지 않도록 주의 주세요.
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+@KOJO_SINGLE_ENDING_K77
+;단체[單体] 엔딩
+;전도시를 통일했을 때, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+PRINTFORML  .
+PRINTFORML  .
+PRINTFORML  .
+PRINTFORML 
+PRINTFORML  긴 싸움이 간신히 끝났습니다
+PRINTFORMW  
+IF TALENT:정실 || TALENT:첩
+	PRINTFORML 
+	PRINTFORML 「…… 모처럼 방문한 평화롭다고 말하는데, 어째서 나에게는 평화로운 것 같은 평화가 방문하지 않는 것일까요……」
+	PRINTFORMW 
+	PRINTFORMW  "접촉"이라고 하려면, 아침부터 통이 지난다고 생각합니다
+	PRINTFORML 
+	PRINTFORML 「조금…… 응……, 아침부터 번성하지 않습니까? %ANAME(MASTER)%」
+	PRINTFORMW 
+	PRINTFORML  아침의 인사라고 칭해 포옹을 받을 때 까지는 좋았던 것입니다
+	PRINTFORMW  ――단지 그것이,
+	PRINTFORMW  허벅지의 밑[付け根] 주위에서 초조해 해지거나 가슴을 움켜잡음에 희롱해지거나 하면, 싫어도 신체는 반응해 버린다고 하는 것
+	PRINTFORML  
+	PRINTFORML  평화롭게 된 순간, 아침부터 밤까지 요구된다는 것은, 여자 명리에 진구의 것일지도 모릅니다만……
+	IF TALENT:정실
+		PRINTFORM  부부의 관계라고는 해도,
+	ELSEIF TALENT:첩
+		PRINTFORM  서로 허락한 관계이니까 라고 말해
+	ENDIF
+	PRINTFORMW 짓무르고 자른 매일을 보내고 싶었을 것은 아닙니다
+	PRINTFORMW  하물며 나에게도 중요한 일이――
+	PRINTFORML 
+	PRINTFORML 「꺗!? 뭐 마음대로 옷을 벗기려고 하고 있습니까! 이봣, 그, 그만두고…… 응읏!!」
+	PRINTFORMW 
+	PRINTFORML  있을 것입니다만……
+	PRINTFORMW  어느 정도 번뇌에 거역하려고 해도, 요구해 계속되면 대답하고 싶어져 버리는 것이어, 내심에서는 기쁘다고마저 생각하고 있습니다
+	PRINTFORML  
+	PRINTFORML  하지만…… 탐내는 것처럼 입술을 빼앗겨, 풀어헤친 옷의 틈새로부터 접할 수 있는 손바닥의 감촉에,
+	PRINTFORMW  어딘지 부족한뿐인 애정이 채워져 가는 것을 느낍니다
+	PRINTFORML 
+	PRINTFORML  고조되는 신체에 숨이 올라, 뜨겁고 어쩔 수 없는 눈시울의 안쪽, 눈물이 흘러넘쳐 멈추지 않는다
+	PRINTFORMW  접할 수 있어 쑤셔 어쩔 수 없게 된 뱃속이, 나를 본능대로 자극을 주려고 흔듭니다
+	PRINTFORML  
+	PRINTFORML  참아야 했던 나날에, 서로 허락하는 한 쌍을 손에 넣어 버린 탓인 것입니다
+	PRINTFORMW  언제나 어디선가 느끼고 있던 외로움의 보충을, 드디어 흐르게 되어도 괜찮은 면죄부로 해 버렸습니다
+	PRINTFORML 
+	PRINTFORML  그때마다 나는 약해져 간다. 그렇게 스스로를 자각 당하면서, 팔을 돌려 요구해 버린다
+	PRINTFORMW  인으로부터 보면 사세라고도 생각되는 고민에 자가 중독을 일으키면서, 나는 그저 쾌감에 빠져 가는 것이었습니다...
+	PRINTFORML  
+	PRINTFORML  .
+	PRINTFORML  .
+	PRINTFORML  .
+	PRINTFORML  
+	PRINTFORML  ――입니다만 역시, 몸도 마음도 허락하는 것으로 해도…… 어느 의미, 상대를 잘못했을지도 모릅니다
+	PRINTFORMW  
+	PRINTFORMW  문득…… 그렇게 생각하면서 허리를 계속 흔들어 버리는 나는,
+	PRINTFORML  
+	IF HAS_PENIS(MASTER)
+		PRINTFORML "아앗……! 닿앗……! 좀더, 좀더 안쪽까지, 아앗! 가득 찔럿! 가득 사정해……!"
+	ELSE
+		PRINTFORML "아앗……! 스쳐, 라고……! 좀더, 좀더…… 아앗! 가득 움직엿! 가득 비비어……!"
+	ENDIF
+	PRINTFORMW  
+	PRINTFORMW  이 짓무르고 자른 평화를,
+	PRINTFORML  
+	PRINTFORML "…… 지치게 되었습니까? 후훗, 하지만…… 반드시, 괜찮네요? 이렇게 하면…… 또, 건강하게 되어 버리는 것이기 때문에?"
+	PRINTFORMW  
+	PRINTFORMW  진심으로 기꺼해 버리게 되어 있었기 때문에...?
+	PRINTFORML  
+
+ELSEIF TALENT:연모
+	PRINTFORML 
+	PRINTFORML 「――은…… 이런 식으로 툇마루에서 차 따위 마시고 있으면, 왠지 사람 마음 붙어 버립니다…… 아, 전병 있어요?」
+	PRINTFORMW 
+	PRINTFORML  …… 뭔가 좋지 않은 한 마디가 들린 것 같은 생각이 들었습니다만, 넓은 마음으로 흘려 줍시다
+	PRINTFORMW 
+	PRINTFORML  어쨌든 겨우 방문한 평화롭습니다. 정원을 바람(소원)이면서의 1시입니다
+	PRINTFORMW  평온 천천히(느긋하게) 차를 즐기는 것이 생기니까, 이 정도 대신하기 어려운 평화도 없을 것입니다
+	PRINTFORML  
+	PRINTFORML 「에에, 이것입니까? 신도의 여러분으로부터 봉납으로서 받은 것, 왜 지만……
+	PRINTFORML   이번 소동으로, 새로운 이익을 단지 있었다는 것인것 같고…… 이렇게도.
+	PRINTFORMW   손상되기 쉬운 것도 많이 있기 때문에, 그 앞에 소화할 수 있을지 어떨지 곤란하고 있어…… 좋으면%ANAME(MASTER)%도 어떻습니까?」
+	PRINTFORML 
+	PRINTFORML  쌀이나 야채 따위 , 몹시 고마운 것에 나누어 받는 것이 많습니다만,
+	PRINTFORMW  양과자 따위의 기호품은…… 죄많다고 생각하면서도 과분하고, 그러나 단지 라고 끝내면 너무 맛있어 곤란합니다……!
+	PRINTFORML 
+	PRINTFORML 「에? 받침접시가 이제(벌써) 텅 비었습니까? …… 가, 간식, 증가하고 있습니까?」
+	PRINTFORMW 
+	PRINTFORML  그렇게 말해져 다시 생각하면…… 평화롭게 되고 나서의 사후 처리와 그 다음에 로부터…… 일주일간 정도일까요?
+	PRINTFORMW  아…… 입니다만, 봉납품이 매일 증가하고 있던 것처럼도 생각하기 때문에…… 양 뿐이라면……2주간분, 정도입니까?
+	PRINTFORML 
+	PRINTFORML 「……………………」
+	PRINTFORMW 
+	PRINTFORMW  …… 그, 그러고 보니 조금만…… 아니요 그 같은 일은…… 그런 것 s
+	PRINTFORML 
+	PRINTFORML 「…… 하늘이 푸르고, 오늘도 기분이 좋네요─. 봄과 같은 기분 좋다풍은, 얕은 잠 같은거 하고 싶어져 뭐, 스……」
+	PRINTFORMW 
+	PRINTFORMW  예, 그거야 알고 있었고 말고요…… 과식해 천한 일까하고…… 입니다만…… 이라고 해도……!
+	PRINTFORML 
+	PRINTFORML 「햐?! 가, 갑작스럽게입니까?! 에!? 지, 지금부터입니까?
+	PRINTFORMW   갑자기 달리자이라니 기다려 주세요! 아, 조금……!」
+	PRINTFORML 
+	PRINTFORMW  주직이 야무지지 못한, 는 까닭이라고 끝내면 그의 뿌리도 나오지 않습니다만 ，그러니까 라고 ，그러니까 라고……!
+	PRINTFORML 
+	PRINTFORML 「갑작스럽게 삼리도입니까……?! 당신도 달립니까?!」
+	PRINTFORMW 
+	PRINTFORMW  …… 나의 싸움은, 앞으로의 같습니다
+	PRINTFORML 
+	;PRINTFORML  ~지금까지 응원, 감사합니다! ~다음호에 계속되지 않습니다 잡는 방법이 곤란한 것이야…
+
+ELSEIF TALENT:복종
+	PRINTFORMW  입니다만 나에게는 이제……, 평화라고 부를 수 있는 평화가 방문할 것은 없습니다
+	PRINTFORML  
+	PRINTFORML 「………… 봉사, 하도록 해 받습니다」
+	PRINTFORMW  
+	PRINTFORML  눈가리개에 목걸이를 붙일 수 있어 어딘가로 데리고 가진 나는, 거기서 쇠사슬에 연결될 수 있었습니다
+	PRINTFORMW  그리고…… 이상하고 의심스러운 약을 먹게 되어 쑤셔 어쩔 수 없게 된 신체를 주체 못하게 됩니다
+	PRINTFORML  
+	PRINTFORML  뜨겁게 쑤신 몸을 식히려고, 난폭한 호흡을 반복해 버리는 나에 대해,
+	PRINTFORMW  냄새 맡아 기억이 있는 냄새가, 뱃속을 꽈악 조임(억압)…… 그것을 찾아 손을 뻗어 걸쳐 버린다
+	PRINTFORML 
+	PRINTFORML  철거해진 덮개를 앞에 내밀어지고 있던 육봉은,
+	PRINTFORMW  열을 느끼는 만큼 가까이 있어, 조금씩 쫑긋쫑긋 진동시키고 혈관을 들뜨게 해 서 있었다
+	PRINTFORML  
+	PRINTFORML  사실은 싫다고 생각해 있어도, 거기에 취해 씌여진 것 같은 나는,
+	PRINTFORMW  어느 정도한 눈을 팔자 피하려고 한 곳에서, 달아오른 몸은 억제하지 않고, 무의식 중에 허리를 구불거리게 해 요구해 버린다
+	PRINTFORML  
+	PRINTFORML  내밀어진 것을 손바닥으로 결려, 내밀도록(듯이) 혀를 펴 기게 해 버리는 나는,
+	PRINTFORMW  그 반복해 돌진해졌을 때의 감촉을 생각해 내, 억제하지 못하고 있던 뱃속을 손가락을 사용해 위로해 버립니다
+	PRINTFORML  
+	PRINTFORML  이것이 또, 나의 질내에서 난폭하게 떠 긁어내진다고 생각하면, 긁어내는 것처럼 문지르고 계속하는 손가락끝은 더욱 깊고 빨리,
+	PRINTFORMW  흘러넘친 애액이 추잡한 소리를 내 흘러 떨어져, 어느 새인가 전희도 필요 없을 정도(수록)…… 나는 고조됨을 억제할 수 없게 되고 있던 것입니다
+	PRINTFORML  
+	PRINTFORML  그것을 예측해 비웃음%ANAME(MASTER)%의 시선에 견딜 수 있지 못하고, 시선을 피한 곳에서
+	PRINTFORMW  둔부를 얻어맞은 순간, 가 걸쳐 버리니까…… 이제 와서 도망치는 일조차 할 수 없습니다
+	PRINTFORML  
+	PRINTFORML 「…… 부탁…… 입니다…… 부디 부탁이니까……%ANAME(MASTER)%의 자지를…… 여기에…… 주, 세요……」
+	PRINTFORMW  
+	PRINTFORMW  다리를 벌려, 손가락끝으로 비패를 열어…… 복종의 자세를 취해 조르다니…… 나는, 어떻게든 하고 있어
+	PRINTFORML  
+	PRINTFORML  .
+	PRINTFORML  .
+	PRINTFORML  .
+	PRINTFORML  
+	PRINTFORMW  이제 와서 원래에 돌아올 수 없습니다
+	PRINTFORML  
+	PRINTFORML  퍼부을 수 있는 체액은 피부에 달라붙어, 자궁으로 사물을 생각하는 것처럼 기억하고 와 뛰어나져 버린 몸으로는,
+	PRINTFORMW  %ANAME(MASTER)%에 임신해지는 혐오감조차, 다리를 걸어 자식을 조르는만큼, 심신 함께 충성을 맹세해 버렸습니다
+	PRINTFORML  
+	PRINTFORMW  이니까 전부, 이제 와서입니다
+	PRINTFORML  
+	PRINTFORMW  이니까 미나 상 모…… 원타 해 트오나지에 나레, 기분 나쁜요구나태우모밀잣밤나무입니다 요군요……?
+	PRINTFORML  
+	PRINTFORMW  ……………… 소우, 로 스야 네?
+	PRINTFORML  
+
+;조건으로서 나오는 일은 없기 때문에 필요 없다…… 라고 생각하고 있었습니다만, 여자 당신계로 친구이면 나오겠지요
+ELSE
+	PRINTFORML 
+	PRINTFORML 「――결국, 소동의 원인은 뭐야것입니까?」
+	PRINTFORMW  
+	PRINTFORML  발단은 사당의 이웃이 모두 획책 했다든가, 박령의 무녀가 스트레스와 술의 기세, 더욱은 돈부족에 허덕여 난심[亂心] 했다든가……
+	PRINTFORMW  여러가지 유언 비어가 난무했습니다만, 결국 확신에 도달하는 일은 없는 것처럼 생각합니다
+	PRINTFORML 
+	PRINTFORML  무엇인지 환상경에서도, 최초의 이상이 있었다든가……
+	PRINTFORMW  그에 대해 보라색 상이 상당한 노고를 하고 있었다는 이야기도 있던 것처럼도 생각하고…… 아니요 그 자체도 상정이 끝난 상태였다든지
+	PRINTFORML 
+	PRINTFORMW  …… 결국 모두는 알지 못하고 끝인 채. 우리들은 분쟁일을 비켜일이 생겼다고 하는 결과만이 남은 것입니다
+	PRINTFORML 
+	PRINTFORML  그리고 행복인지 불행인지, 신도가 급격하게 증가하기 시작했다고 말하는 것도 또, 불행중의 다행이었던 것이지요
+	PRINTFORMW  …… 물론 손놓아에 감탄 할 수 있는 이야기라도 없습니다만, 모두를 나쁜 (분)편으로 생각할 뿐으로는 어쩔 수 없으면 말하는 것입니다
+	PRINTFORML 
+	PRINTFORML  ――입니다만,
+	PRINTFORMW 
+	PRINTFORML 「문득, 생각합니다. 어째서인지…… 문제의 서원이%ANAME(MASTER)%를 중심으로 돌고 있는 것 같은 생각이 들어 되지 않습니다」
+	PRINTFORML 
+	PRINTFORML  그런 것을 말해봤자 곤란한, 라고 얼굴을 되는 것은 알고 있었습니다만, 그 근처 정말로 어떨까요
+	PRINTFORMW  불행을 불러 들이는 신님도 여기에(우리집, 나) 있습니다만…… 당신의 경우는, 다른 것도 옮겨 온 것 같고……
+	PRINTFORML 
+	PRINTFORML 「――그런데, 무심코 이야기해버렸습니다만, 슬슬 나도 근무하러 돌아오지 않으면 되지 않습니다
+	PRINTFORMW   %ANAME(MASTER)%는 이후에, 어떻게 하십니까? 모처럼 등 사것이기 때문에…… 아…… 그랬습니까, 그것은 유감입니다……」
+	PRINTFORML 
+	PRINTFORML 「그럼 또 다른 기회에. 해가 높은 동안에라도 만나뵙시다」
+	PRINTFORMW 
+
+ENDIF
+PRINTFORML  .
+PRINTFORML  .
+PRINTFORML  .
+PRINTFORML 
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체[單体] 엔딩 메세지가 스킵 된다
+RETURN 1
+
+@KOJO_DEAD_ENDING_K77
+;참수 엔딩
+;자세력이 멸망 했을 때의 선택지로 「…… 베어라」를 선택해 주인공이 사망했을 경우에, 호감도 5000이상 또한 전캐릭터중 가장 호감도가 높다고 표시된다
+PRINTFORML  
+PRINTFORML  ――――, 모두가 끝났습니다
+PRINTFORMW 
+PRINTFORML  일의 발단이 어떻든…… 시작되어 버린 전 사는, 만회 할 수 없는 결과를 불러 버렸습니다
+PRINTFORMW 
+PRINTFORML  그 같은 결과도 있을 수 있는 것을 생각하지 않았을 것도 아닙니다
+PRINTFORMW  전이 되면, 사람의 생사만큼 덧없고 무르고, 무너지기 쉬운 것 등 있지는 않기 때문에
+PRINTFORML 
+PRINTFORMW  많은 사람이 다쳐 넘어져, 지금, 혼돈된 세계에 새로운 법에 따르는 질서가 해지려고 하고 있습니다
+PRINTFORML 
+PRINTFORML 
+PRINTFORML 
+IF TALENT:정실 || TALENT:첩
+	PRINTFORML 
+	PRINTFORML  나도……, 그쪽에서 가고 싶다고 생각합니다
+	PRINTFORMW 
+	IF MASTER == NAME_TO_CHARA("묘우렌")
+		PRINTFORML  잊지도 않는 그 날, 나는 당신을…… 이승의 이별과 함께 전송했습니다
+		PRINTFORMW  그리고 늙은 스스로도 가야 할 장소에. 죽음의 공포에 몰아진 나의 광기는, 변명의 할 길도 없고, 사람의 길을 빗나간 것입니다
+		PRINTFORML 
+		PRINTFORMW  그 실수를 바로잡을 기회는, 지금 이 때 이외에 없을 것입니다
+		PRINTFORML 
+		PRINTFORML  본심을 말한다면, 설교 해 주고 싶습니다
+		PRINTFORMW  당신은…… 사랑하는 사람이 먼저 가는 슬픔을 모르고 있으면
+		PRINTFORML 
+		PRINTFORML 
+		PRINTFORML 
+	ELSE
+		PRINTFORMW  해야 할 (일)것은 끝냈습니다
+		PRINTFORML  
+		PRINTFORMW  언젠가 풀어진다일 슬픔이어도, 이 감정을 짊어진 채로 살아 가려면, 너무나 잔혹한 처사라고 하는 것 외 없습니다 
+		PRINTFORML 
+		PRINTFORMW  생애를 함께 사는 일을 맹세하고 있던 나에게, 두어 그라고 끝낸 지금…… 뒤를 쫓는 것 외에 무엇이 가능하는 것일까요
+		PRINTFORML  
+		PRINTFORMW  한 번은 가는 것을 결정되어 있던 생명입니다. 모두는 새삼스러운 이야기였던 것입니다
+		PRINTFORML 
+		PRINTFORML 
+		PRINTFORML 
+	ENDIF
+ENDIF
+PRINTFORML  죄송합니다. 제멋대로인 나를 부디 허락해 주세요.
+PRINTFORMW 
+;CFLAG:TARGET:소속 = 0
+;CFLAG:TARGET:특수상태 = 2
+
+
+;RETURN의 값을 0→1으로 바꾸면, Default의 단체[單体] 엔딩 메세지가 스킵 된다
+RETURN 1
