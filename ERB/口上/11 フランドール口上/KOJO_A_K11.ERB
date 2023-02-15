@@ -94,7 +94,7 @@ ELSEIF CFLAG:200 < 7 && TALENT:정실 || CFLAG:200 < 7 && TALENT:첩
 	CFLAG:200 = 7;혼인 한 다음의 회플래그
 	PRINTFORMW 「와 준 것이구나, 『서방님』」
 	PRINTFORMW 「…… 응. 별로(너무) 잘 오지 않을까」
-	PRINTFORMW 「쭉%ANAME(MASTER)%라고 불러 있었기 때문에, 이제(벌써) 버릇이 되어 버리고 있네요」
+	PRINTFORMW 「쭉%ANAME(MASTER)%라고 불러 있었기 때문에, 이젠 버릇이 되어 버리고 있네요」
 		;정실인가 첩인가로 분기
 	IF TALENT:정실
 		PRINTFORML 「그것과」
@@ -241,7 +241,7 @@ ELSEIF TCVAR:52
 ;피로에 의한 행동 불능
 ELSEIF TCVAR:51
 	PRINTFORMW 「아무리 흡혈귀라도, 무한의 체력을 가지고 있는 것이 아니니까」
-	PRINTFORMW 「오늘은 이제(벌써) 쉬게 해」  
+	PRINTFORMW 「오늘은 이걸로 쉬게 해줘」  
 ENDIF
 
 ;-------------------------------------------------
@@ -2669,7 +2669,7 @@ IF SELECTCOM == 34
 			IF TALENT:처녀
 				;연모 or 복종
 				IF TALENT:연모 || TALENT:복종
-					PRINTFORMW 「…… 이제(벌써), 무리」
+					PRINTFORMW 「…… 이젠, 무리」
 					PRINTFORMW %ANAME(TARGET)%의 힘에 저항하지 못하고, %ANAME(MASTER)%는 밀어 넘어뜨려진다
 					PRINTFORMW 「보류 되는 것도 한계야. 그러니까, 삽입할 수 있네요」
 					PRINTFORMW 「나의 버진, %ANAME(MASTER)%에 줄 테니까」
@@ -2808,7 +2808,7 @@ IF SELECTCOM == 35
 			IF TALENT:처녀
 				;연모 or 복종
 				IF TALENT:연모 || TALENT:복종
-					PRINTFORMW 「…… 이제(벌써), 무리」
+					PRINTFORMW 「…… 이젠, 무리」
 					PRINTFORMW %ANAME(TARGET)%의 힘에 저항하지 못하고, %ANAME(MASTER)%는 밀어 넘어뜨려진다
 					PRINTFORMW 「보류 되는 것도 한계야. 그러니까, 삽입할 수 있네요」
 					PRINTFORMW 「나의 버진, %ANAME(MASTER)%에 줄 테니까」 
@@ -8493,7 +8493,7 @@ IF SELECTCOM == 300
 					PRINTFORML 「…… 또 베인 상처 같은거 만들어」
 					PRINTFORML 「움직이지 마. 치료하기 때문에」
 					PRINTFORML 「얻은 지식은 사용하지 않으면 손해겠지?」
-					PRINTFORMW 「거기에, 실천이라면 이제(벌써) 했어요. %ANAME(MASTER)%가 자고 있는 동안에 몰래」
+					PRINTFORMW 「거기에, 실천이라면 벌써 했어요. %ANAME(MASTER)%가 자고 있는 동안에 몰래」
 				CASE 4
 					PRINTFORML 「가끔, %ANAME(MASTER)%를 좋아하게 될 수 있었던 것(적)이 이상하게 생각된다」
 					PRINTFORML 「『죽이지 않아 상관없다』라고 생각했던 것은 많이 있지만」

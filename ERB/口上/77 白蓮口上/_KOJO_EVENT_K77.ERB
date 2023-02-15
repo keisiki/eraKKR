@@ -55,7 +55,7 @@ IF ARG == 2
 			ELSEIF CFLAG:차인횟수 >= 5
 				PRINTFORML 「…… 그후로 쭉, 몇번이나 고쳐 생각하자고 결정했는데…… 어째서, 지금이야?」
 				PRINTFORMW 
-				PRINTFORML  계속 거절당하고 있던%ANAME(TARGET)%의 고백을 (들)물어,
+				PRINTFORML  계속 거절당하고 있던%ANAME(TARGET)%의 고백을 들어,
 				PRINTFORMW  정리 끝마쳤음이 분명한 기분이, 무르게 붕괴되는 소리가 들린 것입니다
 				PRINTFORML 
 				PRINTFORML  평상시와 변함없는, 설득하는 것 같은 어조로 결의를 말하는%ANAME(MASTER)%의 말을
@@ -65,7 +65,7 @@ IF ARG == 2
 		ELSE
 			PRINTFORML 「엣……%ANAME(MASTER)%?! 저, 저…… 왜냐하면[だって]…… 그런……」
 			PRINTFORMW  
-			PRINTFORML  뜻을 정했다고 생각되는%ANAME(MASTER)%의 고백을 (들)물어,
+			PRINTFORML  뜻을 정했다고 생각되는%ANAME(MASTER)%의 고백을 들어,
 			PRINTFORMW  상스럽지도 놀라 버린 나는, 어떻게 하면 좋은가 모르고 경직되어 버렸습니다
 			PRINTFORML  
 			PRINTFORML  멍하니 비등해 버린 머리도, 따라, 급속히 둘러싸 도는 사고의 소용돌이에 삼켜져
@@ -386,7 +386,7 @@ IF ARG == 21
 				PRINTFORML 「일선을 넘어 버린 우리들은…… 누이와 동생이면서,
 				PRINTFORMW   …… 몇번 다시 하려고, 지울 수 없는 죄를 범하고 있습니다. 사람으로서도, 용서되지 않습니다……」
 				PRINTFORML 
-				PRINTFORML 「그렇지만, 이제(벌써)……. 나에게 있어서 그렇게 사소한 일은, 이제 됐어의입니다
+				PRINTFORML 「그렇지만, 지금은……. 나에게 있어서 그렇게 사소한 일은, 이제 됐어의입니다
 				PRINTFORMW   나의 마음은 이제 정해져 버렸기 때문에, 전에도 뒤도 없습니다」
 				PRINTFORML 
 				PRINTFORML 「…… 나는 반드시, 길에 떨어지는 일이 될지도 모릅니다만,
@@ -464,7 +464,7 @@ IF ARG == 21
 					PRINTFORML 「…………………… 그래」
 					PRINTFORMW 
 					PRINTFORML 「정말로――――, 잔혹한%ANAME(MASTER)%
-					PRINTFORMW   내가, 이제(벌써) 보통은 있을 수 없는 것을 알아 는 두인데」
+					PRINTFORMW   내가, 이제 보통은 있을 수 없는 것을 알아 는 두인데」
 					PRINTFORML 
 					PRINTFORML 「…… 아아…… 무서워하지 말고%ANAME(MASTER)%…… 이번에야말로 함께, 땅의 바닥까지 저속해집시다……?」
 					PRINTFORMW 
@@ -567,7 +567,7 @@ IF ARG == 21
 			PRINTFORMW 「당신을 생각하면 만날 수 있었던 일이 기뻐하는데, 한사람이 되면 가슴이 괴롭고…… 아무것도 "손이 붙지 않게 되어 버려」
 			PRINTFORML 
 			PRINTFORML 「욕구 깊은 행동인 일도 알고 있습니다……! 이것도 번뇌의 하나인 알고 있는데,
-			PRINTFORMW   뚜껑을 한 순간, 당신(뿐)만이 흘러넘쳐 채워지지 않아…… 이대로라면, 이제(벌써)…… 나……」
+			PRINTFORMW   뚜껑을 한 순간, 당신(뿐)만이 흘러넘쳐 채워지지 않아…… 이대로라면, 이제…… 나……」
 			PRINTFORML 
 			PRINTFORML 「안됩니다……%ANAME(MASTER)%의 일을 생각하면…… 내가 요동해,
 			PRINTFORMW   다른 누구보다도, 특별한 사람이 되어 버린 것입니다……! 말에서는 부족할 정도, 당신이……!」
@@ -717,7 +717,7 @@ ELSEIF ARG == 24
 
 	;복종 계통의 제외
 	ELSEIF ! TALENT:복종
-		PRINTFORML 「…… 죄송합니다…… 나 이제(벌써), 억제 당할 것 같게 없습니다……!」
+		PRINTFORML 「…… 죄송합니다…… 나 이제 억제 당할 것 같게 없습니다……!」
 		PRINTFORMW 
 		SELECTCASE RAND:3
 			CASE 0
@@ -838,7 +838,7 @@ ELSEIF ARG == 28
 
 	;복종 계통의 제외
 	ELSEIF ! TALENT:복종
-		PRINTFORML 「저…… 정말로 이제(벌써), 돌아가 버립니까……?
+		PRINTFORML 「저…… 정말로 벌써 돌아가 버립니까……?
 		PRINTFORML 
 		SELECTCASE RAND:3
 			CASE 0
@@ -1325,7 +1325,7 @@ IF ARG == 65
 	PRINTFORMW  체를 부들부들 진동시켜 황홀과 정신나간 채로 움직이지 않는다
 	PRINTFORML  
 	IF IS_LOVER(TARGET)
-		PRINTFORML (…… 이런 일…… 이제(벌써) 몸이…… 마음을 유지할 수 있을 이유, 없지 않습니까……)
+		PRINTFORML (…… 이런 일…… 이젠 몸이…… 마음을 유지할 수 있을 이유, 없지 않습니까……)
 		PRINTFORMW 
 		PRINTFORMW  반복해진 성행위에 강렬한 쾌감을 받아들여 계속해, 개발계속 된 신체에 마음까지도 경련이 일어나지고
 		PRINTFORML  
@@ -2216,7 +2216,7 @@ IF ARG == 450
 ;주인공에 대해서 충성을 맹세하게 한다/성공
 ELSEIF ARG == 451
 	PRINTFORML 「그렇게 말하고 받을 수 있어, 겨우 어깨의 짐이 내린 같은 생각이 듭니다
-	PRINTFORMW   …… 후훗? 이것으로 당신은 이제(벌써), 나의 것이군요……?」
+	PRINTFORMW   …… 후훗? 이것으로 당신은 이제 나의 것이군요……?」
 	RETURN 0
 ;주인공에 대해서 충성을 맹세하게 한다/실패
 ELSEIF ARG == 452

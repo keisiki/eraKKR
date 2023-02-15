@@ -135,7 +135,7 @@ ELSEIF (CFLAG:202 < 3) && ! (CFLAG:200 >= 2)
 		PRINTFORML  접하려고 한 순간력 없게 샌 한숨에, 새삼스러운 같게 확 한다
 		PRINTFORMW  이 상황하로 정상적인 판단을 잃어, 그 이름은 이미, 진흙 투성이가 되어 빠지고 있다
 		PRINTFORML  
-		PRINTFORML 「…… 나, 당신이…… 부탁이니까, 이제(벌써) 이런 일은 그만두어 관――, …… 이……」
+		PRINTFORML 「…… 나, 당신이…… 부탁이니까, 이제 이런 일은 그만두어 관――, …… 이……」
 		PRINTFORMW 
 		PRINTFORML  충동적으로 반사적인%PRONOUN(TARGET)%의 말에 "의미는 없고,
 		PRINTFORML  들여다 보도록(듯이) 가까이서 얼굴을 맞댄 순간――녹는 여자가 거기에 있었다...
@@ -170,7 +170,7 @@ ELSEIF (CFLAG:202 < 3) && ! (CFLAG:200 >= 2)
 ELSEIF CFLAG:202 < 2 && CFLAG:의존도 >= 800
 	CFLAG:202 = 2
 	PRINTFORML 
-	PRINTFORML 「…… 부탁…… 합니다…… 이런 일은 이제(벌써)…… 그만두어……」
+	PRINTFORML 「…… 부탁…… 합니다…… 이런 일은 이제…… 그만두어……」
 	PRINTFORMW 
 
 ELSEIF CFLAG:202 < 2 && CFLAG:의존도 >= 300
@@ -191,7 +191,7 @@ ELSEIF TALENT:연모 || TALENT:연인
 		CASE 1
 			PRINTFORML 「…… 어째서…… 어째서 이런 일에……」
 		CASE 2
-			PRINTFORML 「…… 부탁이니까…… 이제(벌써), 그만두어……」
+			PRINTFORML 「…… 부탁이니까…… 이제, 그만두어……」
 		CASE 3
 			PRINTFORML 「――, 다릅니다! 기꺼이라고 없습니다! 기쁘고 같은거 없습니다……」
 		CASE 4
@@ -221,7 +221,7 @@ ELSEIF CFLAG:의존도 >= 800
 	PRINTFORML 
 	SELECTCASE RAND:3
 		CASE 0
-			PRINTFORML 「…… 부탁 합니다…… 이제(벌써)…… 그만두어……」
+			PRINTFORML 「…… 부탁 합니다…… 이제…… 그만두어……」
 		CASE 1
 			PRINTFORML 「…… 아픈 것은………… 아니……」
 		CASE 2
